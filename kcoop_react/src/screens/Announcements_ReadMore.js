@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,7 @@ export default function Announcements_ReadMore() {
   const [data, setData] = useState([]);
 
   const getAnnouncementData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData`;
+    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData/`;
 
       var headers = {
         'Accept': 'application/json',
@@ -41,7 +41,9 @@ export default function Announcements_ReadMore() {
           console.log(`ERROR: ${error}`)});
   }  
 
-  getAnnouncementData();
+  useEffect(() => {
+    getAnnouncementData();
+  }, []);
 
   const navigate = useNavigate();
 

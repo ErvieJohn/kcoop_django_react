@@ -76,7 +76,7 @@ class Announcements(models.Model):
     title = models.CharField()
     date = models.CharField()
     ImgSrc = models.CharField()
-    discription = models.TextField(blank=True, default="")
+    description = models.TextField(blank=True, default="")
 
 
 

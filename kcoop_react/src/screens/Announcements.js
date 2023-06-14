@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -159,7 +159,11 @@ export default function Announcements() {
           console.log(`getting data error from api url ${error}`)});
   }
 
-  getAnnouncementsData();
+  
+
+  useEffect(() => {
+    getAnnouncementsData();
+  }, []);
 
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>

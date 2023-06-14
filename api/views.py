@@ -16,10 +16,10 @@ def getAnnouncementsData(request):
     serializers = AnnouncementsSerializer(announcements, many=True)
     return Response(serializers.data)
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def getAnnouncementsReadmore(request):
         if request.data:
-            data = int(request.data["id"])
+            data = request.data["id"]
             announcement = Announcements.objects.get(announcements_id=data)
             serializer = AnnouncementsSerializer(announcement)
             #return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
