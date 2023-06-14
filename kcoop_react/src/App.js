@@ -146,7 +146,10 @@ function App() {
           />
 
           <Route exact path="/announcements" element={<Announcements />} />
+          <Route path="/announcements/:id" element={<Announcements_ReadMore />} />
+          {/*
           <Route path="/announcements_readmore" Component={Announcements_ReadMore} />
+  */}
           
 
           <Route exact path="/by_the_numbers" element={<ByTheNumbers />} />

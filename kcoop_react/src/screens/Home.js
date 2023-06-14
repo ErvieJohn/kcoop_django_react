@@ -158,7 +158,7 @@ export default function Home() {
                             style={{ marginTop: "3%" }}
                           />
                           <h2>
-                            <a href="https://kcoop.org.ph/announcements.php?aId=19">
+                            <a href="/go_bring_me">
                               <b>Go Bring Me</b>
                             </a>
                           </h2>
@@ -189,7 +189,7 @@ export default function Home() {
                             styles={{ marginTop: "3%" }}
                           />
                           <h2>
-                            <a href="https://kcoop.org.ph/announcements.php?aId=18">
+                            <a href="/k_kalusugan_w3">
                               <b>K - KALUSUGAN W3</b>
                             </a>
                           </h2>
@@ -261,7 +261,7 @@ export default function Home() {
                             to clearly separate the social programs from the
                             credit and savings programs and services.{" "}
                           </p>
-                          <a href="https://kcoop.org.ph/about_us.php?aId=1&#about">
+                          <a href="/history">
                             <button
                               type="button"
                               className="btn panel panel-default pull-right"

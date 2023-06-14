@@ -41,7 +41,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 5;
+  /*font-size: 13px;*/
 }
 
 .carousel{
@@ -105,3 +105,5 @@
     width: auto;
   }
 }
+
+/*###############################################3*/

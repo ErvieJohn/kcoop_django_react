@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('annual_reports/', views.index, name='annual_reports'),
     path('audited_financial_statements/', views.index, name='audited_financial_statements'),
     path('announcements/', views.index, name='announcements'),
+    
     path('announcements_readmore/', views.index, name='announcements_readmore'),
     path('by_the_numbers/', views.index, name='by_the_numbers'),
     path('videos/', views.index, name='videos'),
@@ -39,6 +40,11 @@ urlpatterns = [
     path('k_bahagi/', views.index, name='k_bahagi'),
     path('k_bahagi_readmore/', views.index, name='k_bahagi_readmore'),
     path('careers/', views.index, name='careers'),
+
+    path('go_bring_me/', views.index, name='go_bring_me'),
+
+
+    path('',include('api.urls')),
 
     path('*', views.index, name='Error404'),
 ]

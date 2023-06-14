@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
+    #'api',
+    'api.apps.ApiConfig',
+    'rest_framework',
     #'kcoop_react',
 ]
 

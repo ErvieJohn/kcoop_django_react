@@ -11,7 +11,7 @@ export default function Header() {
     >
       <nav
         className="navbar navbar-static-top"
-        style={{ backgroundColor: "rgb(254, 176, 98)" }}
+        style={{ backgroundColor: "rgb(254, 176, 98)", fontSize: "13px"}}
       >
         <div className="container">
           <img
@@ -26,7 +26,7 @@ export default function Header() {
           />
           <div className="navbar-header">
             <a href="/" className="navbar-brand">
-              <b> KASAGANA-KA COOPERATIVE </b>
+              <b style={{fontSize: "16px"}}> KASAGANA-KA  </b> COOPERATIVE
             </a>
             <button
               type="button"

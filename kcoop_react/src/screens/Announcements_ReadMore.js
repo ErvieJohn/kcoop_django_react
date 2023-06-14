@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, {useState} from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,6 +7,41 @@ export default function Announcements_ReadMore() {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   const location = useLocation();
+
+  const param = useParams();
+
+  //console.log("PARAMS: ", param.id);
+
+  const [data, setData] = useState([]);
+
+  const getAnnouncementData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData`;
+
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+
+        //'Access-Control-Allow-Origin': '*'
+      };
+
+      var Data = {id: param.id};
+      //console.log(JSON.stringify(Data));
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(Data)
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+
+          setData(response);
+          console.log("DATA: ", data);
+        }).catch(error => {
+          console.log(`ERROR: ${error}`)});
+  }  
+
+  getAnnouncementData();
 
   const navigate = useNavigate();
 

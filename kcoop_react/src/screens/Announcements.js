@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-const AnnouncementContent = [
+import { BASE_URL } from '../config/config';
+
+
+
+const announcementsData = [
   {
     number: 1,
     title: "Go Bring Me",
@@ -131,6 +135,32 @@ const AnnouncementContent = [
 export default function Announcements() {
   const navigate = useNavigate();
 
+  const [announcementsData, setAnnouncementsData] = useState([]);
+
+  const getAnnouncementsData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementsData/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+
+          setAnnouncementsData(response);
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  getAnnouncementsData();
+
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
@@ -148,12 +178,12 @@ export default function Announcements() {
                      &nbsp;Announcements</b></h2>
                   <br />
                 <div className="box box-warning " style={{marginTop: '-1.5%'}} />
-                {AnnouncementContent.map((content) => (
+                {announcementsData.map((content) => (
                   <table style={{marginTop: '2%'}}>
                     <tbody>
                       <tr>
                         <td>
-                          <div className="col-md-6"><img src={content.ImgSrc} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                          <div className="col-md-6"><img src={"/static/media/" + content.ImgSrc} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                           <div className="col-md-6">
                             <h4><a 
                                   style={{
@@ -166,10 +196,10 @@ export default function Announcements() {
                                     userSelect: "none",
                                   }}
                                   onClick={() => {
-                                    navigate("/announcements_readmore", {
+                                    navigate("/announcements/" + content.announcements_id, {
                                       state: {
-                                        data: AnnouncementContent,
-                                        selectedNumber: content.number,
+                                        data: announcementsData,
+                                        selectedNumber: content.announcements_id,
                                       },
                                     });
                                   }}
@@ -219,10 +249,10 @@ export default function Announcements() {
                                     userSelect: "none",
                                   }}
                                   onClick={() => {
-                                    navigate("/announcements_readmore", {
+                                    navigate("/announcements/" + content.announcements_id, {
                                       state: {
-                                        data: AnnouncementContent,
-                                        selectedNumber: content.number,
+                                        data: announcementsData,
+                                        selectedNumber: content.announcements_id,
                                       },
                                     });
                                   }}
