@@ -12,7 +12,7 @@ export default function Announcements_ReadMore() {
 
   //console.log("PARAMS: ", param.id);
 
-  const [data, setData] = useState([]);
+  var [data, setData] = useState([]);
 
   const getAnnouncementData = () => {
     var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData/`;
@@ -34,8 +34,8 @@ export default function Announcements_ReadMore() {
         .then(response => response.json())
         .then(response => {
           //console.log("response: ", response);
-
-          setData(response);
+          let dataResponse = response;
+          setData(dataResponse);
           console.log("DATA: ", data);
         }).catch(error => {
           console.log(`ERROR: ${error}`)});
