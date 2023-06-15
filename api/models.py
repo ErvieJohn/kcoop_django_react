@@ -2,9 +2,13 @@ from django.db import models
 import uuid
 
 # Create your models here.
+#class TBL_Headers(models.Model):
+
+
 class TBL_WhoWeAreType(models.Model):
     WhoWeAretype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     WhoWeAretype_name = models.CharField()
+
 
 class TBL_WhoWeAre(models.Model):
     WhoWeAre_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

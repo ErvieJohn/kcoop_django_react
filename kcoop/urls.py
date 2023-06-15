@@ -30,6 +30,7 @@ urlpatterns = [
     path('audited_financial_statements/', views.index, name='audited_financial_statements'),
     path('announcements/', views.index, name='announcements'),
     
+    
     path('announcements_readmore/', views.index, name='announcements_readmore'),
     path('by_the_numbers/', views.index, name='by_the_numbers'),
     path('videos/', views.index, name='videos'),

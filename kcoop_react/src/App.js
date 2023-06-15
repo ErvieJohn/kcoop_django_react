@@ -73,6 +73,7 @@ import KwentongK_ReadMore from "./screens/KwentongK_ReadMore";
 import K_Bahagi from "./screens/K_Bahagi";
 import K_Bahagi_ReadMore from "./screens/K_Bahagi_ReadMore";
 import Announcements_ReadMore from "./screens/Announcements_ReadMore";
+import Announcements_Read_More from "./screens/Announcements_Read_More";
 
 function App() {
   return (
@@ -146,7 +147,7 @@ function App() {
           />
 
           <Route exact path="/announcements" element={<Announcements />} />
-          <Route path="/announcements/:id" element={<Announcements_ReadMore />} />
+          <Route path="/announcements/:id" element={<Announcements_Read_More />} />
           {/*
           <Route path="/announcements_readmore" Component={Announcements_ReadMore} />
   */}

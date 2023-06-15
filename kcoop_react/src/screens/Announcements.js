@@ -163,6 +163,7 @@ export default function Announcements() {
 
   useEffect(() => {
     getAnnouncementsData();
+    //console.log(announcementsData);
   }, []);
 
   return (

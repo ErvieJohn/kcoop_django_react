@@ -3,28 +3,27 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 
-var DATA = [];
-
-export default function Announcements_ReadMore() {
+export default function Announcements_Read_More() {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  //window.location.reload(false);
   const navigate = useNavigate();
 
   const location = useLocation();
+  const data = location.state.data;
+
 
   const param = useParams();
 
-  //console.log("PARAMS: ", param.id);
-
   var [selectedData, setSelectedData] = useState([]);
 
-  //var selectedData = [];
-  //const title = selectedData.title;
-  //const publishedDate = selectedData.publishedDate;
-  //const urlLink = selectedData.urlLink;
-  //const ImgSrc = selectedData.ImgSrc;
-  //const description = selectedData.description;
+  var [postOtherAnnouncementsArray, setpostOtherAnnouncementsArray] = useState([]);
+  var [postOtherAnnouncements, setpostOtherAnnouncements] = useState([]);
 
   const getAnnouncementData = () => {
+    postOtherAnnouncements = [];
+    setpostOtherAnnouncements(postOtherAnnouncements);
+    postOtherAnnouncementsArray = [];
+    setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
     //console.log("READING?????????????????????????????????????????");
     var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData/`;
 
@@ -35,80 +34,59 @@ export default function Announcements_ReadMore() {
         //'Access-Control-Allow-Origin': '*'
       };
 
-      var Data = {id: param.id};
+      var DataBody = {id: param.id};
       //console.log(JSON.stringify(Data));
       fetch(InsertAPIURL, {
         method: 'POST',
         headers: headers,
-        body: JSON.stringify(Data)
+        body: JSON.stringify(DataBody)
       })
         .then(response => response.json())
         .then(response => {
-          //console.log("response: ", response);
+         
           console.log("DATA: ", response);
           selectedData = response;
           setSelectedData(selectedData);
+          console.log("is READING HERE?", selectedData);
+          //console.log(selectedData.description.length);
+
+          
+          data.map((content)=>{
+            if(content.title != selectedData.title){
+              postOtherAnnouncementsArray.push(content);
+              console.log(content, "THIS IS CONTENT");
+            }
+            
+          });
+          console.log(postOtherAnnouncementsArray);
+          setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
+
+          postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
+            return el != null;
+          });
+
+          var tempPostOther = [];
+          if(postOtherAnnouncements.length > 3){
+            for(let i=0; i < 3; i++){
+              tempPostOther.push(postOtherAnnouncements[i]);
+            }
+          }
+
+          postOtherAnnouncements = tempPostOther;
+          setpostOtherAnnouncements(postOtherAnnouncements);
+
           
         }).catch(error => {
           console.log(`ERROR: ${error}`)});
+    
   }  
-  
   
   useEffect(() => {
     getAnnouncementData();
-    //console.log("selectedData: ", selectedData);
-  }, []);
+    //window.location.reload(false);
+    
+  }, [data]);
   
-
-  //console.log("props: ", location.state);
-  
-  //const data = location.state.data;
-  //const selectedNumber = location.state.selectedNumber;
-
-  //console.log("data: ",data);
-
-  
-
-  //console.log("TITLE: ",selectedData);
-
- // const postOtherAnnouncementsArray = [];
-  //var postOtherKBahagiLen = postOtherKBahagiArray.length;
-  /*
-  let i = 0;
-  let counted = 0;
-  var max = 3;
-  if(data.length < 3){
-      max = data.length;
-  }
-  */
- /*
-  data.map((content)=>{
-    if(content.title == selectedData.title){
-      postOtherAnnouncementsArray.push(content);
-    }
-  });
-  */
-  //console.log("max: ", max, "datalen:", data.length );
-  /*
-  while (counted < max) {
-    // can change the max, if you like to display more K-Ganap Stories
-    if (selectedNumber - 1 !== i) {
-      postOtherAnnouncementsArray.push(data[i]);
-      counted++;
-      //console.log(i);
-    }
-    i++;
-  }
-
-  const postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
-      return el != null;
-    });
-  //console.log("filteredlen: ", filtered.length);
-  //console.log("postOtherKBahagi: ",postOtherKBahagi);
-
-  */
-
-  //console.log(selectedData);
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
       <div className="container">
@@ -124,20 +102,20 @@ export default function Announcements_ReadMore() {
                 <h2><b>
                     <FontAwesomeIcon icon={faNewspaper}/>
                     &nbsp;{selectedData.title}</b></h2>
-                <b><i>&nbsp;{selectedData.publishedDate}</i></b><br /><br />
+                <b><i>&nbsp;{selectedData.date}</i></b><br /><br />
                 <div className="box box-warning " />
                 
 
                   {(selectedData.ImgSrc == "/static/media/no_img.jpg") ? (<></>) : (
                       <div className="col-md-12">
-                          <a href={selectedData.ImgSrc} target="_blank">
-                              <img src={selectedData.ImgSrc} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
+                          <a href={"/static/media/" + selectedData.ImgSrc}  target="_blank">
+                              <img src={"/static/media/" + selectedData.ImgSrc} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
                           </a>
                       </div>
                   )}
               
                 <div className="col-md-12">
-                  {/*(selectedData.description.length > 0) ? (
+                  {(selectedData.description == "") ? (
                       <div
                       style={{
                         textAlign: "justify",
@@ -153,7 +131,7 @@ export default function Announcements_ReadMore() {
                         }}
                       ></p>
                     </div>
-                      ):(<></>)*/ }
+                      ):(<></>) }
 
                   
                     
@@ -174,7 +152,7 @@ export default function Announcements_ReadMore() {
                       <br />
                     </div>
 
-                    {/*postOtherAnnouncements.map((content) => (
+                    {postOtherAnnouncements.map((content) => (
                       <div>
                           <a 
                           style={{
@@ -187,12 +165,14 @@ export default function Announcements_ReadMore() {
                               userSelect: "none",
                             }}
                             onClick={() => {
-                              navigate("/announcements_readmore", {
+                              //navigate(0);
+                              navigate("/announcements/" + content.announcements_id, {
                                 state: {
                                   data: data,
                                   selectedNumber: content.announcements_id,
                                 },
                               });
+                              
                             }}
                           
                           >
@@ -211,21 +191,24 @@ export default function Announcements_ReadMore() {
                                   userSelect: "none",
                                 }}
                                 onClick={() => {
-                                  navigate("/announcements_readmore", {
+                                  
+
+                                  navigate("/announcements/" + content.announcements_id, {
                                     state: {
                                       data: data,
                                       selectedNumber: content.announcements_id,
                                     },
                                   });
+                                  
                                 }}
                               
                               >
-                                  <img src={content.ImgSrc} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
+                                  <img src={"/static/media/" + content.ImgSrc} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
                               </a>
                           </span>
                           <div className="box box-warning " style={{marginTop: '5%'}} />
                       </div>
-                              ))*/}
+                              ))}
                     
 
 
@@ -245,6 +228,7 @@ export default function Announcements_ReadMore() {
       {/* /.content */}
     </div>
   </div>
+   
   );
   
 }
