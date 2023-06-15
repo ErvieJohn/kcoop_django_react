@@ -8,7 +8,7 @@ import uuid
 class TBL_WhoWeAreType(models.Model):
     WhoWeAretype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     WhoWeAretype_name = models.CharField()
-
+    WhoWeAretype_url = models.CharField()
 
 class TBL_WhoWeAre(models.Model):
     WhoWeAre_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -20,6 +20,7 @@ class TBL_WhoWeAre(models.Model):
 class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_name = models.CharField()
+    ProgramAndServicestype_url = models.CharField()
 
 class TBL_ProgramAndServices(models.Model):
     ProgramAndServices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

@@ -1,9 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
+  var [WhoWeAre, setWhoWeAre] = useState([]);
+
+  var [ProgramAndServices, setProgramAndServices] = useState([]);
+
+  const getWhoWeAreTypeData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAreType/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          WhoWeAre = response;
+          setWhoWeAre(WhoWeAre);
+
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  const getProgramsAndServicesData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesType/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          ProgramAndServices = response;
+          setProgramAndServices(ProgramAndServices);
+
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  useEffect(() => {
+    getWhoWeAreTypeData();
+    getProgramsAndServicesData();
+    //console.log(announcementsData);
+  }, []);
+
   return (
     <header
       className="main-header"
@@ -72,31 +128,20 @@ export default function Header() {
                   Who we are <span className="caret" />
                 </a>
                 <ul className="dropdown-menu" role="menu">
-                  <li>
-                    <a href="/history" draggable="false">
-                      HISTORY
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/vmg" draggable="false">
-                      V M G
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/kso_guiding_principles" draggable="false">
-                      KSO GUIDING PRINCIPLES
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/cooperative_principles" draggable="false">
-                      COOPERATIVE PRINCIPLES
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/organizational_structure" draggable="false">
-                      ORGANIZATIONAL STRUCTURE
-                    </a>
-                  </li>
+                  {
+                    WhoWeAre.map((content)=>(
+                      <>
+                        <li>
+                          <a href={content.WhoWeAretype_url} draggable="false">
+                            {content.WhoWeAretype_name}
+                          </a>
+                        </li>
+                      </>
+                    ))
+                  }
+                  
+
+
                 </ul>
               </li>
               <li className="dropdown:active">
@@ -119,37 +164,22 @@ export default function Header() {
                   <span className="caret" />
                 </a>
                 <ul className="dropdown-menu" role="menu">
-                  <li>
-                    <a
-                      href="/livelihood_and_enterprise_development"
-                      draggable="false"
-                    >
-                      Livelihood and Enterprise Development
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/education_training_and_formation"
-                      draggable="false"
-                    >
-                      Education, Training and Formation
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/health_and_wellness" draggable="false">
-                      Health and Wellness
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/security_shelter_and_safety" draggable="false">
-                      Security, Shelter and Safety
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/social_protection" draggable="false">
-                      Social Protection
-                    </a>
-                  </li>
+                  {
+                    ProgramAndServices.map((content)=>(
+                      <>
+                        <li>
+                            <a
+                              href={content.ProgramAndServicestype_url}
+                              draggable="false"
+                            >
+                              {content.ProgramAndServicestype_name}
+                            </a>
+                          </li>
+                      </>
+                    ))
+                  }
+                  
+                 
                 </ul>
               </li>
               <li className="dropdown:active">
