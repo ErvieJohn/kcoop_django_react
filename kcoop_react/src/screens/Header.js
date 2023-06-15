@@ -54,9 +54,85 @@ export default function Header() {
           console.log(`getting data error from api url ${error}`)});
   }
 
+  var [SatalliteOfices, setSatalliteOfices] = useState([]);
+  const getSatalliteOficesData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOfficesType/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          SatalliteOfices = response;
+          setSatalliteOfices(SatalliteOfices);
+
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  var [Publications, setPublications] = useState([]);
+  const getPublicationsData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_PublicationsType/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          Publications = response;
+          setPublications(Publications);
+
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  var [Stories, setStories] = useState([]);
+  const getStoriesData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_StoriesType/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          Stories = response;
+          setStories(Stories);
+
+          //console.log("DATA: ", announcementsData[0].title);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  
   useEffect(() => {
     getWhoWeAreTypeData();
     getProgramsAndServicesData();
+    getSatalliteOficesData();
+    getPublicationsData();
+    getStoriesData();
     //console.log(announcementsData);
   }, []);
 
@@ -202,21 +278,19 @@ export default function Header() {
                   <span className="caret" />
                 </a>
                 <ul className="dropdown-menu" role="menu">
-                  <li>
-                    <a href="/ncr" draggable="false">
-                      National Capital Region{" "}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/region3" draggable="false">
-                      Region III{" "}
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/region4a" draggable="false">
-                      Region IV - A{" "}
-                    </a>
-                  </li>
+                  {
+                    SatalliteOfices.map((content)=>(
+                      <>
+                      <li>
+                        <a href={content.SatalliteOfficestype_url} draggable="false">
+                          {content.SatalliteOfficestype_name}
+                        </a>
+                      </li>
+                      </>
+                    ))
+                  }
+                  
+                  
                 </ul>
               </li>
               <li className="dropdown:active">
@@ -238,26 +312,18 @@ export default function Header() {
                   Publications <span className="caret" />
                 </a>
                 <ul className="dropdown-menu" role="menu">
-                  <li>
-                    <a href="/annual_reports" draggable="false">
-                      Annual Reports
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/audited_financial_statements" draggable="false">
-                      Audited Financial Statements
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/announcements" draggable="false">
-                      Announcements
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/by_the_numbers" draggable="false">
-                      By The Numbers
-                    </a>
-                  </li>
+                  {
+                    Publications.map((content)=>(
+                      <>
+                        <li>
+                          <a href={content.Publicationstype_url} draggable="false">
+                            {content.Publicationstype_name}
+                          </a>
+                        </li>
+                      </>
+                    ))
+                  }
+                 
                 </ul>
               </li>
               <li className="dropdown:active">
@@ -280,24 +346,19 @@ export default function Header() {
                   <span className="caret" />
                 </a>
                 <ul className="dropdown-menu" role="menu">
-                  <li>
-                    <a href="/k_ganap" draggable="false">
-                      K - Ganapan
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/kwentong_k">Kwentong - K</a>
-                  </li>
-                  <li>
-                    <a href="/k_bahagi" draggable="false">
-                      K - Bahagi
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/videos" draggable="false">
-                      Videos
-                    </a>
-                  </li>
+                  {
+                    Stories.map((content)=>(
+                      <>
+                        <li>
+                          <a href={content.Storiestype_url} draggable="false">
+                            {content.Storiestype_name}
+                          </a>
+                        </li>
+                      </>
+                    ))
+                  }
+                  
+                  
                 </ul>
               </li>
               <li className>

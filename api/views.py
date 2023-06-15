@@ -16,12 +16,36 @@ def getWhoWeAreType(request):
     serializers = WhoWeAreTypeSerializer(WhoWeAreType, many=True)
     return Response(serializers.data)
 
-#for Programs And Services
+#for Programs And Services Header
 @api_view(['GET'])
 def getProgramsAndServicesType(request):
     ProgramsAndServicesType = TBL_ProgramAndServicesType.objects.all()
     #person = {'name': 'ervie', 'age': 22}
     serializers = ProgramsAndServicesSerializer(ProgramsAndServicesType, many=True)
+    return Response(serializers.data)
+
+#for Satallite Offices Header
+@api_view(['GET'])
+def getTBL_SatalliteOfficesType(request):
+    SatalliteOfficesType = TBL_SatalliteOfficesType.objects.all()
+    #person = {'name': 'ervie', 'age': 22}
+    serializers = TBL_SatalliteOfficesSerializer(SatalliteOfficesType, many=True)
+    return Response(serializers.data)
+
+#for Publications Header
+@api_view(['GET'])
+def getTBL_PublicationsType(request):
+    PublicationsType = TBL_PublicationsType.objects.all()
+    #person = {'name': 'ervie', 'age': 22}
+    serializers = TBL_PublicationsSerializer(PublicationsType, many=True)
+    return Response(serializers.data)
+
+#for Stories Header
+@api_view(['GET'])
+def getTBL_StoriesType(request):
+    StoriesType = TBL_StoriesType.objects.all()
+    #person = {'name': 'ervie', 'age': 22}
+    serializers = TBL_StoriesSerializer(StoriesType, many=True)
     return Response(serializers.data)
 
 

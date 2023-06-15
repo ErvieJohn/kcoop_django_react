@@ -33,6 +33,7 @@ class TBL_ProgramAndServices(models.Model):
 class TBL_SatalliteOfficesType(models.Model):
     SatalliteOfficestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     SatalliteOfficestype_name = models.CharField()
+    SatalliteOfficestype_url = models.CharField()
 
 class TBL_SatalliteOffices(models.Model):
     SatalliteOffices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -45,6 +46,7 @@ class TBL_SatalliteOffices(models.Model):
 class TBL_PublicationsType(models.Model):
     Publicationstype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Publicationstype_name = models.CharField()
+    Publicationstype_url = models.CharField()
 
 class TBL_Publications(models.Model):
     Publications_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -53,17 +55,10 @@ class TBL_Publications(models.Model):
     Publications_content = models.CharField(blank=True, default="")
     Publications_image = models.CharField()
 
-
-class TBL_Announcements(models.Model):
-    Announcements_id = models.AutoField(primary_key=True)
-    Announcements_title = models.CharField()
-    Announcements_date = models.CharField()
-    Announcements_image = models.CharField()
-    Announcements_content = models.TextField(blank=True, default="")
-
 class TBL_StoriesType(models.Model):
     Storiestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Storiestype_name = models.CharField()
+    Storiestype_url = models.CharField()
 
 class TBL_Stories(models.Model):
     Stories_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -74,7 +69,12 @@ class TBL_Stories(models.Model):
     Stories_image = models.CharField()
     Stories_ytlink = models.CharField()
 
-
+class TBL_Announcements(models.Model):
+    Announcements_id = models.AutoField(primary_key=True)
+    Announcements_title = models.CharField()
+    Announcements_date = models.CharField()
+    Announcements_image = models.CharField()
+    Announcements_content = models.TextField(blank=True, default="")
 
 class Announcements(models.Model):
     announcements_id = models.AutoField(primary_key=True)
