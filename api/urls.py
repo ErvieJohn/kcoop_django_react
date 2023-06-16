@@ -2,8 +2,17 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('getTBL_Header/', views.getTBL_Header), # for Header
+
     path('getWhoWeAreType/', views.getWhoWeAreType), # for Who We Are Header
+    path('getWhoWeAre/', views.getWhoWeAre), # for Who We Are
+
     path('getProgramsAndServicesType/', views.getProgramsAndServicesType), # for Programs And Services Header
+    path('getProgramsAndServices/', views.getProgramsAndServices), # for Programs And Services
+    path('getProgramsAndServicesLOGO/', views.getProgramsAndServicesLOGO), # for Programs And Services Logo
+    path('getProgramsAndServicesTitleLOGO/', views.getProgramsAndServicesTitleLOGO), # for Programs And Services Logo
+    
+    
     path('getTBL_SatalliteOfficesType/', views.getTBL_SatalliteOfficesType), # for Satallite Offices Header
     path('getTBL_PublicationsType/', views.getTBL_PublicationsType), # for PublicationsType Header
     path('getTBL_StoriesType/', views.getTBL_StoriesType), # for Stories Header

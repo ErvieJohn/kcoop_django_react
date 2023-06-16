@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import *
 
+class HeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Header
+        fields = ('Header_name', 'Header_url')
+
 class AnnouncementsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Announcements
@@ -10,11 +15,36 @@ class WhoWeAreTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_WhoWeAreType
         fields = ('WhoWeAretype_name', 'WhoWeAretype_url')
+        
+class WhoWeAreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_WhoWeAre
+        fields = ('WhoWeAre_title','WhoWeAre_content', 'WhoWeAre_image')
+
 
 class ProgramsAndServicesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_ProgramAndServicesType
         fields = ('ProgramAndServicestype_name', 'ProgramAndServicestype_url')
+
+# FOR PROGRAMS AND SERVICES
+class ProgramsAndServicesHSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_ProgramAndServices
+        fields = ('ProgramAndServices_title', 'ProgramAndServices_content', 'ProgramAndServices_image', 'ProgramAndServices_logo')      
+
+# FOR PROGRAMS AND SERVICES LOGOs
+class ProgramsAndServicesLogoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_ProgramAndServices
+        fields = ('ProgramAndServices_logo')
+        
+# FOR PROGRAMS AND SERVICES Title LOGO   
+class HeaderLogoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Header
+        fields = ('Header_logo')   
+
 
 class TBL_SatalliteOfficesSerializer(serializers.ModelSerializer):
     class Meta:

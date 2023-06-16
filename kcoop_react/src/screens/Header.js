@@ -8,6 +8,31 @@ export default function Header() {
 
   var [ProgramAndServices, setProgramAndServices] = useState([]);
 
+  var [Headers, setHeaders] = useState([]);
+
+  const getHeadersData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Header/?format=json`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          Headers = response;
+          setHeaders(Headers);
+
+          //console.log("DATA: ", Headers);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
   const getWhoWeAreTypeData = () => {
     var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAreType/?format=json`;
 
@@ -126,13 +151,14 @@ export default function Header() {
           console.log(`getting data error from api url ${error}`)});
   }
 
-  
+
   useEffect(() => {
     getWhoWeAreTypeData();
     getProgramsAndServicesData();
     getSatalliteOficesData();
     getPublicationsData();
     getStoriesData();
+    getHeadersData();
     //console.log(announcementsData);
   }, []);
 

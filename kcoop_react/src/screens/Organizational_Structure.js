@@ -1,9 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDot, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 
 export default function 
 OrganizationalStructure() {
+  var [Data, setData] = useState([]);
+
+  var [images, setImages] = useState([]);
+  const getData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAre/`;
+
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      var titlePage = "ORGANIZATIONAL STRUCTURE";
+      var DataBody = {WhoWeAre_title: titlePage};
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          Data = response;
+          //console.log("DATA: ", HistoryData);
+          setData(Data);
+          let stringImage = Data.WhoWeAre_image;
+          images = stringImage.split(",");
+          setImages(images);
+          console.log("images: ", images);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  useEffect(() => {
+    getData();
+    
+    //console.log(announcementsData);
+  }, []);
+
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
@@ -25,8 +62,41 @@ OrganizationalStructure() {
                     <div className="box box-warning ">
                       <div className="box-header" style={{marginTop: '0%'}}>
                       <FontAwesomeIcon icon={faCircleDot} color='orange' size='1.5x'/>
-                        <h2 className="box-title"><b>ORGANIZATIONAL STRUCTURE</b></h2>
-                        <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}><img src="/static/media/RAJuly2022.png" style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /><img src="/static/media/ManagementJuly2022.png" style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                        <h2 className="box-title"><b>&nbsp;{Data.WhoWeAre_title}</b></h2>
+                        <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
+                        {
+                            (Data.WhoWeAre_image != "/static/media/no_img.jpg") ? (
+                              <>
+                              {console.log("HERE?", images)}
+                              {
+                                images.map((content)=>(
+
+                                  <img src={content} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />
+                                ))
+                              }
+                                
+                              </>
+                              
+                            ) : (
+                              <>
+                                {console.log("NAH?")}
+                                  
+                                  <p
+                                          
+                                          dangerouslySetInnerHTML={{
+                                            __html:
+                                            Data.WhoWeAre_content,
+                                          }}
+                                        ></p>
+                                      
+                            
+                              </>
+                            )
+                          }
+                          
+                          
+                          </div>
+
                       </div>
                     </div>
                     {/* /. box */}

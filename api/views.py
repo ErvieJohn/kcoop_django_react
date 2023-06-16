@@ -8,6 +8,15 @@ from .models import *
 from .serializers import *
 # Create your views here.
 
+# for HEADER
+@api_view(['GET'])
+def getTBL_Header(request):
+    Header = TBL_Header.objects.all()
+    #person = {'name': 'ervie', 'age': 22}
+    serializers = HeaderSerializer(Header, many=True)
+    return Response(serializers.data)
+
+
 #for WHO WE ARE HEADER
 @api_view(['GET'])
 def getWhoWeAreType(request):
@@ -16,6 +25,16 @@ def getWhoWeAreType(request):
     serializers = WhoWeAreTypeSerializer(WhoWeAreType, many=True)
     return Response(serializers.data)
 
+# for Who We Are
+@api_view(['POST'])
+def getWhoWeAre(request):
+    if request.data:
+        data = request.data["WhoWeAre_title"]
+        WhoWeAre = TBL_WhoWeAre.objects.get(WhoWeAre_title=data)
+        #person = {'name': 'ervie', 'age': 22}
+        serializers = WhoWeAreSerializer(WhoWeAre)
+        return Response(serializers.data)
+
 #for Programs And Services Header
 @api_view(['GET'])
 def getProgramsAndServicesType(request):
@@ -23,6 +42,35 @@ def getProgramsAndServicesType(request):
     #person = {'name': 'ervie', 'age': 22}
     serializers = ProgramsAndServicesSerializer(ProgramsAndServicesType, many=True)
     return Response(serializers.data)
+
+# PROGRAMS AND SERVICES
+@api_view(['POST'])
+def getProgramsAndServices(request):
+    if request.data:
+        data = request.data["ProgramAndServices_title"]
+        ProgramsAndServices = TBL_ProgramAndServices.objects.get(ProgramAndServices_title=data)
+        #person = {'name': 'ervie', 'age': 22}
+        serializers = ProgramsAndServicesHSerializer(ProgramsAndServices)
+        return Response(serializers.data)
+    
+#for Programs And Services LOGO
+@api_view(['GET'])
+def getProgramsAndServicesLOGO(request):
+    ProgramsAndServicesType = TBL_ProgramAndServicesType.objects.all()
+    #person = {'name': 'ervie', 'age': 22}
+    serializers = ProgramsAndServicesLogoSerializer(ProgramsAndServicesType, many=True)
+    return Response(serializers.data)
+
+#for Programs And Services LOGO
+@api_view(['POST'])
+def getProgramsAndServicesTitleLOGO(request):
+    if request.data:
+        data = request.data["Header_name"]
+        HeaderLogo = TBL_ProgramAndServicesType.get(Header_name=data)
+        #person = {'name': 'ervie', 'age': 22}
+        serializers = HeaderLogoSerializer(HeaderLogo)
+        return Response(serializers.data)
+
 
 #for Satallite Offices Header
 @api_view(['GET'])

@@ -4,6 +4,11 @@ import uuid
 # Create your models here.
 #class TBL_Headers(models.Model):
 
+class TBL_Header(models.Model):
+    Header_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Header_name = models.CharField()
+    Header_url = models.CharField(blank=True, default="")
+    Header_logo = models.CharField(blank=True, default="")
 
 class TBL_WhoWeAreType(models.Model):
     WhoWeAretype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -14,13 +19,14 @@ class TBL_WhoWeAre(models.Model):
     WhoWeAre_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     WhoWeAretype_id = models.ForeignKey("TBL_WhoWeAreType", on_delete=models.CASCADE)
     WhoWeAre_title = models.CharField()
-    WhoWeAre_content = models.CharField(blank=True, default="")
-    WhoWeAre_image = models.CharField()
+    WhoWeAre_content = models.TextField(blank=True, default="")
+    WhoWeAre_image = models.CharField(blank=True, default="/static/media/no_img.jpg")
 
 class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_name = models.CharField()
     ProgramAndServicestype_url = models.CharField()
+    ProgramAndServicestype_logo = models.CharField(blank=True, default="")
 
 class TBL_ProgramAndServices(models.Model):
     ProgramAndServices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -68,6 +74,7 @@ class TBL_Stories(models.Model):
     Stories_content = models.CharField(blank=True, default="")
     Stories_image = models.CharField()
     Stories_ytlink = models.CharField()
+    
 
 class TBL_Announcements(models.Model):
     Announcements_id = models.AutoField(primary_key=True)
