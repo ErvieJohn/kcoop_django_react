@@ -30,7 +30,7 @@ OrganizationalStructure() {
           let stringImage = Data.WhoWeAre_image;
           images = stringImage.split(",");
           setImages(images);
-          console.log("images: ", images);
+          //console.log("images: ", images);
         }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
   }

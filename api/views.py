@@ -56,9 +56,9 @@ def getProgramsAndServices(request):
 #for Programs And Services LOGO
 @api_view(['GET'])
 def getProgramsAndServicesLOGO(request):
-    ProgramsAndServicesType = TBL_ProgramAndServicesType.objects.all()
+    ProgramsAndServicesLogo = TBL_ProgramAndServicesType.objects.all()
     #person = {'name': 'ervie', 'age': 22}
-    serializers = ProgramsAndServicesLogoSerializer(ProgramsAndServicesType, many=True)
+    serializers = ProgramsAndServicesLogoSerializer(ProgramsAndServicesLogo, many=True)
     return Response(serializers.data)
 
 #for Programs And Services LOGO
@@ -66,7 +66,7 @@ def getProgramsAndServicesLOGO(request):
 def getProgramsAndServicesTitleLOGO(request):
     if request.data:
         data = request.data["Header_name"]
-        HeaderLogo = TBL_ProgramAndServicesType.get(Header_name=data)
+        HeaderLogo = TBL_Header.objects.get(Header_name=data)
         #person = {'name': 'ervie', 'age': 22}
         serializers = HeaderLogoSerializer(HeaderLogo)
         return Response(serializers.data)

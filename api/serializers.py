@@ -36,14 +36,14 @@ class ProgramsAndServicesHSerializer(serializers.ModelSerializer):
 # FOR PROGRAMS AND SERVICES LOGOs
 class ProgramsAndServicesLogoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TBL_ProgramAndServices
-        fields = ('ProgramAndServices_logo')
+        model = TBL_ProgramAndServicesType
+        fields = ('ProgramAndServicestype_logoimage','ProgramAndServicestype_url')
         
 # FOR PROGRAMS AND SERVICES Title LOGO   
 class HeaderLogoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Header
-        fields = ('Header_logo')   
+        fields = ('Header_logo',)   
 
 
 class TBL_SatalliteOfficesSerializer(serializers.ModelSerializer):

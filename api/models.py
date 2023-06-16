@@ -26,7 +26,7 @@ class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_name = models.CharField()
     ProgramAndServicestype_url = models.CharField()
-    ProgramAndServicestype_logo = models.CharField(blank=True, default="")
+    ProgramAndServicestype_logoimage = models.CharField(blank=True, default="")
 
 class TBL_ProgramAndServices(models.Model):
     ProgramAndServices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
