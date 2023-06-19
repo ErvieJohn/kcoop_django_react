@@ -147,7 +147,7 @@ export default function Announcements_Read_More() {
                   )}
               
                 <div className="col-md-12">
-                  {(selectedData.Publications_content == "") ? (
+                  
                       <div
                       style={{
                         textAlign: "justify",
@@ -163,7 +163,7 @@ export default function Announcements_Read_More() {
                         }}
                       ></p>
                     </div>
-                      ):(<></>) }
+                      
 
                   
                     
