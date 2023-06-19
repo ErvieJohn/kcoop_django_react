@@ -97,6 +97,16 @@ def getTBL_PublicationsType(request):
     serializers = TBL_PublicationsSerializer(PublicationsType, many=True)
     return Response(serializers.data)
 
+#for Publications Contents
+@api_view(['POST'])
+def getTBL_Publications(request):
+    if request.data:
+        data = request.data["Publications_name"]
+        Publications = TBL_Publications.objects.filter(Publications_name=data)
+        #person = {'name': 'ervie', 'age': 22}
+        serializers = TBL_PublicationsContentSerializer(Publications, many=True)
+        return Response(serializers.data)
+
 #for Stories Header
 @api_view(['GET'])
 def getTBL_StoriesType(request):

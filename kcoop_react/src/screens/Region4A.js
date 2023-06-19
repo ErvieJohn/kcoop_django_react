@@ -54,7 +54,7 @@ export default function Region4A() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    <div className="content-wrapper" style={{minHeight: '443px'}}>
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}

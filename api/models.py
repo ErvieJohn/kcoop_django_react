@@ -57,9 +57,11 @@ class TBL_PublicationsType(models.Model):
 class TBL_Publications(models.Model):
     Publications_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Publicationstype_id = models.ForeignKey("TBL_PublicationsType", on_delete=models.CASCADE)
+    Publications_name = models.CharField()
     Publications_title = models.CharField()
-    Publications_content = models.CharField(blank=True, default="")
-    Publications_image = models.CharField()
+    Publications_content = models.TextField(blank=True, default="")
+    Publications_image = models.CharField(blank=True, default="")
+    Publications_file = models.CharField(blank=True, default="")
 
 class TBL_StoriesType(models.Model):
     Storiestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

@@ -1,8 +1,40 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 
 export default function AuditedFinancialStatements() {
+  const titlePage = "Audited Financial Statements";
+  var [Data, setData] = useState([]);
+  const getData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/`; 
+      /* *****************ALWAYS CHECK THE API URL **************** */
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      //var pageTitle = "National Capital Region";
+      var DataBody = {Publications_name: titlePage};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+        .then(response => response.json())
+        .then(response => {
+          Data = response;
+          setData(Data);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  useEffect(() => {
+    getData();
+    
+  }, []);
+
+
+
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
@@ -17,52 +49,23 @@ export default function AuditedFinancialStatements() {
                 <div className="col-md-12">
                   <h2><b>
                     <FontAwesomeIcon icon={faNewspaper}/>
-                    &nbsp;Audited Financial Statements</b></h2>
+                    &nbsp;{titlePage}</b></h2>
                   <br />
                   <div className="box box-warning " style={{marginTop: '-1.5%'}}> 
                   </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/AuditedFs2022.pdf" target="_blank"><img src="/static/media/AuditedFs2022.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2022</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/AuditedFs2021.pdf" target="_blank"><img src="/static/media/AuditedFs2021.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2021</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/2020%20Audited%20Financial%20Statements.pdf" target="_blank"><img src="/static/media/2020 Audited Financial Statements.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2020</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/K-COOP%20Audited%20FS%202019_with%20BIR%20Stamp.pdf" target="_blank"><img src="/static/media/K-COOP Audited FS 2019_with BIR Stamp.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2019</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/AFS%202018.pdf" target="_blank"><img src="/static/media/FS2018cover.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2018</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/K-COOP%20Audted%20FS%202017.pdf" target="_blank"><img src="/static/media/K-COOP Audted FS 2017.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2017</b></center>
-                    </span>
-                  </div>
-                  <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                    <span>
-                      <a href="/static/media/K-COOP%20Audited%20FS%202016.pdf" target="_blank"><img src="/static/media/K-COOP Audited FS 2016.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
-                      <center><b>2016</b></center>
-                    </span>
-                  </div>
+                  {Data.map((content)=>(
+                    <>
+                        <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
+                          <span>
+                            <a href={"/static/media/" + content.Publications_file} target="_blank"><img src={"/static/media/" + content.Publications_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
+                            <center><b>{content.Publications_title}</b></center>
+                          </span>
+                        </div>
+                    </>
+                  ))}
+                  
+                  
+
                   {/* /. box */}
                 </div>
                 {/* /.col */}

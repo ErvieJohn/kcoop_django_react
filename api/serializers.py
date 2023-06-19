@@ -61,6 +61,11 @@ class TBL_PublicationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_PublicationsType
         fields = ('Publicationstype_name', 'Publicationstype_url')
+        
+class TBL_PublicationsContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Publications
+        fields = ('Publications_name', 'Publications_title', 'Publications_content', 'Publications_image', 'Publications_file')
 
 class TBL_StoriesSerializer(serializers.ModelSerializer):
     class Meta:

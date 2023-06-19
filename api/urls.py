@@ -17,6 +17,9 @@ urlpatterns = [
     path('getTBL_SatalliteOffices/', views.getTBL_SatalliteOffices), # for Satallite Offices Contents
     
     path('getTBL_PublicationsType/', views.getTBL_PublicationsType), # for PublicationsType Header
+    path('getTBL_Publications/', views.getTBL_Publications), # for Publications Content
+    
+    
     path('getTBL_StoriesType/', views.getTBL_StoriesType), # for Stories Header
     
     
