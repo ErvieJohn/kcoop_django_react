@@ -1,8 +1,58 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function Region4A() {
+  const titlePage = "Region IV - A";
+  var [Data, setData] = useState([]);
+  var [images, setImages] = useState([{}]);
+  const getData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOffices/`; 
+      /* *****************ALWAYS CHECK THE API URL **************** */
+      var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      //var pageTitle = "National Capital Region";
+      var DataBody = {SatalliteOffices_region: titlePage};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+        .then(response => response.json())
+        .then(response => {
+          //console.log("response: ", response);
+          Data = response;
+          //console.log("DATA: ", HistoryData);
+          setData(Data);
+
+          //setImages(images);
+          //console.log("DATA: ", History);
+          
+          var stringImage = [];
+          var ArrayImage = [];
+          var stringSplit;
+          Data.map((data)=>{
+            stringImage = data.SatalliteOffices_image;
+            stringSplit = stringImage.split(",");
+            ArrayImage.push({"City":data.SatalliteOffices_city,"Images":stringSplit});
+          })
+          images = ArrayImage;
+          setImages(images);
+          //console.log(images);
+          
+          //console.log(Data);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  useEffect(() => {
+    getData();
+    
+  }, []);
+
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
@@ -17,78 +67,51 @@ export default function Region4A() {
                 <div className="col-md-12">
                   {/*  */}
                   <h2>
+                    
                     <FontAwesomeIcon icon={faBuilding} /> 
-                    &nbsp;<b>Region IV - A</b></h2>
+                    &nbsp;<b>{titlePage}</b></h2>
                   <br />
                   <div className="box box-warning " style={{marginTop: '-1.8%', marginBottom: '2%'}}>
                     <div className="box-header with-border" />
                   </div>
-                  <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
-                    <div className="box-header with-border">
-                      <h3 className="box-title"><b>Cavite</b></h3>
-                      <div className="box-tools pull-right"><button type="button" className="btn btn-box-tool" data-widget="collapse">
-                      <FontAwesomeIcon icon={faPlus} />
-                        </button></div>
-                    </div>
-                    <div className="box-body">
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Trece Martires.jpg" target="_blank"><img src="/static/media/Trece Martires.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
+                  
+                  {
+                  Data.map((content)=>(
+                    <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
+                      <div className="box-header with-border">
+                        <h3 className="box-title"><b>{content.SatalliteOffices_city}</b></h3>
+                        <div className="box-tools pull-right"><button type="button" className="btn btn-box-tool" data-widget="collapse">
+                        <FontAwesomeIcon icon={faPlus} /> 
+                          </button></div>
                       </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Dasmarinas.jpg" target="_blank"><img src="/static/media/Dasmarinas.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/GMA2.jpg" target="_blank"><img src="/static/media/GMA2.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
-                    <div className="box-header with-border">
-                      <h3 className="box-title"><b>Rizal</b></h3>
-                      <div className="box-tools pull-right"><button type="button" className="btn btn-box-tool" data-widget="collapse">
-                        <FontAwesomeIcon icon={faPlus} />
-                        </button></div>
-                    </div>
-                    <div className="box-body">
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Cainta SatO.jpg" target="_blank"><img src="/static/media/Cainta SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Masinag SatO.jpg" target="_blank"><img src="/static/media/Masinag SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Montalba SatO.jpg" target="_blank"><img src="/static/media/Montalba SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Padilla SatO.jpg" target="_blank"><img src="/static/media/Padilla SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/RHS SatO.jpg" target="_blank"><img src="/static/media/RHS SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Sumulong SatO.jpg" target="_blank"><img src="/static/media/Sumulong SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Taytay SatO.jpg" target="_blank"><img src="/static/media/Taytay SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/Binangonan SatO.jpg" target="_blank"><img src="/static/media/Binangonan SatO.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
+                      <div className="box-body">
+                        
+                      {images.map((contentImage)=>(
+                          <>
+                          
+                          {content.SatalliteOffices_city == contentImage.City ? (
+                          <>
+                             {contentImage['Images'].map((Images)=>(
+                            <>
+                            {console.log(content.SatalliteOffices_city,contentImage.SatalliteOffices_city)}
+                              <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
+                                <div className="box-header with-border"><a href={"/static/media/" + Images} target="_blank"><img src={"/static/media/" + Images} style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
+                              </div>
+                            </>
+                          ))}
+                          </>
+                          ): 
+                              (
+                                <></>
+                              )
+                          }
+                          </>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                  <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
-                    <div className="box-header with-border">
-                      <h3 className="box-title"><b>Laguna</b></h3>
-                      <div className="box-tools pull-right"><button type="button" className="btn btn-box-tool" data-widget="collapse">
-                        <FontAwesomeIcon icon={faPlus} />
-                        </button></div>
-                    </div>
-                    <div className="box-body">
-                      <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
-                        <div className="box-header with-border"><a href="/static/media/San Pedro.jpg" target="_blank"><img src="/static/media/San Pedro.jpg" style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
-                      </div>
-                    </div>
-                  </div>
+                  ))
+                  }
+
                 </div>
                 {/* /.box */}
               </div>
