@@ -71,7 +71,6 @@ def getProgramsAndServicesTitleLOGO(request):
         serializers = HeaderLogoSerializer(HeaderLogo)
         return Response(serializers.data)
 
-
 #for Satallite Offices Header
 @api_view(['GET'])
 def getTBL_SatalliteOfficesType(request):
@@ -79,6 +78,16 @@ def getTBL_SatalliteOfficesType(request):
     #person = {'name': 'ervie', 'age': 22}
     serializers = TBL_SatalliteOfficesSerializer(SatalliteOfficesType, many=True)
     return Response(serializers.data)
+
+#for Satallite Offices Contents
+@api_view(['POST'])
+def getTBL_SatalliteOffices(request):
+    if request.data:
+        dataRegion = request.data["SatalliteOffices_region"]
+        SatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=dataRegion)
+        #person = {'name': 'ervie', 'age': 22}
+        serializers = TBL_SatalliteOfficesContentSerializer(SatalliteOffices, many=True)
+        return Response(serializers.data)
 
 #for Publications Header
 @api_view(['GET'])

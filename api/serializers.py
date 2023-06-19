@@ -43,13 +43,19 @@ class ProgramsAndServicesLogoSerializer(serializers.ModelSerializer):
 class HeaderLogoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Header
-        fields = ('Header_logo',)   
+        fields = ('Header_logo','Header_name')   
 
 
 class TBL_SatalliteOfficesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_SatalliteOfficesType
         fields = ('SatalliteOfficestype_name', 'SatalliteOfficestype_url')
+        
+        
+class TBL_SatalliteOfficesContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_SatalliteOffices
+        fields = ('SatalliteOffices_region', 'SatalliteOffices_city', 'SatalliteOffices_content', 'SatalliteOffices_image')
 
 class TBL_PublicationsSerializer(serializers.ModelSerializer):
     class Meta:

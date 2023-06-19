@@ -105,7 +105,7 @@ export default function LivelihoodAndEnterpriseDevelopment() {
               <div className="row" style={{width: '98%', marginLeft: '1%'}}>
                 {/* /.col */}
                 <div className="col-md-9">
-                  <h2><img src={HeaderLogo.Header_logo} style={{width: '4.5%'}} />&nbsp;<b>{Data.ProgramAndServices_title}</b></h2>
+                  <h2><img src={HeaderLogo.Header_logo} style={{width: '4.5%'}} />&nbsp;<b>{HeaderLogo.Header_name}</b></h2>
                   <br />
                   {/* <div class="box box-warning " style="margin-top:-1.8%;margin-bottom:1%"><div class="box-header with-border"><div class="col-md-1"><img src="support/images/progimg/peso.jpg" width = 50px alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div><div class="col-md-8" style="margin-left: 0%;margin-top: 2%"><h3 class="box-title"><b>&nbsp;Livelihood and Enterprise Development</b></h3></div></div></div><div class="col-md-12" style="margin-bottom:2%"><img src="support/images/prodimg/w1.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div><div class="col-md-12" style="margin-bottom:2%"><img src="support/images/prodimg/kabuw2.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div><div class="col-md-12" style="margin-bottom:2%"><img src="support/images/prodimg/K-Trabaho.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div> */}
                   <div className="box box-warning " style={{marginTop: '-1.8%', marginBottom: '1%'}}>

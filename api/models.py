@@ -44,8 +44,8 @@ class TBL_SatalliteOfficesType(models.Model):
 class TBL_SatalliteOffices(models.Model):
     SatalliteOffices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     SatalliteOfficestype_id = models.ForeignKey("TBL_SatalliteOfficesType", on_delete=models.CASCADE)
-    SatalliteOffices_title = models.CharField()
-    SatalliteOffices_logo = models.CharField()
+    SatalliteOffices_region = models.CharField()
+    SatalliteOffices_city = models.CharField()
     SatalliteOffices_content = models.CharField(blank=True, default="")
     SatalliteOffices_image = models.CharField()
 

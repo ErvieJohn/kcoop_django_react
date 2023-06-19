@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function Region3() {
+  
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
