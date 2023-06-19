@@ -26,7 +26,7 @@ export default function Announcements_ReadMore() {
 
   const getAnnouncementData = () => {
     //console.log("READING?????????????????????????????????????????");
-    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData/`;
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_PublicationsID/`;
 
       var headers = {
         Accept: 'application/json',
@@ -35,7 +35,7 @@ export default function Announcements_ReadMore() {
         //'Access-Control-Allow-Origin': '*'
       };
 
-      var Data = {id: param.id};
+      var Data = {Publications_id: param.id};
       //console.log(JSON.stringify(Data));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -46,7 +46,7 @@ export default function Announcements_ReadMore() {
         .then(response => {
           //console.log("response: ", response);
           console.log("DATA: ", response);
-          selectedData = response;
+          selectedData = response[0];
           setSelectedData(selectedData);
           
         }).catch(error => {
@@ -123,15 +123,15 @@ export default function Announcements_ReadMore() {
               <div className="col-md-9">
                 <h2><b>
                     <FontAwesomeIcon icon={faNewspaper}/>
-                    &nbsp;{selectedData.title}</b></h2>
-                <b><i>&nbsp;{selectedData.publishedDate}</i></b><br /><br />
+                    &nbsp;{selectedData.Publications_title}</b></h2>
+                <b><i>&nbsp;{selectedData.Publications_pubDate}</i></b><br /><br />
                 <div className="box box-warning " />
                 
 
-                  {(selectedData.ImgSrc == "/static/media/no_img.jpg") ? (<></>) : (
+                  {(selectedData.Publications_image == "no_img.jpg") ? (<></>) : (
                       <div className="col-md-12">
                           <a href={selectedData.ImgSrc} target="_blank">
-                              <img src={selectedData.ImgSrc} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
+                              <img src={"/static/media/" + selectedData.Publications_image} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
                           </a>
                       </div>
                   )}

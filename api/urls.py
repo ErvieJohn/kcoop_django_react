@@ -18,6 +18,8 @@ urlpatterns = [
     
     path('getTBL_PublicationsType/', views.getTBL_PublicationsType), # for PublicationsType Header
     path('getTBL_Publications/', views.getTBL_Publications), # for Publications Content
+    path('getTBL_PublicationsID/', views.getTBL_PublicationsID), # for Publications ID
+    
     
     
     path('getTBL_StoriesType/', views.getTBL_StoriesType), # for Stories Header

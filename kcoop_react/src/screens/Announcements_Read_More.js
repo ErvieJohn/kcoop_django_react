@@ -8,11 +8,41 @@ export default function Announcements_Read_More() {
   //window.location.reload(false);
   const navigate = useNavigate();
 
+  const param = useParams();
+
+  const titlePage = "Announcements";
+  /* CAN BE USE BUT RETURNING TO INFINITE LOOP
+  var [data, setData] = useState([]);
+
+  const getAllAnnouncementsData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/?id`+param.id;
+
+    var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      //var pageTitle = "National Capital Region";
+      var DataBody = {Publications_name: titlePage};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
+      fetch(InsertAPIURL, {
+        method: 'GET',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+        .then(response => response.json())
+        .then(response => {
+          data = response;
+          setData(data);
+          console.log("DATA: ", data);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+*/
   const location = useLocation();
   const data = location.state.data;
 
 
-  const param = useParams();
+  
 
   var [selectedData, setSelectedData] = useState([]);
 
@@ -25,7 +55,7 @@ export default function Announcements_Read_More() {
     postOtherAnnouncementsArray = [];
     setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
     //console.log("READING?????????????????????????????????????????");
-    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementData/`;
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_PublicationsID/`;
 
       var headers = {
         Accept: 'application/json',
@@ -34,7 +64,7 @@ export default function Announcements_Read_More() {
         //'Access-Control-Allow-Origin': '*'
       };
 
-      var DataBody = {id: param.id};
+      var DataBody = {Publications_id: param.id};
       //console.log(JSON.stringify(Data));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -45,14 +75,14 @@ export default function Announcements_Read_More() {
         .then(response => {
          
           console.log("DATA: ", response);
-          selectedData = response;
+          selectedData = response[0];
           setSelectedData(selectedData);
           console.log("is READING HERE?", selectedData);
           //console.log(selectedData.description.length);
 
           
           data.map((content)=>{
-            if(content.title != selectedData.title){
+            if(content.Publications_id != selectedData.Publications_id){
               postOtherAnnouncementsArray.push(content);
               console.log(content, "THIS IS CONTENT");
             }
@@ -66,8 +96,9 @@ export default function Announcements_Read_More() {
           });
 
           var tempPostOther = [];
-          if(postOtherAnnouncements.length > 3){
-            for(let i=0; i < 3; i++){
+          var numPostOther = 5; // Can Change the number of Post Other Announcements
+          if(postOtherAnnouncements.length > numPostOther){
+            for(let i=0; i < numPostOther; i++){
               tempPostOther.push(postOtherAnnouncements[i]);
             }
           }
@@ -83,6 +114,7 @@ export default function Announcements_Read_More() {
   
   useEffect(() => {
     getAnnouncementData();
+    //getAllAnnouncementsData();
     //window.location.reload(false);
     
   }, [data]);
@@ -101,21 +133,21 @@ export default function Announcements_Read_More() {
               <div className="col-md-9">
                 <h2><b>
                     <FontAwesomeIcon icon={faNewspaper}/>
-                    &nbsp;{selectedData.title}</b></h2>
-                <b><i>&nbsp;{selectedData.date}</i></b><br /><br />
+                    &nbsp;{selectedData.Publications_title}</b></h2>
+                <b><i>&nbsp;{selectedData.Publications_pubDate}</i></b><br /><br />
                 <div className="box box-warning " />
                 
 
-                  {(selectedData.ImgSrc == "/static/media/no_img.jpg") ? (<></>) : (
+                  {(selectedData.Publications_image == "no_img.jpg") ? (<></>) : (
                       <div className="col-md-12">
-                          <a href={"/static/media/" + selectedData.ImgSrc}  target="_blank">
-                              <img src={"/static/media/" + selectedData.ImgSrc} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
+                          <a href={"/static/media/" + selectedData.Publications_image}  target="_blank">
+                              <img src={"/static/media/" + selectedData.Publications_image} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
                           </a>
                       </div>
                   )}
               
                 <div className="col-md-12">
-                  {(selectedData.description == "") ? (
+                  {(selectedData.Publications_content == "") ? (
                       <div
                       style={{
                         textAlign: "justify",
@@ -123,11 +155,11 @@ export default function Announcements_Read_More() {
                       }}
                     >
                       <p
-                        style={{
-                          textIndent: "30px",
-                        }}
+                        //style={{
+                        //  textIndent: "30px",
+                        //}}
                         dangerouslySetInnerHTML={{
-                          __html: selectedData.description,
+                          __html: selectedData.Publications_content,
                         }}
                       ></p>
                     </div>
@@ -166,17 +198,17 @@ export default function Announcements_Read_More() {
                             }}
                             onClick={() => {
                               //navigate(0);
-                              navigate("/announcements/" + content.announcements_id, {
+                              navigate("/announcements/" + content.Publications_id, {
                                 state: {
                                   data: data,
-                                  selectedNumber: content.announcements_id,
+                                  selectedNumber: content.Publications_id,
                                 },
                               });
                               
                             }}
                           
                           >
-                          <h5 align="center"><b>{content.title}</b></h5>
+                          <h5 align="center"><b>{content.Publications_title}</b></h5>
                           </a>
                           <span>
                               <a 
@@ -193,17 +225,17 @@ export default function Announcements_Read_More() {
                                 onClick={() => {
                                   
 
-                                  navigate("/announcements/" + content.announcements_id, {
+                                  navigate("/announcements/" + content.Publications_id, {
                                     state: {
                                       data: data,
-                                      selectedNumber: content.announcements_id,
+                                      selectedNumber: content.Publications_id,
                                     },
                                   });
                                   
                                 }}
                               
                               >
-                                  <img src={"/static/media/" + content.ImgSrc} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
+                                  <img src={"/static/media/" + content.Publications_image} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
                               </a>
                           </span>
                           <div className="box box-warning " style={{marginTop: '5%'}} />

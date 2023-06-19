@@ -29,6 +29,7 @@ urlpatterns = [
     path('annual_reports/', views.index, name='annual_reports'),
     path('audited_financial_statements/', views.index, name='audited_financial_statements'),
     path('announcements/', views.index, name='announcements'),
+    #path('announcements/', views.index, name='announcements_read'),
     
     
     path('announcements_readmore/', views.index, name='announcements_readmore'),

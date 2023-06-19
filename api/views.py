@@ -93,7 +93,6 @@ def getTBL_SatalliteOffices(request):
 @api_view(['GET'])
 def getTBL_PublicationsType(request):
     PublicationsType = TBL_PublicationsType.objects.all()
-    #person = {'name': 'ervie', 'age': 22}
     serializers = TBL_PublicationsSerializer(PublicationsType, many=True)
     return Response(serializers.data)
 
@@ -103,8 +102,22 @@ def getTBL_Publications(request):
     if request.data:
         data = request.data["Publications_name"]
         Publications = TBL_Publications.objects.filter(Publications_name=data)
-        #person = {'name': 'ervie', 'age': 22}
         serializers = TBL_PublicationsContentSerializer(Publications, many=True)
+        return Response(serializers.data)
+    
+@api_view(['POST', 'GET'])
+def getTBL_PublicationsID(request):
+    #print(request.query_params["id"])
+    if request.data:
+        data = request.data["Publications_id"]
+        PublicationsID = TBL_Publications.objects.filter(Publications_id=data)
+        serializers = TBL_PublicationsContentSerializer(PublicationsID, many=True)
+        return Response(serializers.data)
+    
+    elif request.query_params:
+        id = request.query_params["id"]
+        PublicationsID = TBL_Publications.objects.filter(Publications_id=id)
+        serializers = TBL_PublicationsContentSerializer(PublicationsID, many=True)
         return Response(serializers.data)
 
 #for Stories Header

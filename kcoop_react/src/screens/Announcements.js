@@ -135,26 +135,30 @@ const announcementsData = [
 export default function Announcements() {
   const navigate = useNavigate();
 
-  const [announcementsData, setAnnouncementsData] = useState([]);
+  const titlePage = "Announcements";
+
+  var [Data, setData] = useState([]);
 
   const getAnnouncementsData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getAnnouncementsData/?format=json`;
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/`;
 
-      var headers = {
+    var headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-
+      //var pageTitle = "National Capital Region";
+      var DataBody = {Publications_name: titlePage};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
-        method: 'GET',
+        method: 'POST',
         headers: headers,
+        body: JSON.stringify(DataBody)
       })
         .then(response => response.json())
         .then(response => {
-          //console.log("response: ", response);
-
-          setAnnouncementsData(response);
-          //console.log("DATA: ", announcementsData[0].title);
+          Data = response;
+          setData(Data);
+          console.log("DATA: ", Data);
         }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
   }
@@ -167,7 +171,7 @@ export default function Announcements() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    <div className="content-wrapper" style={{minHeight: '443px'}}>
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -180,15 +184,15 @@ export default function Announcements() {
                 <div className="col-md-12">
                   <h2><b>
                      <FontAwesomeIcon icon={faNewspaper}/>
-                     &nbsp;Announcements</b></h2>
+                     &nbsp;{titlePage}</b></h2>
                   <br />
                 <div className="box box-warning " style={{marginTop: '-1.5%'}} />
-                {announcementsData.map((content) => (
+                {Data.map((content) => (
                   <table style={{marginTop: '2%'}}>
                     <tbody>
                       <tr>
                         <td>
-                          <div className="col-md-6"><img src={"/static/media/" + content.ImgSrc} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                          <div className="col-md-6"><img src={"/static/media/" + content.Publications_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                           <div className="col-md-6">
                             <h4><a 
                                   style={{
@@ -201,15 +205,15 @@ export default function Announcements() {
                                     userSelect: "none",
                                   }}
                                   onClick={() => {
-                                    navigate("/announcements/" + content.announcements_id, {
+                                    navigate("/announcements/" + content.Publications_id, {
                                       state: {
-                                        data: announcementsData,
-                                        selectedNumber: content.announcements_id,
+                                        data: Data,
+                                        selectedNumber: content.Publications_id,
                                       },
                                     });
                                   }}
-                            ><b>{content.title}</b></a></h4>
-                            <h6><b><i>{content.publishedDate}</i></b></h6>
+                            ><b>{content.Publications_title}</b></a></h4>
+                            <h6><b><i>{content.Publications_pubDate}</i></b></h6>
 
 
                             {/*<p style={{marginLeft: '0%', fontSize: 'small'}}><a href="/go_bring_me">View full details ....</a></p>*/}
@@ -220,14 +224,14 @@ export default function Announcements() {
                                   whiteSpace: "pre-line",
                                 }}
                               >
-                                {(content.description.length > 0) ? (<p
-                                  style={{
-                                    textIndent: "30px",
-                                  }}
+                                {(content.Publications_content.length > 0) ? (<p
+                                  //style={{
+                                  //  textIndent: "30px",
+                                  //}}
                                   dangerouslySetInnerHTML={{
                                     __html:
                                     
-                                      content.description.substring(0, 200) +
+                                      content.Publications_content.substring(0, 200) +
                                       `...`,
                                   }}
                                 ></p>) : (<></>)}
@@ -254,10 +258,10 @@ export default function Announcements() {
                                     userSelect: "none",
                                   }}
                                   onClick={() => {
-                                    navigate("/announcements/" + content.announcements_id, {
+                                    navigate("/announcements/" + content.Publications_id, {
                                       state: {
-                                        data: announcementsData,
-                                        selectedNumber: content.announcements_id,
+                                        data: Data,
+                                        selectedNumber: content.Publications_id,
                                       },
                                     });
                                   }}
