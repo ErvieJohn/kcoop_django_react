@@ -72,12 +72,19 @@ class TBL_StoriesType(models.Model):
 class TBL_Stories(models.Model):
     Stories_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Storiestype_id = models.ForeignKey("TBL_StoriesType", on_delete=models.CASCADE)
+    Stories_name = models.CharField(blank=True, default="")
     Stories_title = models.CharField()
     Stories_date = models.CharField()
     Stories_content = models.CharField(blank=True, default="")
-    Stories_image = models.CharField()
-    Stories_ytlink = models.CharField()
+    Stories_image = models.CharField(blank=True, default="")
+    Stories_ytlink = models.CharField(blank=True, default="")
     
+class TBL_Careers(models.Model):
+    Careers_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Careers_title = models.CharField(blank=True, default="")
+    Careers_date = models.CharField(blank=True, default="")
+    Careers_image = models.CharField(blank=True, default="")
+    Careers_content = models.TextField(blank=True, default="")
 
 class TBL_Announcements(models.Model):
     Announcements_id = models.AutoField(primary_key=True)

@@ -1,6 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 
 export default function Videos() {
+  const titlePage = "Videos";
+
+  var [Data, setData] = useState([]);
+
+  const getStoriesData = () => {
+    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
+
+    var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      //var pageTitle = "National Capital Region";
+      var DataBody = {Stories_name: titlePage};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+        .then(response => response.json())
+        .then(response => {
+          Data = response;
+          setData(Data);
+          console.log("DATA: ", Data);
+        }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
+
+  
+
+  useEffect(() => {
+    getStoriesData();
+    //console.log(announcementsData);
+  }, []);
+
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
@@ -14,18 +49,13 @@ export default function Videos() {
                 {/* /.col */}
                 <div className="col-md-12">
                   {/*  */}
-                  <h5 className="box-title"><b>Kwentong-K | Serbisyong may Sinop at Sigla</b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/C-oo87xE8Yc" />
-                  <h5 className="box-title"><b>KWENTONG 2021: KOOPERATIBANG may </b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/smFXr-FSsuQ" />
-                  <h5 className="box-title"><b>Kwentong-K | K-COOP sa Panahon ng Pandemya</b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/wW-uvZqV12Y" />
-                  <h5 className="box-title"><b>Project Karinderya</b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/JvEO6DIXRkk" />
-                  <h5 className="box-title"><b>Don Bosco Scholars Batch 1</b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/B8hUu2mQ7-I" />
-                  <h5 className="box-title"><b>Kwentong-K ni Nanay Raquel Jose | Sapang Palay Satellite Office</b></h5>
-                  <embed width="100%" height={280} src="https://www.youtube.com/embed/ucx3czgXVqI" />
+
+                  {Data.map((content)=>(
+                    <>
+                      <h5 className="box-title"><b>{content.Stories_title}</b></h5>
+                      <embed width="100%" height={280} src={content.Stories_ytlink} />
+                    </>
+                  ))}
                 </div>
                 {/* /.box */}
               </div>

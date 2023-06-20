@@ -148,6 +148,8 @@ function App() {
 
           <Route exact path="/announcements" element={<Announcements />} />
           <Route path="/announcements/:id" element={<Announcements_Read_More />} />
+
+          
           {/*
           <Route path="/announcements_readmore" Component={Announcements_ReadMore} />
   */}
@@ -215,15 +217,17 @@ function App() {
 
           <Route exact path="/k_ganap" element={<K_Ganap />} />
 
-          <Route path="/k_ganap_readmore" Component={K_Ganap_ReadMore} />
+          <Route path="/k_ganap/:id" element={<K_Ganap_ReadMore />} />
+
+          {/*<Route path="/k_ganap_readmore" Component={K_Ganap_ReadMore} />*/}
 
           <Route exact path="/kwentong_k" element={<KwentongK />} />
 
-          <Route path="/kwentong_k_readmore" Component={KwentongK_ReadMore} />
+          <Route path="/kwentong_k/:id" element={<KwentongK_ReadMore/>} />
 
           <Route exact path="/k_bahagi" element={<K_Bahagi />} />
 
-          <Route path="/k_bahagi_readmore" Component={K_Bahagi_ReadMore} />
+          <Route path="/k_bahagi/:id" element={<K_Bahagi_ReadMore/>} />
           
 
           <Route exact path="/careers" element={<Careers />} />

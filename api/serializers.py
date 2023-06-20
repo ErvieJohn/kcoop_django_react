@@ -71,3 +71,13 @@ class TBL_StoriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_StoriesType
         fields = ('Storiestype_name', 'Storiestype_url')
+        
+class TBL_StoriesContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Stories
+        fields = ('Stories_id', 'Stories_name', 'Stories_title', 'Stories_date', 'Stories_content', 'Stories_image', 'Stories_ytlink')
+
+class TBL_CareersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Careers
+        fields = ('Careers_title', 'Careers_date', 'Careers_image', 'Careers_content')

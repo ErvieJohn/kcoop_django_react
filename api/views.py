@@ -119,6 +119,7 @@ def getTBL_PublicationsID(request):
         PublicationsID = TBL_Publications.objects.filter(Publications_id=id)
         serializers = TBL_PublicationsContentSerializer(PublicationsID, many=True)
         return Response(serializers.data)
+       
 
 #for Stories Header
 @api_view(['GET'])
@@ -128,11 +129,36 @@ def getTBL_StoriesType(request):
     serializers = TBL_StoriesSerializer(StoriesType, many=True)
     return Response(serializers.data)
 
+#for STORIES Contents
+@api_view(['POST'])
+def getTBL_Stories(request):
+    if request.data:
+        data = request.data["Stories_name"]
+        Stories = TBL_Stories.objects.filter(Stories_name=data)
+        serializers = TBL_StoriesContentSerializer(Stories, many=True)
+        return Response(serializers.data)
+    
+#for STORIES Contents
+@api_view(['POST'])
+def getTBL_StoriesID(request):
+    if request.data:
+        data = request.data["Stories_id"]
+        Stories = TBL_Stories.objects.filter(Stories_id=data)
+        serializers = TBL_StoriesContentSerializer(Stories, many=True)
+        return Response(serializers.data)
+    
+@api_view(['GET'])
+def getCareersData(request):
+    careers = TBL_Careers.objects.all()
+    
+    serializers = TBL_CareersSerializer(careers, many=True)
+    return Response(serializers.data)
+
 
 @api_view(['GET'])
 def getAnnouncementsData(request):
     announcements = Announcements.objects.all()
-    #person = {'name': 'ervie', 'age': 22}
+  
     serializers = AnnouncementsSerializer(announcements, many=True)
     return Response(serializers.data)
 

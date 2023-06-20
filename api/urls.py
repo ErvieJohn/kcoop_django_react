@@ -23,6 +23,11 @@ urlpatterns = [
     
     
     path('getTBL_StoriesType/', views.getTBL_StoriesType), # for Stories Header
+    path('getTBL_Stories/', views.getTBL_Stories), # for Stories Content
+    path('getTBL_StoriesID/', views.getTBL_StoriesID), # for Stories ID
+    
+    
+    path('getCareersData/', views.getCareersData), # for Careers Content
     
     
     path('getAnnouncementsData/',views.getAnnouncementsData),
