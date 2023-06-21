@@ -33,9 +33,9 @@ def getWhoWeAreType(request):
 def getWhoWeAre(request):
     if request.data:
         data = request.data["WhoWeAre_title"]
-        WhoWeAre = TBL_WhoWeAre.objects.get(WhoWeAre_title=data)
+        WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=data)
         #person = {'name': 'ervie', 'age': 22}
-        serializers = WhoWeAreSerializer(WhoWeAre)
+        serializers = WhoWeAreSerializer(WhoWeAre, many=True)
         return Response(serializers.data)
 
 #for Programs And Services Header

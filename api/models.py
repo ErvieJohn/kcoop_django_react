@@ -22,7 +22,7 @@ class TBL_WhoWeAre(models.Model):
     WhoWeAretype_id = models.ForeignKey("TBL_WhoWeAreType", on_delete=models.CASCADE)
     WhoWeAre_title = models.CharField()
     WhoWeAre_content = models.TextField(blank=True, default="")
-    WhoWeAre_image = models.CharField(blank=True, default="/static/media/no_img.jpg")
+    WhoWeAre_image = models.CharField(blank=True, default="no_img.jpg")
 
 class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

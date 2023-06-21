@@ -4,6 +4,7 @@ import { faCircleDot, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 
 export default function CooperativePrinciples() {
   var [Data, setData] = useState([]);
+  const titlePage = "COOPERATIVE PRINCIPLES";
 
   const getData = () => {
     var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAre/`;
@@ -12,7 +13,7 @@ export default function CooperativePrinciples() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-      var titlePage = "COOPERATIVE PRINCIPLES";
+     
       var DataBody = {WhoWeAre_title: titlePage};
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -58,29 +59,25 @@ export default function CooperativePrinciples() {
                     <div className="box box-warning ">
                       <div className="box-header" style={{marginTop: '0%'}}>
                       <FontAwesomeIcon icon={faCircleDot} color='orange' size='1.5x'/>
-                        <h2 className="box-title"><b>&nbsp;{Data.WhoWeAre_title}</b></h2>
+                        <h2 className="box-title"><b>&nbsp;{titlePage}</b></h2>
                         <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
-                          {
-                            (Data.WhoWeAre_image != "/static/media/no_img.jpg") ? (
-                              <>
-                                <p><img alt="" src={Data.WhoWeAre_image} style={{height: '100%', width: '100%'}} /></p>
-                              </>
+                        {
+                            Data.map((content)=>(
+                              (content.WhoWeAre_image != "no_img.jpg") ? (<img src={"/static/media/" + content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
+                              (<></>)
                               
-                            ) : (
-                              <>
-                                
-                                  
-                                  <p
+                            ))
+                          }
+                          {
+                            Data.map((content)=>(
+                              <p
                                           
-                                          dangerouslySetInnerHTML={{
-                                            __html:
-                                            Data.WhoWeAre_content,
-                                          }}
-                                        ></p>
-                                      
-                            
-                              </>
-                            )
+                            dangerouslySetInnerHTML={{
+                              __html:
+                              content.WhoWeAre_content,
+                            }}
+                          ></p>
+                            ))
                           }
                         </div>
                       </div>

@@ -6,7 +6,9 @@ export default function
 OrganizationalStructure() {
   var [Data, setData] = useState([]);
 
-  var [images, setImages] = useState([]);
+  const titlePage = "ORGANIZATIONAL STRUCTURE";
+
+  //var [images, setImages] = useState([]);
   const getData = () => {
     var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAre/`;
 
@@ -14,7 +16,7 @@ OrganizationalStructure() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-      var titlePage = "ORGANIZATIONAL STRUCTURE";
+      
       var DataBody = {WhoWeAre_title: titlePage};
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -27,9 +29,7 @@ OrganizationalStructure() {
           Data = response;
           //console.log("DATA: ", HistoryData);
           setData(Data);
-          let stringImage = Data.WhoWeAre_image;
-          images = stringImage.split(",");
-          setImages(images);
+          
           //console.log("images: ", images);
         }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -62,37 +62,28 @@ OrganizationalStructure() {
                     <div className="box box-warning ">
                       <div className="box-header" style={{marginTop: '0%'}}>
                       <FontAwesomeIcon icon={faCircleDot} color='orange' size='1.5x'/>
-                        <h2 className="box-title"><b>&nbsp;{Data.WhoWeAre_title}</b></h2>
+                        <h2 className="box-title"><b>&nbsp;{titlePage}</b></h2>
                         <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
                         {
-                            (Data.WhoWeAre_image != "/static/media/no_img.jpg") ? (
-                              <>
-                              {console.log("HERE?", images)}
-                              {
-                                images.map((content)=>(
-
-                                  <img src={content} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />
-                                ))
-                              }
-                                
-                              </>
+                            Data.map((content)=>(
+                              (content.WhoWeAre_image != "no_img.jpg") ? (<img src={"/static/media/" + content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
+                              (<></>)
                               
-                            ) : (
-                              <>
-                                {console.log("NAH?")}
-                                  
-                                  <p
-                                          
-                                          dangerouslySetInnerHTML={{
-                                            __html:
-                                            Data.WhoWeAre_content,
-                                          }}
-                                        ></p>
-                                      
-                            
-                              </>
-                            )
+                            ))
                           }
+                          {
+                            Data.map((content)=>(
+                              <p
+                                          
+                            dangerouslySetInnerHTML={{
+                              __html:
+                              content.WhoWeAre_content,
+                            }}
+                          ></p>
+                            ))
+                          }
+
+                          
                           
                           
                           </div>
