@@ -32,15 +32,15 @@ urlpatterns = [
     #path('announcements/', views.index, name='announcements_read'),
     
     
-    path('announcements_readmore/', views.index, name='announcements_readmore'),
+    path('announcements/<str:id>', views.announcements, name='announcements_read_more'),
     path('by_the_numbers/', views.index, name='by_the_numbers'),
     path('videos/', views.index, name='videos'),
     path('k_ganap/', views.index, name='k_ganap'),
-    path('k_ganap/<str:id>/', views.k_ganapan, name='k_ganap_read_more'),
+    path('k_ganap/<str:id>', views.k_ganapan, name='k_ganap_read_more'),
     path('kwentong_k/', views.index, name='kwentong_k'),
-    #path('kwentong_k_readmore/', views.index, name='kwentong_k_readmore'),
+    path('kwentong_k/<str:id>', views.kwentong_k, name='kwentong_k_readmore'),
     path('k_bahagi/', views.index, name='k_bahagi'),
-    #path('k_bahagi_readmore/', views.index, name='k_bahagi_readmore'),
+    path('k_bahagi/<str:id>', views.k_bahagi, name='k_bahagi_readmore'),
     path('careers/', views.index, name='careers'),
 
     path('go_bring_me/', views.index, name='go_bring_me'),

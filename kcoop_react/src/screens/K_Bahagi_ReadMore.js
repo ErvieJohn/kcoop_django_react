@@ -118,23 +118,53 @@ export default function K_Bahagi_ReadMore() {
       else return;
     })
 
+    var [kBahagiData, setKBahagiData] = useState([]);
+    const getKBahagiData = () => {
+      var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
+
+      var headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
+        //var pageTitle = "National Capital Region";
+        var DataBody = {Stories_name: "K - Bahagi"}; // for k - bahagi
+        //console.log("DATA BODY", JSON.stringify(DataBody));
+        fetch(InsertAPIURL, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(DataBody)
+        })
+          .then(response => response.json())
+          .then(response => {
+            kBahagiData = response;
+            setKBahagiData(kBahagiData);
+            //console.log("DATA11: ", kwentongKData);
+          }).catch(error => {
+            console.log(`getting data error from api url ${error}`)});
+    }
+
 
 
     useEffect(() => {
       getStoriesDataID();
       getKGanapanData();
       getKwentongKData();
+      getKBahagiData();
       //console.log(announcementsData);
     }, [selectedNumber]);
 
+  var data = [];
+  
 
   //console.log("props: ", location.state);
   if (location.state) {
-    const data = location.state.data;
+    data = location.state.data;
 
     
-
-    const postOtherKBahagiArray = [];
+  } else {
+    data = kBahagiData;
+  }
+  const postOtherKBahagiArray = [];
     let counted = 0;
     data.forEach((content)=>{
       if(counted < 3){
@@ -145,50 +175,11 @@ export default function K_Bahagi_ReadMore() {
       }
       else return;
       
-  })
-  console.log("datazzzzz: ",postOtherKBahagiArray);
+    })
+    console.log("datazzzzz: ",postOtherKBahagiArray);
     const postOtherKBahagi = postOtherKBahagiArray.filter(function (el) {
         return el != null;
-      });
-    //console.log("filteredlen: ", filtered.length);
-    //console.log("postOtherKBahagi: ",postOtherKBahagi);
-    
-
-    const postKGanap = [
-      {
-        number: 1,
-        title: "GOBRINGME MOA Signing",
-        imgSrc: "/static/media/GOBRINGME MOA Signing.jpg",
-        urlLink: "https://kcoop.org.ph/stories.php?nId=23&sId=0",
-      },
-      {
-        number: 2,
-        title: "PFCCO-NCR 28th Annual General Assembly Meeting",
-        imgSrc: "/static/media/PFCCO-NCR 28th Annual General Assembly Meeting.jpg",
-        urlLink: "https://kcoop.org.ph/stories.php?nId=24&sId=0",
-      },
-      {
-        number: 3,
-        title: "ALASKABUHAYAN Program",
-        imgSrc: "/static/media/ALASKABUHAYAN Program.jpg",
-        urlLink: "https://kcoop.org.ph/stories.php?nId=25&sId=0",
-      },
-    ];
-
-    /*
-    let k = 0;
-    let countedKwentongK = 0;
-    const postKwentongK = [];
-    while (counted < 3) {
-      // can change the 3, if you like to display more K-Ganap Stories
-      if (selectedNumber - 1 != i) {
-        postKwentongK.push(data[i]);
-        counted++;
-      }
-      i++;
-    }
-    */
-    
+    });
 
     return (
       <div className="content-wrapper" style={{ minHeight: 705 }}>
@@ -474,43 +465,4 @@ export default function K_Bahagi_ReadMore() {
         {/* /.container */}
       </div>
     );
-  } else {
-    return (
-      <div className="content-wrapper" style={{ minHeight: "742px" }}>
-        <div className="container">
-          <section className="content">
-            <div
-              className="box box-default"
-              style={{ left: "-5%", top: "-17.5px", width: "110%" }}
-            >
-              {/* ariel  */}
-              <section className="content">
-                <div className="row" style={{ width: "98%", marginLeft: "1%" }}>
-                  {/* /.col */}
-                  <div className="col-md-12 pull-left">
-                    <div>
-                      <div className="box box-warning ">
-                        <div className="box-header" style={{ marginTop: "0%" }}>
-                          <div>
-                            <h1>404 Not Found</h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* /. box */}
-                  </div>
-                  {/* /.box */}
-                </div>
-                {/* /.col */}
-                {/* /.row */}
-              </section>
-              {/* ariel */}
-              {/* /.box-body */}
-            </div>
-            {/* /.box */}
-          </section>
-        </div>
-      </div>
-    );
-  }
 }

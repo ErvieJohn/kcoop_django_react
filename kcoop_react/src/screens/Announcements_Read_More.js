@@ -11,38 +11,8 @@ export default function Announcements_Read_More() {
   const param = useParams();
 
   const titlePage = "Announcements";
-  /* CAN BE USE BUT RETURNING TO INFINITE LOOP
-  var [data, setData] = useState([]);
-
-  const getAllAnnouncementsData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/?id`+param.id;
-
-    var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: titlePage};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          data = response;
-          setData(data);
-          console.log("DATA: ", data);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-*/
   const location = useLocation();
   const data = location.state.data;
-
-
-  
 
   var [selectedData, setSelectedData] = useState([]);
 
@@ -116,7 +86,6 @@ export default function Announcements_Read_More() {
     getAnnouncementData();
     //getAllAnnouncementsData();
     //window.location.reload(false);
-    
   }, [data]);
   
   return (

@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 
 from .models import *
 from .serializers import *
+
+
+from datetime import datetime
 # Create your views here.
 
 # for HEADER
@@ -134,8 +137,12 @@ def getTBL_StoriesType(request):
 def getTBL_Stories(request):
     if request.data:
         data = request.data["Stories_name"]
-        Stories = TBL_Stories.objects.filter(Stories_name=data)
+        Stories = TBL_Stories.objects.filter(Stories_name=data).order_by('Stories_date')
         serializers = TBL_StoriesContentSerializer(Stories, many=True)
+        #datetime_str = serializers.data[0]["Stories_date"]
+        #print(datetime_str)
+        #datetime_object = datetime.strptime(datetime_str, '%b-%d-%Y')
+        #print("ZZZZZZZZ", datetime_object)
         return Response(serializers.data)
     
 #for STORIES Contents
@@ -164,13 +171,13 @@ def getAnnouncementsData(request):
 
 @api_view(['POST'])
 def getAnnouncementsReadmore(request):
-        if request.data:
-            data = int(request.data["id"])
-            print(data)
-            announcement = Announcements.objects.get(announcements_id=data)
-            serializer = AnnouncementsSerializer(announcement)
-            #return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
- 
-            #students = Student.objects.all()
-            #serializer = StudentSerializer(students, many=True)
-            return Response(serializer.data)
+    if request.data:
+        data = int(request.data["id"])
+        print(data)
+        announcement = Announcements.objects.get(announcements_id=data)
+        serializer = AnnouncementsSerializer(announcement)
+        #return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
+
+        #students = Student.objects.all()
+        #serializer = StudentSerializer(students, many=True)
+        return Response(serializer.data)
