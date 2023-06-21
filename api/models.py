@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
 
+from datetime import datetime
+
 # Create your models here.
 #class TBL_Headers(models.Model):
 
@@ -74,7 +76,7 @@ class TBL_Stories(models.Model):
     Storiestype_id = models.ForeignKey("TBL_StoriesType", on_delete=models.CASCADE)
     Stories_name = models.CharField(blank=True, default="")
     Stories_title = models.CharField()
-    Stories_date = models.CharField()
+    Stories_date = models.DateField(null=True, blank=True)
     Stories_content = models.CharField(blank=True, default="")
     Stories_image = models.CharField(blank=True, default="")
     Stories_ytlink = models.CharField(blank=True, default="")

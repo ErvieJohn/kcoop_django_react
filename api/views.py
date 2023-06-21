@@ -137,12 +137,17 @@ def getTBL_StoriesType(request):
 def getTBL_Stories(request):
     if request.data:
         data = request.data["Stories_name"]
-        Stories = TBL_Stories.objects.filter(Stories_name=data).order_by('Stories_date')
+        Stories = TBL_Stories.objects.filter(Stories_name=data).order_by('-Stories_date')
         serializers = TBL_StoriesContentSerializer(Stories, many=True)
         #datetime_str = serializers.data[0]["Stories_date"]
-        #print(datetime_str)
-        #datetime_object = datetime.strptime(datetime_str, '%b-%d-%Y')
-        #print("ZZZZZZZZ", datetime_object)
+        #print(serializers.data[0]["Stories_date"])
+        for i in range (len(serializers.data)): #convert date to shortend month
+            dateFormat = serializers.data[i]["Stories_date"]
+            date = datetime.fromisoformat(dateFormat)
+            dateConverted = date.strftime('%b-%d-%Y')
+            serializers.data[i]["Stories_date"] = dateConverted
+        
+        
         return Response(serializers.data)
     
 #for STORIES Contents
