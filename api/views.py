@@ -51,9 +51,9 @@ def getProgramsAndServicesType(request):
 def getProgramsAndServices(request):
     if request.data:
         data = request.data["ProgramAndServices_title"]
-        ProgramsAndServices = TBL_ProgramAndServices.objects.get(ProgramAndServices_title=data)
+        ProgramsAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=data)
         #person = {'name': 'ervie', 'age': 22}
-        serializers = ProgramsAndServicesHSerializer(ProgramsAndServices)
+        serializers = ProgramsAndServicesHSerializer(ProgramsAndServices, many=True)
         return Response(serializers.data)
     
 #for Programs And Services LOGO
@@ -157,6 +157,13 @@ def getTBL_StoriesID(request):
         data = request.data["Stories_id"]
         Stories = TBL_Stories.objects.filter(Stories_id=data)
         serializers = TBL_StoriesContentSerializer(Stories, many=True)
+        
+        for i in range (len(serializers.data)): #convert date to shortend month
+            dateFormat = serializers.data[i]["Stories_date"]
+            date = datetime.fromisoformat(dateFormat)
+            dateConverted = date.strftime('%b-%d-%Y')
+            serializers.data[i]["Stories_date"] = dateConverted
+        
         return Response(serializers.data)
     
 @api_view(['GET'])

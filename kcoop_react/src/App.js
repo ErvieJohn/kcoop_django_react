@@ -37,7 +37,6 @@ import Announcements from "./screens/Announcements";
 import ByTheNumbers from "./screens/ByTheNumbers";
 
 // Announcements Tab
-import GoBringMe from "./screens/GoBringMe";
 
 import Careers from "./screens/Careers";
 
@@ -52,19 +51,7 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import K_KalusuganW3 from "./screens/K_KalusuganW3";
-import K_Bahay_W3 from "./screens/K_Bahay_W3";
-import K_Bahay_W2 from "./screens/K_Bahay_W2";
-import K_Bahay_W1 from "./screens/K_Bahay_W1";
-import K_Yakap from "./screens/K_Yakap";
-import AnnualRepresentativeAssembly2022 from "./screens/AnnualRepresentativeAssembly2022";
-import K_Edukasyon_W1 from "./screens/K_Edukasyon_W1";
-import VaccineDoneVirusGone from "./screens/VaccineDoneVirusGone";
-import Baro_Act_60DaysGracePeriod from "./screens/BaroAct_60DaysGracePeriod";
-import MensaheSaAtingMgaMiyembro from "./screens/MensaheSaAtingMgaMiyembro";
-import LoanMoratoriumExtensionA12A30 from "./screens/LoanMoratoriumExtensionA12A30";
-import LoanMoratoriumM17A12 from "./screens/LoanMoratoriumM17A12";
-import K_COOP3rdAnnualRA from "./screens/K_COOP3rdAnnualRA";
+
 import Videos from "./screens/Videos";
 import K_Ganap from "./screens/K_Ganap";
 import K_Ganap_ReadMore from "./screens/K_Ganap_ReadMore";
@@ -157,61 +144,14 @@ function App() {
 
           <Route exact path="/by_the_numbers" element={<ByTheNumbers />} />
 
-          <Route exact path="/go_bring_me" element={<GoBringMe />} />
+    
+          
 
-          <Route exact path="/k_kalusugan_w3" element={<K_KalusuganW3 />} />
 
-          <Route exact path="/k_bahay_w3" element={<K_Bahay_W3 />} />
 
-          <Route exact path="/k_bahay_w2" element={<K_Bahay_W2 />} />
+         
 
-          <Route exact path="/k_bahay_w1" element={<K_Bahay_W1 />} />
-
-          <Route exact path="/k_yakap" element={<K_Yakap />} />
-
-          <Route
-            exact
-            path="/annual_representative_assembly2022"
-            element={<AnnualRepresentativeAssembly2022 />}
-          />
-
-          <Route exact path="/k_edukasyon_w1" element={<K_Edukasyon_W1 />} />
-
-          <Route
-            exact
-            path="/vaccine_done_virus_gone"
-            element={<VaccineDoneVirusGone />}
-          />
-
-          <Route
-            exact
-            path="/baro_act_60_days_grace_period"
-            element={<Baro_Act_60DaysGracePeriod />}
-          />
-
-          <Route
-            exact
-            path="/mensahe_sa_ating_mga_miyembro"
-            element={<MensaheSaAtingMgaMiyembro />}
-          />
-
-          <Route
-            exact
-            path="/loan_moratorium_extension_april122020toapril302020"
-            element={<LoanMoratoriumExtensionA12A30 />}
-          />
-
-          <Route
-            exact
-            path="/loan_moratorium_apri172020toapril122020"
-            element={<LoanMoratoriumM17A12 />}
-          />
-
-          <Route
-            exact
-            path="/k_coop_3rd_annual_ra"
-            element={<K_COOP3rdAnnualRA />}
-          />
+         
 
           <Route exact path="/videos" element={<Videos />} />
 

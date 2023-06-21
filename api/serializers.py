@@ -31,13 +31,13 @@ class ProgramsAndServicesSerializer(serializers.ModelSerializer):
 class ProgramsAndServicesHSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_ProgramAndServices
-        fields = ('ProgramAndServices_title', 'ProgramAndServices_content', 'ProgramAndServices_image', 'ProgramAndServices_logo')      
+        fields = ('ProgramAndServices_title', 'ProgramAndServices_content', 'ProgramAndServices_image')      
 
 # FOR PROGRAMS AND SERVICES LOGOs
 class ProgramsAndServicesLogoSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_ProgramAndServicesType
-        fields = ('ProgramAndServicestype_logoimage','ProgramAndServicestype_url')
+        fields = ('ProgramAndServicestype_logoimage','ProgramAndServicestype_url', 'ProgramAndServicestype_logo', 'ProgramAndServicestype_name')
         
 # FOR PROGRAMS AND SERVICES Title LOGO   
 class HeaderLogoSerializer(serializers.ModelSerializer):

@@ -2,7 +2,11 @@ import React, {useEffect, useState} from 'react';
 
 export default function EducationTrainingAndFormation() {
   var [Data, setData] = useState([]);
-  var [images, setImages] = useState([]);
+  var [logo, setLogo] = useState([]);
+  var [title, setTitle] = useState([]);
+  const titlePage = "Education, Training and Formation";
+
+
   const getData = () => {
     var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServices/`;
 
@@ -10,7 +14,7 @@ export default function EducationTrainingAndFormation() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-      var titlePage = "Education, Training and Formation";
+      
       var DataBody = {ProgramAndServices_title: titlePage};
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -23,10 +27,8 @@ export default function EducationTrainingAndFormation() {
           Data = response;
           //console.log("DATA: ", HistoryData);
           setData(Data);
-          let stringImage = Data.ProgramAndServices_image;
-          images = stringImage.split(",");
-          setImages(images);
-          //console.log("DATA: ", History);
+          
+         
         }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
   }
@@ -51,6 +53,16 @@ export default function EducationTrainingAndFormation() {
           //console.log("DATA: ", HistoryData);
           setProgramsAndServicesLogo(ProgramsAndServicesLogo);
 
+          ProgramsAndServicesLogo.map((content)=>{
+            if(titlePage==content.ProgramAndServicestype_name){
+              logo = content.ProgramAndServicestype_logo;
+              setLogo(logo);
+
+              title = content.ProgramAndServicestype_name;
+              setTitle(title);
+            }
+          })
+          //console.log(ProgramsAndServicesLogo, logo);
           //console.log("ProgramsAndServicesLogo: ", ProgramsAndServicesLogo);
         }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -110,17 +122,17 @@ export default function EducationTrainingAndFormation() {
                                  </b></h3></div></div></div><div class="col-md-12" style="margin-bottom:2%"><img src="support/images/prodimg/etfw1.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div><div class="col-md-12" style="margin-bottom:2%"><img src="support/images/prodimg/etfw2.jpg" width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"></div> */}
                   <div className="box box-warning " style={{marginTop: '-1.8%', marginBottom: '1%'}}>
                     <div className="box-header with-border">
-                      <div className="col-md-1"><img src={Data.ProgramAndServices_logo} width="50px" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                      <div className="col-md-1"><img src={"/static/media/" + logo} width="50px" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                       <div className="col-md-8" style={{marginLeft: '0%', marginTop: '2%'}}>
-                        <h3 className="box-title"><b>&nbsp;{Data.ProgramAndServices_title}
+                        <h3 className="box-title"><b>&nbsp;{title}
                           </b>
                         </h3>
                       </div>
                     </div>
                   </div>
-                  { images.map((content)=>(
+                  { Data.map((content)=>(
                     <>
-                      <div className="col-md-12" style={{marginBottom: '2%'}}><img src={content} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                      <div className="col-md-12" style={{marginBottom: '2%'}}><img src={"/static/media/" + content.ProgramAndServices_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                     </>
                     
                   ))
@@ -133,14 +145,14 @@ export default function EducationTrainingAndFormation() {
                   <div>
                   <div className="box box-warning">
                       <div className="box-header with-border">
-                        <h3 className="box-title"><b>Other Programs And Services</b></h3>
+                        <h3 className="box-title"><b>Other {HeaderLogo.Header_name}</b></h3>
                         <br />
                       </div>
                       <div className="box-body no-padding" style={{marginLeft: '2%'}}>
                       {
                         ProgramsAndServicesLogo.map((content)=>(
                           <>
-                            <a href={content.ProgramAndServicestype_url}><img src={content.ProgramAndServicestype_logoimage} width="85%" style={{marginBottom: '5%'}} /></a>
+                            <a href={content.ProgramAndServicestype_url}><img src={"/static/media/" + content.ProgramAndServicestype_logoimage} width="85%" style={{marginBottom: '5%'}} /></a>
                           </>
                         ))
                         }

@@ -29,12 +29,12 @@ class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_name = models.CharField()
     ProgramAndServicestype_url = models.CharField()
     ProgramAndServicestype_logoimage = models.CharField(blank=True, default="")
+    ProgramAndServicestype_logo = models.CharField(blank=True, default="")
 
 class TBL_ProgramAndServices(models.Model):
     ProgramAndServices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_id = models.ForeignKey("TBL_ProgramAndServicesType", on_delete=models.CASCADE)
     ProgramAndServices_title = models.CharField()
-    ProgramAndServices_logo = models.CharField()
     ProgramAndServices_content = models.CharField(blank=True, default="")
     ProgramAndServices_image = models.CharField()
 
