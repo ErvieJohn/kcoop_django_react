@@ -1,42 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDot, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 
+import {AuthContext} from '../context/AuthContext';
+
 export default function 
 OrganizationalStructure() {
-  var [Data, setData] = useState([]);
+  const { getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
 
   const titlePage = "ORGANIZATIONAL STRUCTURE";
 
-  //var [images, setImages] = useState([]);
-  const getData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAre/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      
-      var DataBody = {WhoWeAre_title: titlePage};
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Data = response;
-          //console.log("DATA: ", HistoryData);
-          setData(Data);
-          
-          //console.log("images: ", images);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
+  
 
   useEffect(() => {
-    getData();
+    getWhoWeAre(titlePage);
     
     //console.log(announcementsData);
   }, []);
@@ -65,14 +42,14 @@ OrganizationalStructure() {
                         <h2 className="box-title"><b>&nbsp;{titlePage}</b></h2>
                         <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
                         {
-                            Data.map((content)=>(
+                            getWhoWeAreData.map((content)=>(
                               (content.WhoWeAre_image != "no_img.jpg") ? (<img src={"/static/media/" + content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
                               (<></>)
                               
                             ))
                           }
                           {
-                            Data.map((content)=>(
+                            getWhoWeAreData.map((content)=>(
                               <p
                                           
                             dangerouslySetInnerHTML={{
