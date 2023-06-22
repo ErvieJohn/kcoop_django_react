@@ -1,57 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import {AuthContext} from '../context/AuthContext';
+
 export default function NCR() {
   const titlePage = "National Capital Region";
-  var [Data, setData] = useState([]);
-  var [images, setImages] = useState([{}]);
-  const getData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOffices/`; 
-      /* *****************ALWAYS CHECK THE API URL **************** */
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      var DataBody = {SatalliteOffices_region: titlePage};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Data = response;
-          //console.log("DATA: ", HistoryData);
-          setData(Data);
-
-          //setImages(images);
-          //console.log("DATA: ", History);
-          
-          var stringImage = [];
-          var ArrayImage = [];
-          var stringSplit;
-          Data.map((data)=>{
-            stringImage = data.SatalliteOffices_image;
-            stringSplit = stringImage.split(",");
-            ArrayImage.push({"City":data.SatalliteOffices_city,"Images":stringSplit});
-          })
-          images = ArrayImage;
-          setImages(images);
-          //console.log(images);
-          
-          //console.log(Data);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  useEffect(() => {
-    getData();
+  const {getTBL_SatalliteOffices,
+    satalliteOfficesData,
+    imagesSatalliteOffices,} = useContext(AuthContext);
     
-  }, []);
+  
+    useEffect(() => {
+      getTBL_SatalliteOffices(titlePage);
+      
+    }, []);
 
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
@@ -76,7 +39,7 @@ export default function NCR() {
                   </div>
                   
                   {
-                  Data.map((content)=>(
+                  satalliteOfficesData.map((content)=>(
                     <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
                       <div className="box-header with-border">
                         <h3 className="box-title"><b>{content.SatalliteOffices_city}</b></h3>
@@ -86,7 +49,7 @@ export default function NCR() {
                       </div>
                       <div className="box-body">
                         
-                      {images.map((contentImage)=>(
+                      {imagesSatalliteOffices.map((contentImage)=>(
                           <>
                           
                           {content.SatalliteOffices_city == contentImage.City ? (

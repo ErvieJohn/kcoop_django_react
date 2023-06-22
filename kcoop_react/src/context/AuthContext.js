@@ -274,6 +274,51 @@ export const AuthProvider = ({children}) => {
               console.log(`getting data error from api url ${error}`)});
       }
 
+      var [satalliteOfficesData, setSatalliteOfficesData] = useState([]);
+      var [imagesSatalliteOffices, setImagesSatalliteOffices] = useState([{}]);
+
+      const getTBL_SatalliteOffices = (titlePage) => {
+        var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOffices/`; 
+          /* *****************ALWAYS CHECK THE API URL **************** */
+          var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {SatalliteOffices_region: titlePage};
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              //console.log("response: ", response);
+              satalliteOfficesData = response;
+              //console.log("DATA: ", HistoryData);
+              setSatalliteOfficesData(satalliteOfficesData);
+    
+              //setImages(images);
+              //console.log("DATA: ", History);
+              
+              var stringImage = [];
+              var ArrayImage = [];
+              var stringSplit;
+              satalliteOfficesData.map((data)=>{
+                stringImage = data.SatalliteOffices_image;
+                stringSplit = stringImage.split(",");
+                ArrayImage.push({"City":data.SatalliteOffices_city,"Images":stringSplit});
+              })
+              imagesSatalliteOffices = ArrayImage;
+              setImagesSatalliteOffices(imagesSatalliteOffices);
+              //console.log(images);
+              
+              //console.log(Data);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+
     return(
         <AuthContext.Provider
         value={{
@@ -299,6 +344,11 @@ export const AuthProvider = ({children}) => {
             ProgramsAndServicesLogo,
             HeaderLogo,
             logo,title,
+
+
+            getTBL_SatalliteOffices, // FOR SATALLITE OFFICES
+            satalliteOfficesData,
+            imagesSatalliteOffices,
 
         }}>
 
