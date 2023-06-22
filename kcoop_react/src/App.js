@@ -2,6 +2,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 
+import {AuthProvider} from './context/AuthContext';
+
 //HEADER
 import Header from "./screens/Header";
 
@@ -65,7 +67,8 @@ import Announcements_Read_More from "./screens/Announcements_Read_More";
 function App() {
   return (
     <>
-      <Router>
+    <AuthProvider>
+    <Router>
         <Header />
 
         <Routes>
@@ -184,6 +187,8 @@ function App() {
           //htmlRef="<REF_STRING>"
         />
       </Router>
+    </AuthProvider>
+      
     </>
   );
 }

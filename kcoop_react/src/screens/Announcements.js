@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-import { BASE_URL } from '../config/config';
+import { BASE_URL } from '../config';
 
 export default function Announcements() {
   const navigate = useNavigate();

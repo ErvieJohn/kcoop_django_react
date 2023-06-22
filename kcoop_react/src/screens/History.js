@@ -1,43 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDot, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 
+import {AuthContext} from '../context/AuthContext';
+
 export default function History() {
-  var [HistoryData, setHistoryData] = useState([]);
+  const { HistoryData, getHistoryData} = useContext(AuthContext);
+  
   const titlePage = "HISTORY";
-
-  const getHistoryData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAre/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      var DataBody = {WhoWeAre_title: "HISTORY"};
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          HistoryData = response;
-          //console.log("DATA: ", HistoryData);
-          setHistoryData(HistoryData);
-          console.log("DATA: ", HistoryData);
-          //console.log("DATA: ", History);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
+  
 
   useEffect(() => {
-    getHistoryData();
+    getHistoryData(titlePage);
     
     //console.log(announcementsData);
   }, []);
 
   return (
+    <>
+    {console.log("DATAAAAA: ",HistoryData)}
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
         {/* Content Header (Page header) */}
@@ -100,5 +81,7 @@ export default function History() {
         {/* /.content */}
       </div>
     </div>
+    </>
+    
   )
 }
