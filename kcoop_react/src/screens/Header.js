@@ -1,155 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 import "./Header.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
+import {AuthContext} from '../context/AuthContext';
+
 export default function Header() {
-  var [WhoWeAre, setWhoWeAre] = useState([]);
-
-  var [ProgramAndServices, setProgramAndServices] = useState([]);
-
-  var [Headers, setHeaders] = useState([]);
-
-  const getHeadersData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Header/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Headers = response;
-          setHeaders(Headers);
-
-          //console.log("DATA: ", Headers);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  const getWhoWeAreTypeData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getWhoWeAreType/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          WhoWeAre = response;
-          setWhoWeAre(WhoWeAre);
-
-          //console.log("DATA: ", announcementsData[0].title);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  const getProgramsAndServicesData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesType/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          ProgramAndServices = response;
-          setProgramAndServices(ProgramAndServices);
-
-          //console.log("DATA: ", announcementsData[0].title);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  var [SatalliteOfices, setSatalliteOfices] = useState([]);
-  const getSatalliteOficesData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOfficesType/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          SatalliteOfices = response;
-          setSatalliteOfices(SatalliteOfices);
-
-          //console.log("DATA: ", announcementsData[0].title);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  var [Publications, setPublications] = useState([]);
-  const getPublicationsData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_PublicationsType/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Publications = response;
-          setPublications(Publications);
-
-          //console.log("DATA: ", announcementsData[0].title);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  var [Stories, setStories] = useState([]);
-  const getStoriesData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_StoriesType/?format=json`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Stories = response;
-          setStories(Stories);
-
-          //console.log("DATA: ", announcementsData[0].title);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
+  const {WhoWeAre,
+  ProgramAndServices,
+  Headers,
+  Stories,
+  Publications,
+  SatalliteOfices,
+  getWhoWeAreTypeData,
+  getProgramsAndServicesData,
+  getSatalliteOficesData,
+  getPublicationsData,
+  getStoriesData,
+  getHeadersData,
+} = useContext(AuthContext);
 
 
   useEffect(() => {

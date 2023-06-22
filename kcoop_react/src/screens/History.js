@@ -5,20 +5,20 @@ import { faCircleDot, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import {AuthContext} from '../context/AuthContext';
 
 export default function History() {
-  const { HistoryData, getHistoryData} = useContext(AuthContext);
+  const { getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
   
   const titlePage = "HISTORY";
   
 
   useEffect(() => {
-    getHistoryData(titlePage);
+    getWhoWeAre(titlePage);
     
     //console.log(announcementsData);
   }, []);
 
   return (
     <>
-    {console.log("DATAAAAA: ",HistoryData)}
+    
     <div className="content-wrapper" style={{minHeight: '427px'}}>
         <div className="container">
         {/* Content Header (Page header) */}
@@ -41,14 +41,14 @@ export default function History() {
                       <h2 className="box-title"><b>&nbsp;{titlePage}</b></h2>
                       <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
                       {
-                            HistoryData.map((content)=>(
+                            getWhoWeAreData.map((content)=>(
                               (content.WhoWeAre_image != "no_img.jpg") ? (<img src={"/static/media/" + content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
                               (<></>)
                               
                             ))
                           }
                           {
-                            HistoryData.map((content)=>(
+                            getWhoWeAreData.map((content)=>(
                               <p
                                           
                             dangerouslySetInnerHTML={{
