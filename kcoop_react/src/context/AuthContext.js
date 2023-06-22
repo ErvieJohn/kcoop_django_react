@@ -14,6 +14,10 @@ export const AuthProvider = ({children}) => {
     var [Publications, setPublications] = useState([]);
     var [SatalliteOfices, setSatalliteOfices] = useState([]);
 
+    var [getProgramsAndServicesAllData, setGetProgramsAndServicesAllData] = useState([]); //For Programs And Services
+    var [logo, setLogo] = useState([]);
+    var [title, setTitle] = useState([]);
+
     const getHeadersData = () => {
         var InsertAPIURL = `${BASE_URL}/getTBL_Header/?format=json`;
 
@@ -180,7 +184,95 @@ export const AuthProvider = ({children}) => {
             console.log(`getting data error from api url ${error}`)});
     }
 
+    const getProgramsAndServices = (titlePage) => {
+        var InsertAPIURL = `${BASE_URL}/getProgramsAndServices/`;
     
+          var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          
+          var DataBody = {ProgramAndServices_title: titlePage};
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              //console.log("response: ", response);
+              getProgramsAndServicesAllData = response;
+              //console.log("DATA: ", HistoryData);
+              setGetProgramsAndServicesAllData(getProgramsAndServicesAllData);
+    
+              
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+
+      var [ProgramsAndServicesLogo, setProgramsAndServicesLogo] = useState([]);
+        const getProgramsAndServicesLogo = (titlePage) => {
+            var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesLOGO/`;
+
+            var headers = {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            };
+            
+            fetch(InsertAPIURL, {
+                method: 'GET',
+                headers: headers,
+            })
+                .then(response => response.json())
+                .then(response => {
+                //console.log("response: ", response);
+                ProgramsAndServicesLogo = response;
+                //console.log("DATA: ", HistoryData);
+                setProgramsAndServicesLogo(ProgramsAndServicesLogo);
+
+                ProgramsAndServicesLogo.map((content)=>{
+                    if(titlePage==content.ProgramAndServicestype_name){
+                    logo = content.ProgramAndServicestype_logo;
+                    setLogo(logo);
+
+                    title = content.ProgramAndServicestype_name;
+                    setTitle(title);
+                    }
+                })
+                console.log(ProgramsAndServicesLogo, logo);
+
+                //console.log("ProgramsAndServicesLogo: ", ProgramsAndServicesLogo);
+                }).catch(error => {
+                console.log(`getting data error from api url ${error}`)});
+        }
+
+      var [HeaderLogo, setHeaderLogo] = useState([]);
+
+      const getHeaderLogo = () => {
+        var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesTitleLOGO/`;
+    
+          var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          var titlePage = "Programs & Services";
+          var DataBody = {Header_name: titlePage};
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              //console.log("response: ", response);
+              HeaderLogo = response;
+              //console.log("DATA: ", HistoryData);
+              setHeaderLogo(HeaderLogo);
+    
+              //console.log("DATA: ", History);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
 
     return(
         <AuthContext.Provider
@@ -192,14 +284,22 @@ export const AuthProvider = ({children}) => {
             getPublicationsData,
             getStoriesData,
             getHeadersData,
-
-            getWhoWeAreData,
+            getWhoWeAreData, // for Who We Are
             WhoWeAre,
             ProgramAndServices,
             Headers,
             Stories,
             Publications,
             SatalliteOfices,
+
+            getProgramsAndServices,
+            getHeaderLogo,
+            getProgramsAndServicesLogo,
+            getProgramsAndServicesAllData, //For Programs And Services
+            ProgramsAndServicesLogo,
+            HeaderLogo,
+            logo,title,
+
         }}>
 
         {children}

@@ -1,105 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
+
+import {AuthContext} from '../context/AuthContext';
 
 export default function EducationTrainingAndFormation() {
-  var [Data, setData] = useState([]);
-  var [logo, setLogo] = useState([]);
-  var [title, setTitle] = useState([]);
+  const { getProgramsAndServices,
+    getHeaderLogo,
+    getProgramsAndServicesLogo,
+    getProgramsAndServicesAllData, 
+    ProgramsAndServicesLogo,
+    HeaderLogo,
+    logo,title,} = useContext(AuthContext);
   const titlePage = "Education, Training and Formation";
 
 
-  const getData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServices/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      
-      var DataBody = {ProgramAndServices_title: titlePage};
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          Data = response;
-          //console.log("DATA: ", HistoryData);
-          setData(Data);
-          
-         
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  var [ProgramsAndServicesLogo, setProgramsAndServicesLogo] = useState([]);
-  const getProgramsAndServicesLogo = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesLOGO/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          ProgramsAndServicesLogo = response;
-          //console.log("DATA: ", HistoryData);
-          setProgramsAndServicesLogo(ProgramsAndServicesLogo);
-
-          ProgramsAndServicesLogo.map((content)=>{
-            if(titlePage==content.ProgramAndServicestype_name){
-              logo = content.ProgramAndServicestype_logo;
-              setLogo(logo);
-
-              title = content.ProgramAndServicestype_name;
-              setTitle(title);
-            }
-          })
-          //console.log(ProgramsAndServicesLogo, logo);
-          //console.log("ProgramsAndServicesLogo: ", ProgramsAndServicesLogo);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  var [HeaderLogo, setHeaderLogo] = useState([]);
-
-  const getHeaderLogo = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesTitleLOGO/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      var titlePage = "Programs & Services";
-      var DataBody = {Header_name: titlePage};
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          //console.log("response: ", response);
-          HeaderLogo = response;
-          //console.log("DATA: ", HistoryData);
-          setHeaderLogo(HeaderLogo);
-
-          //console.log("DATA: ", History);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-
   useEffect(() => {
-    getData();
-    getProgramsAndServicesLogo();
+    getProgramsAndServices(titlePage);
+    getProgramsAndServicesLogo(titlePage);
     getHeaderLogo();
     //console.log(announcementsData);
   }, []);
@@ -130,7 +46,7 @@ export default function EducationTrainingAndFormation() {
                       </div>
                     </div>
                   </div>
-                  { Data.map((content)=>(
+                  { getProgramsAndServicesAllData.map((content)=>(
                     <>
                       <div className="col-md-12" style={{marginBottom: '2%'}}><img src={"/static/media/" + content.ProgramAndServices_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                     </>
