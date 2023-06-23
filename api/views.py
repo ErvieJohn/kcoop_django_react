@@ -142,10 +142,14 @@ def getTBL_Stories(request):
         #datetime_str = serializers.data[0]["Stories_date"]
         #print(serializers.data[0]["Stories_date"])
         for i in range (len(serializers.data)): #convert date to shortend month
-            dateFormat = serializers.data[i]["Stories_date"]
-            date = datetime.fromisoformat(dateFormat)
-            dateConverted = date.strftime('%b-%d-%Y')
-            serializers.data[i]["Stories_date"] = dateConverted
+            if (serializers.data[i]["Stories_date"]):
+                dateFormat = serializers.data[i]["Stories_date"]
+                date = datetime.fromisoformat(dateFormat)
+                dateConverted = date.strftime('%b-%d-%Y')
+                serializers.data[i]["Stories_date"] = dateConverted
+                
+            else:
+                serializers.data[i]["Stories_date"] = ""
         
         
         return Response(serializers.data)

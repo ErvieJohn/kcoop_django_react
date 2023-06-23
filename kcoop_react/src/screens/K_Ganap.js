@@ -1,49 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { Routes, Route, useNavigate, Navigate, Link } from "react-router-dom";
 
-
-
-
+import {AuthContext} from '../context/AuthContext';
 
 export default function K_Ganap() {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   const navigate = useNavigate();
 
+  const {getAPI_Stories, 
+  getStoriesAllData,} = useContext(AuthContext);
+
   const titlePage = "K - Ganapan";
-
-  var [Data, setData] = useState([]);
-
-  const getStoriesData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
-
-    var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: titlePage};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          Data = response;
-          setData(Data);
-          console.log("DATA: ", Data);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
   
-
   useEffect(() => {
-    getStoriesData();
+    getAPI_Stories(titlePage);
     //console.log(announcementsData);
   }, []);
 
@@ -76,7 +49,7 @@ export default function K_Ganap() {
                   />
 
                   {/** */}
-                  {Data.map((content) => (
+                  {getStoriesAllData.map((content) => (
                     <table style={{ marginTop: "2%" }}>
                       <tbody>
                         <tr>
@@ -103,7 +76,7 @@ export default function K_Ganap() {
                                   onClick={() => {
                                     navigate("/k_ganap/" + content.Stories_id, {
                                       state: {
-                                        data: Data,
+                                        data: getStoriesAllData,
                                         selectedNumber: content.Stories_id,
                                       },
                                     });
@@ -163,7 +136,7 @@ export default function K_Ganap() {
                                   onClick={() => {
                                     navigate("/k_ganap/" + content.Stories_id, {
                                       state: {
-                                        data: Data,
+                                        data: getStoriesAllData,
                                         selectedNumber: content.Stories_id,
                                       },
                                     });
