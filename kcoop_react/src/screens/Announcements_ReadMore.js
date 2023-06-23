@@ -45,7 +45,7 @@ export default function Announcements_ReadMore() {
         .then(response => response.json())
         .then(response => {
           //console.log("response: ", response);
-          console.log("DATA: ", response);
+          //console.log("DATA: ", response);
           selectedData = response[0];
           setSelectedData(selectedData);
           
@@ -60,55 +60,6 @@ export default function Announcements_ReadMore() {
   }, []);
   
 
-  //console.log("props: ", location.state);
-  
-  //const data = location.state.data;
-  //const selectedNumber = location.state.selectedNumber;
-
-  //console.log("data: ",data);
-
-  
-
-  //console.log("TITLE: ",selectedData);
-
- // const postOtherAnnouncementsArray = [];
-  //var postOtherKBahagiLen = postOtherKBahagiArray.length;
-  /*
-  let i = 0;
-  let counted = 0;
-  var max = 3;
-  if(data.length < 3){
-      max = data.length;
-  }
-  */
- /*
-  data.map((content)=>{
-    if(content.title == selectedData.title){
-      postOtherAnnouncementsArray.push(content);
-    }
-  });
-  */
-  //console.log("max: ", max, "datalen:", data.length );
-  /*
-  while (counted < max) {
-    // can change the max, if you like to display more K-Ganap Stories
-    if (selectedNumber - 1 !== i) {
-      postOtherAnnouncementsArray.push(data[i]);
-      counted++;
-      //console.log(i);
-    }
-    i++;
-  }
-
-  const postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
-      return el != null;
-    });
-  //console.log("filteredlen: ", filtered.length);
-  //console.log("postOtherKBahagi: ",postOtherKBahagi);
-
-  */
-
-  //console.log(selectedData);
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
       <div className="container">

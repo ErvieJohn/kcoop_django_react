@@ -104,8 +104,24 @@ def getTBL_PublicationsType(request):
 def getTBL_Publications(request):
     if request.data:
         data = request.data["Publications_name"]
-        Publications = TBL_Publications.objects.filter(Publications_name=data)
+        Publications = TBL_Publications.objects.filter(Publications_name=data).order_by('-Publications_pubDate')
         serializers = TBL_PublicationsContentSerializer(Publications, many=True)
+        #print(serializers.data)
+        for i in range (len(serializers.data)): #convert date to shortend month
+            if (serializers.data[i]["Publications_pubDate"]):
+                dateFormat = serializers.data[i]["Publications_pubDate"]
+                #print()
+                if(len(dateFormat)>4):
+                    date = datetime.fromisoformat(dateFormat)
+                    
+                    dateConverted = date.strftime('%b-%d-%Y')
+                    serializers.data[i]["Publications_pubDate"] = dateConverted
+                else:
+                    serializers.data[i]["Publications_pubDate"] = dateFormat
+                
+            else:
+                serializers.data[i]["Stories_date"] = ""
+        
         return Response(serializers.data)
     
 @api_view(['POST', 'GET'])
@@ -115,6 +131,22 @@ def getTBL_PublicationsID(request):
         data = request.data["Publications_id"]
         PublicationsID = TBL_Publications.objects.filter(Publications_id=data)
         serializers = TBL_PublicationsContentSerializer(PublicationsID, many=True)
+        
+        for i in range (len(serializers.data)): #convert date to shortend month
+            if (serializers.data[i]["Publications_pubDate"]):
+                dateFormat = serializers.data[i]["Publications_pubDate"]
+                #print()
+                if(len(dateFormat)>4):
+                    date = datetime.fromisoformat(dateFormat)
+                    
+                    dateConverted = date.strftime('%b-%d-%Y')
+                    serializers.data[i]["Publications_pubDate"] = dateConverted
+                else:
+                    serializers.data[i]["Publications_pubDate"] = dateFormat
+                
+            else:
+                serializers.data[i]["Stories_date"] = ""
+        
         return Response(serializers.data)
     
     elif request.query_params:

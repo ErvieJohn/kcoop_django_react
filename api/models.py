@@ -64,7 +64,7 @@ class TBL_Publications(models.Model):
     Publications_content = models.TextField(blank=True, default="")
     Publications_image = models.CharField(blank=True, default="")
     Publications_file = models.CharField(blank=True, default="")
-    Publications_pubDate = models.CharField(blank=True, default="")
+    Publications_pubDate = models.DateField(null=True, blank=True,default="")
 
 class TBL_StoriesType(models.Model):
     Storiestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -101,6 +101,9 @@ class Announcements(models.Model):
     date = models.CharField()
     ImgSrc = models.CharField()
     description = models.TextField(blank=True, default="")
+    
+
+
 
 
 

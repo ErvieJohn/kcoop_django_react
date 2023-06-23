@@ -65,7 +65,7 @@ class TBL_PublicationsSerializer(serializers.ModelSerializer):
 class TBL_PublicationsContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Publications
-        fields = ('Publications_id','Publications_name', 'Publications_title', 'Publications_content', 'Publications_image', 'Publications_file')
+        fields = ('Publications_id','Publications_name', 'Publications_title', 'Publications_content', 'Publications_image', 'Publications_file', 'Publications_pubDate')
 
 class TBL_StoriesSerializer(serializers.ModelSerializer):
     class Meta:
