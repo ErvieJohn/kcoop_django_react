@@ -1,38 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import {AuthContext} from '../context/AuthContext';
 
 export default function Careers() {
   const titlePage = "Careers";
 
-  var [Data, setData] = useState([]);
-
-  const getCareersData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getCareersData/?format=json`;
-
-    var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      //var DataBody = {Stories_name: titlePage};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'GET',
-        headers: headers,
-        //body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          Data = response;
-          setData(Data);
-          //console.log("DATA: ", Data);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
-  
+  const {getCareersData, 
+  getCareersAllData,} = useContext(AuthContext);
 
   useEffect(() => {
-    getCareersData();
+    getCareersData(titlePage);
     //console.log(announcementsData);
   }, []);
 
@@ -50,11 +27,17 @@ export default function Careers() {
                 <div className="col-md-12 pull-left">
                   <div>
                     <div className="box-header" style={{marginTop: '0%'}}>
-                      {Data.map((content)=>(
-                        <div className="box-body"><img src={"/static/media/" + content.Careers_content} style={{width: '100%', marginBottom: '5%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />
-                        </div>
+                    <div className="box-body">
+                      {getCareersAllData.map((content)=>(
+                        
+                          <div className="col-md-6" style={{marginLeft: '0%', marginBottom: '10px'}}>
+                            <img src={"/static/media/" + content.Careers_content} style={{width: '100%', marginBottom: '5%'}} 
+                            alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />
+                          </div>
+                          
+                        
                       ))}
-                      
+                      </div>
                     </div>
                     {/* /. box */}
                   </div>

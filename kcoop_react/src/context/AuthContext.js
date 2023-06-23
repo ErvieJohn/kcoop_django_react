@@ -369,6 +369,31 @@ export const AuthProvider = ({children}) => {
               console.log(`getting data error from api url ${error}`)});
       }
 
+      var [getCareersAllData, setGetCareersAllData] = useState([]);
+      const getCareersData = () => {
+        var InsertAPIURL = `${BASE_URL}/getCareersData/?format=json`;
+    
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          //var DataBody = {Stories_name: titlePage};
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'GET',
+            headers: headers,
+            //body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              getCareersAllData = response;
+              setGetCareersAllData(getCareersAllData);
+              //console.log("DATA: ", Data);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+
     return(
         <AuthContext.Provider
         value={{
@@ -406,6 +431,10 @@ export const AuthProvider = ({children}) => {
 
             getAPI_Stories, // FOR STORIES
             getStoriesAllData,
+
+
+            getCareersData, // For Careers
+            getCareersAllData,
         }}>
 
         {children}
