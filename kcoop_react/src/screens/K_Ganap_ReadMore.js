@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 
 import Error404 from './Error404';
+import { AuthContext } from '../context/AuthContext';
 
 export default function K_Ganap_ReadMore() {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -16,142 +17,27 @@ export default function K_Ganap_ReadMore() {
 
   const selectedNumber = param.id;
 
+  const {dataStories,
+    getStoriesDataID,
+    getKwentongKData,
+    kBahagiData,
+    kwentongKData,
+    getKBahagiData,
+    postKwentongK,
+    postKBahagi,
+    postKGanapan,
+    kGanapanData,
+    getKGanapanData,
+} = useContext(AuthContext);
+
   const titlePage = "K - Ganapan";
 
-  var [Data, setData] = useState([]);
-
-    const getStoriesDataID = () => {
-      var InsertAPIURL = `http://127.0.0.1:8000/getTBL_StoriesID/`;
-
-      var headers = {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        //var pageTitle = "National Capital Region";
-        var DataBody = {Stories_id: selectedNumber};
-        //console.log("DATA BODY", JSON.stringify(DataBody));
-        fetch(InsertAPIURL, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(DataBody)
-        })
-          .then(response => response.json())
-          .then(response => {
-            Data = response[0];
-            setData(Data);
-            //console.log("DATA11: ", Data);
-          }).catch(error => {
-            console.log(`getting data error from api url ${error}`)});
-            
-    }
-    
-    var [kwentongKData, setKwentongKData] = useState([]);
-    const getKwentongKData = () => {
-      var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
-
-      var headers = {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        //var pageTitle = "National Capital Region";
-        var DataBody = {Stories_name: "Kwentong - K"}; // for kwentong -  k
-        //console.log("DATA BODY", JSON.stringify(DataBody));
-        fetch(InsertAPIURL, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(DataBody)
-        })
-          .then(response => response.json())
-          .then(response => {
-            kwentongKData = response;
-            setKwentongKData(kwentongKData);
-            //console.log("DATA11: ", kwentongKData);
-          }).catch(error => {
-            console.log(`getting data error from api url ${error}`)});
-    }
-
-    var [kBahagiData, setKBahagiData] = useState([]);
-    const getKBahagiData = () => {
-      var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
-
-      var headers = {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        //var pageTitle = "National Capital Region";
-        var DataBody = {Stories_name: "K - Bahagi"}; // for k - bahagi
-        //console.log("DATA BODY", JSON.stringify(DataBody));
-        fetch(InsertAPIURL, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(DataBody)
-        })
-          .then(response => response.json())
-          .then(response => {
-            kBahagiData = response;
-            setKBahagiData(kBahagiData);
-            //console.log("DATA11: ", kwentongKData);
-          }).catch(error => {
-            console.log(`getting data error from api url ${error}`)});
-    }
-
-    const postKwentongK = [];
-    var counter = 0;
-    kwentongKData.forEach((content)=>{
-      if(counter < 3){
-        postKwentongK.push({
-        title: content.Stories_title,
-        imgSrc: "/static/media/" + content.Stories_image,
-        urlLink: "/kwentong_k/" + content.Stories_id,});
-        counter++;
-      }
-      else return;
-    })
-
-    const postKBahagi = [];
-    counter = 0;
-    kBahagiData.forEach((content)=>{
-      if(counter < 3){
-        postKBahagi.push({
-        title: content.Stories_title,
-        imgSrc: "/static/media/" + content.Stories_image,
-        urlLink: "/k_bahagi/" + content.Stories_id});
-        counter++;
-      }
-      else return;
-    })
-
-
-    var [kGanapanData, setKGanapanData] = useState([]);
-    const getKGanapanData = () => {
-      var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
-
-      var headers = {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        //var pageTitle = "National Capital Region";
-        var DataBody = {Stories_name: "K - Ganapan"}; // for kwentong -  k
-        //console.log("DATA BODY", JSON.stringify(DataBody));
-        fetch(InsertAPIURL, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(DataBody)
-        })
-          .then(response => response.json())
-          .then(response => {
-            kGanapanData = response;
-            setKGanapanData(kGanapanData);
-            //console.log("DATA11: ", kwentongKData);
-          }).catch(error => {
-            console.log(`getting data error from api url ${error}`)});
-            
-    }
+  
       
   
     
     useEffect(() => {
-      getStoriesDataID();
+      getStoriesDataID(selectedNumber);
       getKwentongKData();
       getKBahagiData();
       getKGanapanData();
@@ -173,7 +59,7 @@ export default function K_Ganap_ReadMore() {
   //var postOtherKGanapLen = postOtherKGanap.length;
   data.forEach((content)=>{
     if(counted < 3){
-      if (Data.Stories_id !== content.Stories_id) {
+      if (dataStories.Stories_id !== content.Stories_id) {
         postOtherKGanap.push(content);
         counted++;  
       }
@@ -199,19 +85,19 @@ export default function K_Ganap_ReadMore() {
                   <h2>
                     <b>
                       <FontAwesomeIcon icon={faNewspaper} />
-                      &nbsp;{Data.Stories_title}
+                      &nbsp;{dataStories.Stories_title}
                     </b>
                   </h2>
                   <b style={{ marginLeft: "5%" }}>
-                    <i>&nbsp;{Data.Stories_date}</i>
+                    <i>&nbsp;{dataStories.Stories_date}</i>
                   </b>
                   <br />
                   <br />
                   <div className="box box-warning " />
                   <div className="col-md-12">
-                    <a href={"/static/media/" + Data.Stories_image} target="_blank">
+                    <a href={"/static/media/" + dataStories.Stories_image} target="_blank">
                       <img
-                        src={"/static/media/" + Data.Stories_image}
+                        src={"/static/media/" + dataStories.Stories_image}
                         width="100%"
                         style={{ marginBottom: "2%", marginLeft: "-1%" }}
                       />
@@ -229,7 +115,7 @@ export default function K_Ganap_ReadMore() {
                           textIndent: "30px",
                         }}
                         dangerouslySetInnerHTML={{
-                          __html: Data.Stories_content,
+                          __html: dataStories.Stories_content,
                         }}
                       ></p>
                     </div>

@@ -394,6 +394,227 @@ export const AuthProvider = ({children}) => {
               console.log(`getting data error from api url ${error}`)});
       }
 
+      var [selectedData, setSelectedData] = useState([]);
+      var [postOtherAnnouncementsArray, setpostOtherAnnouncementsArray] = useState([]);
+      var [postOtherAnnouncements, setpostOtherAnnouncements] = useState([]);
+
+    
+      const getAnnouncementDataID = (id, data) => {
+        postOtherAnnouncements = [];
+        setpostOtherAnnouncements(postOtherAnnouncements);
+        postOtherAnnouncementsArray = [];
+        setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
+        //console.log("READING?????????????????????????????????????????");
+        var InsertAPIURL = `${BASE_URL}/getTBL_PublicationsID/`;
+    
+          var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+    
+            //'Access-Control-Allow-Origin': '*'
+          };
+    
+          var DataBody = {Publications_id: id};
+          //console.log(JSON.stringify(Data));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+             
+              //console.log("DATA: ", response);
+              selectedData = response[0];
+              setSelectedData(selectedData);
+              //console.log("is READING HERE?", selectedData);
+              //console.log(selectedData.description.length);
+    
+              
+              data.map((content)=>{
+                if(content.Publications_id != selectedData.Publications_id){
+                  postOtherAnnouncementsArray.push(content);
+                  //console.log(content, "THIS IS CONTENT");
+                }
+                
+              });
+              console.log(postOtherAnnouncementsArray);
+              setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
+    
+              postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
+                return el != null;
+              });
+    
+              var tempPostOther = [];
+              var numPostOther = 5; // Can Change the number of Post Other Announcements
+              if(postOtherAnnouncements.length > numPostOther){
+                for(let i=0; i < numPostOther; i++){
+                  tempPostOther.push(postOtherAnnouncements[i]);
+                }
+              }
+    
+              postOtherAnnouncements = tempPostOther;
+              setpostOtherAnnouncements(postOtherAnnouncements);
+    
+              
+            }).catch(error => {
+              console.log(`ERROR: ${error}`)});
+        
+      } 
+      //////////////////////////////////////////
+      var [dataStories, setDataStories] = useState([]);
+  
+      
+      const getStoriesDataID = (selectedNumber) => {
+        var InsertAPIURL = `${BASE_URL}/getTBL_StoriesID/`;
+  
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {Stories_id: selectedNumber};
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              dataStories = response[0];
+              setDataStories(dataStories);
+              //console.log("DATA11: ", Data);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+              
+      }
+      
+
+      var [kwentongKData, setKwentongKData] = useState([]);
+      const getKwentongKData = () => {
+        var InsertAPIURL = `${BASE_URL}/getTBL_Stories/`;
+  
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {Stories_name: "Kwentong - K"}; // for kwentong -  k
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              kwentongKData = response;
+              setKwentongKData(kwentongKData);
+              //console.log("DATA11: ", kwentongKData);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+  
+      
+      var [kBahagiData, setKBahagiData] = useState([]);
+      const getKBahagiData = () => {
+        var InsertAPIURL = `${BASE_URL}/getTBL_Stories/`;
+  
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {Stories_name: "K - Bahagi"}; // for k - bahagi
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              kBahagiData = response;
+              setKBahagiData(kBahagiData);
+              //console.log("DATA11: ", kwentongKData);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+
+      
+  
+      const postKwentongK = [];
+      var counter = 0;
+      kwentongKData.forEach((content)=>{
+        if(counter < 3){
+          postKwentongK.push({
+          title: content.Stories_title,
+          imgSrc: "/static/media/" + content.Stories_image,
+          urlLink: "/kwentong_k/" + content.Stories_id,});
+          counter++;
+        }
+        else return;
+      })
+
+      
+  
+      const postKBahagi = [];
+      counter = 0;
+      kBahagiData.forEach((content)=>{
+        if(counter < 3){
+          postKBahagi.push({
+          title: content.Stories_title,
+          imgSrc: "/static/media/" + content.Stories_image,
+          urlLink: "/k_bahagi/" + content.Stories_id});
+          counter++;
+        }
+        else return;
+      })
+  
+      
+  
+      var [kGanapanData, setKGanapanData] = useState([]);
+      const getKGanapanData = () => {
+        var InsertAPIURL = `${BASE_URL}/getTBL_Stories/`;
+  
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {Stories_name: "K - Ganapan"}; // for kwentong -  k
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              kGanapanData = response;
+              setKGanapanData(kGanapanData);
+              //console.log("DATA11: ", kwentongKData);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+              
+      }
+
+      const postKGanapan = [];
+      var counter = 0;
+      kGanapanData.forEach((content)=>{
+        if(counter < 3){
+          postKGanapan.push({
+          title: content.Stories_title,
+          imgSrc: "/static/media/" + content.Stories_image,
+          urlLink: "/k_ganap/" + content.Stories_id,});
+          counter++;
+        }
+        else return;
+      })
+
+      
+
     return(
         <AuthContext.Provider
         value={{
@@ -431,10 +652,30 @@ export const AuthProvider = ({children}) => {
 
             getAPI_Stories, // FOR STORIES
             getStoriesAllData,
-
+           
 
             getCareersData, // For Careers
             getCareersAllData,
+
+            // FOR Announcements ID
+            getAnnouncementDataID, 
+            selectedData,
+            postOtherAnnouncementsArray,
+            postOtherAnnouncements,
+
+            // FOR K_Ganapan READ MORE
+            dataStories,
+            getStoriesDataID,
+            getKwentongKData,
+            kBahagiData,
+            kwentongKData,
+            getKBahagiData,
+            postKwentongK,
+            postKBahagi,
+            kGanapanData,
+            getKGanapanData,
+            postKGanapan,
+
         }}>
 
         {children}

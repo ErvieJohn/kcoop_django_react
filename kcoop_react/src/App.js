@@ -61,7 +61,6 @@ import KwentongK from "./screens/KwentongK";
 import KwentongK_ReadMore from "./screens/KwentongK_ReadMore";
 import K_Bahagi from "./screens/K_Bahagi";
 import K_Bahagi_ReadMore from "./screens/K_Bahagi_ReadMore";
-import Announcements_ReadMore from "./screens/Announcements_ReadMore";
 import Announcements_Read_More from "./screens/Announcements_Read_More";
 
 function App() {

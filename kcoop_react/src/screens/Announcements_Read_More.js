@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
+
+import {AuthContext} from '../context/AuthContext';
 
 export default function Announcements_Read_More() {
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -10,80 +12,18 @@ export default function Announcements_Read_More() {
 
   const param = useParams();
 
+  const {getAnnouncementDataID, 
+    selectedData,
+    postOtherAnnouncements,} = useContext(AuthContext);
+
   const titlePage = "Announcements";
   const location = useLocation();
   const data = location.state.data;
-
-  var [selectedData, setSelectedData] = useState([]);
-
-  var [postOtherAnnouncementsArray, setpostOtherAnnouncementsArray] = useState([]);
-  var [postOtherAnnouncements, setpostOtherAnnouncements] = useState([]);
-
-  const getAnnouncementData = () => {
-    postOtherAnnouncements = [];
-    setpostOtherAnnouncements(postOtherAnnouncements);
-    postOtherAnnouncementsArray = [];
-    setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
-    //console.log("READING?????????????????????????????????????????");
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_PublicationsID/`;
-
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-
-        //'Access-Control-Allow-Origin': '*'
-      };
-
-      var DataBody = {Publications_id: param.id};
-      //console.log(JSON.stringify(Data));
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-         
-          console.log("DATA: ", response);
-          selectedData = response[0];
-          setSelectedData(selectedData);
-          console.log("is READING HERE?", selectedData);
-          //console.log(selectedData.description.length);
-
-          
-          data.map((content)=>{
-            if(content.Publications_id != selectedData.Publications_id){
-              postOtherAnnouncementsArray.push(content);
-              console.log(content, "THIS IS CONTENT");
-            }
-            
-          });
-          console.log(postOtherAnnouncementsArray);
-          setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
-
-          postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
-            return el != null;
-          });
-
-          var tempPostOther = [];
-          var numPostOther = 5; // Can Change the number of Post Other Announcements
-          if(postOtherAnnouncements.length > numPostOther){
-            for(let i=0; i < numPostOther; i++){
-              tempPostOther.push(postOtherAnnouncements[i]);
-            }
-          }
-
-          postOtherAnnouncements = tempPostOther;
-          setpostOtherAnnouncements(postOtherAnnouncements);
-
-          
-        }).catch(error => {
-          console.log(`ERROR: ${error}`)});
-    
-  }  
   
+  var id = param.id;
+
   useEffect(() => {
-    getAnnouncementData();
+    getAnnouncementDataID(id, data);
     //getAllAnnouncementsData();
     //window.location.reload(false);
   }, [data]);
