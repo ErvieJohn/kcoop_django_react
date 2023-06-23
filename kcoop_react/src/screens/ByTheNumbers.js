@@ -1,37 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 
-
+import {AuthContext} from '../context/AuthContext';
 
 export default function ByTheNumbers() {
   const titlePage = "By The Numbers";
-  var [Data, setData] = useState([]);
-  const getData = () => {
-    var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/`; 
-      /* *****************ALWAYS CHECK THE API URL **************** */
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: titlePage};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          Data = response;
-          setData(Data);
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-  }
-
+  const {getTBL_Publications, 
+  publicationsData,} = useContext(AuthContext);
+  
+  
   useEffect(() => {
-    getData();
+    getTBL_Publications(titlePage);
     
   }, []);
 
@@ -55,7 +35,7 @@ export default function ByTheNumbers() {
                   <div className="box box-warning " style={{marginTop: '-1.5%'}}> 
                   </div>
 
-                  {Data.map((content)=>(
+                  {publicationsData.map((content)=>(
                     <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}><span><a href={"/static/media/" + content.Publications_image} target="_blank"><img src={"/static/media/" + content.Publications_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></span></div>
                   ))}
 

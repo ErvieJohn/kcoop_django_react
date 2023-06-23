@@ -319,6 +319,30 @@ export const AuthProvider = ({children}) => {
               console.log(`getting data error from api url ${error}`)});
       }
 
+      var [publicationsData, setPublicationsData] = useState([]);
+      const getTBL_Publications = (titlePage) => {
+        var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/`; 
+          /* *****************ALWAYS CHECK THE API URL **************** */
+          var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          var DataBody = {Publications_name: titlePage};
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+            .then(response => response.json())
+            .then(response => {
+              publicationsData = response;
+              setPublicationsData(publicationsData);
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+      }
+
     return(
         <AuthContext.Provider
         value={{
@@ -350,6 +374,9 @@ export const AuthProvider = ({children}) => {
             satalliteOfficesData,
             imagesSatalliteOffices,
 
+
+            getTBL_Publications, // FOR PUBLICATIONS
+            publicationsData,
         }}>
 
         {children}
