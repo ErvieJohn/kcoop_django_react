@@ -101,7 +101,7 @@ class Announcements(models.Model):
     date = models.CharField()
     ImgSrc = models.CharField()
     description = models.TextField(blank=True, default="")
-    
+
 
 
 

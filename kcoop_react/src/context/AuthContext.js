@@ -212,7 +212,7 @@ export const AuthProvider = ({children}) => {
 
       var [ProgramsAndServicesLogo, setProgramsAndServicesLogo] = useState([]);
         const getProgramsAndServicesLogo = (titlePage) => {
-            var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesLOGO/`;
+            var InsertAPIURL = `${BASE_URL}/getProgramsAndServicesLOGO/`;
 
             var headers = {
                 Accept: 'application/json',
@@ -249,7 +249,7 @@ export const AuthProvider = ({children}) => {
       var [HeaderLogo, setHeaderLogo] = useState([]);
 
       const getHeaderLogo = () => {
-        var InsertAPIURL = `http://127.0.0.1:8000/getProgramsAndServicesTitleLOGO/`;
+        var InsertAPIURL = `${BASE_URL}/getProgramsAndServicesTitleLOGO/`;
     
           var headers = {
             Accept: 'application/json',
@@ -278,7 +278,7 @@ export const AuthProvider = ({children}) => {
       var [imagesSatalliteOffices, setImagesSatalliteOffices] = useState([{}]);
 
       const getTBL_SatalliteOffices = (titlePage) => {
-        var InsertAPIURL = `http://127.0.0.1:8000/getTBL_SatalliteOffices/`; 
+        var InsertAPIURL = `${BASE_URL}/getTBL_SatalliteOffices/`; 
           /* *****************ALWAYS CHECK THE API URL **************** */
           var headers = {
             Accept: 'application/json',
@@ -321,7 +321,7 @@ export const AuthProvider = ({children}) => {
 
       var [publicationsData, setPublicationsData] = useState([]);
       const getTBL_Publications = (titlePage) => {
-        var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Publications/`; 
+        var InsertAPIURL = `${BASE_URL}/getTBL_Publications/`; 
           /* *****************ALWAYS CHECK THE API URL **************** */
           var headers = {
             Accept: 'application/json',
@@ -346,7 +346,7 @@ export const AuthProvider = ({children}) => {
       var [getStoriesAllData, setGetStoriesAllData] = useState([]);
 
       const getAPI_Stories = (titlePage) => {
-        var InsertAPIURL = `http://127.0.0.1:8000/getTBL_Stories/`;
+        var InsertAPIURL = `${BASE_URL}/getTBL_Stories/`;
     
         var headers = {
             Accept: 'application/json',
