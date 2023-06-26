@@ -29,8 +29,6 @@ urlpatterns = [
     
     path('getCareersData/', views.getCareersData), # for Careers Content
     
-    
-    path('getAnnouncementsData/',views.getAnnouncementsData),
-    path('getAnnouncementData/',views.getAnnouncementsReadmore),
+    path('getHomeData/', views.getHomeData), # for Careers Content
 
 ]

@@ -13,21 +13,44 @@ export default function Announcements_Read_More() {
   const param = useParams();
 
   const {getAnnouncementDataID, 
-    selectedData,
-    postOtherAnnouncements,} = useContext(AuthContext);
+    selectedData, publicationsData, getTBL_Publications} = useContext(AuthContext);
 
   const titlePage = "Announcements";
   const location = useLocation();
-  const data = location.state.data;
+  
   
   var id = param.id;
 
   useEffect(() => {
-    getAnnouncementDataID(id, data);
+    getAnnouncementDataID(id);
+    getTBL_Publications(titlePage);
     //getAllAnnouncementsData();
     //window.location.reload(false);
-  }, [data]);
+  }, [id]);
+
+  var data = [];
+  var postOtherAnnouncements = [];
+
+  if (location.state){
+    data = location.state.data;
+  }
+  else{
+    data = selectedData;
+  }
   
+  let counted = 0;
+  //var postOtherKGanapLen = postOtherKGanap.length;
+  publicationsData.forEach((content)=>{
+    if(counted < 3){
+      if (selectedData.Publications_id !== content.Publications_id) {
+        postOtherAnnouncements.push(content);
+        counted++;  
+      }
+    }
+    else return;
+  })
+
+  //console.log("others: ", selectedData);
   return (
     <div className="content-wrapper" style={{minHeight: '427px'}}>
       <div className="container">
@@ -109,7 +132,7 @@ export default function Announcements_Read_More() {
                               //navigate(0);
                               navigate("/announcements/" + content.Publications_id, {
                                 state: {
-                                  data: data,
+                                  data: publicationsData,
                                   selectedNumber: content.Publications_id,
                                 },
                               });
@@ -136,7 +159,7 @@ export default function Announcements_Read_More() {
 
                                   navigate("/announcements/" + content.Publications_id, {
                                     state: {
-                                      data: data,
+                                      data: publicationsData,
                                       selectedNumber: content.Publications_id,
                                     },
                                   });

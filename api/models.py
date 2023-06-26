@@ -87,7 +87,19 @@ class TBL_Careers(models.Model):
     Careers_date = models.CharField(blank=True, default="")
     Careers_image = models.CharField(blank=True, default="")
     Careers_content = models.TextField(blank=True, default="")
+    
+class TBL_Home(models.Model):
+    Home_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Home_title = models.CharField(blank=True, default="")
+    Home_content = models.CharField(blank=True, default="")
+    Home_image = models.CharField(blank=True, default="")
+    Home_url = models.CharField(blank=True, default="")
+    Home_date = models.DateField(null=True, blank=True)
+    
+    
+    
 
+'''
 class TBL_Announcements(models.Model):
     Announcements_id = models.AutoField(primary_key=True)
     Announcements_title = models.CharField()
@@ -101,7 +113,7 @@ class Announcements(models.Model):
     date = models.CharField()
     ImgSrc = models.CharField()
     description = models.TextField(blank=True, default="")
-
+'''
 
 
 

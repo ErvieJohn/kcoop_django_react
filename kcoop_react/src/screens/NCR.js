@@ -56,7 +56,6 @@ export default function NCR() {
                           <>
                              {contentImage['Images'].map((Images)=>(
                             <>
-                            {console.log(content.SatalliteOffices_city,contentImage.SatalliteOffices_city)}
                               <div className="box box-warning" style={{width: '100%', marginBottom: '-5px'}}>
                                 <div className="box-header with-border"><a href={"/static/media/" + Images} target="_blank"><img src={"/static/media/" + Images} style={{width: '70%', marginLeft: '15%', marginRight: '15%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a></div>
                               </div>

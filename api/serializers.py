@@ -6,11 +6,6 @@ class HeaderSerializer(serializers.ModelSerializer):
         model = TBL_Header
         fields = ('Header_name', 'Header_url')
 
-class AnnouncementsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Announcements
-        fields = '__all__'
-
 class WhoWeAreTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_WhoWeAreType
@@ -81,3 +76,8 @@ class TBL_CareersSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Careers
         fields = ('Careers_title', 'Careers_date', 'Careers_image', 'Careers_content')
+        
+class TBL_HomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Home
+        fields = ('Home_title','Home_content','Home_image', 'Home_url', 'Home_date')

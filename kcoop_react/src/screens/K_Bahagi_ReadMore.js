@@ -31,9 +31,6 @@ export default function K_Bahagi_ReadMore() {
 
   const titlePage = "K - Bahagi";
 
-  
-
-
 
     useEffect(() => {
       getStoriesDataID(selectedNumber);
@@ -66,7 +63,7 @@ export default function K_Bahagi_ReadMore() {
       else return;
       
     })
-    console.log("datazzzzz: ",postOtherKBahagiArray);
+    //console.log("datazzzzz: ",postOtherKBahagiArray);
     const postOtherKBahagi = postOtherKBahagiArray.filter(function (el) {
         return el != null;
     });

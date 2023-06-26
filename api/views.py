@@ -209,23 +209,9 @@ def getCareersData(request):
     serializers = TBL_CareersSerializer(careers, many=True)
     return Response(serializers.data)
 
-
+    
 @api_view(['GET'])
-def getAnnouncementsData(request):
-    announcements = Announcements.objects.all()
-  
-    serializers = AnnouncementsSerializer(announcements, many=True)
+def getHomeData(request):
+    Home = TBL_Home.objects.all()
+    serializers = TBL_HomeSerializer(Home, many=True)
     return Response(serializers.data)
-
-@api_view(['POST'])
-def getAnnouncementsReadmore(request):
-    if request.data:
-        data = int(request.data["id"])
-        print(data)
-        announcement = Announcements.objects.get(announcements_id=data)
-        serializer = AnnouncementsSerializer(announcement)
-        #return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
-
-        #students = Student.objects.all()
-        #serializer = StudentSerializer(students, many=True)
-        return Response(serializer.data)

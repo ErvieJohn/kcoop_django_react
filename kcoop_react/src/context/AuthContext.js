@@ -395,15 +395,9 @@ export const AuthProvider = ({children}) => {
       }
 
       var [selectedData, setSelectedData] = useState([]);
-      var [postOtherAnnouncementsArray, setpostOtherAnnouncementsArray] = useState([]);
-      var [postOtherAnnouncements, setpostOtherAnnouncements] = useState([]);
-
     
-      const getAnnouncementDataID = (id, data) => {
-        postOtherAnnouncements = [];
-        setpostOtherAnnouncements(postOtherAnnouncements);
-        postOtherAnnouncementsArray = [];
-        setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
+      const getAnnouncementDataID = (id) => {
+        
         //console.log("READING?????????????????????????????????????????");
         var InsertAPIURL = `${BASE_URL}/getTBL_PublicationsID/`;
     
@@ -423,39 +417,9 @@ export const AuthProvider = ({children}) => {
           })
             .then(response => response.json())
             .then(response => {
-             
-              //console.log("DATA: ", response);
+
               selectedData = response[0];
               setSelectedData(selectedData);
-              //console.log("is READING HERE?", selectedData);
-              //console.log(selectedData.description.length);
-    
-              
-              data.map((content)=>{
-                if(content.Publications_id != selectedData.Publications_id){
-                  postOtherAnnouncementsArray.push(content);
-                  //console.log(content, "THIS IS CONTENT");
-                }
-                
-              });
-              console.log(postOtherAnnouncementsArray);
-              setpostOtherAnnouncementsArray(postOtherAnnouncementsArray);
-    
-              postOtherAnnouncements = postOtherAnnouncementsArray.filter(function (el) {
-                return el != null;
-              });
-    
-              var tempPostOther = [];
-              var numPostOther = 5; // Can Change the number of Post Other Announcements
-              if(postOtherAnnouncements.length > numPostOther){
-                for(let i=0; i < numPostOther; i++){
-                  tempPostOther.push(postOtherAnnouncements[i]);
-                }
-              }
-    
-              postOtherAnnouncements = tempPostOther;
-              setpostOtherAnnouncements(postOtherAnnouncements);
-    
               
             }).catch(error => {
               console.log(`ERROR: ${error}`)});
@@ -611,9 +575,84 @@ export const AuthProvider = ({children}) => {
           counter++;
         }
         else return;
-      })
+      });
 
       
+
+      var [homeData, setHomeData] = useState([]);
+
+      var [HomeslideImages, setHomeslideImages] = useState([]);
+      var [HomevisitCount, setHomevisitCount] = useState([]);
+      var [Homeannouncements, setHomeannouncements] = useState([]);
+      var [Homecontents, setHomecontents] = useState([]);
+
+      var [HomewhoWeAre, setHomewhoWeAre] = useState([]);
+      var [HomerightPart, setHomerightPart] = useState([]);
+      var [Homevideo, setHomevideo] = useState([]);
+
+      const getHomeData = () => {
+        var InsertAPIURL = `${BASE_URL}/getHomeData/`;
+  
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          //var pageTitle = "National Capital Region";
+          //console.log("DATA BODY", JSON.stringify(DataBody));
+          fetch(InsertAPIURL, {
+            method: 'GET',
+            headers: headers
+          })
+            .then(response => response.json())
+            .then(response => {
+              homeData = response;
+              setHomeData(homeData);
+
+              homeData.map((item)=>{
+                if(item.Home_title == "Image Slider"){
+                  HomeslideImages.push(item);
+                }
+                else if (item.Home_title == "Visit Counter"){
+                  HomevisitCount.push(item);
+                }
+                else if (item.Home_title == "Announcement"){
+                  Homeannouncements.push(item);
+                }
+                
+                else if (item.Home_title == "Content"){
+                  Homecontents.push(item);
+                }
+                else if (item.Home_title == "Who We Are text 1"){
+                  HomewhoWeAre.push(item);
+                }
+                else if (item.Home_title == "Who We Are"){
+                  HomewhoWeAre.push(item);
+                }
+                else if (item.Home_title == "Who We Are text 2"){
+                  HomewhoWeAre.push(item);
+                }
+                else if (item.Home_title == "Right Part"){
+                  HomerightPart.push(item);
+                }
+                else if (item.Home_title == "Video"){
+                  Homevideo.push(item);
+                }
+              });
+
+              setHomeslideImages(HomeslideImages);
+              setHomevisitCount(HomevisitCount);
+              setHomeannouncements(Homeannouncements);
+              setHomecontents(Homecontents);
+              setHomewhoWeAre(HomewhoWeAre);
+              setHomerightPart(HomerightPart);
+              setHomevideo(Homevideo);
+
+              //console.log("HomeslideImages: ", Homevideo[0].Home_content);
+              
+            }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+              
+      }
 
     return(
         <AuthContext.Provider
@@ -660,8 +699,6 @@ export const AuthProvider = ({children}) => {
             // FOR Announcements ID
             getAnnouncementDataID, 
             selectedData,
-            postOtherAnnouncementsArray,
-            postOtherAnnouncements,
 
             // FOR K_Ganapan READ MORE
             dataStories,
@@ -675,6 +712,17 @@ export const AuthProvider = ({children}) => {
             kGanapanData,
             getKGanapanData,
             postKGanapan,
+
+            // For Home
+            getHomeData, 
+            homeData,
+            HomeslideImages,
+            HomevisitCount,
+            Homeannouncements,
+            Homecontents,
+            HomewhoWeAre,
+            HomerightPart,
+            Homevideo,
 
         }}>
 
