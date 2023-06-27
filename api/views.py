@@ -214,4 +214,15 @@ def getCareersData(request):
 def getHomeData(request):
     Home = TBL_Home.objects.all()
     serializers = TBL_HomeSerializer(Home, many=True)
+    
+    for i in range (len(serializers.data)): #convert date to shortend month
+            if (serializers.data[i]["Home_date"]):
+                dateFormat = serializers.data[i]["Home_date"]
+                date = datetime.fromisoformat(dateFormat)
+                dateConverted = date.strftime('%b-%d-%Y')
+                serializers.data[i]["Home_date"] = dateConverted
+                
+            else:
+                serializers.data[i]["Home_date"] = ""
+    
     return Response(serializers.data)

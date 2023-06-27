@@ -292,15 +292,18 @@ export default function Home() {
 
                 </div>
                 <div className="col-md-3 pull-right">
+                { visit ? (
+                  <>
                   <h5>
-                    <b>Visits Since July 2018</b>
+                    <b>{visit.Home_content}</b>
                   </h5>
-                  { visit ? (<img
-                    src={visit.Home_content}
+                  <img
+                    src={visit.Home_image}
                     style={{ width: "35%" }}
                     border={0}
                     alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"
-                  />) : (<></>) 
+                  />
+                  </>) : (<></>) 
 
                   }
                   
