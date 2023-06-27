@@ -8,7 +8,7 @@ export default function Region4A() {
   const titlePage = "Region IV - A";
   const {getTBL_SatalliteOffices,
     satalliteOfficesData,
-    imagesSatalliteOffices,} = useContext(AuthContext);
+    imagesSatalliteOffices,cityArray} = useContext(AuthContext);
     
   
     useEffect(() => {
@@ -39,10 +39,10 @@ export default function Region4A() {
                   </div>
                   
                   {
-                  satalliteOfficesData.map((content)=>(
+                  cityArray.map((content)=>(
                     <div className="box box-warning box-solid collapsed-box" style={{width: '100%', marginBottom: '3px'}}>
                       <div className="box-header with-border">
-                        <h3 className="box-title"><b>{content.SatalliteOffices_city}</b></h3>
+                        <h3 className="box-title"><b>{content.City}</b></h3>
                         <div className="box-tools pull-right"><button type="button" className="btn btn-box-tool" data-widget="collapse">
                         <FontAwesomeIcon icon={faPlus} /> 
                           </button></div>
@@ -52,7 +52,7 @@ export default function Region4A() {
                       {imagesSatalliteOffices.map((contentImage)=>(
                           <>
                           
-                          {content.SatalliteOffices_city == contentImage.City ? (
+                          {content.City == contentImage.City ? (
                           <>
                              {contentImage['Images'].map((Images)=>(
                             <>

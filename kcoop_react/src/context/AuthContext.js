@@ -276,6 +276,7 @@ export const AuthProvider = ({children}) => {
 
       var [satalliteOfficesData, setSatalliteOfficesData] = useState([]);
       var [imagesSatalliteOffices, setImagesSatalliteOffices] = useState([{}]);
+      var [cityArray, setCityArray] = useState([]);
 
       const getTBL_SatalliteOffices = (titlePage) => {
         var InsertAPIURL = `${BASE_URL}/getTBL_SatalliteOffices/`; 
@@ -301,18 +302,35 @@ export const AuthProvider = ({children}) => {
     
               //setImages(images);
               //console.log("DATA: ", History);
-              
+              let result = Object.values(satalliteOfficesData.reduce((c, {SatalliteOffices_city,SatalliteOffices_image}) => {
+                c[SatalliteOffices_city] = c[SatalliteOffices_city] || {SatalliteOffices_city,SatalliteOffices_image: []};
+                c[SatalliteOffices_city].SatalliteOffices_image = c[SatalliteOffices_city].SatalliteOffices_image.concat(Array.isArray(SatalliteOffices_image) ? SatalliteOffices_image : [SatalliteOffices_image]); 
+                return c;
+              }, {}));
+              console.log("result:", result);
+
+              var imagesArray = [];
+              result.map((item)=>{
+                imagesArray.push({"City":item.SatalliteOffices_city,"Images":item.SatalliteOffices_image});
+              })
+
+              console.log("imagesArray: ", imagesArray[0]["Images"][0]);
               var stringImage = [];
               var ArrayImage = [];
               var stringSplit;
-              satalliteOfficesData.map((data)=>{
-                stringImage = data.SatalliteOffices_image;
-                stringSplit = stringImage.split(",");
-                ArrayImage.push({"City":data.SatalliteOffices_city,"Images":stringSplit});
+              imagesArray.map((data)=>{
+                stringImage = data["Images"];
+                //stringSplit = stringImage.split(",");
+                ArrayImage.push({"City":data.City,"Images":stringImage});
               })
+
+              imagesArray.sort(function(a, b){return b["Images"].length - a["Images"].length});
+              cityArray = imagesArray;
+              setCityArray(cityArray);
+              
               imagesSatalliteOffices = ArrayImage;
               setImagesSatalliteOffices(imagesSatalliteOffices);
-              //console.log(images);
+              console.log("imagesSatalliteOffices: ", imagesSatalliteOffices);
               
               //console.log(Data);
             }).catch(error => {
@@ -684,6 +702,7 @@ export const AuthProvider = ({children}) => {
             getTBL_SatalliteOffices, // FOR SATALLITE OFFICES
             satalliteOfficesData,
             imagesSatalliteOffices,
+            cityArray,
 
 
             getTBL_Publications, // FOR PUBLICATIONS

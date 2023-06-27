@@ -90,6 +90,7 @@ def getTBL_SatalliteOffices(request):
         SatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=dataRegion)
         #person = {'name': 'ervie', 'age': 22}
         serializers = TBL_SatalliteOfficesContentSerializer(SatalliteOffices, many=True)
+        
         return Response(serializers.data)
 
 #for Publications Header
