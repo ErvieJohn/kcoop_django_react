@@ -52,8 +52,8 @@ export default function Header() {
             }}
           />
           <div className="navbar-header">
-            <a href="/" className="navbar-brand">
-              <b style={{fontSize: "16px"}}> KASAGANA-KA  </b> COOPERATIVE
+            <a href="/" className="navbar-brand" style={{fontSize: "16px"}}>
+              <b > KASAGANA-KA  </b> COOPERATIVE
             </a>
             <button
               type="button"
