@@ -174,7 +174,7 @@ function App() {
 
           <Route exact path="/careers" element={<Careers />} />
 
-          <Route exact path="*" element={<Error404 />} />
+          <Route path="/*" Component={Error404} />
         </Routes>
 
         <Footer />

@@ -419,6 +419,7 @@ export const AuthProvider = ({children}) => {
       }
 
       var [selectedData, setSelectedData] = useState([]);
+      var [announcementsStatus, setAnnouncementStatus] = useState();
     
       const getAnnouncementDataID = (id) => {
         
@@ -439,13 +440,25 @@ export const AuthProvider = ({children}) => {
             headers: headers,
             body: JSON.stringify(DataBody)
           })
-            .then(response => response.json())
             .then(response => {
-
+              setAnnouncementStatus(response.status);
+              if(response.ok){
+                //console.log("response.status: ", response.status);
+                
+                return response.json();
+              }
+              else{
+                
+                return console.log("response.status: ", response.status);
+              }
+              })
+            .then(response => {
+              //console.log()
               selectedData = response[0];
               setSelectedData(selectedData);
               
             }).catch(error => {
+              //console.log("RESPONSE: ", error);
               console.log(`ERROR: ${error}`)});
               //navigate('/*');
               
@@ -454,7 +467,7 @@ export const AuthProvider = ({children}) => {
       } 
       //////////////////////////////////////////
       var [dataStories, setDataStories] = useState([]);
-  
+      var [storiesStatus, setStoriesStatus] = useState();
       
       const getStoriesDataID = (selectedNumber) => {
         var InsertAPIURL = `${BASE_URL}/getTBL_StoriesID/`;
@@ -471,7 +484,18 @@ export const AuthProvider = ({children}) => {
             headers: headers,
             body: JSON.stringify(DataBody)
           })
-            .then(response => response.json())
+            .then(response => {
+              setStoriesStatus(response.status);
+              if(response.ok){
+                //console.log("response.status: ", response.status);
+                
+                return response.json();
+              }
+              else{
+                
+                return console.log("response.status: ", response.status);
+              }
+              })
             .then(response => {
               dataStories = response[0];
               setDataStories(dataStories);
@@ -728,7 +752,9 @@ export const AuthProvider = ({children}) => {
             getAnnouncementDataID, 
             selectedData,
 
-            // FOR K_Ganapan READ MORE
+            announcementsStatus,
+
+            // FOR Stories
             dataStories,
             getStoriesDataID,
             getKwentongKData,
@@ -740,6 +766,8 @@ export const AuthProvider = ({children}) => {
             kGanapanData,
             getKGanapanData,
             postKGanapan,
+
+            storiesStatus,
 
             // For Home
             getHomeData, 

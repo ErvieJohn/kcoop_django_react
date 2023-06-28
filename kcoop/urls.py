@@ -48,7 +48,7 @@ urlpatterns = [
 
     path('',include('api.urls')),
 
-    path('*', views.index, name='Error404'),
+    path('*/', views.index, name='Error404'),
 ]
 
 
