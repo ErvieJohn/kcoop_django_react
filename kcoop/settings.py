@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('DB_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #False 
+DEBUG = False  # True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','.ngrok.io', '.ngrok-free.app']
 
@@ -132,6 +132,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'kcoop_react/build/static')] #CHANGE public TO build
+
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static')
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

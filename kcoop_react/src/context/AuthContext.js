@@ -2,9 +2,15 @@ import {BASE_URL} from '../config';
 
 import React, {createContext, useEffect, useState} from 'react';
 
+//import Error404 from "../screens/Error404";
+//import { useNavigate } from "react-router-dom";
+
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
+    //const navigate = useNavigate();
+
     var [getWhoWeAreData, setGetWhoWeAreData] = useState([]); // For Who We Are 
     
     var [WhoWeAre, setWhoWeAre] = useState([]); // FOR HEADER
@@ -239,7 +245,7 @@ export const AuthProvider = ({children}) => {
                     setTitle(title);
                     }
                 })
-                console.log(ProgramsAndServicesLogo, logo);
+                //console.log(ProgramsAndServicesLogo, logo);
 
                 //console.log("ProgramsAndServicesLogo: ", ProgramsAndServicesLogo);
                 }).catch(error => {
@@ -314,7 +320,7 @@ export const AuthProvider = ({children}) => {
                 imagesArray.push({"City":item.SatalliteOffices_city,"Images":item.SatalliteOffices_image});
               })
 
-              console.log("imagesArray: ", imagesArray[0]["Images"][0]);
+              //console.log("imagesArray: ", imagesArray[0]["Images"][0]);
               var stringImage = [];
               var ArrayImage = [];
               var stringSplit;
@@ -330,7 +336,7 @@ export const AuthProvider = ({children}) => {
               
               imagesSatalliteOffices = ArrayImage;
               setImagesSatalliteOffices(imagesSatalliteOffices);
-              console.log("imagesSatalliteOffices: ", imagesSatalliteOffices);
+              //console.log("imagesSatalliteOffices: ", imagesSatalliteOffices);
               
               //console.log(Data);
             }).catch(error => {
@@ -382,7 +388,7 @@ export const AuthProvider = ({children}) => {
             .then(response => {
               getStoriesAllData = response;
               setGetStoriesAllData(getStoriesAllData);
-              console.log("DATA: ", getStoriesAllData);
+              //console.log("DATA: ", getStoriesAllData);
             }).catch(error => {
               console.log(`getting data error from api url ${error}`)});
       }
@@ -441,6 +447,9 @@ export const AuthProvider = ({children}) => {
               
             }).catch(error => {
               console.log(`ERROR: ${error}`)});
+              //navigate('/*');
+              
+              //return <Error404/>;
         
       } 
       //////////////////////////////////////////

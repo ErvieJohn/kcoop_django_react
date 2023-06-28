@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.template import RequestContext
 
 def announcements(request,id):
     return render(request, 'index.html', {})

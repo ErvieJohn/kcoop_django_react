@@ -3,7 +3,6 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
 
-import Error404 from './Error404';
 import { AuthContext } from '../context/AuthContext';
 
 export default function K_Ganap_ReadMore() {

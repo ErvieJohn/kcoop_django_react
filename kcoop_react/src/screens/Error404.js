@@ -2,7 +2,7 @@ import { React, Text } from "react";
 
 export default function () {
   return (
-    <div className="content-wrapper" style={{ minHeight: "742px" }}>
+    <div className="content-wrapper" style={{ minHeight: "443px" }}>
       <div className="container">
         <section className="content">
           <div
@@ -17,7 +17,7 @@ export default function () {
                   <div>
                     <div className="box box-warning ">
                       <div className="box-header" style={{ marginTop: "0%" }}>
-                        <div>
+                        <div style={{textAlign: 'center'}}>
                           <h1>404 Not Found</h1>
                         </div>
                       </div>
