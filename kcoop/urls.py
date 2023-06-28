@@ -51,6 +51,7 @@ urlpatterns = [
     path('*/', views.index, name='Error404'),
 ]
 
+handler404 = views.page_not_found_view
 
 #urlpatterns += staticfiles_urlpatterns()
 
