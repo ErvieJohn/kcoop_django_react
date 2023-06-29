@@ -44,7 +44,7 @@ import Careers from "./screens/Careers";
 
 import Error404 from "./screens/Error404";
 
-import MessengerCustomerChat from "react-messenger-customer-chat";
+
 
 //Router
 import {
@@ -62,129 +62,125 @@ import KwentongK_ReadMore from "./screens/KwentongK_ReadMore";
 import K_Bahagi from "./screens/K_Bahagi";
 import K_Bahagi_ReadMore from "./screens/K_Bahagi_ReadMore";
 import Announcements_Read_More from "./screens/Announcements_Read_More";
+import Layout from "./Layout/Layout";
+
+import Login from "./screens/CMS/Login";
+import ErrorLayout from "./Layout/ErrorLayout";
+import Dashboard from "./screens/CMS/Dashboard";
+
+
 
 function App() {
   return (
     <>
     <AuthProvider>
-    <Router>
-        <Header />
-
+      <Router>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route element={<Layout />} >
+              <Route exact path="/" element={<Home />} />
 
-          <Route exact path="/history" element={<History />} />
+              <Route exact path="/history" element={<History />} />
 
-          <Route exact path="/vmg" element={<VMG />} />
+              <Route exact path="/vmg" element={<VMG />} />
 
-          <Route exact path="/kso_guiding_principles" element={<KSO_G_P />} />
+              <Route exact path="/kso_guiding_principles" element={<KSO_G_P />} />
 
-          <Route
-            exact
-            path="/cooperative_principles"
-            element={<CooperativePrinciples />}
-          />
+              <Route
+                exact
+                path="/cooperative_principles"
+                element={<CooperativePrinciples />}
+              />
 
-          <Route
-            exact
-            path="/organizational_structure"
-            element={<OrganizationalStructure />}
-          />
+              <Route
+                exact
+                path="/organizational_structure"
+                element={<OrganizationalStructure />}
+              />
 
-          <Route
-            exact
-            path="/livelihood_and_enterprise_development"
-            element={<LivelihoodAndEnterpriseDevelopment />}
-          />
+              <Route
+                exact
+                path="/livelihood_and_enterprise_development"
+                element={<LivelihoodAndEnterpriseDevelopment />}
+              />
 
-          <Route
-            exact
-            path="/education_training_and_formation"
-            element={<EducationTrainingAndFormation />}
-          />
+              <Route
+                exact
+                path="/education_training_and_formation"
+                element={<EducationTrainingAndFormation />}
+              />
 
-          <Route
-            exact
-            path="/health_and_wellness"
-            element={<HealthAndWellness />}
-          />
+              <Route
+                exact
+                path="/health_and_wellness"
+                element={<HealthAndWellness />}
+              />
 
-          <Route
-            exact
-            path="/security_shelter_and_safety"
-            element={<SecurityShelterAndSafety />}
-          />
+              <Route
+                exact
+                path="/security_shelter_and_safety"
+                element={<SecurityShelterAndSafety />}
+              />
 
-          <Route
-            exact
-            path="/social_protection"
-            element={<SocialProtection />}
-          />
+              <Route
+                exact
+                path="/social_protection"
+                element={<SocialProtection />}
+              />
 
-          <Route exact path="/ncr" element={<NCR />} />
+              <Route exact path="/ncr" element={<NCR />} />
 
-          <Route exact path="/region3" element={<Region3 />} />
+              <Route exact path="/region3" element={<Region3 />} />
 
-          <Route exact path="/region4a" element={<Region4A />} />
+              <Route exact path="/region4a" element={<Region4A />} />
 
-          <Route exact path="/annual_reports" element={<AnnualReports />} />
+              <Route exact path="/annual_reports" element={<AnnualReports />} />
 
-          <Route
-            exact
-            path="/audited_financial_statements"
-            element={<AuditedFinancialStatements />}
-          />
+              <Route
+                exact
+                path="/audited_financial_statements"
+                element={<AuditedFinancialStatements />}
+              />
 
-          <Route exact path="/announcements" element={<Announcements />} />
-          <Route path="/announcements/:id" element={<Announcements_Read_More />} />
+              <Route exact path="/announcements" element={<Announcements />} />
+              <Route path="/announcements/:id" element={<Announcements_Read_More />} />
 
-          
-          {/*
-          <Route path="/announcements_readmore" Component={Announcements_ReadMore} />
-  */}
-          
+              <Route exact path="/by_the_numbers" element={<ByTheNumbers />} />
 
-          <Route exact path="/by_the_numbers" element={<ByTheNumbers />} />
+              <Route exact path="/videos" element={<Videos />} />
 
-    
-          
+              <Route exact path="/k_ganap" element={<K_Ganap />} />
+
+              <Route path="/k_ganap/:id" element={<K_Ganap_ReadMore />} />
+
+              {/*<Route path="/k_ganap_readmore" Component={K_Ganap_ReadMore} />*/}
+
+              <Route exact path="/kwentong_k" element={<KwentongK />} />
+
+              <Route path="/kwentong_k/:id" element={<KwentongK_ReadMore/>} />
+
+              <Route exact path="/k_bahagi" element={<K_Bahagi />} />
+
+              <Route path="/k_bahagi/:id" element={<K_Bahagi_ReadMore/>} />
 
 
+              <Route exact path="/careers" element={<Careers />} />
+
+              
+          </Route>
 
          
-
-         
-
-          <Route exact path="/videos" element={<Videos />} />
-
-          <Route exact path="/k_ganap" element={<K_Ganap />} />
-
-          <Route path="/k_ganap/:id" element={<K_Ganap_ReadMore />} />
-
-          {/*<Route path="/k_ganap_readmore" Component={K_Ganap_ReadMore} />*/}
-
-          <Route exact path="/kwentong_k" element={<KwentongK />} />
-
-          <Route path="/kwentong_k/:id" element={<KwentongK_ReadMore/>} />
-
-          <Route exact path="/k_bahagi" element={<K_Bahagi />} />
-
-          <Route path="/k_bahagi/:id" element={<K_Bahagi_ReadMore/>} />
+            {/*FOR ADMIN */}
+            <Route exact path='/cms/login' element={<Login/>}/>
+            <Route exact path='/cms' element={<Dashboard/>}/>
           
 
-          <Route exact path="/careers" element={<Careers />} />
-
-          <Route path="/*" Component={Error404} />
+          {/*FOR ERROR */}
+          <Route element={<ErrorLayout/>}>
+            <Route path="/*" Component={Error404} />
+          </Route>
+          
         </Routes>
-
-        <Footer />
-
-        <MessengerCustomerChat
-          //pageId="195953314332304"
-          pageId="103650635162558"
-          appId="242024521859892"
-          //htmlRef="<REF_STRING>"
-        />
+        
       </Router>
     </AuthProvider>
       

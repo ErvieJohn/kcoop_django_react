@@ -30,5 +30,9 @@ urlpatterns = [
     path('getCareersData/', views.getCareersData), # for Careers Content
     
     path('getHomeData/', views.getHomeData), # for Careers Content
+    
+    
+    # FOR CMS 
+    path('cmsLogin/', views.cmsLogin),
 
 ]

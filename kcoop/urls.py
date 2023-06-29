@@ -49,6 +49,11 @@ urlpatterns = [
     path('',include('api.urls')),
 
     path('*/', views.index, name='Error404'),
+    
+    path('cms/login', views.index, name='login'),
+    
+    path('cms/', views.index, name='cms')
+    
 ]
 
 handler404 = views.page_not_found_view

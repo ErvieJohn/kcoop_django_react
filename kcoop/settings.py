@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('DB_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # True
+DEBUG = False #True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','.ngrok.io', '.ngrok-free.app']
 

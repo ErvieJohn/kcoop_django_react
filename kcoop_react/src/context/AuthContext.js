@@ -705,6 +705,47 @@ export const AuthProvider = ({children}) => {
               
       }
 
+
+      var [isLogin, setIsLogin] = useState(false);
+      var [showResult, setShowResult] = useState("");
+
+      const AuthLogin = (user, pass) => {
+          var InsertAPIURL = `${BASE_URL}/cmsLogin/`;
+    
+          var headers = {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            };
+            //var pageTitle = "National Capital Region";
+            var DataBody = {username: user, password: pass};
+            //console.log("DATA BODY", JSON.stringify(DataBody));
+            fetch(InsertAPIURL, {
+              method: 'POST',
+              headers: headers,
+              body: JSON.stringify(DataBody)
+            })
+              .then(response => response.json())
+              .then(response => {
+                var data = response;
+                
+                console.log("DATA11: ", data.data);
+                if(data.data=="Invalid Username or Password"){
+                  showResult = data.data;
+                  setShowResult(showResult);
+                }
+                else{
+                  var User = [{"username":user,"password":pass}];
+                  isLogin = User;
+                  setIsLogin(isLogin);
+                  localStorage.setItem('USER', JSON.stringify(isLogin));
+                  //console.log("isLogin", isLogin)
+                }
+              
+              }).catch(error => {
+                console.log(`getting data error from api url ${error}`)});  
+      }
+
+
     return(
         <AuthContext.Provider
         value={{
@@ -779,6 +820,13 @@ export const AuthProvider = ({children}) => {
             HomewhoWeAre,
             HomerightPart,
             Homevideo,
+
+
+            //FOR ADMIN
+            AuthLogin,
+            showResult, 
+            setShowResult,
+            isLogin,
 
         }}>
 

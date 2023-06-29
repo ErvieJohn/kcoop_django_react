@@ -11,6 +11,10 @@ from .serializers import *
 from datetime import datetime
 # Create your views here.
 
+
+# FOR USER LOGIN
+from django.contrib.auth import authenticate
+
 # for HEADER
 @api_view(['GET'])
 def getTBL_Header(request):
@@ -227,3 +231,17 @@ def getHomeData(request):
                 serializers.data[i]["Home_date"] = ""
     
     return Response(serializers.data)
+
+
+@api_view(['POST'])
+def cmsLogin(request):
+    username = request.data["username"]
+    password = request.data["password"]
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        #print(user)
+        return Response({"data":"Success"})
+    else:
+        return Response({"data":"Invalid Username or Password"})
+        
+    
