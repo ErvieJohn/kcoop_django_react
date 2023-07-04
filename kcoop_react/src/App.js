@@ -67,8 +67,8 @@ import Layout from "./Layout/Layout";
 import Login from "./screens/CMS/Login";
 import ErrorLayout from "./Layout/ErrorLayout";
 import Dashboard from "./screens/CMS/Dashboard";
-
-
+import CMSHome from "./screens/CMS/screens/CMSHome";
+import CMSHistory from "./screens/CMS/screens/CMSHistory";
 
 function App() {
   return (
@@ -171,7 +171,16 @@ function App() {
          
             {/*FOR ADMIN */}
             <Route exact path='/cms/login' element={<Login/>}/>
-            <Route exact path='/cms' element={<Dashboard/>}/>
+            {/*<Route exact path='/cms' element={<cmsLayout/>}/>*/}
+              
+            <Route element={<Dashboard/>}>
+              <Route exact path='/cms' element={<CMSHome/>}/>
+              <Route exact path='/cms/home' element={<CMSHome/>}/>
+              <Route exact path='/cms/history' element={<CMSHistory/>}/>
+              
+              
+            </Route>
+              
           
 
           {/*FOR ERROR */}

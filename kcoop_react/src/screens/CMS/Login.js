@@ -3,10 +3,7 @@ import './Login.css';
 
 import {BASE_URL} from '../../config';
 
-
-import { AuthContext } from '../../context/AuthContext';
-
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 function Login() {
     var [user, setUser] = useState("");
@@ -36,12 +33,18 @@ function Login() {
             .then(response => {
             var data = response;
             
-            console.log("DATA11: ", data.data);
+            //console.log("DATA11: ", data.data);
             if(data.data=="Invalid Username or Password"){
                 showResult = data.data;
                 setShowResult(showResult);
+
+                setUser("");
+                setPass("");
             }
             else{
+                showResult = "";
+                setShowResult(showResult);
+
                 var User = [{"username":user,"password":pass}];
                 
                 localStorage.setItem('USER', JSON.stringify(User));
@@ -63,8 +66,7 @@ function Login() {
         e.preventDefault();
         
         AuthLogin(user, pass);
-        setUser("");
-        setPass("");
+        
         // UPDATE user logged 
         
         /*if(isUserlogged){
@@ -73,77 +75,6 @@ function Login() {
         */
     }
 
-
-    
-
-    const navigate = useNavigate();
-/*
-    useEffect(() => {
-        
-        const isUser = JSON.parse(localStorage.getItem('USER'));
-        
-        if(isUser){
-            setLoggedUser(isUser);
-        }
-
-    }, []);
-
-    
-    if (LoggedUser){
-        console.log(LoggedUser);
-        //return <Navigate replace to="/cms" />;
-        return navigate("/cms");
-    }
-    else{
-        return (
-            <>
-                <div className='login-body' style={{backgroundColor:  'rgb(55, 52, 52)', width: '100%',
-                height: '100%'}}>
-                <div className="Auth-form-container">
-                        <form className="Auth-form" method="post" onSubmit={handleSubmit}>
-                        <h3 className="Auth-form-title">KCOOP Administration</h3>
-                            <div className="Auth-form-content">
-                                
-                            <div className="form-group mt-3">
-                                <label>Username:</label>
-                                <input
-                                type="username"
-                                className="form-control mt-1"
-                                placeholder=""
-                                color='black'
-                                value={user}
-                                onChange={text=>setUser(text.target.value)}
-                                />
-                            </div>
-                            <div className="form-group mt-3">
-                                <label>Password:</label>
-                                <input
-                                type="password"
-                                className="form-control mt-1"
-                                placeholder=""
-                                color='black'
-                                value={pass}
-                                onChange={text=>setPass(text.target.value)}
-                                
-                                />
-                            </div>
-                            <div className="d-grid gap-2 mt-3">
-                                 <p style={{color: 'red', textAlign: 'center'}}>{(user.length > 0 || pass.length > 0) ? (""):(showResult)}</p> 
-                                <button type="submit" className="btn">
-                                Log in
-                                </button>
-                            </div>
-                            </div>
-                        </form>
-                </div>
-                    
-            </div>
-            
-            </>
-        
-          )
-    }
-  */
  return(
     <>
         {LoggedUser ? (<>

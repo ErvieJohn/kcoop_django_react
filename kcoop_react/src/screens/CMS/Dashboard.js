@@ -1,57 +1,49 @@
 import {React, useContext, useEffect, useState} from 'react';
 
-import { AuthContext } from '../../context/AuthContext';
+import { Navigate, Outlet } from "react-router-dom";
 
-import { Navigate, useNavigate } from "react-router-dom";
+import Navbar from './Navbar/Navbar';
+import SideNavbar from './Navbar/SideNavbar';
+
+import './Dashboard.css';
 
 function Dashboard() {
   const [User, setUser] = useState(localStorage.getItem('USER'));
 
-  const navigate = useNavigate();
-  //console.log("isLogin: ", isLogin);
-  /*
-  useEffect(() => {
-    
-    console.log("isLogin HOME: ", isLogin);
-    console.log("User HOME: ", User);
-    
-    const loggedUser = localStorage.getItem('USER');
-    if(loggedUser){
-      setUser(loggedUser);
-    }
-    
-    }, []);
-
-  if (!User){
-    
-    return <Navigate replace to="/cms/login" />;
-    //return navigate("/cms/login");
-  }
-  else{
-    return (
-      <>
-        <p>WELCOME TO Dashboard</p>
-        <button onClick={AuthLogout}>logout</button>
-      </>
-    )
-  }
-
-  */
-
   function AuthLogout(){
-    console.log("LOGOUT");
+    //console.log("Clicked?");
     localStorage.removeItem('USER');
     let isLoggedIn = null;
     setUser(isLoggedIn);
-    console.log("isLogin AUTH: ", User);
-    //return <Navigate replace to="/cms/login" />;
   }
+
+  const [activeKey, setActiveKey] = useState('1');
+  const [openKeys, setOpenKeys] = useState(['3', '4']);
+  const [expanded, setExpand] = useState(true);
+  
 
   return(
     <>
     {User ? (<>
-      <p>WELCOME TO Dashboard</p>
-      <button onClick={AuthLogout}>logout</button>
+    
+    <div className='CmsBody'>
+    <SideNavbar/>
+      <div className='sticky-cms' style={{
+        position: "absolute",
+        top: "5%",
+        right: "5%", transform: "translate(-50%, -50%)"}}>
+        <button onClick={AuthLogout}>Logout</button>
+      </div>
+      {/**<Navbar/> */}
+      
+      
+        <main className='cmsMain'>
+          <Outlet/>
+        </main>
+      
+      
+    </div>
+    
     </>):(<>
     
       <Navigate replace to="/cms/login" />
