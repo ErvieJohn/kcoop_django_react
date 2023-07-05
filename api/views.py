@@ -243,5 +243,21 @@ def cmsLogin(request):
         return Response({"data":"Success"})
     else:
         return Response({"data":"Invalid Username or Password"})
+    
+    
+##### FOR ADMIN
+@api_view(['POST'])
+def updateWhoweare(request):
+    if request.data:
+        data = request.data["WhoWeAre_title"]
+        textEdited = request.data["edited"]
+        WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=data)
+        #person = {'name': 'ervie', 'age': 22}
+        
+        WhoWeAre.update(WhoWeAre_content=textEdited)
+        serializers = WhoWeAreSerializer(WhoWeAre, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
         
     

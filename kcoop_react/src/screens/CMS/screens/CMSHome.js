@@ -12,7 +12,7 @@ const CMSHome = () => {
 
   return (
     <div> <p>HOMEEEEEEEEEEEEE</p>
-      <input type="file" name="file" accept='image/*' onChange={handleImage}/>
+      <h1>Image Slider </h1><input type="file" name="file" accept='image/*' onChange={handleImage}/>
     </div>
   )
 }

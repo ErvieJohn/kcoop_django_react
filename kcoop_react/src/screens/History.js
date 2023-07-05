@@ -55,6 +55,7 @@ export default function History() {
                               __html:
                               content.WhoWeAre_content,
                             }}
+                            style={{textAlign: "justify"}}
                           ></p>
                             ))
                           }
