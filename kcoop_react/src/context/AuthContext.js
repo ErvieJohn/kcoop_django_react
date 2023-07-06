@@ -692,7 +692,15 @@ export const AuthProvider = ({children}) => {
                 }
               });
 
-              setHomeslideImages(HomeslideImages);
+              let ActiveImages = [];
+              {HomeslideImages.forEach(element=>{
+                if(element["Home_status"] == "Active"){
+                  ActiveImages.push(element);
+                }
+              })
+              }
+
+              setHomeslideImages(ActiveImages);
               setHomevisitCount(HomevisitCount);
               setHomeannouncements(Homeannouncements);
               setHomecontents(Homecontents);

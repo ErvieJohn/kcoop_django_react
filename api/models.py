@@ -92,9 +92,13 @@ class TBL_Home(models.Model):
     Home_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Home_title = models.CharField(blank=True, default="")
     Home_content = models.CharField(blank=True, default="")
-    Home_image = models.CharField(blank=True, default="")
+    Home_image = models.ImageField(null=True, blank=True, default="")
     Home_url = models.CharField(blank=True, default="")
     Home_date = models.DateField(null=True, blank=True)
+    Home_status = models.CharField(blank=True, default="")
+    
+class Image(models.Model):
+    image = models.ImageField()
     
     
     

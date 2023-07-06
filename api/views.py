@@ -15,6 +15,8 @@ from datetime import datetime
 # FOR USER LOGIN
 from django.contrib.auth import authenticate
 
+import uuid
+
 # for HEADER
 @api_view(['GET'])
 def getTBL_Header(request):
@@ -259,5 +261,57 @@ def updateWhoweare(request):
         #print(WhoWeAre.update)
         return Response(serializers.data)
 
+@api_view(['POST'])
+def getHomeSlide(request):
+    if request.data:
+        data = request.data["Home_title"]
+        Home = TBL_Home.objects.filter(Home_title=data)
         
+        serializers = TBL_HomeSerializer(Home, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    
+@api_view(['POST'])
+def updateHomeSlide(request):
+    if request.data:
+        title = request.data["Home_title"]
+        id = request.data["Home_id"]
+        status = request.data["Home_status"]
+        Home = TBL_Home.objects.filter(Home_id=id)
+        Home.update(Home_status=status)
+        
+        allHome = TBL_Home.objects.filter(Home_title=title)
+        serializers = TBL_HomeSerializer(allHome, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+@api_view(['POST'])
+def uploadImage(request):
+    try:
+        image = request.data['image']
+        print(request.data)
+        print(image)
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    gen_uuid = str(uuid.uuid4())
+    product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image)
+    title = "Image Slider"
+    allHome = TBL_Home.objects.filter(Home_title=title)
+    serializers = TBL_HomeSerializer(allHome, many=True)
+    #print(WhoWeAre.update)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deleteImage(request):
+    if request.data:
+        id = request.data["Home_id"]
+        title = request.data["Home_title"]
+        Home = TBL_Home.objects.filter(Home_id=id, Home_title=title)
+        Home.delete()
+        
+        allHome = TBL_Home.objects.filter(Home_title=title)
+        serializers = TBL_HomeSerializer(allHome, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
     

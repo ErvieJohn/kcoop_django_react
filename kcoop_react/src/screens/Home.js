@@ -115,7 +115,7 @@ export default function Home() {
         
           {slideImages.map((images)=>(
               <div className="image">
-              <img src={"/static/media/" + images.Home_image} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"/>
+              <img src={images.Home_image} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"/>
               
           </div>
         ))}
@@ -165,7 +165,7 @@ export default function Home() {
                           </h3>
                         </div>
                         <img
-                          src={"/static/media/" + announcements.Home_image}
+                          src={announcements.Home_image}
                           width="100%"
                           styles={{ marginTop: "5%", marginBottom: "1%" }}
                         />
@@ -210,9 +210,9 @@ export default function Home() {
                             <br />
                             <br />
                             <div className="col-md-12">
-                              <a href={"/static/media/" + content.Home_image} target="_blank">
+                              <a href={content.Home_image} target="_blank">
                                 <img
-                                  src={"/static/media/" + content.Home_image}
+                                  src={content.Home_image}
                                   width="100%"
                                   style={{
                                     marginBottom: "2%",
@@ -254,7 +254,7 @@ export default function Home() {
                                 }}
                               ></p>
                               <img
-                                src={"/static/media/" + whoWeAre.Home_image}
+                                src={whoWeAre.Home_image}
                                 width="80%"
                                 style={{
                                   marginLeft: "10%",
@@ -312,8 +312,8 @@ export default function Home() {
                   {HomerightPart.map((content)=>(
                     <>
                       <div className="panel panel-default">
-                        <a href={"/static/media/" + content.Home_content} target="_blank">
-                          <img src={"/static/media/" + content.Home_image} width="100%" />
+                        <a href={content.Home_content} target="_blank">
+                          <img src={content.Home_image} width="100%" />
                         </a>
                         <a></a>
                       </div>

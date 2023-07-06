@@ -35,5 +35,9 @@ urlpatterns = [
     # FOR CMS 
     path('cmsLogin/', views.cmsLogin),
     path('updateWhoweare/', views.updateWhoweare),
+    path('getHomeSlide/', views.getHomeSlide),
+    path('updateHomeSlide/', views.updateHomeSlide),
+    path('uploadImage/', views.uploadImage),
+    path('deleteImage/', views.deleteImage),
 
 ]
