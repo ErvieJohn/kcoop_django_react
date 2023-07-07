@@ -298,7 +298,7 @@ export default function Home() {
                     <b>{visit.Home_content}</b>
                   </h5>
                   <img
-                    src={visit.Home_image}
+                    src={visit.Home_url}
                     style={{ width: "35%" }}
                     border={0}
                     alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"

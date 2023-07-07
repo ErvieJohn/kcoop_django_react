@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import {React, useState, useEffect, useRef} from 'react';
 import { BASE_URL } from '../../../config';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -19,6 +19,9 @@ const CMSHome = () => {
   const [isDisable, setIsDisable] = useState(false);
 
   const [isUploadDisable, setIsUploadDisable] = useState(true);
+
+  
+  const imgInputRef = useRef(null);
 
   const getSlider = (slideTitle) => {
     var InsertAPIURL = `${BASE_URL}/getHomeSlide/`;
@@ -125,15 +128,16 @@ const CMSHome = () => {
   const ActivateButton = (e, id) =>{
     let activate = "Active";
     updateSlider(slideTitle,id,activate);
-  
+    //console.log(id)
     //window.location.reload(); 
   }
 
   function handleImage(e){
     setImageFile(e.target.files);
     setImage(e.target.files[0]);
-    //Change here tom
-    if(image.length > 0){
+    let imageName = e.target.files[0];
+    //console.log(imageName);
+    if(imageName){
       setIsUploadDisable(false);
     }
     else{
@@ -166,6 +170,9 @@ const CMSHome = () => {
       setActiveSlider(aSlider);
       setNotActiveSlider(nSlider);
     })
+
+    setIsUploadDisable(true);
+    imgInputRef.current.value = null;
 
   }
   
@@ -241,19 +248,22 @@ const CMSHome = () => {
         </>):(<>
           <h5> </h5>
         </>)}
+        <div>
+
+        
         <Row>
           {activeSlider.map((item)=>{return(
               <>
                 <Col>
                   <img src={item.Home_image} style={{height: "115px", width: "180px"}}/>
                   <br/>
-                  <button key={item.Home_id} 
+                  <button
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.Home_id)}
                   disabled={isDisable}
                   >Deactivate</button>
 
-                  <button key={item.Home_id} style={{backgroundColor: 'black', color:'white'}} 
+                  <button style={{backgroundColor: 'black', color:'white'}} 
                   onClick={e=>DeleteButton(e, item.Home_id)}>Delete</button>
                 </Col>
               </>
@@ -261,6 +271,7 @@ const CMSHome = () => {
         
             )}
         </Row>
+        </div>
         <h3> Deactivated Images </h3>
         {notActiveSlider.length > 0 ? (<>
           <Row>
@@ -270,8 +281,8 @@ const CMSHome = () => {
                 <Col>
                   <img src={item.Home_image} style={{height: "115px", width: "180px"}}/>
                   <br/>
-                  <button key={item.Home_id} style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Home_id)}>Activate</button>
-                  <button key={item.Home_id} style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Home_id)}>Delete</button>
+                  <button style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Home_id)}>Activate</button>
+                  <button style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Home_id)}>Delete</button>
                 </Col>
               </>
             )
@@ -282,7 +293,7 @@ const CMSHome = () => {
         </>)}
         
         <h3>Add Image</h3>
-        <input type="file" name="file" accept='image/*' onChange={handleImage}/>
+        <input type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>
         <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
       </div>
       </>) : (<>
