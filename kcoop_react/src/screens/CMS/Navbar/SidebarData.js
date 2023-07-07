@@ -46,3 +46,31 @@ export const SidebarData = [
         link: "cms/careers"
     }
 ]
+
+export const whoweareData = [
+    {
+        id: 0,
+        text: "HISTORY",
+        link: "cms/history"
+    },
+    {
+        id: 1,
+        text: "V M G",
+        link: "cms/vmg"
+    },
+    {
+        id: 2,
+        text: "KSO GUIDING PRINCIPLES",
+        link: "cms/kso_guiding_principles"
+    },
+    {
+        id: 3,
+        text: "COOPERATIVE PRINCIPLES",
+        link: "cms/cooperative_principles"
+    },
+    {
+        id: 4,
+        text: "ORGANIZATIONAL STRUCTURE",
+        link: "cms/organizational_structure"
+    },
+]

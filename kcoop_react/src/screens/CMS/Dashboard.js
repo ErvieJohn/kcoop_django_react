@@ -27,14 +27,15 @@ function Dashboard() {
     {User ? (<>
     
     <div className='CmsBody'>
-    <SideNavbar/>
+    {/*<SideNavbar/>*/}
+    <Navbar/>
       <div className='sticky-cms' style={{
         position: "absolute",
         top: "5%",
         right: "5%", transform: "translate(-50%, -50%)"}}>
         <button onClick={AuthLogout}>Logout</button>
       </div>
-      {/**<Navbar/> */}
+      
       
       
         <main className='cmsMain'>
