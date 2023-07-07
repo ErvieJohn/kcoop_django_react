@@ -34,10 +34,20 @@ urlpatterns = [
     
     # FOR CMS 
     path('cmsLogin/', views.cmsLogin),
-    path('updateWhoweare/', views.updateWhoweare),
+    
+    ### Home
     path('getHomeSlide/', views.getHomeSlide),
     path('updateHomeSlide/', views.updateHomeSlide),
     path('uploadImage/', views.uploadImage),
     path('deleteImage/', views.deleteImage),
+    
+    ### History
+    path('updateWhoweare/', views.updateWhoweare),
+    
+    ### VMG
+    path('updateWhoWeAreImage/', views.updateWhoWeAreImage),
+    path('uploadWhoWeAreImage/', views.uploadWhoWeAreImage),
+    path('deleteWhoWeAreImage/', views.deleteWhoWeAreImage),
+    
 
 ]

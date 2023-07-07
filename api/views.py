@@ -248,6 +248,7 @@ def cmsLogin(request):
     
     
 ##### FOR ADMIN
+# History
 @api_view(['POST'])
 def updateWhoweare(request):
     if request.data:
@@ -260,7 +261,7 @@ def updateWhoweare(request):
         serializers = WhoWeAreSerializer(WhoWeAre, many=True)
         #print(WhoWeAre.update)
         return Response(serializers.data)
-
+# Home
 @api_view(['POST'])
 def getHomeSlide(request):
     if request.data:
@@ -289,13 +290,13 @@ def updateHomeSlide(request):
 def uploadImage(request):
     try:
         image = request.data['image']
-        print(request.data)
-        print(image)
+        #print(request.data)
+        #print(image)
     except KeyError:
         raise print('Request has no resource file attached')
     
     gen_uuid = str(uuid.uuid4())
-    product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image)
+    product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image, Home_status="Deactivated")
     title = "Image Slider"
     allHome = TBL_Home.objects.filter(Home_title=title)
     serializers = TBL_HomeSerializer(allHome, many=True)
@@ -314,4 +315,62 @@ def deleteImage(request):
         serializers = TBL_HomeSerializer(allHome, many=True)
         #print(WhoWeAre.update)
         return Response(serializers.data)
+    
+# VMG
+@api_view(['POST'])
+def updateWhoWeAreImage(request):
+    if request.data:
+        title = request.data["WhoWeAre_title"]
+        id = request.data["WhoWeAre_id"]
+        status = request.data["WhoWeAre_status"]
+        WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_id=id, WhoWeAre_title=title)
+        WhoWeAre.update(WhoWeAre_status=status)
+        
+        allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
+        serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    
+@api_view(['POST'])
+def uploadWhoWeAreImage(request):
+    try:
+        #print(request.data['image'])
+        image = request.data['image']
+        title = request.data['WhoWeAre_title']
+        #print(request.data)
+        #print(image)
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    gen_uuid = str(uuid.uuid4())
+    type_id = ""
+    if(title=="V M G"):
+        type_id = "d66ce613-bfd5-4ced-b103-58f64a95ad8c"
+        
+    elif (title=="KSO GUIDING PRINCIPLES"):
+        type_id = "936d3595-712b-4fdc-8e74-1f63ba2f6d5d"
+        
+    elif (title=="ORGANIZATIONAL STRUCTURE"):
+        type_id = "39fec954-d572-4539-a42d-3539d431f38a"    
+        
+    product = TBL_WhoWeAre.objects.create(WhoWeAre_id=gen_uuid,WhoWeAretype_id_id=type_id ,WhoWeAre_title=title,WhoWeAre_image=image)
+    
+    allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
+    serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
+    #print(WhoWeAre.update)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deleteWhoWeAreImage(request):
+    if request.data:
+        id = request.data["WhoWeAre_id"]
+        title = request.data["WhoWeAre_title"]
+        Home = TBL_WhoWeAre.objects.filter(WhoWeAre_id=id, WhoWeAre_title=title)
+        Home.delete()
+        
+        allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
+        serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    
     

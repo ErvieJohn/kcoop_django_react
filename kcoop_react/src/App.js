@@ -69,6 +69,10 @@ import ErrorLayout from "./Layout/ErrorLayout";
 import Dashboard from "./screens/CMS/Dashboard";
 import CMSHome from "./screens/CMS/screens/CMSHome";
 import CMSHistory from "./screens/CMS/screens/CMSHistory";
+import CMSVMG from "./screens/CMS/screens/CMSVMG";
+import CMSKSO from "./screens/CMS/screens/CMSKSO";
+import CMSOS from "./screens/CMS/screens/CMSOS";
+import CMSCP from "./screens/CMS/screens/CMSCP";
 
 function App() {
   return (
@@ -177,10 +181,13 @@ function App() {
               <Route exact path='/cms' element={<CMSHome/>}/>
               <Route exact path='/cms/home' element={<CMSHome/>}/>
               <Route exact path='/cms/history' element={<CMSHistory/>}/>
-              
-              
+              <Route exact path='/cms/vmg' element={<CMSVMG/>}/>
+              <Route exact path='/cms/kso_guiding_principles' element={<CMSKSO/>}/>
+              <Route exact path='/cms/organizational_structure' element={<CMSOS/>}/>
+              <Route exact path='/cms/cooperative_principles' element={<CMSCP/>}/>
+
             </Route>
-              
+            
           
 
           {/*FOR ERROR */}

@@ -14,7 +14,7 @@ class WhoWeAreTypeSerializer(serializers.ModelSerializer):
 class WhoWeAreSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_WhoWeAre
-        fields = ('WhoWeAre_title','WhoWeAre_content', 'WhoWeAre_image')
+        fields = ('WhoWeAre_id','WhoWeAre_title','WhoWeAre_content', 'WhoWeAre_image','WhoWeAre_status')
 
 
 class ProgramsAndServicesSerializer(serializers.ModelSerializer):

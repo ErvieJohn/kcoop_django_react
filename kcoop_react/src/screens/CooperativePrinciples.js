@@ -40,8 +40,10 @@ export default function CooperativePrinciples() {
                         <div className="box-body" style={{marginLeft: '3%', marginRight: '3%'}}>
                         {
                             getWhoWeAreData.map((content)=>(
-                              (content.WhoWeAre_image != "no_img.jpg") ? (<img src={"/static/media/" + content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
+                              (content.WhoWeAre_status == "Active") ? (
+                                (content.WhoWeAre_image != "no_img.jpg") ? (<img src={content.WhoWeAre_image} style={{width: '100%'}} alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />) : 
                               (<></>)
+                              ) : (<></>)
                               
                             ))
                           }
@@ -53,6 +55,7 @@ export default function CooperativePrinciples() {
                               __html:
                               content.WhoWeAre_content,
                             }}
+                            style={{textAlign: "justify"}}
                           ></p>
                             ))
                           }
