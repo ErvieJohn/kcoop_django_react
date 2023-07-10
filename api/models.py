@@ -51,8 +51,9 @@ class TBL_SatalliteOffices(models.Model):
     SatalliteOffices_region = models.CharField()
     SatalliteOffices_city = models.CharField()
     SatalliteOffices_content = models.CharField(blank=True, default="")
-    SatalliteOffices_image = models.CharField()
-
+    SatalliteOffices_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    SatalliteOffices_status = models.CharField(null=True, blank=True, default="Deactivated")
+    
 class TBL_PublicationsType(models.Model):
     Publicationstype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Publicationstype_name = models.CharField()

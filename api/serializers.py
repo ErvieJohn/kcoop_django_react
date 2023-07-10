@@ -50,7 +50,7 @@ class TBL_SatalliteOfficesSerializer(serializers.ModelSerializer):
 class TBL_SatalliteOfficesContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_SatalliteOffices
-        fields = ('SatalliteOffices_region', 'SatalliteOffices_city', 'SatalliteOffices_content', 'SatalliteOffices_image')
+        fields = ('SatalliteOffices_id','SatalliteOffices_region', 'SatalliteOffices_city', 'SatalliteOffices_content', 'SatalliteOffices_image', 'SatalliteOffices_status')
 
 class TBL_PublicationsSerializer(serializers.ModelSerializer):
     class Meta:

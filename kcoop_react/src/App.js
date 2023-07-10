@@ -78,6 +78,7 @@ import CMSETF from "./screens/CMS/screens/CMSETF";
 import CMSHW from "./screens/CMS/screens/CMSHW";
 import CMSSSS from "./screens/CMS/screens/CMSSSS";
 import CMSSP from "./screens/CMS/screens/CMSSP";
+import CMSNCR from "./screens/CMS/screens/CMSNCR";
 
 function App() {
   return (
@@ -185,16 +186,20 @@ function App() {
             <Route element={<Dashboard/>}>
               <Route exact path='/cms' element={<CMSHome/>}/>
               <Route exact path='/cms/home' element={<CMSHome/>}/>
+
               <Route exact path='/cms/history' element={<CMSHistory/>}/>
               <Route exact path='/cms/vmg' element={<CMSVMG/>}/>
               <Route exact path='/cms/kso_guiding_principles' element={<CMSKSO/>}/>
               <Route exact path='/cms/organizational_structure' element={<CMSOS/>}/>
               <Route exact path='/cms/cooperative_principles' element={<CMSCP/>}/>
+
               <Route exact path='/cms/livelihood_and_enterprise_development' element={<CMSLED/>}/>
               <Route exact path='/cms/education_training_and_formation' element={<CMSETF/>}/>
               <Route exact path='/cms/health_and_wellness' element={<CMSHW/>}/>
               <Route exact path='/cms/security_shelter_and_safety' element={<CMSSSS/>}/>
               <Route exact path='/cms/social_protection' element={<CMSSP/>}/>
+
+              <Route exact path='/cms/ncr' element={<CMSNCR/>}/>
               
             </Route>
             

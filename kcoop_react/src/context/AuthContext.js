@@ -303,19 +303,17 @@ export const AuthProvider = ({children}) => {
           })
             .then(response => response.json())
             .then(response => {
-              //console.log("response: ", response);
+              console.log("response: ", response);
               satalliteOfficesData = response;
               //console.log("DATA: ", HistoryData);
               setSatalliteOfficesData(satalliteOfficesData);
     
-              //setImages(images);
-              //console.log("DATA: ", History);
-              let result = Object.values(satalliteOfficesData.reduce((c, {SatalliteOffices_city,SatalliteOffices_image}) => {
+              let result = Object.values(satalliteOfficesData.reduce((c, {SatalliteOffices_city,SatalliteOffices_image, SatalliteOffices_status}) => {
                 c[SatalliteOffices_city] = c[SatalliteOffices_city] || {SatalliteOffices_city,SatalliteOffices_image: []};
-                c[SatalliteOffices_city].SatalliteOffices_image = c[SatalliteOffices_city].SatalliteOffices_image.concat(Array.isArray(SatalliteOffices_image) ? SatalliteOffices_image : [SatalliteOffices_image]); 
+                c[SatalliteOffices_city].SatalliteOffices_image = c[SatalliteOffices_city].SatalliteOffices_image.concat(Array.isArray(SatalliteOffices_image) ? {SatalliteOffices_image, SatalliteOffices_status} : [{SatalliteOffices_image, SatalliteOffices_status}]); 
                 return c;
               }, {}));
-              console.log("result:", result);
+              //console.log("result:", result);
 
               var imagesArray = [];
               result.map((item)=>{
@@ -335,10 +333,12 @@ export const AuthProvider = ({children}) => {
               imagesArray.sort(function(a, b){return b["Images"].length - a["Images"].length});
               cityArray = imagesArray;
               setCityArray(cityArray);
+              //console.log("cityArray: ", cityArray);
               
               imagesSatalliteOffices = ArrayImage;
               setImagesSatalliteOffices(imagesSatalliteOffices);
-              //console.log("imagesSatalliteOffices: ", imagesSatalliteOffices);
+              console.log("imagesSatalliteOffices: ", imagesSatalliteOffices);
+              console.log("imagesSatalliteOffices: ", imagesSatalliteOffices[1]["Images"][0]);
               
               //console.log(Data);
             }).catch(error => {
