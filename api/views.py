@@ -316,7 +316,7 @@ def deleteImage(request):
         #print(WhoWeAre.update)
         return Response(serializers.data)
     
-# VMG
+# WhoWeAre
 @api_view(['POST'])
 def updateWhoWeAreImage(request):
     if request.data:
@@ -373,4 +373,66 @@ def deleteWhoWeAreImage(request):
         #print(WhoWeAre.update)
         return Response(serializers.data)
     
+# Program And Services
+@api_view(['POST'])
+def updatePnSImage(request):
+    if request.data:
+        title = request.data["ProgramAndServices_title"]
+        id = request.data["ProgramAndServices_id"]
+        status = request.data["ProgramAndServices_status"]
+        ProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_id=id, ProgramAndServices_title=title)
+        ProgramAndServices.update(ProgramAndServices_status=status)
+        
+        allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
+        serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
     
+@api_view(['POST'])
+def uploadPnSImage(request):
+    try:
+        #print(request.data['image'])
+        image = request.data['image']
+        title = request.data['ProgramAndServices_title']
+        #print(request.data)
+        #print(image)
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    gen_uuid = str(uuid.uuid4())
+    type_id = ""
+    if(title=="Livelihood and Enterprise Development"):
+        type_id = "eb853561-442c-4e9b-870c-80635602ddd2"
+        
+    elif (title=="Education, Training and Formation"):
+        type_id = "f2291666-44a5-4bec-addd-f2aaa4a12d1e"
+        
+    elif (title=="Health and Wellness"):
+        type_id = "3d663e2d-f967-469f-8f44-30358df9d792"  
+        
+    elif (title=="Security, Shelter and Safety"):
+        type_id = "8901e64a-f996-4bbb-bc53-b1e3abf57f46"      
+        
+    elif (title=="Social Protection"):
+        type_id = "c7f58107-368a-408d-9cd5-424e1685c1e3"   
+    
+    product = TBL_ProgramAndServices.objects.create(ProgramAndServices_id=gen_uuid,ProgramAndServicestype_id_id=type_id ,ProgramAndServices_title=title,ProgramAndServices_image=image)
+    
+    
+    allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
+    serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
+    #print(serializers.data)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deletePnSImage(request):
+    if request.data:
+        id = request.data["ProgramAndServices_id"]
+        title = request.data["ProgramAndServices_title"]
+        Home = TBL_ProgramAndServices.objects.filter(ProgramAndServices_id=id, ProgramAndServices_title=title)
+        Home.delete()
+        
+        allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
+        serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)

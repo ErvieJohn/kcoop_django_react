@@ -5,33 +5,32 @@ import LoadingSpinner from '../../LoadingSpinner';
 import axios from 'axios';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 
-const CMSHome = () => {
+const CMSHW = () => {
+    
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
-  const slideTitle = "Image Slider";
+  const slideTitle = "Health and Wellness";
 
   const [sliderData, setSliderData] = useState([]);
   const [activeSlider, setActiveSlider] = useState([]);
 
   const [notActiveSlider, setNotActiveSlider] = useState([]);
 
-  const [isDisable, setIsDisable] = useState(false);
-
   const [isUploadDisable, setIsUploadDisable] = useState(true);
 
   
   const imgInputRef = useRef(null);
 
-  const getSlider = (slideTitle) => {
-    var InsertAPIURL = `${BASE_URL}/getHomeSlide/`;
+  const getProgramAndServices = (slideTitle) => {
+    var InsertAPIURL = `${BASE_URL}/getProgramsAndServices/`;
 
     var headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Home_title: slideTitle}; // for kwentong -  k
+      var DataBody = {ProgramAndServices_title: slideTitle}; // for kwentong -  k
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -47,7 +46,7 @@ const CMSHome = () => {
         let aSlider = [];
         let nSlider = [];
         {data.forEach(element => {
-          if(element["Home_status"] == "Active"){
+          if(element["ProgramAndServices_status"] == "Active"){
             aSlider.push(element);
           }
           else{
@@ -58,12 +57,7 @@ const CMSHome = () => {
         setActiveSlider(aSlider);
         setNotActiveSlider(nSlider);
         //console.log(aSlider.length);
-        if(aSlider.length<=2){
-          setIsDisable(true);
-        }
-        else{
-          setIsDisable(false);
-        }
+        
 
       }).catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -71,15 +65,15 @@ const CMSHome = () => {
   }
 
   const updateSlider = (title,id, status) => {
-    var InsertAPIURL = `${BASE_URL}/updateHomeSlide/`;
+    var InsertAPIURL = `${BASE_URL}/updatePnSImage/`;
   
     var headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
-      
-      var DataBody = {Home_title: title, Home_id: id, Home_status: status};
-      
+      //var pageTitle = "National Capital Region";
+      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id, ProgramAndServices_status: status};
+      //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
         headers: headers,
@@ -94,7 +88,7 @@ const CMSHome = () => {
         let aSlider = [];
         let nSlider = [];
         {data.forEach(element => {
-          if(element["Home_status"] == "Active"){
+          if(element["ProgramAndServices_status"] == "Active"){
             aSlider.push(element);
           }
           else{
@@ -105,13 +99,6 @@ const CMSHome = () => {
         setActiveSlider(aSlider);
         setNotActiveSlider(nSlider);
 
-        if(aSlider.length<=2){
-          setIsDisable(true);
-        }
-        else{
-          setIsDisable(false);
-        }
-
       })
       .catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -120,14 +107,17 @@ const CMSHome = () => {
 
   const DeactivateButton = (e, id) =>{
     let deactive = "Deactivated";
+    //console.log(id);
     updateSlider(slideTitle,id,deactive);
-    //console.log(e);
+    
     //window.location.reload(); 
   }
 
   const ActivateButton = (e, id) =>{
+    //console.log(id);
     let activate = "Active";
     updateSlider(slideTitle,id,activate);
+    
     //console.log(id)
     //window.location.reload(); 
   }
@@ -149,8 +139,9 @@ const CMSHome = () => {
   const onClickUpload = () =>{
     const formData = new FormData();
     formData.append('image', image);
+    formData.append('ProgramAndServices_title', slideTitle);
 
-    axios.post(`${BASE_URL}/uploadImage/`, formData).then((response)=>{
+    axios.post(`${BASE_URL}/uploadPnSImage/`, formData).then((response)=>{
       //console.log(res);
       let data = response.data;
       setSliderData(data);
@@ -159,7 +150,7 @@ const CMSHome = () => {
       let aSlider = [];
       let nSlider = [];
       {data.forEach(element => {
-        if(element["Home_status"] == "Active"){
+        if(element["ProgramAndServices_status"] == "Active"){
           aSlider.push(element);
         }
         else{
@@ -175,16 +166,16 @@ const CMSHome = () => {
     imgInputRef.current.value = null;
 
   }
-  
+ 
   const deleteSlider = (title,id) => {
-    var InsertAPIURL = `${BASE_URL}/deleteImage/`;
+    var InsertAPIURL = `${BASE_URL}/deletePnSImage/`;
   
     var headers = {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Home_title: title, Home_id: id};
+      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -200,7 +191,7 @@ const CMSHome = () => {
         let aSlider = [];
         let nSlider = [];
         {data.forEach(element => {
-          if(element["Home_status"] == "Active"){
+          if(element["ProgramAndServices_status"] == "Active"){
             aSlider.push(element);
           }
           else{
@@ -211,19 +202,12 @@ const CMSHome = () => {
         setActiveSlider(aSlider);
         setNotActiveSlider(nSlider);
 
-        if(aSlider.length<=2){
-          setIsDisable(true);
-        }
-        else{
-          setIsDisable(false);
-        }
-
       })
       .catch(error => {
           console.log(`getting data error from api url ${error}`)});
           
   }
-
+ 
   const DeleteButton = (e, id) =>{
     var answer = window.confirm("Are you sure do you want to delete this image?");
     if (answer) {
@@ -233,18 +217,19 @@ const CMSHome = () => {
   }
 
   useEffect(()=>{
-    getSlider(slideTitle);
+    getProgramAndServices(slideTitle);
   },[])
 
   return (
     <>
+    
     {sliderData ? (<>
-      <div> <p>HOMEEEEEEEEEEEEE</p>
-        <h1>Image Slider </h1>
+      <div> <p>Livelihood and Enterprise Development</p>
+        <h1>Images </h1>
         <h3> Active Images </h3>
         
-        {activeSlider.length <= 2 ? (<>
-          <h5 style={{color: 'red'}}>Note: Active images must have atleast 2 images.</h5>
+        {activeSlider.length <= 0 ? (<>
+            <h4> No Deactivated Images </h4>
         </>):(<>
           <h5> </h5>
         </>)}
@@ -255,16 +240,15 @@ const CMSHome = () => {
           {activeSlider.map((item)=>{return(
               <>
                 <Td style={{padding: ".625em",textAlign: "center"}}>
-                  <img src={item.Home_image} style={{height: "115px", width: "180px"}}/>
+                  <img src={item.ProgramAndServices_image} style={{height: "115px", width: "180px"}}/>
                   <br/>
                   <button
                   style={{backgroundColor: 'red', color:'white'}} 
-                  onClick={e=>DeactivateButton(e, item.Home_id)}
-                  disabled={isDisable}
+                  onClick={e=>DeactivateButton(e, item.ProgramAndServices_id)}
                   >Deactivate</button>
                   <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                   <button style={{backgroundColor: 'black', color:'white'}} 
-                  onClick={e=>DeleteButton(e, item.Home_id)}>Delete</button>
+                  onClick={e=>DeleteButton(e, item.ProgramAndServices_id)}>Delete</button>
                 </Td>
               </>
             )}
@@ -282,11 +266,11 @@ const CMSHome = () => {
           {notActiveSlider.map((item)=>{
             return(
               <Td style={{padding: ".625em",textAlign: "center"}}>
-                <img src={item.Home_image} style={{height: "115px", width: "180px"}}/>
+                <img src={item.ProgramAndServices_image} style={{height: "115px", width: "180px"}}/>
                 <br/>
-                <button style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Home_id)}>Activate</button>
+                <button style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.ProgramAndServices_id)}>Activate</button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
-                <button style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Home_id)}>Delete</button>
+                <button style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.ProgramAndServices_id)}>Delete</button>
               </Td>
           )
           })}
@@ -305,8 +289,9 @@ const CMSHome = () => {
         <LoadingSpinner/>
         </>)
     }
+
     </>
     
   )
 }
-export default CMSHome;
+export default CMSHW;

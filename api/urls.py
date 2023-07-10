@@ -44,10 +44,16 @@ urlpatterns = [
     ### History
     path('updateWhoweare/', views.updateWhoweare),
     
-    ### VMG
+    ### WhoWeAre
     path('updateWhoWeAreImage/', views.updateWhoWeAreImage),
     path('uploadWhoWeAreImage/', views.uploadWhoWeAreImage),
     path('deleteWhoWeAreImage/', views.deleteWhoWeAreImage),
     
+    ### Programs And Services
+    path('updatePnSImage/', views.updatePnSImage),
+    path('deletePnSImage/', views.deletePnSImage),
+    path('uploadPnSImage/', views.uploadPnSImage),
 
+    
+    
 ]

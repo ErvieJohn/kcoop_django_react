@@ -26,7 +26,7 @@ class ProgramsAndServicesSerializer(serializers.ModelSerializer):
 class ProgramsAndServicesHSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_ProgramAndServices
-        fields = ('ProgramAndServices_title', 'ProgramAndServices_content', 'ProgramAndServices_image')      
+        fields = ('ProgramAndServices_id','ProgramAndServices_title', 'ProgramAndServices_content', 'ProgramAndServices_image', 'ProgramAndServices_status')      
 
 # FOR PROGRAMS AND SERVICES LOGOs
 class ProgramsAndServicesLogoSerializer(serializers.ModelSerializer):

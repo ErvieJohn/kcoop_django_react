@@ -29,15 +29,16 @@ class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_name = models.CharField()
     ProgramAndServicestype_url = models.CharField()
-    ProgramAndServicestype_logoimage = models.CharField(blank=True, default="")
-    ProgramAndServicestype_logo = models.CharField(blank=True, default="")
-
+    ProgramAndServicestype_logoimage = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    ProgramAndServicestype_logo = models.ImageField(null=True, blank=True, default="no_img.jpg")
+                                                    #upload_to='ProgramAndServices/', 
 class TBL_ProgramAndServices(models.Model):
     ProgramAndServices_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     ProgramAndServicestype_id = models.ForeignKey("TBL_ProgramAndServicesType", on_delete=models.CASCADE)
     ProgramAndServices_title = models.CharField()
     ProgramAndServices_content = models.CharField(blank=True, default="")
-    ProgramAndServices_image = models.CharField()
+    ProgramAndServices_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    ProgramAndServices_status = models.CharField(null=True, blank=True, default="Deactivated")
 
 class TBL_SatalliteOfficesType(models.Model):
     SatalliteOfficestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

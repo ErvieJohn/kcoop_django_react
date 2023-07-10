@@ -74,3 +74,96 @@ export const whoweareData = [
         link: "cms/organizational_structure"
     },
 ]
+
+export const PnSData = [
+    {
+        id: 0,
+        text: "Livelihood and Enterprise Development",
+        link: "cms/livelihood_and_enterprise_development"
+    },
+    {
+        id: 1,
+        text: "Education, Training and Formation",
+        link: "cms/education_training_and_formation"
+    },
+    {
+        id: 2,
+        text: "Health and Wellness",
+        link: "cms/health_and_wellness"
+    },
+    {
+        id: 3,
+        text: "Security, Shelter and Safety",
+        link: "cms/security_shelter_and_safety"
+    },
+    {
+        id: 4,
+        text: "Social Protection",
+        link: "cms/social_protection"
+    },
+]
+
+export const SOData = [
+    {
+        id: 0,
+        text: "National Capital Region",
+        link: "cms/#"
+    },
+    {
+        id: 2,
+        text: "Region III",
+        link: "cms/#"
+    },
+    {
+        id: 3,
+        text: "Region IV - A",
+        link: "cms/#"
+    },
+]
+
+export const PublicationData = [
+    {
+        id: 0,
+        text: "Annual Reports",
+        link: "cms/#"
+    },
+    {
+        id: 1,
+        text: "Audited Financial Statements",
+        link: "cms/#"
+    },
+    {
+        id: 2,
+        text: "Announcements",
+        link: "cms/#"
+    },
+    {
+        id: 3,
+        text: "By The Numbers",
+        link: "cms/#"
+    },
+]
+
+export const StoriesData = [
+    {
+        id: 0,
+        text: "K - Ganapan",
+        link: "cms/#"
+    },
+    {
+        id: 1,
+        text: "Kwentong - K",
+        link: "cms/#"
+    },
+    {
+        id: 2,
+        text: "K - Bahagi",
+        link: "cms/#"
+    },
+    {
+        id: 3,
+        text: "Videos",
+        link: "cms/#"
+    },
+    
+]
