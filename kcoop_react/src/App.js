@@ -81,6 +81,10 @@ import CMSSP from "./screens/CMS/screens/CMSSP";
 import CMSNCR from "./screens/CMS/screens/CMSNCR";
 import CMSRegion3 from "./screens/CMS/screens/CMSRegion3";
 import CMSRegion4A from "./screens/CMS/screens/CMSRegion4A";
+import CMSAnnualReports from "./screens/CMS/screens/CMSAnnualReports";
+import CMSAuditedFinancialStatements from "./screens/CMS/screens/CMSAuditedFinancialStatements";
+import CMSByTheNumbers from "./screens/CMS/screens/CMSByTheNumbers";
+import CMSAnnouncements from "./screens/CMS/screens/CMSAnnouncements";
 
 function App() {
   return (
@@ -205,7 +209,11 @@ function App() {
               <Route exact path='/cms/region3' element={<CMSRegion3/>}/>
               <Route exact path='/cms/region4a' element={<CMSRegion4A/>}/>
 
-
+              <Route exact path='/cms/annual_reports' element={<CMSAnnualReports/>}/>
+              <Route exact path='/cms/audited_financial_statements' element={<CMSAuditedFinancialStatements/>}/>
+              <Route exact path='/cms/by_the_numbers' element={<CMSByTheNumbers/>}/>
+              <Route exact path='/cms/announcements' element={<CMSAnnouncements/>}/>
+              
             </Route>
             
           

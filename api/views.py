@@ -17,6 +17,9 @@ from django.contrib.auth import authenticate
 
 import uuid
 
+import fitz
+
+
 # for HEADER
 @api_view(['GET'])
 def getTBL_Header(request):
@@ -494,5 +497,79 @@ def deleteSOImage(request):
         
         allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
         serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    
+# Publications
+@api_view(['POST'])
+def updatePubContent(request):
+    if request.data:
+        title = request.data["Publications_name"]
+        id = request.data["Publications_id"]
+        status = request.data["Publications_status"]
+        Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
+        Publications.update(Publications_status=status)
+        
+        allPublications = TBL_Publications.objects.filter(Publications_name=title)
+        serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+@api_view(['POST'])
+def uploadPubContent(request):
+    try:
+        #print(request.data['image'])
+        
+        image = request.data['image']
+        title = request.data['Publications_name']
+        
+        now = datetime.now()
+        year = now.strftime("%Y")
+        dateStr = now.strftime("%Y-%m-%d")
+        #print(dateStr)
+        gen_uuid = str(uuid.uuid4())
+        
+        type_id = ""
+        if(title=="Announcements"):
+            type_id = "2a9651b2-a0d0-49ef-bbce-3bcf1e64695c"
+            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_name=title,Publications_image=image,Publications_file=file, Publications_pubDate=dateStr)
+            
+        elif (title=="Audited Financial Statements"):
+            file = request.data['file']
+            type_id = "9729fb77-51d4-4d12-9d67-bcfbae36dbaa"
+            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_title=year,Publications_name=title,Publications_image=image,Publications_file=file, Publications_pubDate=dateStr)
+            
+        elif (title=="Annual Reports"):
+            file = request.data['file']
+            type_id = "d727cfa2-b991-423c-8adb-ae226c472313"   
+            
+            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_name=title,Publications_image=image,Publications_file=file, Publications_pubDate=dateStr)
+            #print("README 2")
+        elif (title=="By The Numbers"):
+            type_id = "eac803f0-29d5-4761-9310-c3396c1d4607"  
+            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_name=title,Publications_image=image, Publications_pubDate=dateStr)
+            #print(file)
+
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    
+        
+    #print(type_id) 
+    allPublications = TBL_Publications.objects.filter(Publications_name=title)
+    serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
+    #print(serializers.data)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deletePubContent(request):
+    if request.data:
+        id = request.data["Publications_id"]
+        title = request.data["Publications_name"]
+        Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
+        Publications.delete()
+        
+        allPublications = TBL_Publications.objects.filter(Publications_name=title)
+        serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
         #print(WhoWeAre.update)
         return Response(serializers.data)

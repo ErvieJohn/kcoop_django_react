@@ -58,5 +58,12 @@ urlpatterns = [
     path('deleteSOImage/', views.deleteSOImage),
     path('uploadSOImage/', views.uploadSOImage),
     path('updateSOImage/', views.updateSOImage),
-    
+ 
+    ### Publications
+    path('deletePubContent/', views.deletePubContent),
+    path('uploadPubContent/', views.uploadPubContent),
+    path('updatePubContent/', views.updatePubContent),
+  
+
+
 ]

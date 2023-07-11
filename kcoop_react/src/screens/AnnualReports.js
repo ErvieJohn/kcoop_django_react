@@ -40,10 +40,13 @@ export default function AnnualReports() {
                   {publicationsData.map((content)=>(
                     <>
                       <div className="col-md-2" style={{marginLeft: '0px', marginBottom: '10px'}}>
-                        <span><a href={"/static/media/" + content.Publications_file} target="_blank">
-                          <img src={"/static/media/" + content.Publications_image} width="100%" 
-                          alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
+                        {content["Publications_status"] == "Active" ? (<>
+                          <span><a href={content.Publications_file} target="_blank">
+                            <img src={content.Publications_image} width="100%" 
+                            alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></a>
                           </span>
+                        </>):(<></>)}
+                        
                       </div>
                       
                     </>

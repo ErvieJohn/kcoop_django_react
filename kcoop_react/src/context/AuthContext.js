@@ -363,8 +363,20 @@ export const AuthProvider = ({children}) => {
           })
             .then(response => response.json())
             .then(response => {
-              publicationsData = response;
+              let data = response;
+              let dataActive = [];
+              data.forEach(item=>{
+                if(item["Publications_status"] == "Active"){
+                  dataActive.push(item);
+                }
+              })
+
+              publicationsData = dataActive;
               setPublicationsData(publicationsData);
+              
+
+
+
             }).catch(error => {
               console.log(`getting data error from api url ${error}`)});
       }

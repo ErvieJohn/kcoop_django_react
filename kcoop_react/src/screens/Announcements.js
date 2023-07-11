@@ -41,7 +41,7 @@ export default function Announcements() {
                     <tbody>
                       <tr>
                         <td>
-                          <div className="col-md-6"><img src={"/static/media/" + content.Publications_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
+                          <div className="col-md-6"><img src={content.Publications_image} width="100%" alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" /></div>
                           <div className="col-md-6">
                             <h4><a 
                                   style={{

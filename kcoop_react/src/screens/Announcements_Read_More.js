@@ -76,8 +76,8 @@ export default function Announcements_Read_More() {
 
                     {(selectedData.Publications_image == "no_img.jpg") ? (<></>) : (
                         <div className="col-md-12">
-                            <a href={"/static/media/" + selectedData.Publications_image}  target="_blank">
-                                <img src={"/static/media/" + selectedData.Publications_image} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
+                            <a href={selectedData.Publications_image}  target="_blank">
+                                <img src={selectedData.Publications_image} width="100%" style={{marginBottom: '2%', marginLeft: '-1%'}} />
                             </a>
                         </div>
                     )}
@@ -167,7 +167,7 @@ export default function Announcements_Read_More() {
                                   }}
                                 
                                 >
-                                    <img src={"/static/media/" + content.Publications_image} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
+                                    <img src={content.Publications_image} width="90%" style={{marginBottom: '2%', marginLeft: '5%'}} />
                                 </a>
                             </span>
                             <div className="box box-warning " style={{marginTop: '5%'}} />
