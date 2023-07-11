@@ -4,8 +4,8 @@ import { BASE_URL } from '../../../config';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import axios from 'axios';
 
-function CMSNCR() {
-    const pageTitle = "National Capital Region";
+function CMSRegion4A() {
+    const pageTitle = "Region IV - A";
 
     var [satalliteOfficesData, setSatalliteOfficesData] = useState([]);
     var [imagesSatalliteOffices, setImagesSatalliteOffices] = useState([{}]);
@@ -215,7 +215,7 @@ function CMSNCR() {
   return (
     <>
     {satalliteOfficesData ? (<>
-        <div> <p>NCR</p>
+        <div> <p>Region IV - A</p>
         
         
         {cityArray.map((item)=>(
@@ -310,4 +310,4 @@ function CMSNCR() {
   )
 }
 
-export default CMSNCR
+export default CMSRegion4A

@@ -436,3 +436,63 @@ def deletePnSImage(request):
         serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
         #print(WhoWeAre.update)
         return Response(serializers.data)
+    
+    
+# Satallite Offices
+@api_view(['POST'])
+def updateSOImage(request):
+    if request.data:
+        region = request.data["SatalliteOffices_region"]
+        id = request.data["SatalliteOffices_id"]
+        status = request.data["SatalliteOffices_status"]
+        SatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_id=id, SatalliteOffices_region=region)
+        SatalliteOffices.update(SatalliteOffices_status=status)
+        
+        allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
+        serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    
+@api_view(['POST'])
+def uploadSOImage(request):
+    try:
+        #print(request.data['image'])
+        image = request.data['image']
+        region = request.data['SatalliteOffices_region']
+        city = request.data['SatalliteOffices_city']
+        #print(request.data)
+        #print(image)
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    gen_uuid = str(uuid.uuid4())
+    type_id = ""
+    if(region=="National Capital Region"):
+        type_id = "667239f5-afae-4a89-a82a-c5d5f68ed260"
+        
+    elif (region=="Region III"):
+        type_id = "4e1bcaf2-6cb7-459b-bf28-f7b89690b962"
+        
+    elif (region=="Region IV - A"):
+        type_id = "cbfecaa6-0223-4890-8e25-82dbf4419710"   
+    
+    product = TBL_SatalliteOffices.objects.create(SatalliteOffices_id=gen_uuid,SatalliteOfficestype_id_id=type_id ,SatalliteOffices_region=region,SatalliteOffices_city=city,SatalliteOffices_image=image)
+    
+    
+    allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
+    serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
+    #print(serializers.data)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deleteSOImage(request):
+    if request.data:
+        id = request.data["SatalliteOffices_id"]
+        region = request.data["SatalliteOffices_region"]
+        Home = TBL_SatalliteOffices.objects.filter(SatalliteOffices_id=id, SatalliteOffices_region=region)
+        Home.delete()
+        
+        allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
+        serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)

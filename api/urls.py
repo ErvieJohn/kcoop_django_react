@@ -54,6 +54,9 @@ urlpatterns = [
     path('deletePnSImage/', views.deletePnSImage),
     path('uploadPnSImage/', views.uploadPnSImage),
 
-    
+    ### Satallite Offices
+    path('deleteSOImage/', views.deleteSOImage),
+    path('uploadSOImage/', views.uploadSOImage),
+    path('updateSOImage/', views.updateSOImage),
     
 ]

@@ -4,8 +4,8 @@ import { BASE_URL } from '../../../config';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import axios from 'axios';
 
-function CMSNCR() {
-    const pageTitle = "National Capital Region";
+function CMSRegion3() {
+    const pageTitle = "Region III";
 
     var [satalliteOfficesData, setSatalliteOfficesData] = useState([]);
     var [imagesSatalliteOffices, setImagesSatalliteOffices] = useState([{}]);
@@ -16,6 +16,7 @@ function CMSNCR() {
     const [image, setImage] = useState('');
     const [isUploadDisable, setIsUploadDisable] = useState(true);
     const imgInputRef = useRef(null);
+    const cityValue = useRef(null);
     const [selectValue, setSelectValue] = useState("");
 
     const getTBL_SatalliteOffices = (titlePage) => {
@@ -204,6 +205,7 @@ function CMSNCR() {
 
     setIsUploadDisable(true);
     imgInputRef.current.value = null;
+    cityValue.current.value = null;
 
   }
 
@@ -215,7 +217,7 @@ function CMSNCR() {
   return (
     <>
     {satalliteOfficesData ? (<>
-        <div> <p>NCR</p>
+        <div> <p>REGION 3</p>
         
         
         {cityArray.map((item)=>(
@@ -291,14 +293,13 @@ function CMSNCR() {
         <h3>Add Image</h3>
         <input type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>
         <label for="city">Select City: </label>
-        <input type="text" list="city" onChange={selectOnChange}/>
+        <input type="text" list="city" ref={cityValue} onChange={selectOnChange}/>
         <datalist id="city">
           <option value="none" selected disabled hidden> </option>
           {cityArray.map((item)=>(
             <option value={item.City}>{item.City}</option>
           ))}
         </datalist>
-
         <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
         
         </div>
@@ -310,4 +311,4 @@ function CMSNCR() {
   )
 }
 
-export default CMSNCR
+export default CMSRegion3

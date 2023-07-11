@@ -107,17 +107,17 @@ export const SOData = [
     {
         id: 0,
         text: "National Capital Region",
-        link: "cms/#"
+        link: "cms/ncr"
     },
     {
         id: 2,
         text: "Region III",
-        link: "cms/#"
+        link: "cms/region3"
     },
     {
         id: 3,
         text: "Region IV - A",
-        link: "cms/#"
+        link: "cms/region4a"
     },
 ]
 

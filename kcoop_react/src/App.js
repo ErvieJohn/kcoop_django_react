@@ -79,6 +79,8 @@ import CMSHW from "./screens/CMS/screens/CMSHW";
 import CMSSSS from "./screens/CMS/screens/CMSSSS";
 import CMSSP from "./screens/CMS/screens/CMSSP";
 import CMSNCR from "./screens/CMS/screens/CMSNCR";
+import CMSRegion3 from "./screens/CMS/screens/CMSRegion3";
+import CMSRegion4A from "./screens/CMS/screens/CMSRegion4A";
 
 function App() {
   return (
@@ -200,7 +202,10 @@ function App() {
               <Route exact path='/cms/social_protection' element={<CMSSP/>}/>
 
               <Route exact path='/cms/ncr' element={<CMSNCR/>}/>
-              
+              <Route exact path='/cms/region3' element={<CMSRegion3/>}/>
+              <Route exact path='/cms/region4a' element={<CMSRegion4A/>}/>
+
+
             </Route>
             
           

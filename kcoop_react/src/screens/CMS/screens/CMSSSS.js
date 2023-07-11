@@ -229,7 +229,7 @@ const CMSSSS = () => {
         <h3> Active Images </h3>
         
         {activeSlider.length <= 0 ? (<>
-            <h4> No Deactivated Images </h4>
+            <h4> No Active Image </h4>
         </>):(<>
           <h5> </h5>
         </>)}
@@ -278,11 +278,12 @@ const CMSSSS = () => {
         </Table>
         </div>
         </>):(<>
-          <h4> No Deactivated Images </h4>
+          <h4> No Deactivated Image </h4>
         </>)}
         
         <h3>Add Image</h3>
         <input type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>
+        
         <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
       </div>
       </>) : (<>
