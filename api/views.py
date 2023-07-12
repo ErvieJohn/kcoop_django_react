@@ -506,9 +506,33 @@ def updatePubContent(request):
     if request.data:
         title = request.data["Publications_name"]
         id = request.data["Publications_id"]
-        status = request.data["Publications_status"]
-        Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
-        Publications.update(Publications_status=status)
+        
+        if(title == "Announcements"):
+            date = request.data["Publications_pubDate"]
+            titleA = request.data["Publications_title"]
+            content = request.data["Publications_content"]
+            image = request.data["Publications_image"]
+            #print(image)
+            Publications = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
+            Publications.Publications_pubDate = date
+            Publications.Publications_title=titleA
+            Publications.Publications_content=content
+            #print(Publications.Publications_image, image)
+            if(Publications.Publications_image != image):
+                Publications.Publications_image=image
+            
+            Publications.save()
+            
+        elif(title=="updateStatus"):
+            title = "Announcements"
+            status = request.data["Publications_status"]
+            Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
+            Publications.update(Publications_status=status)
+        
+        else:
+            status = request.data["Publications_status"]
+            Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
+            Publications.update(Publications_status=status)
         
         allPublications = TBL_Publications.objects.filter(Publications_name=title)
         serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
@@ -552,9 +576,7 @@ def uploadPubContent(request):
 
     except KeyError:
         raise print('Request has no resource file attached')
-    
-    
-        
+
     #print(type_id) 
     allPublications = TBL_Publications.objects.filter(Publications_name=title)
     serializers = TBL_PublicationsContentSerializer(allPublications, many=True)

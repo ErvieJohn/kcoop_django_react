@@ -64,7 +64,7 @@ ROOT_URLCONF = 'kcoop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR), 'kcoop_react/build'], #CHANGE public TO build
+        'DIRS': [os.path.join(BASE_DIR), 'kcoop_react/build'], #CHANGE public TO build # kcoop_react/build
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,13 +131,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'kcoop_react/build/static')] #CHANGE public TO build
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'kcoop_react/build/static')] #CHANGE public TO build #kcoop_react/build/static
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static')
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media') # kcoop_react/build/static/media # main
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

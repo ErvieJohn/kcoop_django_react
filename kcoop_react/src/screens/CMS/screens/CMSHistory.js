@@ -55,18 +55,10 @@ function CMSHistory() {
   
 
   function saveClicked (){
-    //console.log(edited);
     saveTextEdited(edited);
-    /*localStorage.setItem('oldText', edited);
-    let oldTxt = localStorage.getItem('oldText');
-    let oldText;
-    if(oldTxt){
-      oldText = oldTxt;
-    }*/
     setText(edited);
     setOldText(edited);
-    
-    //console.log(oldText.length);
+   
     setIsEnable(true);
   }
 
@@ -77,12 +69,7 @@ function CMSHistory() {
         <p>HISTORYYYYY</p>
         <CKEditor
           editor={ClassicEditor}
-          //data="<p>Hello from CKEditor 5!</p><h2>Try the inspector below</h2><ul><li>Check the Model</li><li>See the View</li><li>Check available commands</li></ul>"
           data = {edit}
-          /*onReady={(editor) => {
-            console.log('CKEditor React Component is ready to use!', editor);
-            CKEditorInspector.attach(editor);
-          }}*/
 
           onChange={(event, editor) => {
             
@@ -100,8 +87,7 @@ function CMSHistory() {
               //enabled
               setIsEnable(false);
             }
-            
-            
+
             if (!executed) {
                 setExecuted(true);
                 // do something
@@ -110,22 +96,6 @@ function CMSHistory() {
                 console.log("Executed");
                 setOldText(edited);
             }
-           
-          
-            //edit = text;
-            /*
-            let oldTxt = localStorage.getItem('oldText');
-            
-            let oldText;
-            if(oldTxt){
-              oldText = oldTxt;
-            }
-            */
-            
-            //console.log(edited.length, text.length);
-            
-            
-            
           }}
         />
         <button onClick={saveClicked} disabled={isEnable}>SAVE</button>

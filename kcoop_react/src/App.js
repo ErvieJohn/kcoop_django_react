@@ -85,6 +85,7 @@ import CMSAnnualReports from "./screens/CMS/screens/CMSAnnualReports";
 import CMSAuditedFinancialStatements from "./screens/CMS/screens/CMSAuditedFinancialStatements";
 import CMSByTheNumbers from "./screens/CMS/screens/CMSByTheNumbers";
 import CMSAnnouncements from "./screens/CMS/screens/CMSAnnouncements";
+import { EditAnnouncements } from "./screens/CMS/screens/EditAnnouncements";
 
 function App() {
   return (
@@ -213,6 +214,7 @@ function App() {
               <Route exact path='/cms/audited_financial_statements' element={<CMSAuditedFinancialStatements/>}/>
               <Route exact path='/cms/by_the_numbers' element={<CMSByTheNumbers/>}/>
               <Route exact path='/cms/announcements' element={<CMSAnnouncements/>}/>
+              <Route exact path='/cms/announcements/edit' element={<EditAnnouncements/>}/>
               
             </Route>
             

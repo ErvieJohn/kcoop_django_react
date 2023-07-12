@@ -1,14 +1,287 @@
-import React, { useRef } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import Error404 from '../../Error404';
+import React, { useRef, useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation, useParams, Navigate } from "react-router-dom";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { BASE_URL } from '../../../config';
+import axios from 'axios';
+import { AuthContext } from "../../../context/AuthContext";
+import LoadingSpinner from "../../LoadingSpinner";
 
 export const EditAnnouncements =  () => {
-  const param = useParams();
+  const {getAnnouncementDataID, 
+    selectedData} = useContext(AuthContext);
+
+  const location = useLocation();
+  //console.log(location.state);
+  //const [data, setData] = useState(null);
+  var data = null
+ 
+
+  const pageTitle = "Announcements";
+
+  var edit = "";
+  var edited = "";
+
+  var title = "";
+
+  var date = "";
+
+  const [isEnable, setIsEnable] = useState(true);
+
+  const [text, setText] = useState("");
+  const [executed, setExecuted] = useState(false);
+  const [oldText, setOldText] = useState("");
+  const [firstOldText, setFirstOldText] = useState("");
+
+  const [id, setId] = useState("");
+
+
+  const [imageFile, setImageFile] = useState('');
+  const [image, setImage] = useState('');
+  const imgInputRef = useRef(null);
+  const [oldImage, setOldImage] = useState();
+  const [showImage, setShowImage] = useState();
+ 
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  var [titleInput, setTitleInput] = useState("");
+  var [oldTitle, setOldTitle] = useState("");
+  const titleOnChange = (e) =>{
+    e.preventDefault();
+    let output = e.target.value;
+    setTitleInput(output);
+    //console.log(output);
+    console.log("title ", output, oldTitle);
+    
+    if(output == oldTitle){
+      setIsEnable(true);
+    }
+    else{
+      setIsEnable(false);
+      
+    }
+  }
   
+  var [dateInput, setDateInput] = useState("");
+  var [oldDate, setOldDate] = useState("");
+  const dateOnChange = (e) =>{
+    e.preventDefault();
+    let output = e.target.value;
+    console.log("date ", output, oldDate);
+    setDateInput(output);
+    //console.log(output);
+    
+    if(output == oldDate){
+      setIsEnable(true);
+    }
+    else{
+      setIsEnable(false);
+      
+    }
+  }
+  
+  const saveClicked = () =>{
+    //console.log(edited);
+    //console.log(dateInput);
+    //console.log(titleInput);
+    
+    saveEdited(pageTitle, id, titleInput, dateInput, image, edited);
+
+    setOldTitle(titleInput);
+    setOldDate(dateInput);
+    setText(edited);
+    setOldText(edited);
+    setOldImage(image);
+    console.log(image, showImage)
+    if(image != showImage){
+      setShowImage(URL.createObjectURL(image));
+    }
+    
+    setIsEnable(true);
+    setIsEnableUndo(true);
+
+    imgInputRef.current.value = null;
+  }
+  
+  const [exeOne, setExeOne] = useState(true);
+
+  const saveEdited = (pageTitle, id, editedTitle, editedDate, editedImage, editedContent) => {
+
+    const formData = new FormData();
+    formData.append('Publications_id', id);
+    formData.append('Publications_name', pageTitle);
+    formData.append('Publications_image', editedImage);
+    formData.append('Publications_pubDate', editedDate);
+    formData.append('Publications_title', editedTitle);
+    formData.append('Publications_content', editedContent);
+    formData.append('Publications_image', editedImage);
+
+    axios.post(`${BASE_URL}/updatePubContent/`, formData).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+          
+  }
+
+  const [isEnableUndo, setIsEnableUndo] = useState(true);
+
+  function handleImage(e){
+    setImageFile(e.target.files);
+    setImage(e.target.files[0]);
+    //console.log(e.target.result);
+    setShowImage(URL.createObjectURL(e.target.files[0]));
+    let imageName = e.target.files[0];
+    //console.log(imageName);
+    
+    if(imageName){
+      setIsEnable(false);
+      setIsEnableUndo(false);
+    }
+    else{
+      setIsEnable(true);
+      setIsEnableUndo(true);
+    }
+    
+  }
+
+  function onUndoClicked  (){
+    setShowImage(oldImage);
+    setIsEnableUndo(true);
+    setIsEnable(true);
+
+    imgInputRef.current.value = null;
+  }
+
+/*
+  if(location.state){
+    
+      //console.log("is Reading?");
+    
+  }
+ */ 
+  data = location.state.data;
+  //console.log(data)
+
+  edit = data["Publications_content"];
+  edited = edit;
+
+  let dataID = data.Publications_id;
+
+
+  useEffect(() => {
+    getAnnouncementDataID(dataID);
+  }, [dataID]);
+
+  data = selectedData;
+  console.log(data)
+  if(exeOne && data.Publications_id){
+    setExeOne(false);
+    console.log("Readme")
+    //data = selectedData;
+    //console.log("selectedData: ", selectedData);
+    let ID = data.Publications_id;
+    setId(ID);
+
+    let title1 = data.Publications_title;
+    setTitleInput(title1);
+    
+    let date1 = formatDate(data.Publications_pubDate);
+    setDateInput(date1);
+
+    setOldTitle(title1);
+    setOldDate(date1);
+    setFirstOldText(edited);
+
+    let oldImages = data.Publications_image;
+    setOldImage(oldImages);
+    setImage(oldImages);
+    setShowImage(oldImages);
+  }
   
 
-  return (
+  return(
     <>
+    {
+      location.state ? (<>
+      {
+        data ? (<>
+          <h1>Edit Announcements</h1>
+          <center>
+            <b>
+                <label>Title: </label>
+                </b>
+                <input type="text" value={titleInput} onChange={titleOnChange}></input>
+            <b><label>Date: </label></b>
+              <input type="date" value={dateInput} onChange={dateOnChange}></input>
+            <br /><br />
+            
+            <div className="box box-warning " />
+
+              <img src={showImage} width="50%" height="50%"/>
+              <br/>
+              <label>Change Image: </label>
+              <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
+              <button onClick={onUndoClicked} disabled={isEnableUndo}>UNDO</button>
+              <CKEditor
+              editor={ClassicEditor}
+              data = {edit}
+
+              onChange={(event, editor) => {
+                
+                const dataEditor = editor.getData();
+                edited = dataEditor;
+                //console.log("dataEditor", dataEditor);
+                //console.log("oldText", edited, oldText);
+                //console.log("text", edited, text);
+                
+                if(edited==text){
+                  //disabled
+                  setIsEnable(true);
+                }
+                else if(edited == oldText){
+                  //disabled
+                  setIsEnable(true);
+                }
+                else{
+                  //enabled
+                  setIsEnable(false);
+                }
+              
+                if (!executed && firstOldText.length>0) {
+                    setExecuted(true);
+                    // do something
+                    //disabled
+                    setIsEnable(true);
+                    console.log("Executed");
+                    setOldText(edited);
+                }
+                
+              }}
+            />
+            <br/>
+            <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
+          </center>
+        </>) : (<>
+        <LoadingSpinner/>
+        </>)
+      }
+      
+      </>) : (<>
+        <Navigate replace to="/cms/announcements" />
+      </>)
+    }
     </>
   );
+  
+
 };

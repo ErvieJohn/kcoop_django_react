@@ -4,9 +4,10 @@ import {Row, Col, Container} from 'react-bootstrap';
 import LoadingSpinner from '../../LoadingSpinner';
 import axios from 'axios';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import { useNavigate, Link } from 'react-router-dom';
 
 const CMSAnnouncements = () => {
-    
+  //window.location.reload();
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -22,6 +23,8 @@ const CMSAnnouncements = () => {
   const imgInputRef = useRef(null);
 
   const [selectedData, setSelectedData] = useState('');
+
+  const navigate = useNavigate();
 
   const getTBL_Publications = (titlePage) => {
     var InsertAPIURL = `${BASE_URL}/getTBL_Publications/`; 
@@ -98,7 +101,8 @@ const CMSAnnouncements = () => {
   const DeactivateButton = (e, id) =>{
     let deactive = "Deactivated";
     //console.log(id);
-    updateSlider(slideTitle,id,deactive);
+    let titleStatus = "updateStatus";
+    updateSlider(titleStatus,id,deactive);
     
     //window.location.reload(); 
   }
@@ -106,7 +110,8 @@ const CMSAnnouncements = () => {
   const ActivateButton = (e, id) =>{
     //console.log(id);
     let activate = "Active";
-    updateSlider(slideTitle,id,activate);
+    let titleStatus = "updateStatus";
+    updateSlider(titleStatus,id,activate);
     
     //console.log(id)
     //window.location.reload(); 
@@ -194,13 +199,18 @@ const CMSAnnouncements = () => {
   }
 
   const EditButton = (e, data)=>{
-    setShowModal(true);
     setSelectedData(data);
-    navigate("cms/announcements/edit", {
+    
+    navigate("edit", {
         state: {
           data: data,
         },
       });
+      
+      
+     
+  //window.open("#", '_blank', 'noopener,noreferrer');
+    
   }
 
   useEffect(()=>{
