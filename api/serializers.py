@@ -70,7 +70,7 @@ class TBL_StoriesSerializer(serializers.ModelSerializer):
 class TBL_StoriesContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Stories
-        fields = ('Stories_id', 'Stories_name', 'Stories_title', 'Stories_date', 'Stories_content', 'Stories_image', 'Stories_ytlink')
+        fields = ('Stories_id', 'Stories_name', 'Stories_title', 'Stories_date', 'Stories_content', 'Stories_image', 'Stories_ytlink', 'Stories_status')
 
 class TBL_CareersSerializer(serializers.ModelSerializer):
     class Meta:

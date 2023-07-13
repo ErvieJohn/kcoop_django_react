@@ -56,6 +56,8 @@ urlpatterns = [
     path('cms/', views.index, name='cms'),
     path('cms/announcements/edit/<str:id>', views.cms_announcements, name='cms_announcements'),
     
+    path('cms/k_ganapan/edit/<str:id>', views.cms_k_ganapan, name='cms_k_ganapan'),
+
 ]
 
 handler404 = views.page_not_found_view

@@ -517,10 +517,16 @@ def updatePubContent(request):
             Publications.Publications_pubDate = date
             Publications.Publications_title=titleA
             Publications.Publications_content=content
-            #print(Publications.Publications_image, image)
-            if(Publications.Publications_image != image):
+            strImage = str(Publications.Publications_image)
+            newStrImage = str(image)
+            #print("strImage", strImage)
+            #print("newStrImage", newStrImage)
+            if (newStrImage[:13] == "/static/media"):
+                Publications.Publications_image=newStrImage[14:]
+                
+            elif(strImage != newStrImage):
                 Publications.Publications_image=image
-            
+                
             Publications.save()
             
         elif(title=="updateStatus"):
@@ -600,3 +606,125 @@ def deletePubContent(request):
         serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
         #print(WhoWeAre.update)
         return Response(serializers.data)
+    
+    
+# Stories
+@api_view(['POST'])
+def updateStoriesStatus(request):
+    if request.data:
+        title = request.data["Stories_name"]
+        id = request.data["Stories_id"]
+        status = request.data["Stories_status"]
+        print(title, id, status)
+        Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
+        Stories.update(Stories_status=status)
+        
+        allStories = TBL_Stories.objects.filter(Stories_name=title)
+        serializers = TBL_StoriesContentSerializer(allStories, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+@api_view(['POST'])
+def updateStoriesContent(request):
+    if request.data:
+        title = request.data["Stories_name"]
+        id = request.data["Stories_id"]
+        
+        if(title == "Videos"):
+            None
+            
+        elif(title=="updateStatus"):
+            title = "K - Ganapan"
+            status = request.data["Publications_status"]
+            Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
+            Publications.update(Publications_status=status)
+        
+        else:
+            #print(title)
+            date = request.data["Stories_date"]
+            titleA = request.data["Stories_title"]
+            content = request.data["Stories_content"]
+            image = request.data["Stories_image"]
+            
+            Stories = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
+            
+            Stories.Stories_date = date
+            Stories.Stories_title=titleA
+            Stories.Stories_content=content
+            strImage = str(Stories.Stories_image)
+            newStrImage = str(image)
+            #print("strImage", strImage)
+            #print("newStrImage", newStrImage)
+            if (newStrImage[:13] == "/static/media"):
+                Stories.Stories_image=newStrImage[14:]
+                
+            elif(strImage != newStrImage):
+                Stories.Stories_image=image
+            
+            
+            Stories.save()
+        
+        allStories = TBL_Stories.objects.filter(Stories_name=title)
+        serializers = TBL_StoriesContentSerializer(allStories, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+@api_view(['POST'])
+def deleteStoriesContent(request):
+    if request.data:
+        id = request.data["Stories_id"]
+        title = request.data["Stories_name"]
+        Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
+        Stories.delete()
+        
+        allStories = TBL_Stories.objects.filter(Stories_name=title)
+        serializers = TBL_StoriesContentSerializer(allStories, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+
+@api_view(['POST'])
+def uploadStoriesContent(request):
+    try:
+        #print(request.data['image'])
+        
+        
+        title = request.data['Stories_name']
+        
+        now = datetime.now()
+        year = now.strftime("%Y")
+        dateStr = now.strftime("%Y-%m-%d")
+        #print(dateStr)
+        gen_uuid = str(uuid.uuid4())
+        
+        type_id = ""
+        if(title=="Vidoes"):
+            None
+            
+            
+        else:
+            if(title=="K - Ganapan"):
+                type_id = "27f71549-1e4b-4e5e-9559-f3ab7ea16411"
+               
+            elif(title=="Kwentong - K"):
+                type_id = "7ae4dd6f-b45f-49cd-8127-6d629daa030b"
+                
+            elif(title=="K - Bahagi"):
+                type_id = "9c0ddab3-52a8-4a65-b7ad-ac9f21f0191b"
+            print(type_id)
+            image = request.data['image']
+            content = request.data['Stories_content']
+            date = request.data['Stories_date']
+            ann_title = request.data['Stories_title']
+            print(ann_title)
+            product = TBL_Stories.objects.create(Stories_id=gen_uuid,Storiestype_id_id=type_id,Stories_name=title,Stories_image=image, Stories_date=date,Stories_content=content, Stories_title=ann_title)
+
+    except KeyError:
+        raise print('Request has no resource file attached')
+
+    #print(type_id) 
+    allStories = TBL_Stories.objects.filter(Stories_name=title)
+    serializers = TBL_StoriesContentSerializer(allStories, many=True)
+    #print(serializers.data)
+    return Response(serializers.data)
+

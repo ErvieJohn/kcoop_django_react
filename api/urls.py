@@ -64,6 +64,9 @@ urlpatterns = [
     path('uploadPubContent/', views.uploadPubContent),
     path('updatePubContent/', views.updatePubContent),
   
-
-
+    ### Stories
+    path('updateStoriesContent/', views.updateStoriesContent),
+    path('updateStoriesStatus/', views.updateStoriesStatus),
+    path('uploadStoriesContent/', views.uploadStoriesContent),
+    path('deleteStoriesContent/', views.deleteStoriesContent),
 ]

@@ -125,22 +125,22 @@ export const PublicationData = [
     {
         id: 0,
         text: "Annual Reports",
-        link: "cms/#"
+        link: "cms/annual_reports"
     },
     {
         id: 1,
         text: "Audited Financial Statements",
-        link: "cms/#"
+        link: "cms/audited_financial_statements"
     },
     {
         id: 2,
         text: "Announcements",
-        link: "cms/#"
+        link: "cms/announcements"
     },
     {
         id: 3,
         text: "By The Numbers",
-        link: "cms/#"
+        link: "cms/by_the_numbers"
     },
 ]
 

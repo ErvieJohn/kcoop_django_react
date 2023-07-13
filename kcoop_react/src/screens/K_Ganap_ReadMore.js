@@ -98,9 +98,9 @@ export default function K_Ganap_ReadMore() {
                     <br />
                     <div className="box box-warning " />
                     <div className="col-md-12">
-                      <a href={"/static/media/" + dataStories.Stories_image} target="_blank">
+                      <a href={dataStories.Stories_image} target="_blank">
                         <img
-                          src={"/static/media/" + dataStories.Stories_image}
+                          src={dataStories.Stories_image}
                           width="100%"
                           style={{ marginBottom: "2%", marginLeft: "-1%" }}
                         />
@@ -191,7 +191,7 @@ export default function K_Ganap_ReadMore() {
                                 }}
                               >
                                 <img
-                                  src={"/static/media/" + contentKGanap.Stories_image}
+                                  src={contentKGanap.Stories_image}
                                   width="90%"
                                   style={{
                                     marginBottom: "2%",

@@ -82,8 +82,9 @@ class TBL_Stories(models.Model):
     Stories_title = models.CharField()
     Stories_date = models.DateField(null=True, blank=True)
     Stories_content = models.CharField(blank=True, default="")
-    Stories_image = models.CharField(blank=True, default="")
-    Stories_ytlink = models.CharField(blank=True, default="")
+    Stories_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    Stories_ytlink = models.CharField(null=True, blank=True, default="")
+    Stories_status = models.CharField(null=True, blank=True, default="Deactivated")
     
 class TBL_Careers(models.Model):
     Careers_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

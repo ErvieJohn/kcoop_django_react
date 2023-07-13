@@ -86,6 +86,8 @@ import CMSAuditedFinancialStatements from "./screens/CMS/screens/CMSAuditedFinan
 import CMSByTheNumbers from "./screens/CMS/screens/CMSByTheNumbers";
 import CMSAnnouncements from "./screens/CMS/screens/CMSAnnouncements";
 import { EditAnnouncements } from "./screens/CMS/screens/EditAnnouncements";
+import CMSK_Ganapan from "./screens/CMS/screens/CMSK_Ganapan";
+import { EditK_Ganapan } from "./screens/CMS/screens/EditK_Ganapan";
 
 function App() {
   return (
@@ -215,6 +217,9 @@ function App() {
               <Route exact path='/cms/by_the_numbers' element={<CMSByTheNumbers/>}/>
               <Route exact path='/cms/announcements' element={<CMSAnnouncements/>}/>
               <Route exact path='/cms/announcements/edit/:id' element={<EditAnnouncements/>}/>
+
+              <Route exact path='/cms/k_ganapan' element={<CMSK_Ganapan/>}/>
+              <Route exact path='/cms/k_ganapan/edit/:id' element={<EditK_Ganapan/>}/>
               
             </Route>
             

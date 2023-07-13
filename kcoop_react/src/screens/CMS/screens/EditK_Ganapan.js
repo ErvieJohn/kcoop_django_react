@@ -9,9 +9,11 @@ import LoadingSpinner from "../../LoadingSpinner";
 
 import Error404 from "../../Error404";
 
-export const EditAnnouncements =  () => {
-  const {getAnnouncementDataID, 
-    selectedData, announcementsStatus} = useContext(AuthContext);
+export const EditK_Ganapan =  () => {
+    const {dataStories,
+        getStoriesDataID,
+        storiesStatus,
+    } = useContext(AuthContext);
 
   const param = useParams();
   const paramID = param.id;
@@ -21,7 +23,7 @@ export const EditAnnouncements =  () => {
   var data = null
  
 
-  const pageTitle = "Announcements";
+  const pageTitle = "K - Ganapan";
 
   var edit = "";
   var edited = "";
@@ -99,7 +101,7 @@ export const EditAnnouncements =  () => {
   const saveClicked = () =>{
     //console.log(edited);
     //console.log(dateInput);
-    //console.log(image);
+    //console.log(titleInput);
     
     saveEdited(pageTitle, id, titleInput, dateInput, image, edited);
 
@@ -108,10 +110,10 @@ export const EditAnnouncements =  () => {
     setText(edited);
     setOldText(edited);
     setOldImage(image);
-      //console.log(image, showImage)
-      if(image != showImage){
-        setShowImage(URL.createObjectURL(image));
-      }
+    //console.log(image, showImage)
+    if(image != showImage){
+      setShowImage(URL.createObjectURL(image));
+    }
     
     setIsEnable(true);
     setIsEnableUndo(true);
@@ -124,15 +126,15 @@ export const EditAnnouncements =  () => {
   const saveEdited = (pageTitle, id, editedTitle, editedDate, editedImage, editedContent) => {
 
     const formData = new FormData();
-    formData.append('Publications_id', id);
-    formData.append('Publications_name', pageTitle);
-    formData.append('Publications_image', editedImage);
-    formData.append('Publications_pubDate', editedDate);
-    formData.append('Publications_title', editedTitle);
-    formData.append('Publications_content', editedContent);
-    formData.append('Publications_image', editedImage);
+    formData.append('Stories_id', id);
+    formData.append('Stories_name', pageTitle);
+    formData.append('Stories_image', editedImage);
+    formData.append('Stories_date', editedDate);
+    formData.append('Stories_title', editedTitle);
+    formData.append('Stories_content', editedContent);
+    formData.append('Stories_image', editedImage);
 
-    axios.post(`${BASE_URL}/updatePubContent/`, formData).catch(error => {
+    axios.post(`${BASE_URL}/updateStoriesContent/`, formData).catch(error => {
           console.log(`getting data error from api url ${error}`)});
           
   }
@@ -167,33 +169,33 @@ export const EditAnnouncements =  () => {
   }
 
   useEffect(() => {
-    getAnnouncementDataID(paramID);
+    getStoriesDataID(paramID);
   }, [paramID]);
 
-  data = selectedData;
-  edit = data["Publications_content"];
+  data = dataStories;
+  edit = data["Stories_content"];
   edited = edit;
 
   //console.log(data);
-  if(exeOne && data.Publications_id){
+  if(exeOne && data.Stories_id){
     setExeOne(false);
     //console.log("Readme")
     //data = selectedData;
     //console.log("selectedData: ", selectedData);
-    let ID = data.Publications_id;
+    let ID = data.Stories_id;
     setId(ID);
 
-    let title1 = data.Publications_title;
+    let title1 = data.Stories_title;
     setTitleInput(title1);
     
-    let date1 = formatDate(data.Publications_pubDate);
+    let date1 = formatDate(data.Stories_date);
     setDateInput(date1);
 
     setOldTitle(title1);
     setOldDate(date1);
     setFirstOldText(edited);
 
-    let oldImages = data.Publications_image;
+    let oldImages = data.Stories_image;
     setOldImage(oldImages);
     setImage(oldImages);
     setShowImage(oldImages);
@@ -203,12 +205,12 @@ export const EditAnnouncements =  () => {
   return(
     <>
     {
-      announcementsStatus ? (<>
+      storiesStatus ? (<>
         {
-        announcementsStatus === 200 ? (<>
+        storiesStatus === 200 ? (<>
         {
           data ? (<>
-            <h1>Edit Announcements</h1>
+            <h1>Edit K - Ganapan</h1>
             <center>
               <b>
                   <label>Title: </label>
@@ -233,6 +235,8 @@ export const EditAnnouncements =  () => {
                   
                   const dataEditor = editor.getData();
                   edited = dataEditor;
+
+                  //console.log(firstOldText);
                   //console.log("dataEditor", dataEditor);
                   //console.log("oldText", edited, oldText);
                   //console.log("text", edited, text);
@@ -250,7 +254,7 @@ export const EditAnnouncements =  () => {
                     setIsEnable(false);
                   }
                 
-                  if (!executed && firstOldText.length>0) {
+                  if (!executed) {//&& firstOldText.length>0) {
                       setExecuted(true);
                       // do something
                       //disabled
@@ -270,7 +274,7 @@ export const EditAnnouncements =  () => {
         }
         
         </>) : (<>
-          <Navigate replace to="/cms/announcements" />
+          <Navigate replace to="/cms/k_ganapan" />
         </>)
       }
       </>) : (<>
