@@ -214,7 +214,7 @@ function App() {
               <Route exact path='/cms/audited_financial_statements' element={<CMSAuditedFinancialStatements/>}/>
               <Route exact path='/cms/by_the_numbers' element={<CMSByTheNumbers/>}/>
               <Route exact path='/cms/announcements' element={<CMSAnnouncements/>}/>
-              <Route exact path='/cms/announcements/edit' element={<EditAnnouncements/>}/>
+              <Route exact path='/cms/announcements/edit/:id' element={<EditAnnouncements/>}/>
               
             </Route>
             

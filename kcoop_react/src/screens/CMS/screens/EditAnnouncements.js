@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation, useParams, Navigate } from "react-router-dom";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BASE_URL } from '../../../config';
@@ -7,11 +7,15 @@ import axios from 'axios';
 import { AuthContext } from "../../../context/AuthContext";
 import LoadingSpinner from "../../LoadingSpinner";
 
+import Error404 from "../../Error404";
+
 export const EditAnnouncements =  () => {
   const {getAnnouncementDataID, 
-    selectedData} = useContext(AuthContext);
+    selectedData, announcementsStatus} = useContext(AuthContext);
 
-  const location = useLocation();
+  const param = useParams();
+  const paramID = param.id;
+  console.log(param);
   //console.log(location.state);
   //const [data, setData] = useState(null);
   var data = null
@@ -162,31 +166,18 @@ export const EditAnnouncements =  () => {
     imgInputRef.current.value = null;
   }
 
-/*
-  if(location.state){
-    
-      //console.log("is Reading?");
-    
-  }
- */ 
-  data = location.state.data;
-  //console.log(data)
+  useEffect(() => {
+    getAnnouncementDataID(paramID);
+  }, [paramID]);
 
+  data = selectedData;
   edit = data["Publications_content"];
   edited = edit;
 
-  let dataID = data.Publications_id;
-
-
-  useEffect(() => {
-    getAnnouncementDataID(dataID);
-  }, [dataID]);
-
-  data = selectedData;
-  console.log(data)
+  //console.log(data);
   if(exeOne && data.Publications_id){
     setExeOne(false);
-    console.log("Readme")
+    //console.log("Readme")
     //data = selectedData;
     //console.log("selectedData: ", selectedData);
     let ID = data.Publications_id;
@@ -212,74 +203,81 @@ export const EditAnnouncements =  () => {
   return(
     <>
     {
-      location.state ? (<>
-      {
-        data ? (<>
-          <h1>Edit Announcements</h1>
-          <center>
-            <b>
-                <label>Title: </label>
-                </b>
-                <input type="text" value={titleInput} onChange={titleOnChange}></input>
-            <b><label>Date: </label></b>
-              <input type="date" value={dateInput} onChange={dateOnChange}></input>
-            <br /><br />
-            
-            <div className="box box-warning " />
-
-              <img src={showImage} width="50%" height="50%"/>
-              <br/>
-              <label>Change Image: </label>
-              <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
-              <button onClick={onUndoClicked} disabled={isEnableUndo}>UNDO</button>
-              <CKEditor
-              editor={ClassicEditor}
-              data = {edit}
-
-              onChange={(event, editor) => {
-                
-                const dataEditor = editor.getData();
-                edited = dataEditor;
-                //console.log("dataEditor", dataEditor);
-                //console.log("oldText", edited, oldText);
-                //console.log("text", edited, text);
-                
-                if(edited==text){
-                  //disabled
-                  setIsEnable(true);
-                }
-                else if(edited == oldText){
-                  //disabled
-                  setIsEnable(true);
-                }
-                else{
-                  //enabled
-                  setIsEnable(false);
-                }
+      announcementsStatus ? (<>
+        {
+        announcementsStatus === 200 ? (<>
+        {
+          data ? (<>
+            <h1>Edit Announcements</h1>
+            <center>
+              <b>
+                  <label>Title: </label>
+                  </b>
+                  <input type="text" value={titleInput} onChange={titleOnChange}></input>
+              <b><label>Date: </label></b>
+                <input type="date" value={dateInput} onChange={dateOnChange}></input>
+              <br /><br />
               
-                if (!executed && firstOldText.length>0) {
-                    setExecuted(true);
-                    // do something
+              <div className="box box-warning " />
+
+                <img src={showImage} width="50%" height="50%"/>
+                <br/>
+                <label>Change Image: </label>
+                <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
+                <button onClick={onUndoClicked} disabled={isEnableUndo}>UNDO</button>
+                <CKEditor
+                editor={ClassicEditor}
+                data = {edit}
+
+                onChange={(event, editor) => {
+                  
+                  const dataEditor = editor.getData();
+                  edited = dataEditor;
+                  //console.log("dataEditor", dataEditor);
+                  //console.log("oldText", edited, oldText);
+                  //console.log("text", edited, text);
+                  
+                  if(edited==text){
                     //disabled
                     setIsEnable(true);
-                    console.log("Executed");
-                    setOldText(edited);
-                }
+                  }
+                  else if(edited == oldText){
+                    //disabled
+                    setIsEnable(true);
+                  }
+                  else{
+                    //enabled
+                    setIsEnable(false);
+                  }
                 
-              }}
-            />
-            <br/>
-            <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
-          </center>
+                  if (!executed && firstOldText.length>0) {
+                      setExecuted(true);
+                      // do something
+                      //disabled
+                      setIsEnable(true);
+                      console.log("Executed");
+                      setOldText(edited);
+                  }
+                  
+                }}
+              />
+              <br/>
+              <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
+            </center>
+          </>) : (<>
+          <LoadingSpinner/>
+          </>)
+        }
+        
         </>) : (<>
-        <LoadingSpinner/>
+          <Navigate replace to="/cms/announcements" />
         </>)
       }
-      
       </>) : (<>
-        <Navigate replace to="/cms/announcements" />
+        <LoadingSpinner/>
       </>)
     }
+    
     </>
   );
   

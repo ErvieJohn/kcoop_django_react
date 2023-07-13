@@ -18,3 +18,7 @@ def index(request):
 
 def page_not_found_view(request, exception):
     return render(request, 'index.html', status=404)
+
+# ADMIN
+def cms_announcements(request,id):
+    return render(request, 'index.html', {})

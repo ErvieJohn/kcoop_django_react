@@ -50,9 +50,11 @@ urlpatterns = [
 
     path('*/', views.index, name='Error404'),
     
+    # ADMIN
     path('cms/login', views.index, name='login'),
     
-    path('cms/', views.index, name='cms')
+    path('cms/', views.index, name='cms'),
+    path('cms/announcements/edit/<str:id>', views.cms_announcements, name='cms_announcements'),
     
 ]
 

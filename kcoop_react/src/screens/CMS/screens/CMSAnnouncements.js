@@ -5,6 +5,8 @@ import LoadingSpinner from '../../LoadingSpinner';
 import axios from 'axios';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import { useNavigate, Link } from 'react-router-dom';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const CMSAnnouncements = () => {
   //window.location.reload();
@@ -23,6 +25,9 @@ const CMSAnnouncements = () => {
   const imgInputRef = useRef(null);
 
   const [selectedData, setSelectedData] = useState('');
+
+  var [titleInput, setTitleInput] = useState("");
+  var [dateInput, setDateInput] = useState("");
 
   const navigate = useNavigate();
 
@@ -122,7 +127,7 @@ const CMSAnnouncements = () => {
     setImage(e.target.files[0]);
     let imageName = e.target.files[0];
     //console.log(imageName);
-    if(imageName){
+    if(imageName && dateInput.length>0 && titleInput.length > 0 ){
       setIsUploadDisable(false);
     }
     else{
@@ -135,6 +140,9 @@ const CMSAnnouncements = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('Publications_name', slideTitle);
+    formData.append('Publications_content', edited);
+    formData.append('Publications_title', titleInput);
+    formData.append('Publications_pubDate', dateInput);
 
     axios.post(`${BASE_URL}/uploadPubContent/`, formData).then((response)=>{
       //console.log(res);
@@ -146,7 +154,12 @@ const CMSAnnouncements = () => {
     })
 
     setIsUploadDisable(true);
+
+    setDateInput("");
+    setTitleInput("")
+    edited = "";
     imgInputRef.current.value = null;
+    
   }
  
   const deleteSlider = (title,id) => {
@@ -200,18 +213,47 @@ const CMSAnnouncements = () => {
 
   const EditButton = (e, data)=>{
     setSelectedData(data);
-    
+    /*
     navigate("edit", {
         state: {
           data: data,
         },
       });
-      
-      
-     
-  //window.open("#", '_blank', 'noopener,noreferrer');
+    */
+    //navigate("edit/" + data);
+    window.open("announcements/edit/" + data, '_blank', 'noopener,noreferrer');
     
   }
+
+  const titleOnChange = (e) =>{
+    e.preventDefault();
+    let output = e.target.value;
+    setTitleInput(output);
+    
+    if(image && dateInput.length>0 && output.length > 0 ){
+      setIsUploadDisable(false);
+    }
+    else{
+      setIsUploadDisable(true);
+    }
+  }
+
+  const dateOnChange = (e) =>{
+    e.preventDefault();
+    let output = e.target.value;
+    
+    setDateInput(output);
+
+    if(image && output.length>0 && output.length > 0 ){
+      setIsUploadDisable(false);
+    }
+    else{
+      setIsUploadDisable(true);
+    }
+  } 
+
+  var edit = "";
+  var edited = "";
 
   useEffect(()=>{
     getTBL_Publications(slideTitle);
@@ -249,7 +291,7 @@ const CMSAnnouncements = () => {
                   onClick={e=>DeactivateButton(e, item.Publications_id)}
                   >Deactivate</button>
                   <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
-                  <button style={{backgroundColor: 'blue', color:'white'}} onClick={e=>EditButton(e, item)}>Edit</button>
+                  <button style={{backgroundColor: 'blue', color:'white'}} onClick={e=>EditButton(e, item.Publications_id)}>Edit</button>
                   <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
                   <button style={{backgroundColor: 'black', color:'white'}} 
                   onClick={e=>DeleteButton(e, item.Publications_id)}>Delete</button>
@@ -287,9 +329,27 @@ const CMSAnnouncements = () => {
           <h4> No Deactivated Files </h4>
         </>)}
         
-        <h3>Add File</h3>
+        <h3>Add Announcements</h3>
+        <b><label>Title: </label>
+          </b>
+          <input type="text" value={titleInput} onChange={titleOnChange}></input>
+        <b><label>Date: </label></b>
+        <input type="date" value={dateInput} onChange={dateOnChange}></input>
+        <br/>
         <label>Select Image</label>
         <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
+        
+        <CKEditor
+                editor={ClassicEditor}
+                data = {edit}
+
+                onChange={(event, editor) => {
+                  
+                  const dataEditor = editor.getData();
+                  edited = dataEditor;
+                }}
+              />
+
         <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
       </div>
       </>) : (<>

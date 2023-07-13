@@ -13,7 +13,7 @@ export default function Announcements_Read_More() {
   const navigate = useNavigate();
 
   const param = useParams();
-
+  //console.log("param",param);
   const {getAnnouncementDataID, 
     selectedData, publicationsData, getTBL_Publications, announcementsStatus} = useContext(AuthContext);
 
@@ -22,7 +22,7 @@ export default function Announcements_Read_More() {
   
   
   var id = param.id;
-
+  //console.log("id",id);
   useEffect(() => {
     getAnnouncementDataID(id);
     getTBL_Publications(titlePage);

@@ -555,8 +555,13 @@ def uploadPubContent(request):
         
         type_id = ""
         if(title=="Announcements"):
+            content = request.data['Publications_content']
+            date = request.data['Publications_pubDate']
+            ann_title = request.data['Publications_title']
+            
+            
             type_id = "2a9651b2-a0d0-49ef-bbce-3bcf1e64695c"
-            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_name=title,Publications_image=image,Publications_file=file, Publications_pubDate=dateStr)
+            product = TBL_Publications.objects.create(Publications_id=gen_uuid,Publicationstype_id_id=type_id,Publications_name=title,Publications_image=image, Publications_pubDate=date,Publications_content=content, Publications_title=ann_title)
             
         elif (title=="Audited Financial Statements"):
             file = request.data['file']
