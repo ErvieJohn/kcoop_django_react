@@ -148,17 +148,17 @@ export const StoriesData = [
     {
         id: 0,
         text: "K - Ganapan",
-        link: "cms/#"
+        link: "cms/k_ganapan"
     },
     {
         id: 1,
         text: "Kwentong - K",
-        link: "cms/#"
+        link: "cms/kwentong_k"
     },
     {
         id: 2,
         text: "K - Bahagi",
-        link: "cms/#"
+        link: "cms/k_bahagi"
     },
     {
         id: 3,

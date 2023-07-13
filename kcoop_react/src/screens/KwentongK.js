@@ -53,122 +53,131 @@ export default function KwentongK() {
 
                   {/** */}
                   {getStoriesAllData.map((content) => (
-                    <table style={{ marginTop: "2%" }}>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <div className="col-md-6">
-                              <img
-                                src={"/static/media/" + content.Stories_image}
-                                width="100%"
-                                alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"
-                              />
-                            </div>
-                            <div className="col-md-6">
-                              <h4>
-                                <a
-                                  style={{
-                                    cursor: "pointer",
-                                    WebkitTapHighlightColor: "transparent",
-                                    WebkitUserSelect: "none",
-                                    KhtmlUserSelect: "none",
-                                    MozUserSelect: "none",
-                                    msUserSelect: "none",
-                                    userSelect: "none",
-                                  }}
-                                  onClick={() => {
-                                    navigate("/kwentong_k/" + content.Stories_id, {
-                                      state: {
-                                        data: getStoriesAllData,
-                                        selectedNumber: content.Stories_id,
-                                      },
-                                    });
-                                  }}
-                                >
-                                  <b>{content.Stories_title}</b>
-                                </a>
-                              </h4>
-                              <h6>
-                                <b>
-                                  <i>{content.Stories_date}</i>
-                                </b>
-                              </h6>
-                              <p
-                                style={{
-                                  marginLeft: "0%",
-                                  fontSize: "small",
-                                }}
-                              />
-                              <div
-                                style={{
-                                  textAlign: "justify",
-                                  whiteSpace: "pre-line",
-                                }}
-                              >
+
+                    <>
+                    {content.Stories_status == "Active" ? (<>
+                      <table style={{ marginTop: "2%" }}>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <div className="col-md-6">
+                                <img
+                                  src={content.Stories_image}
+                                  width="100%"
+                                  alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative"
+                                />
+                              </div>
+                              <div className="col-md-6">
+                                <h4>
+                                  <a
+                                    style={{
+                                      cursor: "pointer",
+                                      WebkitTapHighlightColor: "transparent",
+                                      WebkitUserSelect: "none",
+                                      KhtmlUserSelect: "none",
+                                      MozUserSelect: "none",
+                                      msUserSelect: "none",
+                                      userSelect: "none",
+                                    }}
+                                    onClick={() => {
+                                      navigate("/k_ganap/" + content.Stories_id, {
+                                        state: {
+                                          data: getStoriesAllData,
+                                          selectedNumber: content.Stories_id,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <b>{content.Stories_title}</b>
+                                  </a>
+                                </h4>
+                                <h6>
+                                  <b>
+                                    <i>{content.Stories_date}</i>
+                                  </b>
+                                </h6>
                                 <p
                                   style={{
-                                    textIndent: "30px",
+                                    marginLeft: "0%",
+                                    fontSize: "small",
                                   }}
-                                  dangerouslySetInnerHTML={{
-                                    __html:
-                                    content.Stories_content.substring(0, 200) +
-                                      `...`,
-                                  }}
-                                ></p>
-                                {/* 
-                                <Link
-                                  to={{
-                                    pathname: "/k_ganap_readmore",
-                                    state: { data: "erviepogi" },
-                                  }}
-                                >
-                                  Read More
-                                </Link>
-*/}
-
-                                <a
+                                />
+                                <div
                                   style={{
-                                    cursor: "pointer",
-                                    WebkitTapHighlightColor: "transparent",
-                                    WebkitUserSelect: "none",
-                                    KhtmlUserSelect: "none",
-                                    MozUserSelect: "none",
-                                    msUserSelect: "none",
-                                    userSelect: "none",
-                                  }}
-                                  onClick={() => {
-                                    navigate("/kwentong_k/" + content.Stories_id, {
-                                      state: {
-                                        data: getStoriesAllData,
-                                        selectedNumber: content.Stories_id,
-                                      },
-                                    });
+                                    textAlign: "justify",
+                                    whiteSpace: "pre-line",
                                   }}
                                 >
-                                  Read more
-                                </a>
-                              </div>
+                                  <p
+                                    style={{
+                                      textIndent: "30px",
+                                    }}
+                                    dangerouslySetInnerHTML={{
+                                      __html:
+                                        content.Stories_content.substring(0, 200) +
+                                        `...`,
+                                    }}
+                                  ></p>
+                                  {/* 
+                                  <Link
+                                    to={{
+                                      pathname: "/k_ganap_readmore",
+                                      state: { data: "erviepogi" },
+                                    }}
+                                  >
+                                    Read More
+                                  </Link>
+                    */}
 
-                              {/*   
-                              <p
-                                style={{
-                                  //whiteSpace: "pre-line",
-                                  textAlign: "justify",
-                                  whiteSpace: "pre-line",
-                                }}
-                              >
-                                {`\xa0\xa0\xa0\xa0\xa0`}
-                                {Kwentong_KContent.decription}
-                                {`...`}
-                                <br />
-                                <a href={Kwentong_KContent.urlLink}>Read more</a>
-                              </p>
-                  */}
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                                  <a
+                                    style={{
+                                      cursor: "pointer",
+                                      WebkitTapHighlightColor: "transparent",
+                                      WebkitUserSelect: "none",
+                                      KhtmlUserSelect: "none",
+                                      MozUserSelect: "none",
+                                      msUserSelect: "none",
+                                      userSelect: "none",
+                                    }}
+                                    onClick={() => {
+                                      navigate("/k_ganap/" + content.Stories_id, {
+                                        state: {
+                                          data: getStoriesAllData,
+                                          selectedNumber: content.Stories_id,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    Read more
+                                  </a>
+                                </div>
+
+                                {/*   
+                                <p
+                                  style={{
+                                    //whiteSpace: "pre-line",
+                                    textAlign: "justify",
+                                    whiteSpace: "pre-line",
+                                  }}
+                                >
+                                  {`\xa0\xa0\xa0\xa0\xa0`}
+                                  {content.decription}
+                                  {`...`}
+                                  <br />
+                                  <a href={content.urlLink}>Read more</a>
+                                </p>
+                    */}
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      
+                      </>) : (<></>)
+                    }
+                      
+                    </>
+
                   ))}
 
                   {/** */}

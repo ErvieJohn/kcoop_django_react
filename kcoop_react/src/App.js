@@ -88,6 +88,10 @@ import CMSAnnouncements from "./screens/CMS/screens/CMSAnnouncements";
 import { EditAnnouncements } from "./screens/CMS/screens/EditAnnouncements";
 import CMSK_Ganapan from "./screens/CMS/screens/CMSK_Ganapan";
 import { EditK_Ganapan } from "./screens/CMS/screens/EditK_Ganapan";
+import CMSKwentong_K from "./screens/CMS/screens/CMSKwentong_K";
+import { EditKwentong_K } from "./screens/CMS/screens/EditKwentong_K";
+import CMSK_Bahagi from "./screens/CMS/screens/CMSK_Bahagi";
+import { EditK_Bahagi } from "./screens/CMS/screens/EditK_Bahagi";
 
 function App() {
   return (
@@ -221,6 +225,12 @@ function App() {
               <Route exact path='/cms/k_ganapan' element={<CMSK_Ganapan/>}/>
               <Route exact path='/cms/k_ganapan/edit/:id' element={<EditK_Ganapan/>}/>
               
+              <Route exact path='/cms/kwentong_k' element={<CMSKwentong_K/>}/>
+              <Route exact path='/cms/kwentong_k/edit/:id' element={<EditKwentong_K/>}/>
+
+              <Route exact path='/cms/k_bahagi' element={<CMSK_Bahagi/>}/>
+              <Route exact path='/cms/k_bahagi/edit/:id' element={<EditK_Bahagi/>}/>
+
             </Route>
             
           

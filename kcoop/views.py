@@ -25,3 +25,9 @@ def cms_announcements(request,id):
 
 def cms_k_ganapan(request,id):
     return render(request, 'index.html', {})
+
+def cms_kwentong_k(request,id):
+    return render(request, 'index.html', {})
+
+def cms_k_bahagi(request,id):
+    return render(request, 'index.html', {})

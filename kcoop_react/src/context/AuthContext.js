@@ -579,7 +579,7 @@ export const AuthProvider = ({children}) => {
         if(counter < 3){
           postKwentongK.push({
           title: content.Stories_title,
-          imgSrc: "/static/media/" + content.Stories_image,
+          imgSrc: content.Stories_image,
           urlLink: "/kwentong_k/" + content.Stories_id,});
           counter++;
         }
@@ -594,7 +594,7 @@ export const AuthProvider = ({children}) => {
         if(counter < 3){
           postKBahagi.push({
           title: content.Stories_title,
-          imgSrc: "/static/media/" + content.Stories_image,
+          imgSrc: content.Stories_image,
           urlLink: "/k_bahagi/" + content.Stories_id});
           counter++;
         }
@@ -635,7 +635,7 @@ export const AuthProvider = ({children}) => {
         if(counter < 3){
           postKGanapan.push({
           title: content.Stories_title,
-          imgSrc: "/static/media/" + content.Stories_image,
+          imgSrc: content.Stories_image,
           urlLink: "/k_ganap/" + content.Stories_id,});
           counter++;
         }

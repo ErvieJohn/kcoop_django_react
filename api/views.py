@@ -633,21 +633,16 @@ def updateStoriesContent(request):
         if(title == "Videos"):
             None
             
-        elif(title=="updateStatus"):
-            title = "K - Ganapan"
-            status = request.data["Publications_status"]
-            Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
-            Publications.update(Publications_status=status)
-        
         else:
             #print(title)
+            
             date = request.data["Stories_date"]
             titleA = request.data["Stories_title"]
             content = request.data["Stories_content"]
             image = request.data["Stories_image"]
-            
+            print("Error?", id, title)
             Stories = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
-            
+           
             Stories.Stories_date = date
             Stories.Stories_title=titleA
             Stories.Stories_content=content
@@ -656,6 +651,7 @@ def updateStoriesContent(request):
             #print("strImage", strImage)
             #print("newStrImage", newStrImage)
             if (newStrImage[:13] == "/static/media"):
+                
                 Stories.Stories_image=newStrImage[14:]
                 
             elif(strImage != newStrImage):
@@ -686,9 +682,6 @@ def deleteStoriesContent(request):
 @api_view(['POST'])
 def uploadStoriesContent(request):
     try:
-        #print(request.data['image'])
-        
-        
         title = request.data['Stories_name']
         
         now = datetime.now()

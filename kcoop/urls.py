@@ -57,6 +57,8 @@ urlpatterns = [
     path('cms/announcements/edit/<str:id>', views.cms_announcements, name='cms_announcements'),
     
     path('cms/k_ganapan/edit/<str:id>', views.cms_k_ganapan, name='cms_k_ganapan'),
+    path('cms/kwentong_k/edit/<str:id>', views.cms_kwentong_k, name='cms_kwentong_k'),
+    path('cms/k_bahagi/edit/<str:id>', views.cms_k_bahagi, name='cms_k_bahagi'),
 
 ]
 
