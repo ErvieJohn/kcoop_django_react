@@ -92,6 +92,8 @@ import CMSKwentong_K from "./screens/CMS/screens/CMSKwentong_K";
 import { EditKwentong_K } from "./screens/CMS/screens/EditKwentong_K";
 import CMSK_Bahagi from "./screens/CMS/screens/CMSK_Bahagi";
 import { EditK_Bahagi } from "./screens/CMS/screens/EditK_Bahagi";
+import CMSVideos from "./screens/CMS/screens/CMSVideos";
+import CMSCareers from "./screens/CMS/screens/CMSCareers";
 
 function App() {
   return (
@@ -231,6 +233,10 @@ function App() {
               <Route exact path='/cms/k_bahagi' element={<CMSK_Bahagi/>}/>
               <Route exact path='/cms/k_bahagi/edit/:id' element={<EditK_Bahagi/>}/>
 
+              <Route exact path='/cms/videos' element={<CMSVideos/>}/>
+
+              <Route exact path='/cms/careers' element={<CMSCareers/>}/>
+              
             </Route>
             
           

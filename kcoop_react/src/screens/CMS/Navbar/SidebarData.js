@@ -163,7 +163,7 @@ export const StoriesData = [
     {
         id: 3,
         text: "Videos",
-        link: "cms/#"
+        link: "cms/videos"
     },
     
 ]

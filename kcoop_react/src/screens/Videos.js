@@ -30,8 +30,10 @@ export default function Videos() {
 
                   {getStoriesAllData.map((content)=>(
                     <>
+                    {content.Stories_status == "Active" ? (<>
                       <h5 className="box-title"><b>{content.Stories_title}</b></h5>
                       <embed width="100%" height={280} src={content.Stories_ytlink} />
+                    </>) : (<></>)}
                     </>
                   ))}
                 </div>

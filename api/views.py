@@ -182,7 +182,7 @@ def getTBL_Stories(request):
         Stories = TBL_Stories.objects.filter(Stories_name=data).order_by('-Stories_date')
         serializers = TBL_StoriesContentSerializer(Stories, many=True)
         #datetime_str = serializers.data[0]["Stories_date"]
-        #print(serializers.data[0]["Stories_date"])
+        #print(serializers.data)
         for i in range (len(serializers.data)): #convert date to shortend month
             if (serializers.data[i]["Stories_date"]):
                 dateFormat = serializers.data[i]["Stories_date"]
@@ -615,7 +615,7 @@ def updateStoriesStatus(request):
         title = request.data["Stories_name"]
         id = request.data["Stories_id"]
         status = request.data["Stories_status"]
-        print(title, id, status)
+        #print(title, id, status)
         Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
         Stories.update(Stories_status=status)
         
@@ -631,11 +631,11 @@ def updateStoriesContent(request):
         id = request.data["Stories_id"]
         
         if(title == "Videos"):
-            None
+            status = request.data["Stories_status"]
+            Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
+            Stories.update(Stories_status=status)
             
         else:
-            #print(title)
-            
             date = request.data["Stories_date"]
             titleA = request.data["Stories_title"]
             content = request.data["Stories_content"]
@@ -691,9 +691,14 @@ def uploadStoriesContent(request):
         gen_uuid = str(uuid.uuid4())
         
         type_id = ""
-        if(title=="Vidoes"):
-            None
+        if(title == "Videos"):
+            type_id = "f63060e2-313d-4fb6-9724-9f97080177cd"
+            #print(type_id)
+            yt_url = request.data['Stories_ytlink']
+            date = request.data['Stories_date']
+            ann_title = request.data['Stories_title']
             
+            product = TBL_Stories.objects.create(Stories_id=gen_uuid,Storiestype_id_id=type_id,Stories_name=title, Stories_date=date,Stories_ytlink=yt_url, Stories_title=ann_title)
             
         else:
             if(title=="K - Ganapan"):
@@ -704,12 +709,12 @@ def uploadStoriesContent(request):
                 
             elif(title=="K - Bahagi"):
                 type_id = "9c0ddab3-52a8-4a65-b7ad-ac9f21f0191b"
-            print(type_id)
+            #print(type_id)
             image = request.data['image']
             content = request.data['Stories_content']
             date = request.data['Stories_date']
             ann_title = request.data['Stories_title']
-            print(ann_title)
+            #print(ann_title)
             product = TBL_Stories.objects.create(Stories_id=gen_uuid,Storiestype_id_id=type_id,Stories_name=title,Stories_image=image, Stories_date=date,Stories_content=content, Stories_title=ann_title)
 
     except KeyError:
@@ -721,3 +726,46 @@ def uploadStoriesContent(request):
     #print(serializers.data)
     return Response(serializers.data)
 
+# Careers 
+@api_view(['POST'])
+def updateCareersImage(request):
+    if request.data:
+        print(request.data)
+        id = request.data["Careers_id"]
+        status = request.data["Careers_status"]
+        Careers = TBL_Careers.objects.filter(Careers_id=id)
+        Careers.update(Careers_status=status)
+        
+        allCareers = TBL_Careers.objects.all()
+        serializers = TBL_CareersSerializer(allCareers, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+
+@api_view(['POST'])
+def uploadCareersImage(request):
+    try:
+        image = request.data['image']
+        
+    except KeyError:
+        raise print('Request has no resource file attached')
+    
+    gen_uuid = str(uuid.uuid4())
+    product = TBL_Careers.objects.create(Careers_id=gen_uuid,Careers_image=image)
+    
+    allCareers = TBL_Careers.objects.all()
+    serializers = TBL_CareersSerializer(allCareers, many=True)
+    #print(WhoWeAre.update)
+    return Response(serializers.data)
+
+@api_view(['POST'])
+def deleteCareersImage(request):
+    if request.data:
+        id = request.data["Careers_id"]
+        Careers = TBL_Careers.objects.filter(Careers_id=id)
+        Careers.delete()
+        
+        allCareers = TBL_Careers.objects.all()
+        serializers = TBL_CareersSerializer(allCareers, many=True)
+        #print(WhoWeAre.update)
+        return Response(serializers.data)
+    

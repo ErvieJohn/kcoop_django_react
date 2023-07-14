@@ -426,6 +426,7 @@ export const AuthProvider = ({children}) => {
             .then(response => response.json())
             .then(response => {
               getCareersAllData = response;
+              //console.log(getCareersAllData);
               setGetCareersAllData(getCareersAllData);
               //console.log("DATA: ", Data);
             }).catch(error => {

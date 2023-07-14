@@ -69,4 +69,10 @@ urlpatterns = [
     path('updateStoriesStatus/', views.updateStoriesStatus),
     path('uploadStoriesContent/', views.uploadStoriesContent),
     path('deleteStoriesContent/', views.deleteStoriesContent),
+    
+    ### Careers
+    path('updateCareersImage/', views.updateCareersImage),
+    path('deleteCareersImage/', views.deleteCareersImage),
+    path('uploadCareersImage/', views.uploadCareersImage),
+
 ]

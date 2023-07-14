@@ -90,8 +90,9 @@ class TBL_Careers(models.Model):
     Careers_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Careers_title = models.CharField(blank=True, default="")
     Careers_date = models.CharField(blank=True, default="")
-    Careers_image = models.CharField(blank=True, default="")
+    Careers_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Careers_content = models.TextField(blank=True, default="")
+    Careers_status = models.CharField(null=True, blank=True, default="Deactivated")
     
 class TBL_Home(models.Model):
     Home_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)

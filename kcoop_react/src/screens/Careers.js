@@ -29,12 +29,15 @@ export default function Careers() {
                     <div className="box-header" style={{marginTop: '0%'}}>
                     <div className="box-body">
                       {getCareersAllData.map((content)=>(
-                        
+                        <>
+                        {content.Careers_status == "Active" ? (<>
                           <div className="col-md-6" style={{marginLeft: '0%', marginBottom: '10px'}}>
-                            <img src={"/static/media/" + content.Careers_content} style={{width: '100%', marginBottom: '5%'}} 
+                            <img src={content.Careers_image} style={{width: '100%', marginBottom: '5%'}} 
                             alt="Kabuhayan Sa Ganap Na Kasarinlan Credit And Savings Cooperative" />
                           </div>
-                          
+                        </>) : (<></>)}
+                        
+                        </>
                         
                       ))}
                       </div>
