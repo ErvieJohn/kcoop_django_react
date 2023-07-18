@@ -9,18 +9,18 @@ import './Dashboard.css';
 
 function Dashboard() {
   const [User, setUser] = useState(localStorage.getItem('USER'));
-
-  function AuthLogout(){
+  const [isOpen, setOpen] = useState(false);
+  const AuthLogout = () =>{
     //console.log("Clicked?");
     localStorage.removeItem('USER');
     let isLoggedIn = null;
     setUser(isLoggedIn);
   }
 
-  const [activeKey, setActiveKey] = useState('1');
-  const [openKeys, setOpenKeys] = useState(['3', '4']);
-  const [expanded, setExpand] = useState(true);
-  
+  const isOpenFunc = (open) =>{
+    setOpen(open);
+    //console.log("Dashboard",isOpen);
+  }
 
   return(
     <>
@@ -28,25 +28,15 @@ function Dashboard() {
     
     <div className='CmsBody'>
     {/*<SideNavbar/>*/}
-    <Navbar/>
-      <div className='sticky-cms' style={{
-        position: "absolute",
-        top: "5%",
-        right: "5%", transform: "translate(-50%, -50%)"}}>
-        <button onClick={AuthLogout}>Logout</button>
-      </div>
-      
-      
-      
-        <main className='cmsMain'>
+    <Navbar logout={AuthLogout} user={User} open={isOpenFunc}/>
+
+        <main className='cmsMain' style={{marginLeft: isOpen ? "290px":"80px"}}>
           <Outlet/>
         </main>
-      
-      
+
     </div>
     
     </>):(<>
-    
       <Navigate replace to="/cms/login" />
     </>)}
     </>

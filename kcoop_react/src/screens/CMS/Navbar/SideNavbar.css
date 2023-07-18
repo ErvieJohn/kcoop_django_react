@@ -4,7 +4,11 @@
     height: 100vh;
     background-color: #feb062;
     padding-top: 30px;
-    
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    max-height: calc(100vh - 9rem);
+    overflow-y: auto;
 }
  
 .sidenavClosed {

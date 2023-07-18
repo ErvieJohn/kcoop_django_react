@@ -5,6 +5,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AuthContext } from '../../../context/AuthContext';
 import { BASE_URL } from '../../../config';
 import LoadingSpinner from '../../LoadingSpinner';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { useHotkeys } from 'react-hotkeys-hook';
 
 function CMSHistory() {
   const {getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
@@ -19,9 +22,16 @@ function CMSHistory() {
   const [text, setText] = useState("");
   const [executed, setExecuted] = useState(false);
   const [oldText, setOldText] = useState("");
+  const [count, setCount] = useState(0);
 
+  // useHotkeys('ctrl+s', () => {saveClicked()
+  //   setCount(prevCount =>
+  //     prevCount + 1)})
+  // console.log(count);
+  
   useEffect(()=>{
     getWhoWeAre(titlePage);
+    
   },[])
   
 
@@ -66,39 +76,51 @@ function CMSHistory() {
     <>
     {getWhoWeAreData ? (<>
       <div style={{margin: "20px"}}> 
-        <p>HISTORYYYYY</p>
-        <CKEditor
-          editor={ClassicEditor}
-          data = {edit}
+      <center>
+        <h1>
+          <b>Edit History</b>
+        </h1>
+      </center>
+        <div>
+          <CKEditor
+            editor={ClassicEditor}
+            data = {edit}
 
-          onChange={(event, editor) => {
-            
-            const data = editor.getData();
-            edited = data;
-            if(edited==text){
-              //disabled
-              setIsEnable(true);
-            }
-            else if(edited == oldText){
-              //disabled
-              setIsEnable(true);
-            }
-            else{
-              //enabled
-              setIsEnable(false);
-            }
-
-            if (!executed) {
-                setExecuted(true);
-                // do something
+            onChange={(event, editor) => {
+              
+              const data = editor.getData();
+              edited = data;
+              if(edited==text){
                 //disabled
                 setIsEnable(true);
-                console.log("Executed");
-                setOldText(edited);
-            }
-          }}
-        />
-        <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
+              }
+              else if(edited == oldText){
+                //disabled
+                setIsEnable(true);
+              }
+              else{
+                //enabled
+                setIsEnable(false);
+              }
+
+              if (!executed) {
+                  setExecuted(true);
+                  // do something
+                  //disabled
+                  setIsEnable(true);
+                  console.log("Executed");
+                  setOldText(edited);
+              }
+            }}
+          />
+        </div>
+        <center id="icon-text-cms">
+          <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color:'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
+          {/* <div style={{marginLeft: "10px", marginTop: "10px"}}>
+            <h4>OR <code>CTRL + S</code></h4>
+          </div> */}
+        </center>
+        
       </div>
       </>) :
       (<>

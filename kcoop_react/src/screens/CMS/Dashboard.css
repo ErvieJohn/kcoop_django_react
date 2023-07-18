@@ -3,5 +3,60 @@
 }
 
 .cmsMain{
-    padding: 10px;
+    margin-top: 70px;
+    padding-bottom: 5%;
+    transition: all 0.5s;
+}
+
+.btn-cms{
+    /*margin: 30px;*/
+    font-size: 18px;
+    height: 30px;
+    width: 60px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 1px 1px 0px 2px rgba (0,0,0,0.3);
+    cursor: pointer;
+    border-color: black;
+}
+
+.form-cms{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #1475cf;
+    height: 300px;
+    width: 500px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .uploaded-row{
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 5px;
+    background-color: #e9f0ff;
+    width: 500px;
+  }
+  
+  .upload-content{
+    display: flex;
+    align-items: center;
+  }
+
+  .hidden-input{
+    opacity: 0;
+    -moz-opacity: 0;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    visibility: hidden;
+  }
+
+
+/* CK EDITOR */
+.ck-sticky-panel .ck-sticky-panel__content_sticky{
+  position: absolute !important;
 }
