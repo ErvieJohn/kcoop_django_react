@@ -252,7 +252,7 @@ const CMSOS = () => {
           {activeSlider.map((item)=>{return(
               <>
                 <Td style={{padding: ".625em",textAlign: "center"}}>
-                  <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px"}}/>
+                  <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                   <br/>
                   <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
@@ -278,7 +278,7 @@ const CMSOS = () => {
           {notActiveSlider.map((item)=>{
             return(
               <Td style={{padding: ".625em",textAlign: "center"}}>
-                <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px"}}/>
+                <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.WhoWeAre_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>

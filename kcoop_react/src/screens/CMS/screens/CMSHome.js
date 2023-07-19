@@ -268,7 +268,7 @@ const CMSHome = () => {
         </>)}
         <div>
         <div>
-        <Table style={{tableLayout: "fixed", width: "100%", marginRight: "auto"}}>
+        <Table style={{width: "100%", marginRight: "auto", overflowX:"auto"}}>
         <Tr style={{padding: ".35em"}}>
           {activeSlider.map((item)=>{return(
               <>
@@ -295,7 +295,7 @@ const CMSHome = () => {
         <h3> Deactivated Images </h3>
         {notActiveSlider.length > 0 ? (<>
         <div>
-        <Table style={{tableLayout: "fixed", width: "100%", marginRight: "auto"}}>
+        <Table style={{width: "100%", marginRight: "auto", overflowX:"auto"}}>
         <Tr style={{padding: ".35em"}}>
           {notActiveSlider.map((item)=>{
             return(
