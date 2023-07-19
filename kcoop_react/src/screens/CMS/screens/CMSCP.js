@@ -5,6 +5,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { AuthContext } from '../../../context/AuthContext';
 import { BASE_URL } from '../../../config';
 import LoadingSpinner from '../../LoadingSpinner';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function CMSCP() {
   const {getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
@@ -74,7 +76,11 @@ function CMSCP() {
     <>
     {getWhoWeAreData ? (<>
       <div style={{margin: "20px"}}> 
-        <p>COOPERATIVE PRINCIPLESSSSSSSSSSSSS</p>
+        <center>
+          <h1>
+            <b>{titlePage}</b>
+          </h1>
+        </center>
         <CKEditor
           editor={ClassicEditor}
           //data="<p>Hello from CKEditor 5!</p><h2>Try the inspector below</h2><ul><li>Check the Model</li><li>See the View</li><li>Check available commands</li></ul>"
@@ -128,7 +134,12 @@ function CMSCP() {
             
           }}
         />
-        <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
+        <center id="icon-text-cms">
+          <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
+           <div style={{marginLeft: "10px", marginTop: "10px"}}>
+            <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>CTRL + S</code></h4>
+          </div> 
+        </center>
       </div>
       </>) :
       (<>

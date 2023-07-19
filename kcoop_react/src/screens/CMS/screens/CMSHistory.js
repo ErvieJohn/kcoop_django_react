@@ -78,7 +78,7 @@ function CMSHistory() {
       <div style={{margin: "20px"}}> 
       <center>
         <h1>
-          <b>Edit History</b>
+          <b>{titlePage}</b>
         </h1>
       </center>
         <div>
@@ -115,10 +115,10 @@ function CMSHistory() {
           />
         </div>
         <center id="icon-text-cms">
-          <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color:'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
-          {/* <div style={{marginLeft: "10px", marginTop: "10px"}}>
-            <h4>OR <code>CTRL + S</code></h4>
-          </div> */}
+          <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
+           <div style={{marginLeft: "10px", marginTop: "10px"}}>
+            <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>CTRL + S</code></h4>
+          </div>
         </center>
         
       </div>

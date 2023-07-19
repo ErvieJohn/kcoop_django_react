@@ -256,7 +256,7 @@ const CMSHome = () => {
       
       <div>
         <center>
-          <h1><b>Image Slider</b></h1>
+          <h1><b>HOME</b></h1>
         </center>
         
         <h3> Active Images </h3>
@@ -268,7 +268,7 @@ const CMSHome = () => {
         </>)}
         <div>
         <div>
-        <Table style={{tableLayout: "fixed", width: "auto !important"}}>
+        <Table style={{tableLayout: "fixed", width: "100%", marginRight: "auto"}}>
         <Tr style={{padding: ".35em"}}>
           {activeSlider.map((item)=>{return(
               <>
@@ -295,7 +295,7 @@ const CMSHome = () => {
         <h3> Deactivated Images </h3>
         {notActiveSlider.length > 0 ? (<>
         <div>
-        <Table style={{tableLayout: "fixed", width: "auto !important"}}>
+        <Table style={{tableLayout: "fixed", width: "100%", marginRight: "auto"}}>
         <Tr style={{padding: ".35em"}}>
           {notActiveSlider.map((item)=>{
             return(
@@ -320,7 +320,7 @@ const CMSHome = () => {
           <form className='form-cms'
           onClick={() => document.querySelector(".input-field").click()}
           >
-            <input type="file" accept='image/*' className='input-field hidden-input' hidden 
+            <input ref={imgInputRef} type="file" accept='image/*' className='input-field hidden-input' hidden 
             onChange={handleImage}
             />
 

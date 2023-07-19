@@ -4,6 +4,10 @@ import {Row, Col, Container} from 'react-bootstrap';
 import LoadingSpinner from '../../LoadingSpinner';
 import axios from 'axios';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
+import { MdCloudUpload, MdDelete } from 'react-icons/md'
+import { AiFillFileImage } from 'react-icons/ai'
 
 const CMSOS = () => {
     
@@ -19,7 +23,8 @@ const CMSOS = () => {
 
   const [isUploadDisable, setIsUploadDisable] = useState(true);
 
-  
+  const [fileName, setFileName] = useState("No selected file");
+  const [showImage, setShowImage] = useState(null);
   const imgInputRef = useRef(null);
 
   const getWhoWeAre = (slideTitle) => {
@@ -127,6 +132,8 @@ const CMSOS = () => {
     setImage(e.target.files[0]);
     let imageName = e.target.files[0];
     //console.log(imageName);
+    setShowImage(URL.createObjectURL(e.target.files[0]))
+    setFileName(e.target.files[0].name)
     if(imageName){
       setIsUploadDisable(false);
     }
@@ -158,6 +165,9 @@ const CMSOS = () => {
         }
       })}
       
+      setFileName("No selected File")
+      setShowImage(null)
+      setImage(null)
       setActiveSlider(aSlider);
       setNotActiveSlider(nSlider);
     })
@@ -224,8 +234,10 @@ const CMSOS = () => {
     <>
     
     {sliderData ? (<>
-      <div> <p>ORGANIZATIONAL STRUCTUREEEEEEEEEEEE</p>
-        <h1>Image Slider </h1>
+      <div> 
+        <center>
+          <h1><b>{slideTitle}</b></h1>
+        </center>
         <h3> Active Images </h3>
         
         {activeSlider.length <= 0 ? (<>
@@ -242,13 +254,13 @@ const CMSOS = () => {
                 <Td style={{padding: ".625em",textAlign: "center"}}>
                   <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px"}}/>
                   <br/>
-                  <button
+                  <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.WhoWeAre_id)}
-                  >Deactivate</button>
+                  ><FontAwesomeIcon icon={faStop}/></button>
                   <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
-                  <button style={{backgroundColor: 'black', color:'white'}} 
-                  onClick={e=>DeleteButton(e, item.WhoWeAre_id)}>Delete</button>
+                  <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
+                  onClick={e=>DeleteButton(e, item.WhoWeAre_id)}><FontAwesomeIcon icon={faTrash}/></button>
                 </Td>
               </>
             )}
@@ -268,9 +280,9 @@ const CMSOS = () => {
               <Td style={{padding: ".625em",textAlign: "center"}}>
                 <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px"}}/>
                 <br/>
-                <button style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.WhoWeAre_id)}>Activate</button>
+                <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.WhoWeAre_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
-                <button style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.WhoWeAre_id)}>Delete</button>
+                <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.WhoWeAre_id)}><FontAwesomeIcon icon={faTrash}/></button>
               </Td>
           )
           })}
@@ -281,9 +293,46 @@ const CMSOS = () => {
           <h4> No Deactivated Images </h4>
         </>)}
         
-        <h3>Add Image</h3>
-        <input type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>
-        <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
+        <center>
+          <h3>Add Image</h3>
+          {/*<input className='image-input-cms' type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>*/}
+          <form className='form-cms'
+          onClick={() => document.querySelector(".input-field").click()}
+          >
+            <input ref={imgInputRef} type="file" accept='image/*' className='input-field hidden-input' hidden 
+            onChange={handleImage}
+            />
+
+            {showImage ?
+            <img src={showImage} width={150} height={150} alt={fileName} />
+            : 
+            <>
+            <MdCloudUpload color='#1475cf' size={60} />
+            <p>Browse Files to upload</p>
+            </>
+          }
+
+          </form>
+
+          <div className='uploaded-row'>
+            <AiFillFileImage color='#1475cf' />
+            <span className='upload-content'>
+              {fileName} - 
+              <MdDelete
+              style={{cursor: 'pointer'}}
+              onClick={() => {
+                setFileName("No selected File")
+                setShowImage(null)
+                setImage(null)
+                setIsUploadDisable(true);
+                imgInputRef.current.value = null;
+              }}
+              />
+            </span>
+          </div>
+          <br/>
+          <button className='btn-cms' style={{backgroundColor: !isUploadDisable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color:'white', width: "100px"}} onClick={onClickUpload} disabled={isUploadDisable}><FontAwesomeIcon icon={faUpload}/> Upload</button>
+        </center>
       </div>
       </>) : (<>
         <LoadingSpinner/>
