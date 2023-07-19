@@ -30,7 +30,7 @@ function Dashboard() {
     {/*<SideNavbar/>*/}
     <Navbar logout={AuthLogout} user={User} open={isOpenFunc}/>
 
-        <main className='cmsMain' style={{marginLeft: isOpen ? "290px":"80px"}}>
+        <main className='cmsMain' style={{marginLeft: !isOpen ? "80px":"290px"}}>
           <Outlet/>
         </main>
 

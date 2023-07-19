@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { SidebarData, whoweareData, PnSData, SOData, PublicationData, StoriesData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
@@ -10,6 +10,8 @@ import { faMinus, faPlus, faBars, faClose, faLeftLong, faSignOut, faUser } from 
 
 
 const Navbar = (props) => {
+  const location = useLocation();
+
   //const [pageTitle, setPageTitle] = useState(null);
   const user = JSON.parse(props.user);
   //console.log(user);
@@ -35,12 +37,9 @@ const Navbar = (props) => {
 
     if(!isOpen){
       setIsOpen (!isOpen);
+      
     }
-    /*
-    if(isPandSOpen){
-      setIsPandSOpen (!isPandSOpen);
-    }
-    */
+    props.open(true);
     
   } 
 
@@ -51,11 +50,8 @@ const Navbar = (props) => {
     if(!isOpen){
       setIsOpen (!isOpen);
     }
-    /*
-    if(isWhoweareOpen){
-      setIsWhoweareOpen (!isWhoweareOpen);
-    }
-    */
+    props.open(true);
+    
   }
 
   const[isSOOpen ,setIsSOOpen] = useState(false);  
@@ -65,11 +61,8 @@ const Navbar = (props) => {
     if(!isOpen){
       setIsOpen (!isOpen);
     }
-    /*
-    if(isWhoweareOpen){
-      setIsWhoweareOpen (!isWhoweareOpen);
-    }
-    */
+    props.open(true);
+    
   }
 
   const[isPublicationOpen ,setISPublicationOpen] = useState(false);  
@@ -79,11 +72,8 @@ const Navbar = (props) => {
     if(!isOpen){
       setIsOpen (!isOpen);
     }
-    /*
-    if(isWhoweareOpen){
-      setIsWhoweareOpen (!isWhoweareOpen);
-    }
-    */
+    props.open(true);
+    
   }
 
   const[isStoriesOpen ,setIsStoriesOpen] = useState(false);  
@@ -93,11 +83,8 @@ const Navbar = (props) => {
     if(!isOpen){
       setIsOpen (!isOpen);
     }
-    /*
-    if(isWhoweareOpen){
-      setIsWhoweareOpen (!isWhoweareOpen);
-    }
-    */
+    props.open(true);
+    
   }
 
   const[isLogoutOpen ,setIsLogoutOpen] = useState(false);  
@@ -107,23 +94,99 @@ const Navbar = (props) => {
     if(!isOpen){
       setIsOpen (!isOpen);
     }
+
     props.logout();
-    /*
-    if(isWhoweareOpen){
-      setIsWhoweareOpen (!isWhoweareOpen);
-    }
-    */
+    
+  }
+  var pageTitle;
+  if(location.pathname=="/cms/home"){
+    pageTitle = "HOME";
+  }
+  else if(location.pathname=="/cms/history"){
+    pageTitle = "HISTORY";
+  }
+  else if(location.pathname=="/cms/vmg"){
+    pageTitle = "V M G";
+  }
+  else if(location.pathname=="/cms/kso_guiding_principles"){
+    pageTitle = "KSO GUIDING PRINCIPLES";
+  }
+  else if(location.pathname=="/cms/cooperative_principles"){
+    pageTitle = "COOPERATIVE PRINCIPLES";
+  }
+  else if(location.pathname=="/cms/organizational_structure"){
+    pageTitle = "ORGANIZATIONAL STRUCTURE";
+  }
+  else if(location.pathname=="/cms/livelihood_and_enterprise_development"){
+    pageTitle = "Livelihood and Enterprise Development";
+  }
+  else if(location.pathname=="/cms/education_training_and_formation"){
+    pageTitle = "Education, Training and Formation";
+  }
+  else if(location.pathname=="/cms/health_and_wellness"){
+    pageTitle = "Health and Wellness";
+  }
+  else if(location.pathname=="/cms/security_shelter_and_safety"){
+    pageTitle = "Security, Shelter and Safety";
+  }
+  else if(location.pathname=="/cms/social_protection"){
+    pageTitle = "Social Protection";
+  }
+  else if(location.pathname=="/cms/ncr"){
+    pageTitle = "National Capital Region";
+  }
+  else if(location.pathname=="/cms/region3"){
+    pageTitle = "Region III";
+  }
+  else if(location.pathname=="/cms/region4a"){
+    pageTitle = "Region IV - A";
+  }
+  else if(location.pathname=="/cms/annual_reports"){
+    pageTitle = "Annual Reports";
+  }
+  else if(location.pathname=="/cms/audited_financial_statements"){
+    pageTitle = "Audited Financial Statements";
+  }
+  else if(location.pathname=="/cms/announcements" || location.pathname.includes("/cms/announcements")){
+    pageTitle = "Announcements";
+  }
+  else if(location.pathname=="/cms/by_the_numbers"){
+    pageTitle = "By The Numbers";
+  }
+  else if(location.pathname=="/cms/k_ganap" || location.pathname.includes("/cms/k_ganap")){
+    pageTitle = "K - Ganapan";
+  }
+  else if(location.pathname=="/cms/kwentong_k" || location.pathname.includes("/cms/kwentong_k")){
+    pageTitle = "Kwentong - K";
+  }
+  else if(location.pathname=="/cms/k_bahagi" || location.pathname.includes("/cms/k_bahagi")){
+    pageTitle = "K - Bahagi";
+  }
+  else if(location.pathname=="/cms/videos"){
+    pageTitle = "Videos";
+  }
+  else if(location.pathname=="/cms/careers"){
+    pageTitle = "Careers";
   }
 
   return (
     <>
       <header className="header-cms" style={{left: isOpen ? '280px':'50px', paddingRight: "70px", transition: 'all 0.5s' }}>
         <div>
+            <b>{pageTitle}</b>
+        </div> 
+        <div>
+          <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
+          style={{marginRight: "15px", marginTop: "3px"}}></img>
+          <span style={{position: "relative",top: "15px"}}>
+            <b> KASAGANA-KA  </b> COOPERATIVE
+          </span>
+          
+        </div>
+        <div>
             <b>ADMINISTRATION</b>
         </div>
-        {/* <div>
-            <b>{pageTitle}</b>
-        </div> */}
+         
         
       </header>
       <div className="container-cms">
