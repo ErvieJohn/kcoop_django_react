@@ -81,4 +81,8 @@
       border: 3px solid #5551ff;
   }
 }
+
+#desc-cms .ck-editor__editable {
+  height: 400px;
+}
                 

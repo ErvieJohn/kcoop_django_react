@@ -8,6 +8,8 @@ import { AuthContext } from "../../../context/AuthContext";
 import LoadingSpinner from "../../LoadingSpinner";
 
 import Error404 from "../../Error404";
+import { faSave, faUndo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const EditAnnouncements =  () => {
   const {getAnnouncementDataID, 
@@ -108,11 +110,12 @@ export const EditAnnouncements =  () => {
     setText(edited);
     setOldText(edited);
     setOldImage(image);
-      //console.log(image, showImage)
-      if(image != showImage){
-        setShowImage(URL.createObjectURL(image));
-      }
     
+      // if(image != showImage){
+      //   setShowImage(URL.createObjectURL(image));
+      // }
+    setShowImage(URL.createObjectURL(image));
+    //console.log(image, showImage)
     setIsEnable(true);
     setIsEnableUndo(true);
 
@@ -159,7 +162,16 @@ export const EditAnnouncements =  () => {
   }
 
   function onUndoClicked  (){
-    setShowImage(oldImage);
+    //console.log("oldImage",oldImage);
+    //console.log(typeof oldImage === 'string')
+    if (typeof oldImage === 'string' || oldImage instanceof String){
+      setShowImage(oldImage);
+    }
+    else{
+      setShowImage(URL.createObjectURL(oldImage));
+    }
+    
+    
     setIsEnableUndo(true);
     setIsEnable(true);
 
@@ -208,61 +220,92 @@ export const EditAnnouncements =  () => {
         announcementsStatus === 200 ? (<>
         {
           data ? (<>
-            <h1>Edit Announcements</h1>
             <center>
-              <b>
-                  <label>Title: </label>
-                  </b>
-                  <input type="text" value={titleInput} onChange={titleOnChange}></input>
-              <b><label>Date: </label></b>
-                <input type="date" value={dateInput} onChange={dateOnChange}></input>
-              <br /><br />
-              
-              <div className="box box-warning " />
-
-                <img src={showImage} width="50%" height="50%"/>
-                <br/>
-                <label>Change Image: </label>
-                <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
-                <button onClick={onUndoClicked} disabled={isEnableUndo}>UNDO</button>
-                <CKEditor
-                editor={ClassicEditor}
-                data = {edit}
-
-                onChange={(event, editor) => {
-                  
-                  const dataEditor = editor.getData();
-                  edited = dataEditor;
-                  //console.log("dataEditor", dataEditor);
-                  //console.log("oldText", edited, oldText);
-                  //console.log("text", edited, text);
-                  
-                  if(edited==text){
-                    //disabled
-                    setIsEnable(true);
-                  }
-                  else if(edited == oldText){
-                    //disabled
-                    setIsEnable(true);
-                  }
-                  else{
-                    //enabled
-                    setIsEnable(false);
-                  }
-                
-                  if (!executed && firstOldText.length>0) {
-                      setExecuted(true);
-                      // do something
-                      //disabled
-                      setIsEnable(true);
-                      //console.log("Executed");
-                      setOldText(edited);
-                  }
-                  
-                }}
-              />
+              <h1>Edit {pageTitle}</h1>
+            </center>
+            <br/>
+            <center style={{paddingRight: "100px"}}>
+              <div id="icon-text-cms" style={{width: "100%"}}>
+                <b>
+                <label style={{fontSize: "16px", marginRight: "10px"}}>Title:  </label>
+                </b>
+                <input className="inputSO" type="text" value={titleInput} onChange={titleOnChange}></input>
+                <b><label style={{fontSize: "16px", marginLeft: "20px", marginRight: "10px"}}>Date:  </label></b>
+                <input className="inputSO" type="date" value={dateInput} onChange={dateOnChange}></input>
+              </div>
               <br/>
-              <button onClick={saveClicked} disabled={isEnable}>SAVE</button>
+              
+              <div id="icon-text-cms">
+                
+                <div>
+                  <label style={{fontSize: "16px"}}>Image</label>
+                  <br/>
+                  <div style={{borderStyle: "dashed", borderColor: 'skyblue', width:"350px",
+                      maxWidth:"350px", height: "375px", maxHeight: "375px", display: "inline-block", }}>
+                    <img src={showImage} width="100%" height="100%" />
+                  </div>
+
+                  <br/>
+                  <br/>
+                  <div id="icon-text-cms">
+                    <label style={{fontSize: "16px", marginRight: "20px"}}>Change Image: </label>
+                    <input type="file" ref={imgInputRef} name="image" accept='image/*' onChange={handleImage}/>
+                  </div>
+                    <button className="btn-cms" style={{width:'100px', backgroundColor: !isEnableUndo ? 'rgb(199, 37, 78)': 'rgb(102, 110, 110)', 
+                    color: !isEnableUndo ? 'black': 'white'}} 
+                    onClick={onUndoClicked} disabled={isEnableUndo}><FontAwesomeIcon icon={faUndo}/> Undo</button>
+                </div>
+                
+                <div id="desc-cms" style={{width: "500px", marginLeft: "50px"}}>
+                  <label style={{fontSize: "16px"}}>Description</label>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    data = {edit}
+
+                    onChange={(event, editor) => {
+                      
+                      const dataEditor = editor.getData();
+                      edited = dataEditor;
+                      //console.log("dataEditor", dataEditor);
+                      //console.log("oldText", edited, oldText);
+                      //console.log("text", edited, text);
+                      
+                      if(edited==text){
+                        //disabled
+                        setIsEnable(true);
+                      }
+                      else if(edited == oldText){
+                        //disabled
+                        setIsEnable(true);
+                      }
+                      else{
+                        //enabled
+                        setIsEnable(false);
+                      }
+                    
+                      if (!executed && firstOldText.length>0) {
+                          setExecuted(true);
+                          // do something
+                          //disabled
+                          setIsEnable(true);
+                          //console.log("Executed");
+                          setOldText(edited);
+                      }
+                      
+                    }}
+                  />
+                </div>
+              </div>
+              <center id="icon-text-cms">
+                <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 
+                'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}>
+                  <FontAwesomeIcon icon={faSave}/> SAVE</button>
+                <div style={{marginLeft: "10px", marginTop: "10px"}}>
+                  <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>CTRL + S</code></h4>
+                </div>
+              </center>
+              
+
             </center>
           </>) : (<>
           <LoadingSpinner/>
