@@ -238,6 +238,7 @@ function CMSRegion3() {
         
         {cityArray.map((item)=>(
             <>
+            <br/>
             <h1>{item.City} </h1>
             
             {imagesSatalliteOffices.map((contentImage)=>(
@@ -247,15 +248,15 @@ function CMSRegion3() {
                 <>
                 <h3> Active Images </h3>
 
-                <Table style={{tableLayout: "fixed", width: "auto !important", border: "1px solid black",borderCollapse: "collapse"}}>
-                <Tr style={{padding: ".35em"}}>
+                <ul className='list-cms'>
 
                     {contentImage['Images'].map((Images)=>(
                   <>
                     {Images["SatalliteOffices_status"] == "Active" ? (
                        
-                        <Td style={{padding: ".625em",textAlign: "center", border: "1px solid black",borderCollapse: "collapse"}}>
-                        <img src={Images["SatalliteOffices_image"]} style={{height: "220px", width: "340px", marginBottom: "2%"}}/>
+                      <li style={{padding: ".625em",textAlign: "center", border: "1px solid black"}}>
+                      <figure className='figure-cms'>
+                        <img src={Images["SatalliteOffices_image"]} style={{height: "auto", width: "100%", marginBottom: "2%"}}/>
                         <br/>
                         <button className='btn-cms'
                         style={{backgroundColor: 'red', color:'white'}} 
@@ -264,38 +265,40 @@ function CMSRegion3() {
                         <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                         <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
                         onClick={e=>DeleteButton(e, Images["SatalliteOffices_id"])}><FontAwesomeIcon icon={faTrash}/></button>
-                        </Td>
+                      </figure>
+                      </li>
                       ) : (<>
                           
                       </>)}
                   </>
                 ))}
-                </Tr>
-                </Table>
+                </ul>
+                <br style={{clear:"both"}}/>
                
                   <h3> Deactivated Images </h3>
-                  <Table style={{tableLayout: "fixed", width: "auto !important", border: "1px solid black",borderCollapse: "collapse"}}>
-                  <Tr style={{padding: ".35em"}}>
+                  <ul className='list-cms'>
                       {contentImage['Images'].map((Images)=>(
                   <>
                     {Images["SatalliteOffices_status"] == "Deactivated" ? (
                          
-                          <Td style={{padding: ".625em",textAlign: "center", border: "1px solid black",borderCollapse: "collapse"}}>
-                          <img src={Images["SatalliteOffices_image"]} style={{height: "220px", width: "340px", marginBottom: "2%"}}/>
+                        <li style={{padding: ".625em",textAlign: "center", border: "1px solid black"}}>
+                        <figure className='figure-cms'>
+                          <img src={Images["SatalliteOffices_image"]} style={{height: "auto", width: "100%", marginBottom: "2%"}}/>
                           <br/>
                           <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                           onClick={e=>ActivateButton(e, Images["SatalliteOffices_id"])}><FontAwesomeIcon icon={faPlay}/></button>
                           <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                           <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
                           onClick={e=>DeleteButton(e, Images["SatalliteOffices_id"])}><FontAwesomeIcon icon={faTrash}/></button>
-                          </Td>
+                        </figure>
+                        </li>
                       ) : (<>
                           
                       </>)}
                   </>
                 ))}
-                </Tr>
-                </Table>
+                </ul>
+                <br style={{clear:"both"}}/>
                 
                 </>
                 ): 

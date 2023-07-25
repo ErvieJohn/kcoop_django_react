@@ -293,11 +293,11 @@ const CMSAnnouncements = () => {
         </>)}
         <div>
         <div>
-        <Table style={{tableLayout: "fixed", width: "auto !important"}}>
-        <Tr style={{padding: ".35em"}}>
+        <ul className='list-cms'>
           {activeSlider.map((item)=>{return(
               <>
-                <Td style={{padding: ".625em",textAlign: "center"}}>
+              <li style={{padding: ".625em",textAlign: "center"}}>
+              <figure className='figure-cms'>
                   <img src={item.Publications_image} style={{height: "200px", width: "180px"}}/>
                   <br/>
                   <center>
@@ -315,23 +315,24 @@ const CMSAnnouncements = () => {
                   <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
                   <button className='btn-cms' style={{width:'50px', backgroundColor: 'black', color:'white'}} 
                   onClick={e=>DeleteButton(e, item.Publications_id)}><FontAwesomeIcon icon={faTrash}/></button>
-                </Td>
+              </figure>
+              </li>
               </>
             )}
         
             )}
-        </Tr>
-        </Table>
+        </ul>
+        <br style={{clear:"both"}}/>
         </div>
         </div>
         <h3> Deactivated Files </h3>
         {notActiveSlider.length > 0 ? (<>
         <div>
-        <Table style={{tableLayout: "fixed", width: "auto !important"}}>
-        <Tr style={{padding: ".35em"}}>
+        <ul className='list-cms'>
           {notActiveSlider.map((item)=>{
             return(
-              <Td style={{padding: ".625em",textAlign: "center"}}>
+              <li style={{padding: ".625em",textAlign: "center"}}>
+              <figure className='figure-cms'>
                 <img src={item.Publications_image} style={{height: "200px", width: "180px"}}/>
                 <center>
                   <b>
@@ -347,11 +348,12 @@ const CMSAnnouncements = () => {
                 <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
                 <button className='btn-cms' style={{width:'50px', backgroundColor: 'black', color:'white'}} 
                 onClick={e=>DeleteButton(e, item.Publications_id)}><FontAwesomeIcon icon={faTrash}/></button>
-              </Td>
+              </figure>
+              </li>
           )
           })}
-        </Tr>
-        </Table>
+        </ul>
+        <br style={{clear:"both"}}/>
         </div>
         </>):(<>
           <h4> No Deactivated Files </h4>

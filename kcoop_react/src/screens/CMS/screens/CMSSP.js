@@ -247,11 +247,11 @@ const CMSSP = () => {
         </>)}
         <div>
         <div>
-        <Table style={{tableLayout: "fixed", width: "auto !important"}}>
-        <Tr style={{padding: ".35em"}}>
+        <ul className='list-cms'>
           {activeSlider.map((item)=>{return(
               <>
-                <Td style={{padding: ".625em",textAlign: "center"}}>
+                <li style={{padding: ".625em",textAlign: "center"}}>
+                <figure className='figure-cms'>
                   <img src={item.ProgramAndServices_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                   <br/>
                   <button className='btn-cms'
@@ -261,13 +261,14 @@ const CMSSP = () => {
                   <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                   <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
                   onClick={e=>DeleteButton(e, item.ProgramAndServices_id)}><FontAwesomeIcon icon={faTrash}/></button>
-                </Td>
+                </figure>
+                </li>
               </>
             )}
         
             )}
-        </Tr>
-        </Table>
+        </ul>
+        <br style={{clear:"both"}}/>
         </div>
         </div>
         <h3> Deactivated Images </h3>
