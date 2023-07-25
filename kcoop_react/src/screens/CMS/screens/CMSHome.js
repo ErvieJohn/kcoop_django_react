@@ -289,8 +289,9 @@ const CMSHome = () => {
           
               )}
           </ul>
+          <br style={{clear:"both"}}/>
         </div>
-        <br/>
+        
         
         <h3> Deactivated Images </h3>
         {notActiveSlider.length > 0 ? (<>
@@ -312,11 +313,12 @@ const CMSHome = () => {
           )
           })}
         </ul>
-       
+        <br style={{clear:"both"}}/>
         </div>
         </>):(<>
           <h4> No Deactivated Images </h4>
         </>)}
+        
         <center>
           <h3>Add Image</h3>
           {/*<input className='image-input-cms' type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>*/}
