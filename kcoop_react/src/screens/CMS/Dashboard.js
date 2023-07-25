@@ -3,7 +3,6 @@ import {React, useContext, useEffect, useState} from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 
 import Navbar from './Navbar/Navbar';
-import SideNavbar from './Navbar/SideNavbar';
 
 import './Dashboard.css';
 

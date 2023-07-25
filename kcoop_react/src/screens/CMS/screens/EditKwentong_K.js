@@ -11,6 +11,8 @@ import Error404 from "../../Error404";
 import { faSave, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { useHotkeys } from 'react-hotkeys-hook'
+
 export const EditKwentong_K =  () => {
     const {dataStories,
         getStoriesDataID,
@@ -99,12 +101,19 @@ export const EditKwentong_K =  () => {
       
     }
   }
+
+  useHotkeys('alt+s', (e) => {
+    if(!isEnable){
+      saveClicked();
+    }
+  }, [isEnable])
   
   const saveClicked = () =>{
     //console.log(edited);
     //console.log(dateInput);
     //console.log(titleInput);
-    
+    alert("Saved!");
+
     saveEdited(pageTitle, id, titleInput, dateInput, image, edited);
 
     setOldTitle(titleInput);
@@ -113,7 +122,10 @@ export const EditKwentong_K =  () => {
     setOldText(edited);
     setOldImage(image);
     //console.log(image, showImage)
-    if(image != showImage){
+    if (typeof image === 'string' || image instanceof String){
+      setShowImage(image);
+    }
+    else{
       setShowImage(URL.createObjectURL(image));
     }
     
@@ -302,7 +314,7 @@ export const EditKwentong_K =  () => {
                 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}>
                   <FontAwesomeIcon icon={faSave}/> SAVE</button>
                 <div style={{marginLeft: "10px", marginTop: "10px"}}>
-                  <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>CTRL + S</code></h4>
+                  <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>ALT + S</code></h4>
                 </div>
               </center>
               

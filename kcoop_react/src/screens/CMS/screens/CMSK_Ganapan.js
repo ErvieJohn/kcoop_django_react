@@ -281,10 +281,10 @@ const CMSK_Ganapan = () => {
         <center>
             <h1><b>{slideTitle}</b></h1>
         </center> 
-        <h3> Active Files </h3>
+        <h3> Active Stories </h3>
         
         {activeSlider.length <= 0 ? (<>
-            <h4> No Deactivated Files </h4>
+            <h4> No Deactivated Stories </h4>
         </>):(<>
           <h5> </h5>
         </>)}
@@ -322,7 +322,7 @@ const CMSK_Ganapan = () => {
         <br style={{clear:"both"}}/>
         </div>
         </div>
-        <h3> Deactivated Files </h3>
+        <h3> Deactivated Stories </h3>
         {notActiveSlider.length > 0 ? (<>
         <div>
         <ul className='list-cms'>
@@ -353,7 +353,7 @@ const CMSK_Ganapan = () => {
         <br style={{clear:"both"}}/>
         </div>
         </>):(<>
-          <h4> No Deactivated Files </h4>
+          <h4> No Deactivated Stories </h4>
         </>)}
         
         <center>

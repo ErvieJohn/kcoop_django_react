@@ -8,6 +8,8 @@ import LoadingSpinner from '../../LoadingSpinner';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { useHotkeys } from 'react-hotkeys-hook'
+
 function CMSCP() {
   const {getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
 
@@ -54,9 +56,15 @@ function CMSCP() {
     //console.log("1");
   }
 
+  useHotkeys('alt+s', (e) => {
+    if(!isEnable){
+      saveClicked();
+    }
+  }, [isEnable])
   
 
   function saveClicked (){
+    alert("Saved!");
     //console.log(edited);
     saveTextEdited(edited);
     /*localStorage.setItem('oldText', edited);
@@ -137,7 +145,7 @@ function CMSCP() {
         <center id="icon-text-cms">
           <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
            <div style={{marginLeft: "10px", marginTop: "10px"}}>
-            <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>CTRL + S</code></h4>
+            <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>ALT + S</code></h4>
           </div> 
         </center>
       </div>
