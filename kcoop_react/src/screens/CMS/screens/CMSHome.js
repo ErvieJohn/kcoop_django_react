@@ -302,9 +302,11 @@ const CMSHome = () => {
               <Td style={{padding: ".625em",textAlign: "center"}}>
                 <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
-                <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Home_id)}><FontAwesomeIcon icon={faPlay}/></button>
+                <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
+                onClick={e=>ActivateButton(e, item.Home_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
-                <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Home_id)}><FontAwesomeIcon icon={faTrash}/></button>
+                <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
+                onClick={e=>DeleteButton(e, item.Home_id)}><FontAwesomeIcon icon={faTrash}/></button>
               </Td>
           )
           })}

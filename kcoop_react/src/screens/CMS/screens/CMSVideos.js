@@ -5,8 +5,8 @@ import LoadingSpinner from '../../LoadingSpinner';
 import axios from 'axios';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import { useNavigate, Link } from 'react-router-dom';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const CMSVideos = () => {
 
@@ -224,7 +224,10 @@ const CMSVideos = () => {
     <>
     
     {sliderData ? (<>
-      <div> <p>Videos</p>
+      <div> 
+        <center>
+          <h1><b>{slideTitle}</b></h1>
+        </center>
         
         <h3> Active Videos </h3>
         
@@ -248,15 +251,15 @@ const CMSVideos = () => {
                         {item.Stories_title}
                     </b>
                   </center>
-                  <button
+                  <button className='btn-cms' 
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.Stories_id)}
-                  >Deactivate</button>
+                  ><FontAwesomeIcon icon={faStop}/></button>
                   <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
                   
                   <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
-                  <button style={{backgroundColor: 'black', color:'white'}} 
-                  onClick={e=>DeleteButton(e, item.Stories_id)}>Delete</button>
+                  <button className='btn-cms'  style={{backgroundColor: 'black', color:'white'}} 
+                  onClick={e=>DeleteButton(e, item.Stories_id)}><FontAwesomeIcon icon={faTrash}/></button>
                 </Td>
               </>
             )}
@@ -276,12 +279,17 @@ const CMSVideos = () => {
               <Td style={{padding: ".625em",textAlign: "center"}}>
                 {/*<embed width="100%" height={90} src={item.Stories_ytlink} />*/}
                 <iframe width="100%" height={90} src={item.Stories_ytlink} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <center>
+                  <b>
+                      {item.Stories_title}
+                  </b>
+                </center>
                 <br/>
-                <button style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Stories_id)}>Activate</button>
+                <button className='btn-cms'  style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Stories_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
                 
                 <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
-                <button style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Stories_id)}>Delete</button>
+                <button className='btn-cms'  style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.Stories_id)}><FontAwesomeIcon icon={faTrash}/></button>
               </Td>
           )
           })}
@@ -292,18 +300,23 @@ const CMSVideos = () => {
           <h4> No Deactivated Videos </h4>
         </>)}
         
-        <h3>Add Video Story</h3>
-        <b><label>Title: </label>
-          </b>
-          <input type="text" value={titleInput} onChange={titleOnChange}></input>
-        <b><label>Date: </label></b>
-        <input type="date" value={dateInput} onChange={dateOnChange}></input>
-        <br/>
-        <b><label>Enter Video URL Link: </label></b>
-          <input type="text" value={ytInput} onChange={ytOnChange}></input>
+        <center>
+          <h3>Add Video Story</h3>
+          <b><label style={{fontSize: "16px", marginTop: "5px"}}>Title: </label>
+            </b>
+            <input className="inputSO" type="text" value={titleInput} onChange={titleOnChange}></input>
+          <b><label style={{marginLeft: "10px", fontSize: "16px", marginTop: "5px"}}>Date: </label></b>
+          <input className="inputSO" type="date" value={dateInput} onChange={dateOnChange}></input>
+          <br/>
+          <b><label style={{fontSize: "16px", marginTop: "5px"}}>Enter Video URL Link: </label></b>
+            <input className="inputSO" type="text" value={ytInput} onChange={ytOnChange}></input>
+          
+          <br/>
+            <button className='btn-cms' style={{backgroundColor: !isUploadDisable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', 
+            color: !isUploadDisable ? 'black':'white', width: "100px"}} onClick={onClickUpload} disabled={isUploadDisable}>
+              <FontAwesomeIcon icon={faUpload}/> Upload</button>
+        </center>
         
-
-        <button onClick={onClickUpload} disabled={isUploadDisable}>Upload</button>
       </div>
       </>) : (<>
         <LoadingSpinner/>

@@ -151,7 +151,7 @@ const CMSAnnouncements = () => {
     formData.append('Publications_content', edited);
     formData.append('Publications_title', titleInput);
     formData.append('Publications_pubDate', dateInput);
-    console.log(edited);
+    //console.log(edited);
     axios.post(`${BASE_URL}/uploadPubContent/`, formData).then((response)=>{
       //console.log(res);
       let data = response.data;

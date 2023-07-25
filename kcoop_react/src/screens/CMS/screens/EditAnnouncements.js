@@ -238,11 +238,13 @@ export const EditAnnouncements =  () => {
               <div id="icon-text-cms">
                 
                 <div>
-                  <label style={{fontSize: "16px"}}>Image</label>
                   <br/>
-                  <div style={{borderStyle: "dashed", borderColor: 'skyblue', width:"350px",
-                      maxWidth:"350px", height: "375px", maxHeight: "375px", display: "inline-block", }}>
-                    <img src={showImage} width="100%" height="100%" />
+                  <div style={{width:"375px", maxWidth:"375px", height: "375px", maxHeight: "375px", display: "flex", 
+                      position: "relative"}}>
+                    <div style={{position: "absolute", top: "50%", transform: "translate(0, -50%)",
+                      borderStyle: "dashed", borderColor: 'skyblue', padding: "10px 10px 10px 10px"}}>
+                      <img src={showImage} style={{maxWidth: "100%", height: "auto"}} />
+                    </div>
                   </div>
 
                   <br/>
