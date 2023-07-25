@@ -85,4 +85,56 @@
 #desc-cms .ck-editor__editable {
   height: 400px;
 }
-                
+   
+
+ul.list-cms {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ul.list-cms :after { /* to clearfix your ul list */
+  content: "";
+  display: table;
+  clear: both;
+}
+ul.list-cms  li {
+  display: block; /* inline-block have an extra 4px margin wich makes it harder to use in this situation */
+  /* width: 25%; You get it (100/3) but use exact number */
+  padding: 10px 5px;
+  float: left; /* if you use block elements you have to float them */
+  text-align: center;
+}
+.figure-cms {
+  margin: 0; /* to normalize figure element */
+}
+
+@media screen and (min-width: 400px) {
+
+  ul.list-cms  li {
+    width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 600px) {
+
+  ul.list-cms  li {
+    width: 50%;
+  }
+
+}
+
+@media screen and (min-width: 900px) {
+
+  ul.list-cms  li {
+    width: 33.3333333%;
+  }
+
+}
+
+
+
+
+
+
+

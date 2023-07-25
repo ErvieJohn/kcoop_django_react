@@ -267,39 +267,39 @@ const CMSHome = () => {
           <h5> </h5>
         </>)}
         <div>
-        <div>
-        <Table style={{width: "100%", marginRight: "auto", overflowX:"auto"}}>
-        <Tr style={{padding: ".35em"}}>
-          {activeSlider.map((item)=>{return(
-              <>
-                <Td style={{padding: ".625em",textAlign: "center"}}>
-                  <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
-                  <br style={{marginTop: "2%"}}/>
-                  <button className='btn-cms'
-                  style={{backgroundColor: 'red', color:'white'}} 
-                  onClick={e=>DeactivateButton(e, item.Home_id)}
-                  disabled={isDisable}
-                  ><FontAwesomeIcon icon={faStop}/></button>
-                  <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
-                  <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
-                  onClick={e=>DeleteButton(e, item.Home_id)}><FontAwesomeIcon icon={faTrash}/></button>
-                </Td>
-              </>
-            )}
+          <ul className='list-cms'>
+            {activeSlider.map((item)=>{return(
+                <>
+                  <li style={{padding: ".625em",textAlign: "center"}}>
+                    <figure className='figure-cms'>
+                    <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
+                    <br style={{marginTop: "2%"}}/>
+                    <button className='btn-cms'
+                    style={{backgroundColor: 'red', color:'white'}} 
+                    onClick={e=>DeactivateButton(e, item.Home_id)}
+                    disabled={isDisable}
+                    ><FontAwesomeIcon icon={faStop}/></button>
+                    <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
+                    <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
+                    onClick={e=>DeleteButton(e, item.Home_id)}><FontAwesomeIcon icon={faTrash}/></button>
+                    </figure>
+                  </li>
+                </>
+              )}
+          
+              )}
+          </ul>
+        </div>
+        <br/>
         
-            )}
-        </Tr>
-        </Table>
-        </div>
-        </div>
         <h3> Deactivated Images </h3>
         {notActiveSlider.length > 0 ? (<>
         <div>
-        <Table style={{width: "100%", marginRight: "auto", overflowX:"auto"}}>
-        <Tr style={{padding: ".35em"}}>
+        <ul className='list-cms'>
           {notActiveSlider.map((item)=>{
             return(
-              <Td style={{padding: ".625em",textAlign: "center"}}>
+              <li style={{padding: ".625em",textAlign: "center"}}>
+              <figure className='figure-cms'>
                 <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
@@ -307,11 +307,12 @@ const CMSHome = () => {
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                 <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} 
                 onClick={e=>DeleteButton(e, item.Home_id)}><FontAwesomeIcon icon={faTrash}/></button>
-              </Td>
+              </figure>
+              </li>
           )
           })}
-        </Tr>
-        </Table>
+        </ul>
+       
         </div>
         </>):(<>
           <h4> No Deactivated Images </h4>
