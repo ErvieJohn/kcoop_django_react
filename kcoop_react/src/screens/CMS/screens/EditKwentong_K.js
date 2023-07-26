@@ -112,7 +112,11 @@ export const EditKwentong_K =  () => {
     //console.log(edited);
     //console.log(dateInput);
     //console.log(titleInput);
-    alert("Saved!");
+    const domEditableElement = document.querySelector('.ck-editor__editable');
+    // Get the editor instance from the editable element.
+    const editorInstance = domEditableElement.ckeditorInstance;
+    // Use the editor instance API.
+    edited = editorInstance.getData();
 
     saveEdited(pageTitle, id, titleInput, dateInput, image, edited);
 
@@ -133,6 +137,8 @@ export const EditKwentong_K =  () => {
     setIsEnableUndo(true);
 
     imgInputRef.current.value = null;
+
+    alert("Saved!");
   }
   
   const [exeOne, setExeOne] = useState(true);
@@ -181,8 +187,10 @@ export const EditKwentong_K =  () => {
     else{
       setShowImage(URL.createObjectURL(oldImage));
     }
+    setImage(oldImage);
     setIsEnableUndo(true);
-    setIsEnable(true);
+    //setIsEnable(true);
+    checkChanges();
 
     imgInputRef.current.value = null;
   }
@@ -220,6 +228,27 @@ export const EditKwentong_K =  () => {
     setShowImage(oldImages);
   }
   
+
+  function checkChanges(){
+    const domEditableElement = document.querySelector('.ck-editor__editable');
+    // Get the editor instance from the editable element.
+    const editorInstance = domEditableElement.ckeditorInstance;
+    if(editorInstance.getData()==text){
+      //disabled
+      setIsEnable(true);
+    }
+    else if(editorInstance.getData() == oldText){
+      //disabled
+      setIsEnable(true);
+    }
+    else if(image!=oldImage){
+      setIsEnable(false);
+    }
+    else{
+      //enabled
+      setIsEnable(false);
+    }
+  }
 
   return(
     <>
@@ -283,18 +312,7 @@ export const EditKwentong_K =  () => {
                       //console.log("oldText", edited, oldText);
                       //console.log("text", edited, text);
                       
-                      if(edited==text){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else if(edited == oldText){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else{
-                        //enabled
-                        setIsEnable(false);
-                      }
+                      checkChanges();
                     
                       if (!executed && firstOldText.length>0) {
                           setExecuted(true);

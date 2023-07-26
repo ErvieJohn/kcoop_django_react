@@ -109,10 +109,15 @@ export const EditK_Ganapan =  () => {
   }, [isEnable])
   
   const saveClicked = () =>{
+    const domEditableElement = document.querySelector('.ck-editor__editable');
+    // Get the editor instance from the editable element.
+    const editorInstance = domEditableElement.ckeditorInstance;
+    // Use the editor instance API.
+    edited = editorInstance.getData();
     //console.log(edited);
     //console.log(dateInput);
     //console.log(titleInput);
-    alert("Saved!");
+    
     saveEdited(pageTitle, id, titleInput, dateInput, image, edited);
 
     setOldTitle(titleInput);
@@ -131,7 +136,11 @@ export const EditK_Ganapan =  () => {
     setIsEnable(true);
     setIsEnableUndo(true);
 
+   
+    //editorInstance.setData(edited);
+
     imgInputRef.current.value = null;
+    alert("Saved!");
   }
   
   const [exeOne, setExeOne] = useState(true);
@@ -180,8 +189,10 @@ export const EditK_Ganapan =  () => {
     else{
       setShowImage(URL.createObjectURL(oldImage));
     }
+    setImage(oldImage);
     setIsEnableUndo(true);
-    setIsEnable(true);
+    //setIsEnable(true);
+    checkChanges();
 
     imgInputRef.current.value = null;
   }
@@ -219,6 +230,29 @@ export const EditK_Ganapan =  () => {
     setShowImage(oldImages);
   }
   
+  function checkChanges(){
+    const domEditableElement = document.querySelector('.ck-editor__editable');
+    // Get the editor instance from the editable element.
+    const editorInstance = domEditableElement.ckeditorInstance;
+    if(editorInstance.getData()==text){
+      //disabled
+      setIsEnable(true);
+    }
+    else if(editorInstance.getData() == oldText){
+      //disabled
+      setIsEnable(true);
+    }
+    else if(image!=oldImage){
+      setIsEnable(false);
+    }
+    else{
+      //enabled
+      setIsEnable(false);
+    }
+
+    
+  }
+
 
   return(
     <>
@@ -273,6 +307,10 @@ export const EditK_Ganapan =  () => {
                     editor={ClassicEditor}
                     data = {edit}
 
+                    onReady={()=>{
+                      setIsEnable(true);
+                    }}
+
                     onChange={(event, editor) => {
                       
                       const dataEditor = editor.getData();
@@ -281,18 +319,7 @@ export const EditK_Ganapan =  () => {
                       //console.log("oldText", edited, oldText);
                       //console.log("text", edited, text);
                       
-                      if(edited==text){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else if(edited == oldText){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else{
-                        //enabled
-                        setIsEnable(false);
-                      }
+                      checkChanges();
                     
                       if (!executed && firstOldText.length>0) {
                           setExecuted(true);
