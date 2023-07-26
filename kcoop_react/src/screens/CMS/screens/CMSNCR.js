@@ -224,6 +224,7 @@ function CMSNCR() {
     getTBL_SatalliteOffices(pageTitle);
   },[])
 
+  var deact_count = 0; 
 
   return (
     <>
@@ -266,7 +267,17 @@ function CMSNCR() {
                       </figure>
                       </li>
                       ) : (<>
-                          
+                          {(()=>{
+                            // console.log(index);
+                            // console.log("deact_count", deact_count);
+                            // console.log("length", contentImage['Images'].length );
+                            deact_count++;
+                            if(deact_count==contentImage['Images'].length){
+                              deact_count = 0;
+                              return(<h4> No Activated Branch </h4>)
+                            }
+
+                          })()}
                       </>)}
                   </>
                 ))}
@@ -275,10 +286,10 @@ function CMSNCR() {
                
                   <h3> Deactivated Images </h3>
                   <ul className='list-cms'>
-                      {contentImage['Images'].map((Images)=>(
+                      {contentImage['Images'].map((Images, index)=>(
                   <>
                     {Images["SatalliteOffices_status"] == "Deactivated" ? (
-                         
+                      <>
                         <li style={{padding: ".625em",textAlign: "center", border: "1px solid black"}}>
                         <figure className='figure-cms'>
                           <img src={Images["SatalliteOffices_image"]} style={{height: "auto", width: "100%", marginBottom: "2%"}}/>
@@ -288,8 +299,19 @@ function CMSNCR() {
                           <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, Images["SatalliteOffices_id"])}><FontAwesomeIcon icon={faTrash}/></button>
                         </figure>
                         </li>
+                      </>
                       ) : (<>
-                          
+                          {(()=>{
+                            // console.log(index);
+                            // console.log("deact_count", deact_count);
+                            // console.log("length", contentImage['Images'].length );
+                            deact_count++;
+                            if(deact_count==contentImage['Images'].length){
+                              deact_count = 0;
+                              return(<h4> No Deactivated Branch </h4>)
+                            }
+
+                          })()}
                       </>)}
                   </>
                 ))}

@@ -226,6 +226,7 @@ function CMSRegion3() {
     getTBL_SatalliteOffices(pageTitle);
   },[])
 
+  var deact_count = 0; 
 
   return (
     <>
@@ -268,7 +269,17 @@ function CMSRegion3() {
                       </figure>
                       </li>
                       ) : (<>
-                          
+                          {(()=>{
+                            // console.log(index);
+                            // console.log("deact_count", deact_count);
+                            // console.log("length", contentImage['Images'].length );
+                            deact_count++;
+                            if(deact_count==contentImage['Images'].length){
+                              deact_count = 0;
+                              return(<h4> No Activated Branch </h4>)
+                            }
+
+                          })()}
                       </>)}
                   </>
                 ))}
@@ -293,7 +304,17 @@ function CMSRegion3() {
                         </figure>
                         </li>
                       ) : (<>
-                          
+                          {(()=>{
+                            // console.log(index);
+                            // console.log("deact_count", deact_count);
+                            // console.log("length", contentImage['Images'].length );
+                            deact_count++;
+                            if(deact_count==contentImage['Images'].length){
+                              deact_count = 0;
+                              return(<h4> No Deactivated Branch </h4>)
+                            }
+
+                          })()}
                       </>)}
                   </>
                 ))}
