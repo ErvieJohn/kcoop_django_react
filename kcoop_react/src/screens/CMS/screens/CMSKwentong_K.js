@@ -358,7 +358,7 @@ const CMSKwentong_K = () => {
         
         <center>
           <h3>Add Kwentong - K Story</h3>
-          <div id="icon-text-cms">
+          <div id="combine-cms">
             <div style={{marginRight: "20px", marginTop: "20px"}}>
               <div id="icon-text-cms">
                 <b><label style={{marginRight: "10px", fontSize: "16px", marginTop: "5px"}}>Title: </label>

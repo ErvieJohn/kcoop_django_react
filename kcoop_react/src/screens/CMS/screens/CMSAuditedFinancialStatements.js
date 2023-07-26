@@ -311,7 +311,7 @@ const CMSAuditedFinancialStatements = () => {
         
         <center>
           <h3>Add File</h3>
-          <div id="icon-text-cms" style={{paddingLeft: "50px"}}>
+          <div id="combine-cms">
               {/*<input className='image-input-cms' type="file" ref={imgInputRef} name="file" accept='image/*' onChange={handleImage}/>*/}
             <div style={{marginRight: "20px"}}>
               <lable>

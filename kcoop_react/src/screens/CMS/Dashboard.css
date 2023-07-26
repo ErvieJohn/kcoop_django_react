@@ -113,7 +113,6 @@ ul.list-cms  li {
   ul.list-cms  li {
     width: 100%;
   }
-
 }
 
 @media screen and (min-width: 600px) {
@@ -121,7 +120,6 @@ ul.list-cms  li {
   ul.list-cms  li {
     width: 50%;
   }
-
 }
 
 @media screen and (min-width: 900px) {
@@ -129,7 +127,6 @@ ul.list-cms  li {
   ul.list-cms  li {
     width: 33.3333333%;
   }
-
 }
 
 @media screen and (min-width: 1024px) {

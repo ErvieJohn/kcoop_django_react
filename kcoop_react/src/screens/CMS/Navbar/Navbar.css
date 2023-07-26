@@ -87,3 +87,17 @@
   display: flex;
   justify-content: center;
 }
+
+
+#combine-cms{
+  /* display: flex; */
+  justify-content: center;
+}
+
+@media screen and (min-width: 1024px) {
+
+  #combine-cms {
+    display: flex;
+  }
+
+}

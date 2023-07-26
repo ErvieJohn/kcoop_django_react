@@ -357,7 +357,7 @@ const CMSK_Bahagi = () => {
         
         <center>
           <h3>Add K - Bahagi Story</h3>
-          <div id="icon-text-cms">
+          <div id="combine-cms">
             <div style={{marginRight: "20px", marginTop: "20px"}}>
               <div id="icon-text-cms">
                 <b><label style={{marginRight: "10px", fontSize: "16px", marginTop: "5px"}}>Title: </label>
