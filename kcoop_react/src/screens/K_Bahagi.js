@@ -104,16 +104,31 @@ export default function K_Bahagi() {
                                     whiteSpace: "pre-line",
                                   }}
                                 >
-                                  <p
-                                    style={{
-                                      textIndent: "30px",
-                                    }}
-                                    dangerouslySetInnerHTML={{
-                                      __html:
-                                        content.Stories_content.substring(0, 200) +
-                                        `...`,
-                                    }}
-                                  ></p>
+                                  {content["Stories_content"].length >= 200 ? (<>
+                                    <p
+                                      style={{
+                                        textIndent: "30px",
+                                        wordWrap: "break-word",
+                                      }}
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          content.Stories_content.substring(0, 200) +
+                                          `...`,
+                                      }}
+                                    ></p>
+                                  </>):(<>
+                                    <p
+                                      style={{
+                                        textIndent: "30px",
+                                        wordWrap: "break-word",
+                                      }}
+                                      dangerouslySetInnerHTML={{
+                                        __html:
+                                          content.Stories_content.substring(0, 200),
+                                      }}
+                                    ></p>
+                                  </>)}
+                                  
                                   {/* 
                                   <Link
                                     to={{

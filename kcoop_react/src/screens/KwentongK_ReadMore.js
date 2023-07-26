@@ -112,6 +112,7 @@ export default function KwentongK_ReadMore() {
                           <p
                             style={{
                               textIndent: "30px",
+                              wordWrap: "break-word",
                             }}
                             dangerouslySetInnerHTML={{
                               __html: dataStories.Stories_content,

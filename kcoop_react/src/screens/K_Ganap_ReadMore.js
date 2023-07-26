@@ -116,6 +116,7 @@ export default function K_Ganap_ReadMore() {
                         <p
                           style={{
                             textIndent: "30px",
+                            wordWrap: "break-word",
                           }}
                           dangerouslySetInnerHTML={{
                             __html: dataStories.Stories_content,
