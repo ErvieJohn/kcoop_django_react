@@ -19,6 +19,9 @@ const CMSK_Bahagi = () => {
 
   const slideTitle = "K - Bahagi";
 
+  const edit = "";
+  const [edited, setEdited] = useState("");
+
   const [sliderData, setSliderData] = useState([]);
   const [activeSlider, setActiveSlider] = useState([]);
 
@@ -166,7 +169,11 @@ const CMSK_Bahagi = () => {
 
     setDateInput("");
     setTitleInput("")
-    edited = "";
+    const domEditableElement = document.querySelector('.ck-editor__editable');
+    // Get the editor instance from the editable element.
+    const editorInstance = domEditableElement.ckeditorInstance;
+    // Use the editor instance API.
+    editorInstance.setData('');
     imgInputRef.current.value = null;
     
   }
@@ -260,9 +267,6 @@ const CMSK_Bahagi = () => {
       setIsUploadDisable(true);
     }
   } 
-
-  var edit = "";
-  var edited = "";
 
   useEffect(()=>{
     getTBL_Stories(slideTitle);
@@ -416,7 +420,7 @@ const CMSK_Bahagi = () => {
                       
                       const dataEditor = editor.getData();
                       
-                      edited = dataEditor;
+                      setEdited(dataEditor);
                     }}
                   />
             </div>

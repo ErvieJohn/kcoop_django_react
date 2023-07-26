@@ -19,6 +19,9 @@ const CMSK_Ganapan = () => {
 
   const slideTitle = "K - Ganapan";
 
+  const edit = "";
+  const [edited, setEdited] = useState("");
+
   const [sliderData, setSliderData] = useState([]);
   const [activeSlider, setActiveSlider] = useState([]);
 
@@ -166,7 +169,6 @@ const CMSK_Ganapan = () => {
 
     setDateInput("");
     setTitleInput("")
-    edited = "";
     const domEditableElement = document.querySelector('.ck-editor__editable');
     // Get the editor instance from the editable element.
     const editorInstance = domEditableElement.ckeditorInstance;
@@ -265,9 +267,6 @@ const CMSK_Ganapan = () => {
       setIsUploadDisable(true);
     }
   } 
-
-  var edit = "";
-  var edited = "";
 
   useEffect(()=>{
     getTBL_Stories(slideTitle);
@@ -421,7 +420,7 @@ const CMSK_Ganapan = () => {
                       
                       const dataEditor = editor.getData();
                       
-                      edited = dataEditor;
+                      setEdited(dataEditor);
                     }}
                   />
             </div>

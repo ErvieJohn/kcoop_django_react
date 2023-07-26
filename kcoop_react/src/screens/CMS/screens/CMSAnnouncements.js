@@ -19,6 +19,9 @@ const CMSAnnouncements = () => {
 
   const slideTitle = "Announcements";
 
+  const edit = "";
+  const [edited, setEdited] = useState("");
+
   const [sliderData, setSliderData] = useState([]);
   const [activeSlider, setActiveSlider] = useState([]);
 
@@ -269,8 +272,7 @@ const CMSAnnouncements = () => {
     }
   } 
 
-  var edit = "";
-  var edited = "";
+  
 
   useEffect(()=>{
     getTBL_Publications(slideTitle);
@@ -406,6 +408,7 @@ const CMSAnnouncements = () => {
                           setImage(null)
                           setIsUploadDisable(true);
                           imgInputRef.current.value = null;
+                          //console.log("deleted",edited);
                         }}
                         />
                       </span>
@@ -423,7 +426,8 @@ const CMSAnnouncements = () => {
                       
                       const dataEditor = editor.getData();
                       
-                      edited = dataEditor;
+                      setEdited(dataEditor);
+                      //console.log("edited",edited);
                     }}
                   />
             </div>
