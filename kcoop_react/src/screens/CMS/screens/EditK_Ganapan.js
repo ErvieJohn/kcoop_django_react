@@ -307,10 +307,6 @@ export const EditK_Ganapan =  () => {
                     editor={ClassicEditor}
                     data = {edit}
 
-                    onReady={()=>{
-                      setIsEnable(true);
-                    }}
-
                     onChange={(event, editor) => {
                       
                       const dataEditor = editor.getData();
@@ -321,13 +317,13 @@ export const EditK_Ganapan =  () => {
                       
                       checkChanges();
                     
-                      if (!executed && firstOldText.length>0) {
-                          setExecuted(true);
-                          // do something
-                          //disabled
-                          setIsEnable(true);
-                          //console.log("Executed");
-                          setOldText(edited);
+                      if (!executed) {
+                        setExecuted(true);
+                        // do something
+                        //disabled
+                        setIsEnable(true);
+                        console.log("Executed");
+                        setOldText(edited);
                       }
                       
                     }}

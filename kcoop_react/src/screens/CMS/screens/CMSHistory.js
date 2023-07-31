@@ -118,7 +118,7 @@ function CMSHistory() {
                   // do something
                   //disabled
                   setIsEnable(true);
-                  console.log("Executed");
+                  //console.log("Executed");
                   setOldText(edited);
               }
             }}

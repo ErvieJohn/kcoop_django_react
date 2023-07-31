@@ -299,7 +299,7 @@ export const EditAnnouncements =  () => {
                         setIsEnable(false);
                       }
                     
-                      if (!executed && firstOldText.length>0) {
+                      if (!executed) {
                           setExecuted(true);
                           // do something
                           //disabled

@@ -313,7 +313,7 @@ export const EditK_Bahagi =  () => {
                       
                       checkChanges();
                     
-                      if (!executed && firstOldText.length>0) {
+                      if (!executed) {
                           setExecuted(true);
                           // do something
                           //disabled
