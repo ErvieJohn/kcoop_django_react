@@ -56,6 +56,11 @@ function Login() {
                 //return <Navigate replace to="/cms" />;
                 let isUserlogged = localStorage.getItem("USER");
                 setLoggedUser(isUserlogged);
+
+                if(localStorage.getItem('isDarkMode') === null){
+                   
+                    localStorage.setItem('isDarkMode', Boolean(false));
+                }
             }
             
             }).catch(error => {

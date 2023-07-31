@@ -6,7 +6,7 @@ import { SidebarData, whoweareData, PnSData, SOData, PublicationData, StoriesDat
 import './Navbar.css';
 import { IconContext } from 'react-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus, faBars, faClose, faLeftLong, faSignOut, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faPlus, faBars, faClose, faLeftLong, faSignOut, faUser, faLightbulb, faPowerOff, faToggleOn, faToggleOff } from "@fortawesome/free-solid-svg-icons";
 
 
 const Navbar = (props) => {
@@ -99,7 +99,7 @@ const Navbar = (props) => {
     
   }
   var pageTitle;
-  if(location.pathname=="/cms/home"){
+  if(location.pathname=="/cms/home" || location.pathname=="/cms/" || location.pathname=="/cms"){
     pageTitle = "HOME";
   }
   else if(location.pathname=="/cms/history"){
@@ -169,6 +169,15 @@ const Navbar = (props) => {
     pageTitle = "Careers";
   }
 
+  const[isDarkMode , setIsDarkMode] = useState(props.currentDM);  
+  //console.log("isDarkMode:         ", isDarkMode)
+  //console.log("darkMode", typeof isDarkMode);
+  const onDarkMode = () =>{
+    setIsDarkMode (!isDarkMode); 
+    props.darkmode();
+    
+  }
+
   return (
     <>
       <header className="header-cms" style={{left: isOpen ? '280px':'50px', paddingRight: "70px", transition: 'all 0.5s' }}>
@@ -183,9 +192,19 @@ const Navbar = (props) => {
           </span>
           
         </div>
-        <div>
-            <b>ADMINISTRATION</b>
-        </div>
+        
+            {/* <b>ADMINISTRATION</b> */}
+            
+        <button style={{marginLeft: "20px", border: "none", height: "20px", backgroundColor: "transparent"}} onClick={onDarkMode}>
+          <b style={{fontSize: "16px"}}>Dark Mode</b> {isDarkMode ? 
+        <FontAwesomeIcon icon={faToggleOn}/> : <FontAwesomeIcon icon={faToggleOff} />}</button>
+            {/* <label className='toggleLabel'>
+                <strong className='toggleStrong'>Dark Mode</strong>
+                <input className='toggleInput' type="checkbox" defaultChecked={isDarkMode} onClick={onDarkMode} />
+                <span className='toggleSpan'/>
+            </label> */}
+        {/* <div id="icon-text-cms">
+        </div> */}
          
         
       </header>

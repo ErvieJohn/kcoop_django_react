@@ -1,5 +1,12 @@
 .CmsBody{
     display: flex;
+    /* background-color: #373434; */
+}
+
+.CmsBody-darkmode{
+  display: flex;
+  background-color: #373434;
+
 }
 
 .cmsMain{
@@ -8,6 +15,20 @@
     transition: all 0.5s;
     width: 100%;
     margin-right: auto;
+}
+
+.cmsMainDarkMode{
+  margin-top: 70px;
+  padding-bottom: 5%;
+  transition: all 0.5s;
+  width: 100%;
+  margin-right: auto;
+}
+
+.cmsMainDarkMode b,.cmsMainDarkMode h1,.cmsMainDarkMode h2,.cmsMainDarkMode h3,
+.cmsMainDarkMode h4,.cmsMainDarkMode h5, .cmsMainDarkMode .form-cms p, 
+.cmsMainDarkMode label{
+  color: white;
 }
 
 .btn-cms{
