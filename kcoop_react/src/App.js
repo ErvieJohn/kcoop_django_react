@@ -14,29 +14,29 @@ import Footer from "./screens/Footer";
 import Home from "./screens/Home";
 
 // Who We Are
-import History from "./screens/History";
-import VMG from "./screens/VMG";
-import KSO_G_P from "./screens/KSO_G_P";
-import CooperativePrinciples from "./screens/CooperativePrinciples";
-import OrganizationalStructure from "./screens/Organizational_Structure";
+import History from "./screens/WhoWeAre/History";
+import VMG from "./screens/WhoWeAre/VMG";
+import KSO_G_P from "./screens/WhoWeAre/KSO_G_P";
+import CooperativePrinciples from "./screens/WhoWeAre/CooperativePrinciples";
+import OrganizationalStructure from "./screens/WhoWeAre/Organizational_Structure";
 
 // Programs and Services
-import LivelihoodAndEnterpriseDevelopment from "./screens/LivelihoodAndEnterpriseDevelopment";
-import EducationTrainingAndFormation from "./screens/EducationTrainingAndFormation";
-import HealthAndWellness from "./screens/HealthAndWellness";
-import SecurityShelterAndSafety from "./screens/SecurityShelterAndSafety";
-import SocialProtection from "./screens/SocialProtection";
+import LivelihoodAndEnterpriseDevelopment from "./screens/ProgramsAndServices/LivelihoodAndEnterpriseDevelopment";
+import EducationTrainingAndFormation from "./screens/ProgramsAndServices/EducationTrainingAndFormation";
+import HealthAndWellness from "./screens/ProgramsAndServices/HealthAndWellness";
+import SecurityShelterAndSafety from "./screens/ProgramsAndServices/SecurityShelterAndSafety";
+import SocialProtection from "./screens/ProgramsAndServices/SocialProtection";
 
 // Satalite Offices
-import NCR from "./screens/NCR";
-import Region3 from "./screens/Region3";
-import Region4A from "./screens/Region4A";
+import NCR from "./screens/SatalliteOffices/NCR";
+import Region3 from "./screens/SatalliteOffices/Region3";
+import Region4A from "./screens/SatalliteOffices/Region4A";
 
 // Publications
-import AnnualReports from "./screens/AnnualReports";
-import AuditedFinancialStatements from "./screens/AuditedFinancialStatements";
-import Announcements from "./screens/Announcements";
-import ByTheNumbers from "./screens/ByTheNumbers";
+import AnnualReports from "./screens/Publications/AnnualReports";
+import AuditedFinancialStatements from "./screens/Publications/AuditedFinancialStatements";
+import Announcements from "./screens/Publications/Announcements";
+import ByTheNumbers from "./screens/Publications/ByTheNumbers";
 
 // Announcements Tab
 
@@ -54,45 +54,45 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import Videos from "./screens/Videos";
-import K_Ganap from "./screens/K_Ganap";
-import K_Ganap_ReadMore from "./screens/K_Ganap_ReadMore";
-import KwentongK from "./screens/KwentongK";
-import KwentongK_ReadMore from "./screens/KwentongK_ReadMore";
-import K_Bahagi from "./screens/K_Bahagi";
-import K_Bahagi_ReadMore from "./screens/K_Bahagi_ReadMore";
-import Announcements_Read_More from "./screens/Announcements_Read_More";
+import Videos from "./screens/Stories/Videos";
+import K_Ganap from "./screens/Stories/K_Ganap";
+import K_Ganap_ReadMore from "./screens/Stories/K_Ganap_ReadMore";
+import KwentongK from "./screens/Stories/KwentongK";
+import KwentongK_ReadMore from "./screens/Stories/KwentongK_ReadMore";
+import K_Bahagi from "./screens/Stories/K_Bahagi";
+import K_Bahagi_ReadMore from "./screens/Stories/K_Bahagi_ReadMore";
+import Announcements_Read_More from "./screens/Publications/Announcements_Read_More";
 import Layout from "./Layout/Layout";
 
 import Login from "./screens/CMS/Login";
 import ErrorLayout from "./Layout/ErrorLayout";
 import Dashboard from "./screens/CMS/Dashboard";
 import CMSHome from "./screens/CMS/screens/CMSHome";
-import CMSHistory from "./screens/CMS/screens/CMSHistory";
-import CMSVMG from "./screens/CMS/screens/CMSVMG";
-import CMSKSO from "./screens/CMS/screens/CMSKSO";
-import CMSOS from "./screens/CMS/screens/CMSOS";
-import CMSCP from "./screens/CMS/screens/CMSCP";
-import CMSLED from "./screens/CMS/screens/CMSLED";
-import CMSETF from "./screens/CMS/screens/CMSETF";
-import CMSHW from "./screens/CMS/screens/CMSHW";
-import CMSSSS from "./screens/CMS/screens/CMSSSS";
-import CMSSP from "./screens/CMS/screens/CMSSP";
-import CMSNCR from "./screens/CMS/screens/CMSNCR";
-import CMSRegion3 from "./screens/CMS/screens/CMSRegion3";
-import CMSRegion4A from "./screens/CMS/screens/CMSRegion4A";
-import CMSAnnualReports from "./screens/CMS/screens/CMSAnnualReports";
-import CMSAuditedFinancialStatements from "./screens/CMS/screens/CMSAuditedFinancialStatements";
-import CMSByTheNumbers from "./screens/CMS/screens/CMSByTheNumbers";
-import CMSAnnouncements from "./screens/CMS/screens/CMSAnnouncements";
-import { EditAnnouncements } from "./screens/CMS/screens/EditAnnouncements";
-import CMSK_Ganapan from "./screens/CMS/screens/CMSK_Ganapan";
-import { EditK_Ganapan } from "./screens/CMS/screens/EditK_Ganapan";
-import CMSKwentong_K from "./screens/CMS/screens/CMSKwentong_K";
-import { EditKwentong_K } from "./screens/CMS/screens/EditKwentong_K";
-import CMSK_Bahagi from "./screens/CMS/screens/CMSK_Bahagi";
-import { EditK_Bahagi } from "./screens/CMS/screens/EditK_Bahagi";
-import CMSVideos from "./screens/CMS/screens/CMSVideos";
+import CMSHistory from "./screens/CMS/screens/CMSWhoWeAre/CMSHistory";
+import CMSVMG from "./screens/CMS/screens/CMSWhoWeAre/CMSVMG";
+import CMSKSO from "./screens/CMS/screens/CMSWhoWeAre/CMSKSO";
+import CMSOS from "./screens/CMS/screens/CMSWhoWeAre/CMSOS";
+import CMSCP from "./screens/CMS/screens/CMSWhoWeAre/CMSCP";
+import CMSLED from "./screens/CMS/screens/CMSProgramsAndServices/CMSLED";
+import CMSETF from "./screens/CMS/screens/CMSProgramsAndServices/CMSETF";
+import CMSHW from "./screens/CMS/screens/CMSProgramsAndServices/CMSHW";
+import CMSSSS from "./screens/CMS/screens/CMSProgramsAndServices/CMSSSS";
+import CMSSP from "./screens/CMS/screens/CMSProgramsAndServices/CMSSP";
+import CMSNCR from "./screens/CMS/screens/CMSSatalliteOffices/CMSNCR";
+import CMSRegion3 from "./screens/CMS/screens/CMSSatalliteOffices/CMSRegion3";
+import CMSRegion4A from "./screens/CMS/screens/CMSSatalliteOffices/CMSRegion4A";
+import CMSAnnualReports from "./screens/CMS/screens/CMSPublications/CMSAnnualReports";
+import CMSAuditedFinancialStatements from "./screens/CMS/screens/CMSPublications/CMSAuditedFinancialStatements";
+import CMSByTheNumbers from "./screens/CMS/screens/CMSPublications/CMSByTheNumbers";
+import CMSAnnouncements from "./screens/CMS/screens/CMSPublications/CMSAnnouncements";
+import { EditAnnouncements } from "./screens/CMS/screens/CMSPublications/EditAnnouncements";
+import CMSK_Ganapan from "./screens/CMS/screens/CMSStories/CMSK_Ganapan";
+import { EditK_Ganapan } from "./screens/CMS/screens/CMSStories/EditK_Ganapan";
+import CMSKwentong_K from "./screens/CMS/screens/CMSStories/CMSKwentong_K";
+import { EditKwentong_K } from "./screens/CMS/screens/CMSStories/EditKwentong_K";
+import CMSK_Bahagi from "./screens/CMS/screens/CMSStories/CMSK_Bahagi";
+import { EditK_Bahagi } from "./screens/CMS/screens/CMSStories/EditK_Bahagi";
+import CMSVideos from "./screens/CMS/screens/CMSStories/CMSVideos";
 import CMSCareers from "./screens/CMS/screens/CMSCareers";
 
 function App() {
