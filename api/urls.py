@@ -34,6 +34,7 @@ urlpatterns = [
     
     # FOR CMS 
     path('cmsLogin/', views.cmsLogin),
+    path('cmsLogout/', views.cmsLogout),
     
     ### Home
     path('getHomeSlide/', views.getHomeSlide),

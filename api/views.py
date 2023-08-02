@@ -14,10 +14,11 @@ from datetime import datetime
 
 # FOR USER LOGIN
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import Permission
 
 import uuid
 
-import fitz
+from django.contrib.auth.models import User, AnonymousUser
 
 
 # for HEADER
@@ -242,14 +243,40 @@ def getHomeData(request):
 def cmsLogin(request):
     username = request.data["username"]
     password = request.data["password"]
+    
     user = authenticate(username=username, password=password)
+    
+    
+    #user = User.objects.filter(username=username)
+    
+    #user = User.objects.filter(username=username)
+    
+    
     if user is not None:
+        isSuperUser = User.objects.get(username=username)
+        #print(isSuperUser.is_staff)
         #print(user)
-        return Response({"data":"Success"})
+        gen_uuid = str(uuid.uuid4())
+        datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #print(timeNow, dateNow)
+        auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
+                                                   AuditTrail_action="Logged In", AuditTrail_datetime=datetimeNow)
+
+        return Response({"data":"Success","Staff":isSuperUser.is_staff})
     else:
         return Response({"data":"Invalid Username or Password"})
     
+@api_view(['POST'])
+def cmsLogout(request):
+    username = request.data["username"]
+    gen_uuid = str(uuid.uuid4())
     
+    datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
+                                                   AuditTrail_action="Logged Out", AuditTrail_datetime=datetimeNow)
+    return Response({"data":"User Logout"})
+
 ##### FOR ADMIN
 # History
 @api_view(['POST'])

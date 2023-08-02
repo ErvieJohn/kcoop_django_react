@@ -6,6 +6,8 @@ import Navbar from './Navbar/Navbar';
 
 import './Dashboard.css';
 
+import { BASE_URL } from '../../config';
+
 const events = [
   "load",
   "mousemove",
@@ -31,8 +33,29 @@ function Dashboard() {
   const [darkMode, setDarkMode] = useState(statDM);
   //const [darkMode, setDarkMode] = useState(false);
 
+  const cmsLogout = (user) =>{
+    var InsertAPIURL = `${BASE_URL}/cmsLogout/`;
+
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        };
+        //var pageTitle = "National Capital Region";
+        var DataBody = {username: user};
+        //console.log("DATA BODY", JSON.stringify(DataBody));
+        fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+        }).catch(error => {
+            console.log(`getting data error from api url ${error}`)});  
+  }
+
   const AuthLogout = () =>{
-    //console.log("Clicked?");
+    
+    var userArr = JSON.parse(User);
+    //console.log(userArr[0]["username"]);
+    cmsLogout(userArr[0]["username"]);
     localStorage.removeItem('USER');
     let isLoggedIn = null;
     setUser(isLoggedIn);

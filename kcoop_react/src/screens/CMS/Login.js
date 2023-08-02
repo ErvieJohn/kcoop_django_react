@@ -45,8 +45,9 @@ function Login() {
                 showResult = "";
                 setShowResult(showResult);
 
-                var User = [{"username":user,"password":pass}];
-                
+                var userStaff = data.Staff;
+                var User = [{"username":user,"password":pass, "Staff":userStaff}];
+                //console.log(User);
                 localStorage.setItem('USER', JSON.stringify(User));
 
                 isLogin = JSON.parse(localStorage.getItem('USER'));
