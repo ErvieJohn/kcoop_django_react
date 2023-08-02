@@ -35,19 +35,26 @@ export default function Footer() {
             <table width="100%" style={{marginTop: '16%'}}>
                 <tbody>
                 <tr>
+                
                     <td width="25%"><b>Email :</b></td>
-                    <td>kcoop022016@gmail.com</td>
+                    <td><a href='mailto:kcoop022016@gmail.com' 
+                    style={{color: "#424949"}}>kcoop022016@gmail.com</a></td>
                 </tr>
                 <tr>
                     <td width="25%"><b>Tel # :</b></td>
-                    <td>5310-2470</td>
+                    <td><a href='tel:5310-2470' 
+                    style={{color: "#424949"}}>5310-2470</a></td>
                 </tr>
                 <tr>
                     <td rowSpan={2} width="27%"><b>Ulat Hotline :</b></td>
-                    <td>0917-531-4335 (GLOBE) </td>
+                    <td><a href='tel:0917-531-4335' 
+                    style={{color: "#424949"}}>0917-531-4335</a> (GLOBE)</td>
+                         
                 </tr>
                 <tr>
-                    <td>0947-812-9197 (SMART) </td>
+                    <td><a href='tel:0947-812-9197' 
+                    style={{color: "#424949"}}>0947-812-9197</a> (SMART)</td>
+                    
                 </tr>
                 </tbody>
             </table>
