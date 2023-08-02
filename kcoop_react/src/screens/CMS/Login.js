@@ -69,7 +69,6 @@ function Login() {
 
     function handleSubmit(e){
         e.preventDefault();
-        
         AuthLogin(user, pass);
         
         // UPDATE user logged 
@@ -102,6 +101,7 @@ function Login() {
                                 color='black'
                                 value={user}
                                 onChange={text=>setUser(text.target.value)}
+                                required
                                 />
                             </div>
                             <div className="form-group mt-3">
@@ -113,7 +113,7 @@ function Login() {
                                 color='black'
                                 value={pass}
                                 onChange={text=>setPass(text.target.value)}
-                                
+                                required
                                 />
                             </div>
                             <div className="d-grid gap-2 mt-3">
