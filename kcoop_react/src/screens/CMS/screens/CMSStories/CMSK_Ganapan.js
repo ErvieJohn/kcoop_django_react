@@ -12,7 +12,13 @@ import { faEdit, faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-sol
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSK_Ganapan = () => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   //window.location.reload();
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
@@ -74,7 +80,7 @@ const CMSK_Ganapan = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status};
+      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -152,6 +158,7 @@ const CMSK_Ganapan = () => {
     formData.append('Stories_content', edited);
     formData.append('Stories_title', titleInput);
     formData.append('Stories_date', dateInput);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadStoriesContent/`, formData).then((response)=>{
       //console.log(res);
@@ -186,7 +193,7 @@ const CMSK_Ganapan = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id};
+      var DataBody = {Stories_name: title, Stories_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -332,7 +339,7 @@ const CMSK_Ganapan = () => {
                 <img src={item.Stories_image} style={{height: "90px", width: "180px"}}/>
                 <center>
                   <b>
-                      {item.Publications_title}
+                      {item.Stories_title}
                   </b>
                 </center>
                 <br/>

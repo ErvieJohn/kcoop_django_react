@@ -268,6 +268,16 @@ def getCareersData(request):
     careers = TBL_Careers.objects.all()
     
     serializers = TBL_CareersSerializer(careers, many=True)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["Careers_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
     
@@ -1009,6 +1019,19 @@ def updateStoriesStatus(request):
         allStories = TBL_Stories.objects.filter(Stories_name=title)
         serializers = TBL_StoriesContentSerializer(allStories, many=True)
         #print(WhoWeAre.update)
+        
+        try:
+            username = request.data["username"]
+            findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
+            serializersID = TBL_StoriesContentSerializer(findID)
+            imageName = serializersID.data["Stories_title"]
+            action = "Changed " + imageName + " status to " + status + " in " + title
+            createAuditTrail(action, username)
+
+        except:
+            traceback.print_exc()
+
+        
         return Response(serializers.data)
 
 @api_view(['POST'])
@@ -1021,6 +1044,13 @@ def updateStoriesContent(request):
             status = request.data["Stories_status"]
             Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
             Stories.update(Stories_status=status)
+            
+            username = request.data["username"]
+            findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
+            serializersID = TBL_StoriesContentSerializer(findID)
+            imageName = serializersID.data["Stories_title"]
+            action = "Changed " + imageName + " status to " + status + " in " + title
+            createAuditTrail(action, username)
             
         else:
             date = request.data["Stories_date"]
@@ -1046,6 +1076,13 @@ def updateStoriesContent(request):
             
             
             Stories.save()
+            
+            username = request.data["username"]
+            findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
+            serializersID = TBL_StoriesContentSerializer(findID)
+            imageName = serializersID.data["Stories_title"]
+            action = "Updated the " + imageName + " in " + title
+            createAuditTrail(action, username)
         
         allStories = TBL_Stories.objects.filter(Stories_name=title)
         serializers = TBL_StoriesContentSerializer(allStories, many=True)
@@ -1057,12 +1094,23 @@ def deleteStoriesContent(request):
     if request.data:
         id = request.data["Stories_id"]
         title = request.data["Stories_name"]
+        
+        findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
+        serializersID = TBL_StoriesContentSerializer(findID)
+        
         Stories = TBL_Stories.objects.filter(Stories_id=id, Stories_name=title)
         Stories.delete()
         
         allStories = TBL_Stories.objects.filter(Stories_name=title)
         serializers = TBL_StoriesContentSerializer(allStories, many=True)
         #print(WhoWeAre.update)
+        
+        username = request.data["username"]
+        
+        imageName = serializersID.data["Stories_title"]
+        action = "Deleted the " + imageName + " in " + title
+        createAuditTrail(action, username)
+        
         return Response(serializers.data)
 
 
@@ -1106,6 +1154,11 @@ def uploadStoriesContent(request):
 
     except KeyError:
         raise print('Request has no resource file attached')
+    
+    username = request.data['username']
+    action = "Added Story " + ann_title + " in " + title
+    #print(action)
+    createAuditTrail(action, username)
 
     #print(type_id) 
     allStories = TBL_Stories.objects.filter(Stories_name=title)
@@ -1117,7 +1170,7 @@ def uploadStoriesContent(request):
 @api_view(['POST'])
 def updateCareersImage(request):
     if request.data:
-        print(request.data)
+        #print(request.data)
         id = request.data["Careers_id"]
         status = request.data["Careers_status"]
         Careers = TBL_Careers.objects.filter(Careers_id=id)
@@ -1126,6 +1179,28 @@ def updateCareersImage(request):
         allCareers = TBL_Careers.objects.all()
         serializers = TBL_CareersSerializer(allCareers, many=True)
         #print(WhoWeAre.update)
+        
+        try:
+            username = request.data["username"]
+            findID = TBL_Careers.objects.get(Careers_id=id)
+            serializersID = TBL_CareersSerializer(findID)
+            imageName = os.path.basename(serializersID.data["Careers_image"])
+            #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
+        action = "Changed " + imageName + " status to " + status + " in Careers"
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Careers_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
 
 @api_view(['POST'])
@@ -1142,17 +1217,52 @@ def uploadCareersImage(request):
     allCareers = TBL_Careers.objects.all()
     serializers = TBL_CareersSerializer(allCareers, many=True)
     #print(WhoWeAre.update)
+    
+    username = request.data['username']
+    action = "Uploaded image " + str(image) + " in Careers"
+    #print(action)
+    createAuditTrail(action, username)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["Careers_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 @api_view(['POST'])
 def deleteCareersImage(request):
     if request.data:
         id = request.data["Careers_id"]
+        
+        findID = TBL_Careers.objects.get(Careers_id=id)
+        serializersID = TBL_CareersSerializer(findID)
+        
+        imageName = os.path.basename(serializersID.data["Careers_image"])
+        
+        username = request.data['username']
+        action = "Deleted image " + imageName + " in Careers"
+        createAuditTrail(action, username)
+        
         Careers = TBL_Careers.objects.filter(Careers_id=id)
         Careers.delete()
         
         allCareers = TBL_Careers.objects.all()
         serializers = TBL_CareersSerializer(allCareers, many=True)
         #print(WhoWeAre.update)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Careers_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     

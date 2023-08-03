@@ -12,7 +12,13 @@ import { faEdit, faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-sol
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSK_Bahagi = () => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   //window.location.reload();
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
@@ -74,7 +80,7 @@ const CMSK_Bahagi = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status};
+      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -152,6 +158,7 @@ const CMSK_Bahagi = () => {
     formData.append('Stories_content', edited);
     formData.append('Stories_title', titleInput);
     formData.append('Stories_date', dateInput);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadStoriesContent/`, formData).then((response)=>{
       //console.log(res);
@@ -186,7 +193,7 @@ const CMSK_Bahagi = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id};
+      var DataBody = {Stories_name: title, Stories_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -330,12 +337,13 @@ const CMSK_Bahagi = () => {
               <li style={{padding: ".625em",textAlign: "center"}}>
               <figure className='figure-cms'>
                 <img src={item.Stories_image} style={{height: "90px", width: "180px"}}/>
+                <br/>
                 <center>
                   <b>
-                      {item.Publications_title}
+                      {item.Stories_title}
                   </b>
                 </center>
-                <br/>
+                
                 <button className='btn-cms' style={{width:'50px', backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.Stories_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'10px',height:'auto',display:'inline-block'}}/>

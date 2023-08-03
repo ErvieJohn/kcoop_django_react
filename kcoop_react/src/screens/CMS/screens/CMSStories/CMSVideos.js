@@ -8,7 +8,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-icons';
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSVideos = () => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
 
   const slideTitle = "Videos";
 
@@ -56,7 +61,7 @@ const CMSVideos = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status};
+      var DataBody = {Stories_name: title, Stories_id: id, Stories_status: status, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -109,6 +114,7 @@ const CMSVideos = () => {
     formData.append('Stories_ytlink', ytInput);
     formData.append('Stories_title', titleInput);
     formData.append('Stories_date', dateInput);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadStoriesContent/`, formData).then((response)=>{
       //console.log(res);
@@ -135,7 +141,7 @@ const CMSVideos = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Stories_name: title, Stories_id: id};
+      var DataBody = {Stories_name: title, Stories_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

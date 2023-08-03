@@ -9,7 +9,12 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSCareers = () => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
     
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
@@ -76,7 +81,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id, Careers_status: status};
+      var DataBody = {Careers_id: id, Careers_status: status, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -145,6 +150,7 @@ const CMSCareers = () => {
   const onClickUpload = () =>{
     const formData = new FormData();
     formData.append('image', image);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadCareersImage/`, formData).then((response)=>{
       //console.log(res);
@@ -183,7 +189,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id};
+      var DataBody = {Careers_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -252,6 +258,11 @@ const CMSCareers = () => {
                 <figure className='figure-cms'>
                   <img src={item.Careers_image} style={{height: "115px", width: "180px"}}/>
                   <br/>
+                  <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
                   <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.Careers_id)}
@@ -279,6 +290,11 @@ const CMSCareers = () => {
               <figure className='figure-cms'>
                 <img src={item.Careers_image} style={{height: "115px", width: "180px"}}/>
                 <br/>
+                <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.Careers_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
