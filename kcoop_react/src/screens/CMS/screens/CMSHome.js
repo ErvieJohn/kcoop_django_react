@@ -9,7 +9,14 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
-const CMSHome = () => {
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
+const CMSHome = (props) => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+  //console.log(user[0].username);
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -85,7 +92,7 @@ const CMSHome = () => {
         'Content-Type': 'application/json',
       };
       
-      var DataBody = {Home_title: title, Home_id: id, Home_status: status};
+      var DataBody = {Home_title: title, Home_id: id, Home_status: status, username: user[0].username};
       
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -158,6 +165,8 @@ const CMSHome = () => {
   const onClickUpload = () =>{
     const formData = new FormData();
     formData.append('image', image);
+    formData.append('username', user[0].username);
+    console.log(formData);
 
     axios.post(`${BASE_URL}/uploadImage/`, formData).then((response)=>{
       //console.log(res);
@@ -196,7 +205,7 @@ const CMSHome = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Home_title: title, Home_id: id};
+      var DataBody = {Home_title: title, Home_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -273,7 +282,13 @@ const CMSHome = () => {
                   <li style={{padding: ".625em",textAlign: "center"}}>
                     <figure className='figure-cms'>
                     <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
-                    <br style={{marginTop: "2%"}}/>
+                    <br/>
+                    <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                    </center>
+                    <br/>
                     <button className='btn-cms'
                     style={{backgroundColor: 'red', color:'white'}} 
                     onClick={e=>DeactivateButton(e, item.Home_id)}
@@ -302,6 +317,12 @@ const CMSHome = () => {
               <li style={{padding: ".625em",textAlign: "center"}}>
               <figure className='figure-cms'>
                 <img src={item.Home_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
+                <br/>
+                <center>
+                  <b>
+                      {item.file_name}
+                  </b>
+                </center>
                 <br/>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.Home_id)}><FontAwesomeIcon icon={faPlay}/></button>

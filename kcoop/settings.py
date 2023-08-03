@@ -121,8 +121,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Manila' #'UTC'
 #TIME_INPUT_FORMATS = ('%I:%M:%S %p',)
-DATE_INPUT_FORMATS = ('%Y-%m-%d %H:%M:%S', )
-
+# DATE_INPUT_FORMATS = ('%Y-%m-%d %H:%M:%S', )
+#DATETIME_FORMAT="%Y-%m-%d%H:%M:%S"
+#L10N=False
 USE_I18N = True
 
 USE_TZ = True

@@ -120,7 +120,7 @@ function Dashboard() {
     
          <main className={darkMode ? 'cmsMainDarkMode' : 'cmsMain'} style={{marginLeft: !isOpen ? "80px":"290px"}}>
         {/* <main className='cmsMainDarkMode' style={{marginLeft: !isOpen ? "80px":"290px"}}> */}
-          <Outlet/>
+          <Outlet context={[User]}/>
         </main>
 
     </div>

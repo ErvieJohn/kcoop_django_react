@@ -81,3 +81,8 @@ class TBL_HomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Home
         fields = ('Home_id','Home_title','Home_content','Home_image', 'Home_url', 'Home_date', 'Home_status')
+        
+class TBL_AuditTrailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_AuditTrail
+        fields = ('AuditTrail_user', 'AuditTrail_action', 'AuditTrail_date', 'AuditTrail_time')

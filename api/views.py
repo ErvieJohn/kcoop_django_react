@@ -19,7 +19,9 @@ from django.contrib.auth.models import Permission
 import uuid
 
 from django.contrib.auth.models import User, AnonymousUser
+import traceback 
 
+import os
 
 # for HEADER
 @api_view(['GET'])
@@ -257,11 +259,15 @@ def cmsLogin(request):
         #print(isSuperUser.is_staff)
         #print(user)
         gen_uuid = str(uuid.uuid4())
-        datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #datetimeNow = datetime.now().strftime("%Y-%m-%d%H:%M:%S")
         #print(timeNow, dateNow)
+        #time = datetime.now().strftime('%I:%M:%S %p')
         auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                   AuditTrail_action="Logged In", AuditTrail_datetime=datetimeNow)
-
+                                                   AuditTrail_action="Logged In")
+        # history = TBL_AuditTrail.objects.filter(AuditTrail_user=username)
+        # historySerializer = TBL_AuditTrailSerializer(history, many=True)
+        # print(historySerializer.data)
+        
         return Response({"data":"Success","Staff":isSuperUser.is_staff})
     else:
         return Response({"data":"Invalid Username or Password"})
@@ -271,10 +277,10 @@ def cmsLogout(request):
     username = request.data["username"]
     gen_uuid = str(uuid.uuid4())
     
-    datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+    #datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #time = datetime.now().strftime('%I:%M:%S %p')
     auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                   AuditTrail_action="Logged Out", AuditTrail_datetime=datetimeNow)
+                                                   AuditTrail_action="Logged Out")
     return Response({"data":"User Logout"})
 
 ##### FOR ADMIN
@@ -299,27 +305,51 @@ def getHomeSlide(request):
         Home = TBL_Home.objects.filter(Home_title=data)
         
         serializers = TBL_HomeSerializer(Home, many=True)
-        #print(WhoWeAre.update)
+        
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Home_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
+        #print(serializers.data)
         return Response(serializers.data)
-    
+
 @api_view(['POST'])
 def updateHomeSlide(request):
     if request.data:
         title = request.data["Home_title"]
         id = request.data["Home_id"]
         status = request.data["Home_status"]
+        username = request.data["username"]
         Home = TBL_Home.objects.filter(Home_id=id)
         Home.update(Home_status=status)
         
+        try:
+            HomeID = TBL_Home.objects.get(Home_id=id)
+            serializersID = TBL_HomeSerializer(HomeID)
+            imageName = os.path.basename(serializersID.data["Home_image"])
+            #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         allHome = TBL_Home.objects.filter(Home_title=title)
         serializers = TBL_HomeSerializer(allHome, many=True)
-        #print(WhoWeAre.update)
+        
+        gen_uuid = str(uuid.uuid4())
+        action = "Changed " + imageName + " status to " + status
+        auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
+                                                   AuditTrail_action=action)
+        
         return Response(serializers.data)
 
 @api_view(['POST'])
 def uploadImage(request):
     try:
         image = request.data['image']
+        username = request.data['username']
         #print(request.data)
         #print(image)
     except KeyError:
@@ -327,9 +357,18 @@ def uploadImage(request):
     
     gen_uuid = str(uuid.uuid4())
     product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image, Home_status="Deactivated")
+    
+    
+    action = "Uploaded image " + str(image)
+    gen_uuid_autditTrail = str(uuid.uuid4())
+    #print(action)
+    auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid_autditTrail,AuditTrail_user=username,
+                                                  AuditTrail_action=action)
+    
     title = "Image Slider"
     allHome = TBL_Home.objects.filter(Home_title=title)
     serializers = TBL_HomeSerializer(allHome, many=True)
+    
     #print(WhoWeAre.update)
     return Response(serializers.data)
 
@@ -338,11 +377,24 @@ def deleteImage(request):
     if request.data:
         id = request.data["Home_id"]
         title = request.data["Home_title"]
+        
+        HomeID = TBL_Home.objects.get(Home_id=id)
+        serializersID = TBL_HomeSerializer(HomeID)
+        imageName = os.path.basename(serializersID.data["Home_image"])
+        
         Home = TBL_Home.objects.filter(Home_id=id, Home_title=title)
+        
         Home.delete()
         
         allHome = TBL_Home.objects.filter(Home_title=title)
         serializers = TBL_HomeSerializer(allHome, many=True)
+        
+        username = request.data['username']
+        gen_uuid_autditTrail = str(uuid.uuid4())
+        action = "Deleted image " + imageName
+        auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid_autditTrail,AuditTrail_user=username,
+                                                  AuditTrail_action=action)
+        
         #print(WhoWeAre.update)
         return Response(serializers.data)
     
