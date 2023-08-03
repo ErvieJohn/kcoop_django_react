@@ -13,7 +13,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useHotkeys } from 'react-hotkeys-hook'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 export const EditAnnouncements =  () => {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   const {getAnnouncementDataID, 
     selectedData, announcementsStatus} = useContext(AuthContext);
 
@@ -148,6 +154,7 @@ export const EditAnnouncements =  () => {
     formData.append('Publications_title', editedTitle);
     formData.append('Publications_content', editedContent);
     formData.append('Publications_image', editedImage);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/updatePubContent/`, formData).catch(error => {
           console.log(`getting data error from api url ${error}`)});

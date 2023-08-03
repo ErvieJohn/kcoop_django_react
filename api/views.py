@@ -872,7 +872,7 @@ def updatePubContent(request):
             
             findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
             serializersID = TBL_PublicationsContentSerializer(findID)
-            imageName = serializersID.data["Publications_image"]
+            imageName = os.path.basename(serializersID.data["Publications_image"])
             action = "Changed " + imageName + " status to " + status + " in " + title
         
         allPublications = TBL_Publications.objects.filter(Publications_name=title)

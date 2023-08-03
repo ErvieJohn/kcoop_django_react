@@ -9,8 +9,14 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSByTheNumbers = () => {
-    
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -61,7 +67,7 @@ const CMSByTheNumbers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: title, Publications_id: id, Publications_status: status};
+      var DataBody = {Publications_name: title, Publications_id: id, Publications_status: status,username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -136,6 +142,7 @@ const CMSByTheNumbers = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('Publications_name', slideTitle);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadPubContent/`, formData).then((response)=>{
       //console.log(res);
@@ -161,7 +168,7 @@ const CMSByTheNumbers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: title, Publications_id: id};
+      var DataBody = {Publications_name: title, Publications_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -230,7 +237,13 @@ const CMSByTheNumbers = () => {
               <figure className='figure-cms'>
                   <img src={item.Publications_image} style={{height: "200px", width: "180px", marginBottom: "2%"}}/>
                   <br/>
-                  
+                  <center>
+                    <div style={{width: "180px"}}>
+                      <b style={{overflowWrap: 'break-word'}}>
+                            {item.file_name}
+                      </b>
+                    </div>
+                  </center>
                   <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.Publications_id)}
@@ -259,6 +272,13 @@ const CMSByTheNumbers = () => {
               <figure className='figure-cms'>
                 <img src={item.Publications_image} style={{height: "200px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
+                <center >
+                  <div style={{width: "180px"}}>
+                    <b style={{overflowWrap: 'break-word'}}>
+                          {item.file_name}
+                    </b>
+                  </div>
+                  </center>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.Publications_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>

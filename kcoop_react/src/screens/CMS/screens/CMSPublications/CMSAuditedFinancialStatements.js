@@ -9,8 +9,13 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSAuditedFinancialStatements = () => {
-    
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);  
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -66,7 +71,8 @@ const CMSAuditedFinancialStatements = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: title, Publications_id: id, Publications_status: status};
+      var DataBody = {Publications_name: title, Publications_id: id, Publications_status: status,
+        username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -157,6 +163,8 @@ const CMSAuditedFinancialStatements = () => {
     formData.append('image', image);
     formData.append('file', file);
     formData.append('Publications_name', slideTitle);
+    formData.append('username', user[0].username);
+
 
     axios.post(`${BASE_URL}/uploadPubContent/`, formData).then((response)=>{
       //console.log(res);
@@ -187,7 +195,7 @@ const CMSAuditedFinancialStatements = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: title, Publications_id: id};
+      var DataBody = {Publications_name: title, Publications_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
