@@ -38,6 +38,16 @@ def getWhoWeAreType(request):
     WhoWeAreType = TBL_WhoWeAreType.objects.all()
     #person = {'name': 'ervie', 'age': 22}
     serializers = WhoWeAreTypeSerializer(WhoWeAreType, many=True)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 # for Who We Are
@@ -48,6 +58,16 @@ def getWhoWeAre(request):
         WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=data)
         #person = {'name': 'ervie', 'age': 22}
         serializers = WhoWeAreSerializer(WhoWeAre, many=True)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
 
 #for Programs And Services Header
@@ -66,6 +86,16 @@ def getProgramsAndServices(request):
         ProgramsAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=data)
         #person = {'name': 'ervie', 'age': 22}
         serializers = ProgramsAndServicesHSerializer(ProgramsAndServices, many=True)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["ProgramAndServices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
 #for Programs And Services LOGO
@@ -284,19 +314,12 @@ def cmsLogout(request):
     return Response({"data":"User Logout"})
 
 ##### FOR ADMIN
-# History
-@api_view(['POST'])
-def updateWhoweare(request):
-    if request.data:
-        data = request.data["WhoWeAre_title"]
-        textEdited = request.data["edited"]
-        WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=data)
-        #person = {'name': 'ervie', 'age': 22}
-        
-        WhoWeAre.update(WhoWeAre_content=textEdited)
-        serializers = WhoWeAreSerializer(WhoWeAre, many=True)
-        #print(WhoWeAre.update)
-        return Response(serializers.data)
+def createAuditTrail(action, username):
+    gen_uuid = str(uuid.uuid4())
+    auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
+                                                AuditTrail_action=action)
+
+
 # Home
 @api_view(['POST'])
 def getHomeSlide(request):
@@ -338,10 +361,18 @@ def updateHomeSlide(request):
         allHome = TBL_Home.objects.filter(Home_title=title)
         serializers = TBL_HomeSerializer(allHome, many=True)
         
-        gen_uuid = str(uuid.uuid4())
-        action = "Changed " + imageName + " status to " + status
-        auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                   AuditTrail_action=action)
+        
+        action = "Changed " + imageName + " status to " + status  + " in Home"
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Home_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
         
         return Response(serializers.data)
 
@@ -359,17 +390,25 @@ def uploadImage(request):
     product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image, Home_status="Deactivated")
     
     
-    action = "Uploaded image " + str(image)
-    gen_uuid_autditTrail = str(uuid.uuid4())
+    action = "Uploaded image " + str(image) + " in Home"
     #print(action)
-    auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid_autditTrail,AuditTrail_user=username,
-                                                  AuditTrail_action=action)
+    createAuditTrail(action, username)
     
     title = "Image Slider"
     allHome = TBL_Home.objects.filter(Home_title=title)
     serializers = TBL_HomeSerializer(allHome, many=True)
     
     #print(WhoWeAre.update)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["Home_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 @api_view(['POST'])
@@ -390,12 +429,40 @@ def deleteImage(request):
         serializers = TBL_HomeSerializer(allHome, many=True)
         
         username = request.data['username']
-        gen_uuid_autditTrail = str(uuid.uuid4())
-        action = "Deleted image " + imageName
-        auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid_autditTrail,AuditTrail_user=username,
-                                                  AuditTrail_action=action)
+        action = "Deleted image " + imageName + " in Home"
+        createAuditTrail(action, username)
         
         #print(WhoWeAre.update)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Home_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
+        return Response(serializers.data)
+    
+    
+# History
+@api_view(['POST'])
+def updateWhoweare(request):
+    if request.data:
+        data = request.data["WhoWeAre_title"]
+        textEdited = request.data["edited"]
+        WhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=data)
+        #person = {'name': 'ervie', 'age': 22}
+        
+        WhoWeAre.update(WhoWeAre_content=textEdited)
+        serializers = WhoWeAreSerializer(WhoWeAre, many=True)
+        #print(WhoWeAre.update)
+        
+        username = request.data['username']
+        action = "Edited " + data  + " in " + data
+        createAuditTrail(action, username)
+        
         return Response(serializers.data)
     
 # WhoWeAre
@@ -411,6 +478,28 @@ def updateWhoWeAreImage(request):
         allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
         serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
         #print(WhoWeAre.update)
+        
+        try:
+            username = request.data["username"]
+            findID = TBL_WhoWeAre.objects.get(WhoWeAre_id=id, WhoWeAre_title=title)
+            serializersID = WhoWeAreSerializer(findID)
+            imageName = os.path.basename(serializersID.data["WhoWeAre_image"])
+            #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
+        action = "Changed " + imageName + " status to " + status + " in " + title
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
 @api_view(['POST'])
@@ -440,6 +529,20 @@ def uploadWhoWeAreImage(request):
     allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
     serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
     #print(WhoWeAre.update)
+    
+    username = request.data['username']
+    action = "Uploaded image " + str(image) + " in " + title
+    #print(action)
+    createAuditTrail(action, username)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
     return Response(serializers.data)
 
 @api_view(['POST'])
@@ -447,12 +550,32 @@ def deleteWhoWeAreImage(request):
     if request.data:
         id = request.data["WhoWeAre_id"]
         title = request.data["WhoWeAre_title"]
+        
+        findID = TBL_WhoWeAre.objects.get(WhoWeAre_id=id, WhoWeAre_title=title)
+        serializersID = WhoWeAreSerializer(findID)
+        
+        imageName = os.path.basename(serializersID.data["WhoWeAre_image"])
+        
+        username = request.data['username']
+        action = "Deleted image " + imageName + " in " + title
+        createAuditTrail(action, username)
+        
+        
         Home = TBL_WhoWeAre.objects.filter(WhoWeAre_id=id, WhoWeAre_title=title)
         Home.delete()
         
         allWhoWeAre = TBL_WhoWeAre.objects.filter(WhoWeAre_title=title)
         serializers = WhoWeAreSerializer(allWhoWeAre, many=True)
-        #print(WhoWeAre.update)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+            
         return Response(serializers.data)
     
 # Program And Services
@@ -468,6 +591,23 @@ def updatePnSImage(request):
         allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
         serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
         #print(WhoWeAre.update)
+        
+        try:
+            username = request.data["username"]
+            findID = TBL_ProgramAndServices.objects.get(ProgramAndServices_id=id, ProgramAndServices_title=title)
+            serializersID = ProgramsAndServicesHSerializer(findID)
+            imageName = os.path.basename(serializersID.data["ProgramAndServices_image"])
+            action = "Changed " + imageName + " status to " + status + " in " + title
+            createAuditTrail(action, username)
+            #print(os.path.basename(serializersID.data["Home_image"]))
+            # adding image file name
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["ProgramAndServices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+
         return Response(serializers.data)
     
 @api_view(['POST'])
@@ -504,6 +644,21 @@ def uploadPnSImage(request):
     allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
     serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
     #print(serializers.data)
+    
+    username = request.data['username']
+    action = "Uploaded image " + str(image) + " in " + title
+    #print(action)
+    createAuditTrail(action, username)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["ProgramAndServices_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 @api_view(['POST'])
@@ -511,12 +666,30 @@ def deletePnSImage(request):
     if request.data:
         id = request.data["ProgramAndServices_id"]
         title = request.data["ProgramAndServices_title"]
+        
+        findID = TBL_ProgramAndServices.objects.get(ProgramAndServices_id=id)
+        serializersID = ProgramsAndServicesHSerializer(findID)
+        imageName = os.path.basename(serializersID.data["ProgramAndServices_image"])
+        
         Home = TBL_ProgramAndServices.objects.filter(ProgramAndServices_id=id, ProgramAndServices_title=title)
         Home.delete()
-        
         allProgramAndServices = TBL_ProgramAndServices.objects.filter(ProgramAndServices_title=title)
         serializers = ProgramsAndServicesHSerializer(allProgramAndServices, many=True)
-        #print(WhoWeAre.update)
+        
+        
+        username = request.data['username']
+        action = "Deleted image " + imageName + " in " + title
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["ProgramAndServices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
     

@@ -11,7 +11,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { useHotkeys } from 'react-hotkeys-hook'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 function CMSHistory() {
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   const {getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
 
   const titlePage = "HISTORY";
@@ -51,7 +57,7 @@ function CMSHistory() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: titlePage, edited: editedText}; // for kwentong -  k
+      var DataBody = {WhoWeAre_title: titlePage, edited: editedText, username: user[0].username}; // for kwentong -  k
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

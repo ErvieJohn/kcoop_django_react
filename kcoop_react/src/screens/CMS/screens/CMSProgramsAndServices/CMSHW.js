@@ -9,8 +9,13 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSHW = () => {
-    
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -77,7 +82,8 @@ const CMSHW = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id, ProgramAndServices_status: status};
+      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id, ProgramAndServices_status: status,
+        username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -147,6 +153,7 @@ const CMSHW = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('ProgramAndServices_title', slideTitle);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadPnSImage/`, formData).then((response)=>{
       //console.log(res);
@@ -185,7 +192,7 @@ const CMSHW = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id};
+      var DataBody = {ProgramAndServices_title: title, ProgramAndServices_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -253,6 +260,11 @@ const CMSHW = () => {
                 <figure className='figure-cms'>
                   <img src={item.ProgramAndServices_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                   <br/>
+                  <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
                   <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.ProgramAndServices_id)}
@@ -280,6 +292,11 @@ const CMSHW = () => {
               <figure className='figure-cms'>
                 <img src={item.ProgramAndServices_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
+                <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.ProgramAndServices_id)}><FontAwesomeIcon icon={faStop}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
                 <button className='btn-cms' style={{backgroundColor: 'black', color:'white'}} onClick={e=>DeleteButton(e, item.ProgramAndServices_id)}><FontAwesomeIcon icon={faTrash}/></button>

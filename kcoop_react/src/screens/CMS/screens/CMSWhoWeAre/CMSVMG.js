@@ -9,8 +9,13 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 const CMSVMG = () => {
-    
+  const [User] = useOutletContext();
+  const user = JSON.parse(User);
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -77,7 +82,7 @@ const CMSVMG = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, WhoWeAre_status: status};
+      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, WhoWeAre_status: status, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -147,6 +152,7 @@ const CMSVMG = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('WhoWeAre_title', slideTitle);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadWhoWeAreImage/`, formData).then((response)=>{
       //console.log(res);
@@ -185,7 +191,7 @@ const CMSVMG = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id};
+      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -255,6 +261,12 @@ const CMSVMG = () => {
                 <figure className='figure-cms'>
                   <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                   <br/>
+                  <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
+                  
                   <button className='btn-cms'
                   style={{backgroundColor: 'red', color:'white'}} 
                   onClick={e=>DeactivateButton(e, item.WhoWeAre_id)}
@@ -282,6 +294,12 @@ const CMSVMG = () => {
               <figure className='figure-cms'>
                 <img src={item.WhoWeAre_image} style={{height: "115px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
+                <center>
+                      <b>
+                          {item.file_name}
+                      </b>
+                  </center>
+                  
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.WhoWeAre_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>

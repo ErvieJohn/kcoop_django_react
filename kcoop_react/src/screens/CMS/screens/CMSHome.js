@@ -12,7 +12,7 @@ import { AiFillFileImage } from 'react-icons/ai'
 // for passing props with outlet
 import { useOutletContext } from "react-router-dom";
 
-const CMSHome = (props) => {
+const CMSHome = () => {
   const [User] = useOutletContext();
   const user = JSON.parse(User);
   //console.log(user[0].username);
@@ -288,7 +288,7 @@ const CMSHome = (props) => {
                           {item.file_name}
                       </b>
                     </center>
-                    <br/>
+                    
                     <button className='btn-cms'
                     style={{backgroundColor: 'red', color:'white'}} 
                     onClick={e=>DeactivateButton(e, item.Home_id)}
@@ -323,7 +323,7 @@ const CMSHome = (props) => {
                       {item.file_name}
                   </b>
                 </center>
-                <br/>
+                
                 <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                 onClick={e=>ActivateButton(e, item.Home_id)}><FontAwesomeIcon icon={faPlay}/></button>
                 <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
