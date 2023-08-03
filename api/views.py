@@ -133,6 +133,15 @@ def getTBL_SatalliteOffices(request):
         #person = {'name': 'ervie', 'age': 22}
         serializers = TBL_SatalliteOfficesContentSerializer(SatalliteOffices, many=True)
         
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["SatalliteOffices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
 
 #for Publications Header
@@ -164,6 +173,15 @@ def getTBL_Publications(request):
                 
             else:
                 serializers.data[i]["Stories_date"] = ""
+                
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Publications_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
         
         return Response(serializers.data)
     
@@ -706,6 +724,22 @@ def updateSOImage(request):
         allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
         serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
         #print(WhoWeAre.update)
+        try:
+            username = request.data["username"]
+            findID = TBL_SatalliteOffices.objects.get(SatalliteOffices_id=id, SatalliteOffices_region=region)
+            serializersID = TBL_SatalliteOfficesContentSerializer(findID)
+            imageName = os.path.basename(serializersID.data["SatalliteOffices_image"])
+            action = "Changed " + imageName + " status to " + status + " in " + serializersID.data["SatalliteOffices_city"] + " in " +region
+            createAuditTrail(action, username)
+            #print(os.path.basename(serializersID.data["Home_image"]))
+            # adding image file name
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["SatalliteOffices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
 @api_view(['POST'])
@@ -737,6 +771,21 @@ def uploadSOImage(request):
     allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
     serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
     #print(serializers.data)
+    
+    username = request.data['username']
+    action = "Uploaded image " + str(image) + " in " + city + " in " + region
+    #print(action)
+    createAuditTrail(action, username)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["SatalliteOffices_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 @api_view(['POST'])
@@ -744,12 +793,31 @@ def deleteSOImage(request):
     if request.data:
         id = request.data["SatalliteOffices_id"]
         region = request.data["SatalliteOffices_region"]
+        
+        findID = TBL_SatalliteOffices.objects.get(SatalliteOffices_id=id)
+        serializersID = TBL_SatalliteOfficesContentSerializer(findID)
+        imageName = os.path.basename(serializersID.data["SatalliteOffices_image"])
+        
         Home = TBL_SatalliteOffices.objects.filter(SatalliteOffices_id=id, SatalliteOffices_region=region)
         Home.delete()
         
         allSatalliteOffices = TBL_SatalliteOffices.objects.filter(SatalliteOffices_region=region)
         serializers = TBL_SatalliteOfficesContentSerializer(allSatalliteOffices, many=True)
         #print(WhoWeAre.update)
+        
+        username = request.data['username']
+        action = "Deleted image " + imageName + " in " + serializersID.data["SatalliteOffices_city"] + " in " + region
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["SatalliteOffices_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
 # Publications
@@ -779,6 +847,11 @@ def updatePubContent(request):
             elif(strImage != newStrImage):
                 Publications.Publications_image=image
                 
+            findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
+            serializersID = TBL_PublicationsContentSerializer(findID)
+            imageName = serializersID.data["Publications_title"]
+            action = "Updated the " + imageName + " in " + title
+                
             Publications.save()
             
         elif(title=="updateStatus"):
@@ -786,14 +859,39 @@ def updatePubContent(request):
             status = request.data["Publications_status"]
             Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
             Publications.update(Publications_status=status)
-        
+            
+            findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
+            serializersID = TBL_PublicationsContentSerializer(findID)
+            imageName = serializersID.data["Publications_title"]
+            action = "Changed " + imageName + " status to " + status + " in " + title
+            
         else:
             status = request.data["Publications_status"]
             Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
             Publications.update(Publications_status=status)
+            
+            findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
+            serializersID = TBL_PublicationsContentSerializer(findID)
+            imageName = serializersID.data["Publications_image"]
+            action = "Changed " + imageName + " status to " + status + " in " + title
         
         allPublications = TBL_Publications.objects.filter(Publications_name=title)
         serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
+        
+        try:
+            username = request.data["username"]
+            
+            
+            createAuditTrail(action, username)
+            #print(os.path.basename(serializersID.data["Home_image"]))
+            # adding image file name
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Publications_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+            
         #print(WhoWeAre.update)
         return Response(serializers.data)
 
@@ -844,6 +942,21 @@ def uploadPubContent(request):
     allPublications = TBL_Publications.objects.filter(Publications_name=title)
     serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
     #print(serializers.data)
+    
+    username = request.data['username']
+    action = "Uploaded publications " + str(image) + " in " + title
+    #print(action)
+    createAuditTrail(action, username)
+    
+    # adding image file name
+    try:
+        for i in range(len(serializers.data)):
+            imageName = os.path.basename(serializers.data[i]["Publications_image"])
+            serializers.data[i]["file_name"] = imageName
+            #print(os.path.basename(serializersID.data["Home_image"]))
+    except:
+        traceback.print_exc()
+    
     return Response(serializers.data)
 
 @api_view(['POST'])
@@ -851,12 +964,34 @@ def deletePubContent(request):
     if request.data:
         id = request.data["Publications_id"]
         title = request.data["Publications_name"]
+        
+        findID = TBL_Publications.objects.get(Publications_id=id)
+        serializersID = TBL_PublicationsContentSerializer(findID)
+        if (title=="Announcements"):
+            imageName = os.path.basename(serializersID.data["Publications_name"])
+        else:
+            imageName = os.path.basename(serializersID.data["Publications_image"])
+        
         Publications = TBL_Publications.objects.filter(Publications_id=id, Publications_name=title)
         Publications.delete()
         
         allPublications = TBL_Publications.objects.filter(Publications_name=title)
         serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
         #print(WhoWeAre.update)
+        
+        username = request.data['username']
+        action = "Deleted publications " + imageName + " in " + title
+        createAuditTrail(action, username)
+        
+        # adding image file name
+        try:
+            for i in range(len(serializers.data)):
+                imageName = os.path.basename(serializers.data[i]["Publications_image"])
+                serializers.data[i]["file_name"] = imageName
+                #print(os.path.basename(serializersID.data["Home_image"]))
+        except:
+            traceback.print_exc()
+        
         return Response(serializers.data)
     
     

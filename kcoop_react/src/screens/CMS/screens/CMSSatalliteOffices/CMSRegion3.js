@@ -8,7 +8,13 @@ import { faPlay, faStop, faTrash, faUpload } from '@fortawesome/free-solid-svg-i
 import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+
 function CMSRegion3() {
+    const [User] = useOutletContext();
+    const user = JSON.parse(User);
+
     const pageTitle = "Region III";
 
     var [satalliteOfficesData, setSatalliteOfficesData] = useState([]);
@@ -55,9 +61,12 @@ function CMSRegion3() {
     }
 
   const refreshData = (satalliteOfficesData) =>{
-    let result = Object.values(satalliteOfficesData.reduce((c, {SatalliteOffices_city,SatalliteOffices_image, SatalliteOffices_status, SatalliteOffices_id}) => {
+    let result = Object.values(satalliteOfficesData.reduce((c, {SatalliteOffices_city,SatalliteOffices_image, 
+      SatalliteOffices_status, SatalliteOffices_id, file_name}) => {
         c[SatalliteOffices_city] = c[SatalliteOffices_city] || {SatalliteOffices_city,SatalliteOffices_image: []};
-        c[SatalliteOffices_city].SatalliteOffices_image = c[SatalliteOffices_city].SatalliteOffices_image.concat(Array.isArray(SatalliteOffices_image) ? {SatalliteOffices_image, SatalliteOffices_status, SatalliteOffices_id} : [{SatalliteOffices_image, SatalliteOffices_status, SatalliteOffices_id}]); 
+        c[SatalliteOffices_city].SatalliteOffices_image = c[SatalliteOffices_city].SatalliteOffices_image.concat(Array.isArray(SatalliteOffices_image) ? 
+        {SatalliteOffices_image, SatalliteOffices_status, SatalliteOffices_id, file_name} : 
+        [{SatalliteOffices_image, SatalliteOffices_status, SatalliteOffices_id, file_name}]); 
         return c;
       }, {}));
       //console.log("result:", result);
@@ -96,7 +105,8 @@ function CMSRegion3() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, SatalliteOffices_status: status};
+      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, SatalliteOffices_status: status,
+        username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -141,7 +151,7 @@ function CMSRegion3() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id};
+      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, username: user[0].username};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -203,6 +213,7 @@ function CMSRegion3() {
     formData.append('image', image);
     formData.append('SatalliteOffices_region', pageTitle);
     formData.append('SatalliteOffices_city', selectValue);
+    formData.append('username', user[0].username);
 
     axios.post(`${BASE_URL}/uploadSOImage/`, formData).then((response)=>{
       //console.log(res);
@@ -259,6 +270,11 @@ function CMSRegion3() {
                       <figure className='figure-cms'>
                         <img src={Images["SatalliteOffices_image"]} style={{height: "auto", width: "100%", marginBottom: "2%"}}/>
                         <br/>
+                        <center>
+                            <b>
+                                {Images.file_name}
+                            </b>
+                        </center>
                         <button className='btn-cms'
                         style={{backgroundColor: 'red', color:'white'}} 
                         onClick={e=>DeactivateButton(e, Images["SatalliteOffices_id"])}
@@ -296,6 +312,11 @@ function CMSRegion3() {
                         <figure className='figure-cms'>
                           <img src={Images["SatalliteOffices_image"]} style={{height: "auto", width: "100%", marginBottom: "2%"}}/>
                           <br/>
+                          <center>
+                            <b>
+                                {Images.file_name}
+                            </b>
+                        </center>
                           <button className='btn-cms' style={{backgroundColor: 'green', color:'white'}} 
                           onClick={e=>ActivateButton(e, Images["SatalliteOffices_id"])}><FontAwesomeIcon icon={faPlay}/></button>
                           <div style={{width:'20px',height:'auto',display:'inline-block'}}/>
