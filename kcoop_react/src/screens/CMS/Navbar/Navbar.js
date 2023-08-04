@@ -168,6 +168,9 @@ const Navbar = (props) => {
   else if(location.pathname=="/cms/careers"){
     pageTitle = "Careers";
   }
+  else if(location.pathname=="/cms/activity_logs"){
+    pageTitle = "Activity Logs";
+  }
 
   const[isDarkMode , setIsDarkMode] = useState(props.currentDM);  
   //console.log("isDarkMode:         ", isDarkMode)
@@ -381,8 +384,18 @@ const Navbar = (props) => {
 
                
                <div className='footer-logout-cms' style={{width: isOpen ? '280px' : '50px', transition: 'all 0.5s'}}>
+
                 {isOpen ? (<div className="icon-cms" style={{marginLeft: "15px"}}><FontAwesomeIcon icon={faUser}/><b style={{marginLeft: "20px"}}>{user[0].username}</b></div>):
                 (<></>)}
+
+                  <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms">
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[7].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[7].text}</div>
+                      </div>
+                      
+                  </NavLink>
                 
                 
                 <botton to="#" className="link-cms" activeclassName="active-cms" onClick={toggleLogout}

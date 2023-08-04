@@ -110,9 +110,11 @@ class Image(models.Model):
 class TBL_AuditTrail(models.Model):
     AuditTrail_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     AuditTrail_user = models.CharField(blank=True, default="")
-    AuditTrail_action = models.CharField(blank=True, default="")
+    AuditTrail_activity = models.CharField(blank=True, default="")
     AuditTrail_date = models.DateField(auto_now_add=True, blank=True, null=True)
     AuditTrail_time = models.TimeField(auto_now_add=True, blank=True, null=True)
+    AuditTrail_action = models.CharField(blank=True, default="")
+    
 
 '''
 class TBL_Announcements(models.Model):

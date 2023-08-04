@@ -23,6 +23,8 @@ import traceback
 
 import os
 
+from django.db.models import Q
+
 # for HEADER
 @api_view(['GET'])
 def getTBL_Header(request):
@@ -321,7 +323,7 @@ def cmsLogin(request):
         #print(timeNow, dateNow)
         #time = datetime.now().strftime('%I:%M:%S %p')
         auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                   AuditTrail_action="Logged In")
+                                                   AuditTrail_action="Log In", AuditTrail_activity = "Logged in")
         # history = TBL_AuditTrail.objects.filter(AuditTrail_user=username)
         # historySerializer = TBL_AuditTrailSerializer(history, many=True)
         # print(historySerializer.data)
@@ -338,14 +340,14 @@ def cmsLogout(request):
     #datetimeNow = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     #time = datetime.now().strftime('%I:%M:%S %p')
     auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                   AuditTrail_action="Logged Out")
+                                                   AuditTrail_action="Log Out", AuditTrail_activity = "Logged out")
     return Response({"data":"User Logout"})
 
 ##### FOR ADMIN
-def createAuditTrail(action, username):
+def createAuditTrail(activity, action, username):
     gen_uuid = str(uuid.uuid4())
     auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
-                                                AuditTrail_action=action)
+                                                AuditTrail_activity=activity, AuditTrail_action=action)
 
 
 # Home
@@ -390,8 +392,9 @@ def updateHomeSlide(request):
         serializers = TBL_HomeSerializer(allHome, many=True)
         
         
-        action = "Changed " + imageName + " status to " + status  + " in Home"
-        createAuditTrail(action, username)
+        activity = "Changed " + imageName + " status to " + status  + " in Home"
+        action = "Update"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -418,9 +421,10 @@ def uploadImage(request):
     product = TBL_Home.objects.create(Home_id=gen_uuid,Home_title="Image Slider",Home_image=image, Home_status="Deactivated")
     
     
-    action = "Uploaded image " + str(image) + " in Home"
+    activity  = "Uploaded image " + str(image) + " in Home"
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
     
     title = "Image Slider"
     allHome = TBL_Home.objects.filter(Home_title=title)
@@ -457,8 +461,9 @@ def deleteImage(request):
         serializers = TBL_HomeSerializer(allHome, many=True)
         
         username = request.data['username']
-        action = "Deleted image " + imageName + " in Home"
-        createAuditTrail(action, username)
+        activity = "Deleted image " + imageName + " in Home"
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         #print(WhoWeAre.update)
         
@@ -488,8 +493,9 @@ def updateWhoweare(request):
         #print(WhoWeAre.update)
         
         username = request.data['username']
-        action = "Edited " + data  + " in " + data
-        createAuditTrail(action, username)
+        activity = "Edited " + data  + " in " + data
+        action = "Update"
+        createAuditTrail(activity, action, username)
         
         return Response(serializers.data)
     
@@ -516,8 +522,9 @@ def updateWhoWeAreImage(request):
         except:
             traceback.print_exc()
         
-        action = "Changed " + imageName + " status to " + status + " in " + title
-        createAuditTrail(action, username)
+        activity = "Changed " + imageName + " status to " + status + " in " + title
+        action = "Update"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -559,9 +566,10 @@ def uploadWhoWeAreImage(request):
     #print(WhoWeAre.update)
     
     username = request.data['username']
-    action = "Uploaded image " + str(image) + " in " + title
+    activity = "Uploaded image " + str(image) + " in " + title
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
     
     # adding image file name
     try:
@@ -585,8 +593,9 @@ def deleteWhoWeAreImage(request):
         imageName = os.path.basename(serializersID.data["WhoWeAre_image"])
         
         username = request.data['username']
-        action = "Deleted image " + imageName + " in " + title
-        createAuditTrail(action, username)
+        activity = "Deleted image " + imageName + " in " + title
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         
         Home = TBL_WhoWeAre.objects.filter(WhoWeAre_id=id, WhoWeAre_title=title)
@@ -625,8 +634,9 @@ def updatePnSImage(request):
             findID = TBL_ProgramAndServices.objects.get(ProgramAndServices_id=id, ProgramAndServices_title=title)
             serializersID = ProgramsAndServicesHSerializer(findID)
             imageName = os.path.basename(serializersID.data["ProgramAndServices_image"])
-            action = "Changed " + imageName + " status to " + status + " in " + title
-            createAuditTrail(action, username)
+            activity = "Changed " + imageName + " status to " + status + " in " + title
+            action = "Update"
+            createAuditTrail(activity, action, username)
             #print(os.path.basename(serializersID.data["Home_image"]))
             # adding image file name
             for i in range(len(serializers.data)):
@@ -674,9 +684,10 @@ def uploadPnSImage(request):
     #print(serializers.data)
     
     username = request.data['username']
-    action = "Uploaded image " + str(image) + " in " + title
+    activity = "Uploaded image " + str(image) + " in " + title
+    action = "Create"
     #print(action)
-    createAuditTrail(action, username)
+    createAuditTrail(activity, action, username)
     
     # adding image file name
     try:
@@ -706,8 +717,9 @@ def deletePnSImage(request):
         
         
         username = request.data['username']
-        action = "Deleted image " + imageName + " in " + title
-        createAuditTrail(action, username)
+        activity = "Deleted image " + imageName + " in " + title
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -739,8 +751,9 @@ def updateSOImage(request):
             findID = TBL_SatalliteOffices.objects.get(SatalliteOffices_id=id, SatalliteOffices_region=region)
             serializersID = TBL_SatalliteOfficesContentSerializer(findID)
             imageName = os.path.basename(serializersID.data["SatalliteOffices_image"])
-            action = "Changed " + imageName + " status to " + status + " in " + serializersID.data["SatalliteOffices_city"] + " in " +region
-            createAuditTrail(action, username)
+            activity = "Changed " + imageName + " status to " + status + " in " + serializersID.data["SatalliteOffices_city"] + " in " +region
+            action = "Update"
+            createAuditTrail(activity, action, username)
             #print(os.path.basename(serializersID.data["Home_image"]))
             # adding image file name
             for i in range(len(serializers.data)):
@@ -783,9 +796,10 @@ def uploadSOImage(request):
     #print(serializers.data)
     
     username = request.data['username']
-    action = "Uploaded image " + str(image) + " in " + city + " in " + region
+    activity = "Uploaded image " + str(image) + " in " + city + " in " + region
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
     
     # adding image file name
     try:
@@ -816,8 +830,9 @@ def deleteSOImage(request):
         #print(WhoWeAre.update)
         
         username = request.data['username']
-        action = "Deleted image " + imageName + " in " + serializersID.data["SatalliteOffices_city"] + " in " + region
-        createAuditTrail(action, username)
+        activity = "Deleted image " + imageName + " in " + serializersID.data["SatalliteOffices_city"] + " in " + region
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -860,7 +875,7 @@ def updatePubContent(request):
             findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
             serializersID = TBL_PublicationsContentSerializer(findID)
             imageName = serializersID.data["Publications_title"]
-            action = "Updated the " + imageName + " in " + title
+            activity = "Updated the " + imageName + " in " + title
                 
             Publications.save()
             
@@ -873,7 +888,7 @@ def updatePubContent(request):
             findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
             serializersID = TBL_PublicationsContentSerializer(findID)
             imageName = serializersID.data["Publications_title"]
-            action = "Changed " + imageName + " status to " + status + " in " + title
+            activity = "Changed " + imageName + " status to " + status + " in " + title
             
         else:
             status = request.data["Publications_status"]
@@ -883,7 +898,7 @@ def updatePubContent(request):
             findID = TBL_Publications.objects.get(Publications_id=id, Publications_name=title)
             serializersID = TBL_PublicationsContentSerializer(findID)
             imageName = os.path.basename(serializersID.data["Publications_image"])
-            action = "Changed " + imageName + " status to " + status + " in " + title
+            activity = "Changed " + imageName + " status to " + status + " in " + title
         
         allPublications = TBL_Publications.objects.filter(Publications_name=title)
         serializers = TBL_PublicationsContentSerializer(allPublications, many=True)
@@ -891,8 +906,8 @@ def updatePubContent(request):
         try:
             username = request.data["username"]
             
-            
-            createAuditTrail(action, username)
+            action = "Update"
+            createAuditTrail(activity, action, username)
             #print(os.path.basename(serializersID.data["Home_image"]))
             # adding image file name
             for i in range(len(serializers.data)):
@@ -954,9 +969,10 @@ def uploadPubContent(request):
     #print(serializers.data)
     
     username = request.data['username']
-    action = "Uploaded publications " + str(image) + " in " + title
+    activity = "Uploaded publications " + str(image) + " in " + title
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
     
     # adding image file name
     try:
@@ -990,8 +1006,9 @@ def deletePubContent(request):
         #print(WhoWeAre.update)
         
         username = request.data['username']
-        action = "Deleted publications " + imageName + " in " + title
-        createAuditTrail(action, username)
+        activity = "Deleted publications " + imageName + " in " + title
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -1025,8 +1042,9 @@ def updateStoriesStatus(request):
             findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
             serializersID = TBL_StoriesContentSerializer(findID)
             imageName = serializersID.data["Stories_title"]
-            action = "Changed " + imageName + " status to " + status + " in " + title
-            createAuditTrail(action, username)
+            activity = "Changed " + imageName + " status to " + status + " in " + title
+            action = "Update"
+            createAuditTrail(activity, action, username)
 
         except:
             traceback.print_exc()
@@ -1049,8 +1067,9 @@ def updateStoriesContent(request):
             findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
             serializersID = TBL_StoriesContentSerializer(findID)
             imageName = serializersID.data["Stories_title"]
-            action = "Changed " + imageName + " status to " + status + " in " + title
-            createAuditTrail(action, username)
+            activity = "Changed " + imageName + " status to " + status + " in " + title
+            action = "Update"
+            createAuditTrail(activity, action, username)
             
         else:
             date = request.data["Stories_date"]
@@ -1081,8 +1100,9 @@ def updateStoriesContent(request):
             findID = TBL_Stories.objects.get(Stories_id=id, Stories_name=title)
             serializersID = TBL_StoriesContentSerializer(findID)
             imageName = serializersID.data["Stories_title"]
-            action = "Updated the " + imageName + " in " + title
-            createAuditTrail(action, username)
+            activity = "Updated the " + imageName + " in " + title
+            action = "Update"
+            createAuditTrail(activity, action, username)
         
         allStories = TBL_Stories.objects.filter(Stories_name=title)
         serializers = TBL_StoriesContentSerializer(allStories, many=True)
@@ -1108,8 +1128,9 @@ def deleteStoriesContent(request):
         username = request.data["username"]
         
         imageName = serializersID.data["Stories_title"]
-        action = "Deleted the " + imageName + " in " + title
-        createAuditTrail(action, username)
+        activity = "Deleted the " + imageName + " in " + title
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         return Response(serializers.data)
 
@@ -1156,9 +1177,10 @@ def uploadStoriesContent(request):
         raise print('Request has no resource file attached')
     
     username = request.data['username']
-    action = "Added Story " + ann_title + " in " + title
+    activity = "Added Story " + ann_title + " in " + title
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
 
     #print(type_id) 
     allStories = TBL_Stories.objects.filter(Stories_name=title)
@@ -1189,8 +1211,9 @@ def updateCareersImage(request):
         except:
             traceback.print_exc()
         
-        action = "Changed " + imageName + " status to " + status + " in Careers"
-        createAuditTrail(action, username)
+        activity = "Changed " + imageName + " status to " + status + " in Careers"
+        action = "Update"
+        createAuditTrail(activity, action, username)
         
         # adding image file name
         try:
@@ -1219,9 +1242,10 @@ def uploadCareersImage(request):
     #print(WhoWeAre.update)
     
     username = request.data['username']
-    action = "Uploaded image " + str(image) + " in Careers"
+    activity = "Uploaded image " + str(image) + " in Careers"
     #print(action)
-    createAuditTrail(action, username)
+    action = "Create"
+    createAuditTrail(activity, action, username)
     
     # adding image file name
     try:
@@ -1245,8 +1269,9 @@ def deleteCareersImage(request):
         imageName = os.path.basename(serializersID.data["Careers_image"])
         
         username = request.data['username']
-        action = "Deleted image " + imageName + " in Careers"
-        createAuditTrail(action, username)
+        activity = "Deleted image " + imageName + " in Careers"
+        action = "Delete"
+        createAuditTrail(activity, action, username)
         
         Careers = TBL_Careers.objects.filter(Careers_id=id)
         Careers.delete()
@@ -1265,4 +1290,54 @@ def deleteCareersImage(request):
             traceback.print_exc()
         
         return Response(serializers.data)
+    
+@api_view(['POST'])
+def getAuditTrail(request):
+    try:
+        username = request.data['username']
+        staff = request.data['staff']
+        
+        action = request.data['action']
+        date = request.data['date']
+        time = request.data['time']
+        
+        print(username, staff, action, date, time)
+        #print(username, type(staff))
+        if staff:
+            usernameInput = request.data['usernameInput']   
+            AuditTrail = TBL_AuditTrail.objects.all().order_by('-AuditTrail_date', '-AuditTrail_time')
+            serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
+            
+            if(usernameInput or action or date or time):
+                #print(usernameInput)
+                AuditTrail = TBL_AuditTrail.objects.filter( Q(AuditTrail_user=usernameInput) | Q(AuditTrail_action=action) | 
+                    Q(AuditTrail_date=date) | Q(AuditTrail_time=time)).order_by('-AuditTrail_date', '-AuditTrail_time')
+                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
+            else:
+                AuditTrail = TBL_AuditTrail.objects.all().order_by('-AuditTrail_date', '-AuditTrail_time')
+                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
+            
+        else:
+            if(action or date or time):
+                AuditTrail = TBL_AuditTrail.objects.filter(AuditTrail_user=username).order_by('-AuditTrail_date', '-AuditTrail_time')
+                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
+            else:
+                AuditTrail = TBL_AuditTrail.objects.filter(AuditTrail_user=username).order_by('-AuditTrail_date', '-AuditTrail_time')
+                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
+        
+        for i in range(len(serializers.data)):
+            t_str = str(serializers.data[i]["AuditTrail_time"])
+            t_str = t_str[0:8]
+            t_obj = datetime.strptime(t_str, '%H:%M:%S')
+            #print(str(t_obj))
+            t_am_pm = t_obj.strftime('%I:%M:%S %p')
+            
+            serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+        
+        #print(serializers.data)
+        return Response(serializers.data)
+
+    except KeyError:
+        traceback.print_exc()
+        
     

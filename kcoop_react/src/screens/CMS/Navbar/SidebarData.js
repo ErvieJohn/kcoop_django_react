@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUserGroup, faBuilding, faNewspaper, faHistory, faPeopleGroup, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUserGroup, faBuilding, faNewspaper, faHistory, faPeopleGroup, faStar, faBook } from '@fortawesome/free-solid-svg-icons';
+import { FaApper, FaBook, FaNewspaper } from "react-icons/fa";
 
  
 export const SidebarData = [
@@ -44,7 +45,15 @@ export const SidebarData = [
         icon: <FontAwesomeIcon size="20" icon={faPeopleGroup}/>,
         text: "Careers",
         link: "cms/careers"
+    },
+    {
+        id: 7,
+        icon: <FontAwesomeIcon size="20" icon={faBook}/>,
+        text: "Activity Logs",
+        link: "cms/activity_logs"
     }
+
+
 ]
 
 export const whoweareData = [

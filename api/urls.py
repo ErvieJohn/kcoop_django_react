@@ -75,5 +75,9 @@ urlpatterns = [
     path('updateCareersImage/', views.updateCareersImage),
     path('deleteCareersImage/', views.deleteCareersImage),
     path('uploadCareersImage/', views.uploadCareersImage),
+    
+    ### Audit Trail
+    path('getAuditTrail/', views.getAuditTrail),
+    
 
 ]

@@ -27,8 +27,15 @@
 
 .cmsMainDarkMode b,.cmsMainDarkMode h1,.cmsMainDarkMode h2,.cmsMainDarkMode h3,
 .cmsMainDarkMode h4,.cmsMainDarkMode h5, .cmsMainDarkMode .form-cms p, 
-.cmsMainDarkMode label{
+.cmsMainDarkMode label, .cmsMainDarkMode .rt-resizable-header-content, 
+.cmsMainDarkMode .rt-td, .cmsMainDarkMode .ReactTable .-pagination .-btn:not([disabled]),
+.cmsMainDarkMode .ReactTable .-pagination .-center{
   color: white;
+}
+
+.cmsMainDarkMode .ReactTable .-pagination .-pageJump,
+.cmsMainDarkMode .ReactTable .-pagination input, .ReactTable .-pagination select{
+  color: black;
 }
 
 .btn-cms{
