@@ -83,7 +83,7 @@ const CMSOS = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, WhoWeAre_status: status, username: user[0].username};
+      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, WhoWeAre_status: status, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -154,6 +154,8 @@ const CMSOS = () => {
     formData.append('image', image);
     formData.append('WhoWeAre_title', slideTitle);
     formData.append('username', user[0].username);
+    formData.append('staff', user[0].Staff);
+
 
     axios.post(`${BASE_URL}/uploadWhoWeAreImage/`, formData).then((response)=>{
       //console.log(res);
@@ -192,7 +194,7 @@ const CMSOS = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, username: user[0].username};
+      var DataBody = {WhoWeAre_title: title, WhoWeAre_id: id, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

@@ -85,4 +85,4 @@ class TBL_HomeSerializer(serializers.ModelSerializer):
 class TBL_AuditTrailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_AuditTrail
-        fields = ('AuditTrail_user', 'AuditTrail_action', 'AuditTrail_date', 'AuditTrail_time','AuditTrail_activity')
+        fields = ('AuditTrail_user', 'AuditTrail_action', 'AuditTrail_date', 'AuditTrail_time','AuditTrail_activity', 'AuditTrail_staff')

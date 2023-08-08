@@ -72,7 +72,7 @@ const CMSAuditedFinancialStatements = () => {
       };
       //var pageTitle = "National Capital Region";
       var DataBody = {Publications_name: title, Publications_id: id, Publications_status: status,
-        username: user[0].username};
+        username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -164,7 +164,7 @@ const CMSAuditedFinancialStatements = () => {
     formData.append('file', file);
     formData.append('Publications_name', slideTitle);
     formData.append('username', user[0].username);
-
+    formData.append('staff', user[0].Staff);
 
     axios.post(`${BASE_URL}/uploadPubContent/`, formData).then((response)=>{
       //console.log(res);
@@ -195,7 +195,7 @@ const CMSAuditedFinancialStatements = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Publications_name: title, Publications_id: id, username: user[0].username};
+      var DataBody = {Publications_name: title, Publications_id: id, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

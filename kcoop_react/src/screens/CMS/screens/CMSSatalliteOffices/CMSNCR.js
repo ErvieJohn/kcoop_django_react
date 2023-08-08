@@ -106,7 +106,7 @@ function CMSNCR() {
       };
       //var pageTitle = "National Capital Region";
       var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, SatalliteOffices_status: status,
-      username: user[0].username};
+      username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -151,7 +151,7 @@ function CMSNCR() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, username: user[0].username};
+      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -214,6 +214,7 @@ function CMSNCR() {
     formData.append('SatalliteOffices_region', pageTitle);
     formData.append('SatalliteOffices_city', selectValue);
     formData.append('username', user[0].username);
+    formData.append('staff', user[0].Staff);
 
     axios.post(`${BASE_URL}/uploadSOImage/`, formData).then((response)=>{
       //console.log(res);

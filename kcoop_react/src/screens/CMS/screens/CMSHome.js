@@ -92,7 +92,7 @@ const CMSHome = () => {
         'Content-Type': 'application/json',
       };
       
-      var DataBody = {Home_title: title, Home_id: id, Home_status: status, username: user[0].username};
+      var DataBody = {Home_title: title, Home_id: id, Home_status: status, username: user[0].username, staff: user[0].Staff};
       
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -166,6 +166,7 @@ const CMSHome = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('username', user[0].username);
+    formData.append('staff', user[0].Staff);
     console.log(formData);
 
     axios.post(`${BASE_URL}/uploadImage/`, formData).then((response)=>{

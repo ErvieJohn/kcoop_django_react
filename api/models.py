@@ -114,7 +114,7 @@ class TBL_AuditTrail(models.Model):
     AuditTrail_date = models.DateField(auto_now_add=True, blank=True, null=True)
     AuditTrail_time = models.TimeField(auto_now_add=True, blank=True, null=True)
     AuditTrail_action = models.CharField(blank=True, default="")
-    
+    AuditTrail_staff = models.CharField(blank=True, default="")
 
 '''
 class TBL_Announcements(models.Model):

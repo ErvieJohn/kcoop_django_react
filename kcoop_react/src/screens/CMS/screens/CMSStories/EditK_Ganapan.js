@@ -162,6 +162,7 @@ export const EditK_Ganapan =  () => {
     formData.append('Stories_content', editedContent);
     formData.append('Stories_image', editedImage);
     formData.append('username', user[0].username);
+    formData.append('staff', user[0].Staff);
 
     axios.post(`${BASE_URL}/updateStoriesContent/`, formData).catch(error => {
           console.log(`getting data error from api url ${error}`)});

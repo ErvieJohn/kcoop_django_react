@@ -54,41 +54,93 @@ const ActivityLogs = () => {
               
       }
     
-    const columns = [{  
-        Header: 'Username',  
-        accessor: 'AuditTrail_user',
-        sortable: true,
-        maxWidth: 205,
-        width: 205,
-        Cell: row => (
-            <div style={{ textAlign: "center"}}>{row.value}</div>
-          )
-        },
-        {  
-        Header: 'Action',  
-        accessor: 'AuditTrail_action',
-        sortable: true,
-        maxWidth: 170,
-        width: 170,
-        Cell: row => (
-            <div style={{ textAlign: "center" }}>{row.value}</div>
-            )
-        },{  
-        Header: 'Activity',  
-        accessor: 'AuditTrail_activity',
-        sortable: false,
-        maxWidth: 620,
-        width: 620,
-        },{  
-        Header: 'DateTime',  
-        accessor: 'AuditTrail_datetime',
-        sortable: true,
-        maxWidth: 200,
-        width: 200,
-        Cell: row => (
-            <div style={{ textAlign: "center" }}>{row.value}</div>
-          )
-        }];
+    var columns = [];
+
+    if(user[0].Staff){
+        columns = [{  
+            Header: 'Username',  
+            accessor: 'AuditTrail_user',
+            sortable: true,
+            maxWidth: 170,
+            width: 170,
+            Cell: row => (
+                <div style={{ textAlign: "center"}}>{row.value}</div>
+              )
+            },
+            {  
+            Header: 'Superuser',  
+            accessor: 'AuditTrail_staff',
+            sortable: true,
+            maxWidth: 80,
+            width: 80,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+                )
+            },
+            {  
+            Header: 'Action',  
+            accessor: 'AuditTrail_action',
+            sortable: true,
+            maxWidth: 120,
+            width: 120,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+                )
+            },{  
+            Header: 'Activity',  
+            accessor: 'AuditTrail_activity',
+            sortable: false,
+            maxWidth: 620,
+            width: 620,
+            },{  
+            Header: 'DateTime',  
+            accessor: 'AuditTrail_datetime',
+            sortable: true,
+            maxWidth: 200,
+            width: 200,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+              )
+            }];
+        
+    }
+    else{
+        columns = [{  
+            Header: 'Username',  
+            accessor: 'AuditTrail_user',
+            sortable: true,
+            maxWidth: 205,
+            width: 205,
+            Cell: row => (
+                <div style={{ textAlign: "center"}}>{row.value}</div>
+              )
+            },
+            {  
+            Header: 'Action',  
+            accessor: 'AuditTrail_action',
+            sortable: true,
+            maxWidth: 170,
+            width: 170,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+                )
+            },{  
+            Header: 'Activity',  
+            accessor: 'AuditTrail_activity',
+            sortable: false,
+            maxWidth: 620,
+            width: 620,
+            },{  
+            Header: 'DateTime',  
+            accessor: 'AuditTrail_datetime',
+            sortable: true,
+            maxWidth: 200,
+            width: 200,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+              )
+            }];
+    }
     
     function onChangeUsername(e){
         usernameVal = e.target.value;

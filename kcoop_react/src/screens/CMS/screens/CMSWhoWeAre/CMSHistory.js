@@ -57,7 +57,7 @@ function CMSHistory() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: titlePage, edited: editedText, username: user[0].username}; // for kwentong -  k
+      var DataBody = {WhoWeAre_title: titlePage, edited: editedText, username: user[0].username, staff: user[0].Staff}; // for kwentong -  k
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

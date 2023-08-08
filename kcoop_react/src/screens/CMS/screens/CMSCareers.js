@@ -81,7 +81,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id, Careers_status: status, username: user[0].username};
+      var DataBody = {Careers_id: id, Careers_status: status, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -151,6 +151,7 @@ const CMSCareers = () => {
     const formData = new FormData();
     formData.append('image', image);
     formData.append('username', user[0].username);
+    formData.append('staff', user[0].Staff);
 
     axios.post(`${BASE_URL}/uploadCareersImage/`, formData).then((response)=>{
       //console.log(res);
@@ -189,7 +190,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id, username: user[0].username};
+      var DataBody = {Careers_id: id, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
