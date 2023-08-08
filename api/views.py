@@ -1332,12 +1332,16 @@ def getAuditTrail(request):
         date = request.data['date']
         time = request.data['time']
         
-        #print(username, staff, action, date, time)
+        toDate = request.data['toDate']
+        toTime = request.data['toTime']
+        
+        print(username, staff, action, date, time, toDate, toTime)
         #print(username, type(staff))
         if staff: #if user is super user search is enabled
             usernameInput = request.data['usernameInput']   
             AuditTrail = TBL_AuditTrail.objects.all().order_by('-AuditTrail_date', '-AuditTrail_time')
             #print(AuditTrail)
+            dateNow = datetime.today().strftime("%y-%m-%d")
             
             if(usernameInput):
                 AuditTrail = AuditTrail.filter(AuditTrail_user=usernameInput)
@@ -1346,8 +1350,23 @@ def getAuditTrail(request):
                 if action != "All":
                     AuditTrail = AuditTrail.filter(AuditTrail_action=action) 
                 
-            if(date):
-                AuditTrail = AuditTrail.filter(AuditTrail_date=date) 
+            if(date and toDate):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__range=[date,toDate]) 
+                
+            elif(date and toDate is None):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__gte=date) 
+                
+            elif(date is None and toDate):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__lte=toDate) 
+             ###############   
+            if(time and toTime):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__range=[time+":00",toTime+":00"])
+                
+            elif(time and toTime is None):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__gte=time+":00")
+                
+            elif(time is None and toTime):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__lte=toTime+":00")
             
             serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
             
@@ -1358,44 +1377,73 @@ def getAuditTrail(request):
                 if action != "All":
                     AuditTrail = AuditTrail.filter(AuditTrail_action=action) 
                 
-            if(date):
-                AuditTrail = AuditTrail.filter(AuditTrail_date=date) 
+            if(date and toDate):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__range=[date,toDate]) 
+                
+            elif(date and toDate is None):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__gte=date) 
+                
+            elif(date is None and toDate):
+                AuditTrail = AuditTrail.filter(AuditTrail_date__lte=toDate) 
+             ###############   
+            if(time and toTime):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__range=[time+":00",toTime+":00"])
+                
+            elif(time and toTime is None):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__gte=time+":00")
+                
+            elif(time is None and toTime):
+                AuditTrail = AuditTrail.filter(AuditTrail_time__lte=toTime+":00")
+            
                 
             serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
         
-        if(time): #for time, if the time is inputed
-            x = []
-            for i in range(len(serializers.data)):
-                t_str = str(serializers.data[i]["AuditTrail_time"])
-                t_str = t_str[0:5]
-                if(t_str!=time):
-                    #print("t_str", t_str, "time", time)
-                    pass
-                else:
-                    x.append(serializers.data[i])
+        #if(time): #for time, if the time is inputed
+            # x = []
+            # for i in range(len(serializers.data)):
+            #     t_str = str(serializers.data[i]["AuditTrail_time"])
+            #     t_str = t_str[0:5]
+            #     if(t_str!=time):
+            #         #print("t_str", t_str, "time", time)
+            #         pass
+            #     else:
+            #         x.append(serializers.data[i])
 
-            for i in range(len(x)):
-                t_str = str(x[i]["AuditTrail_time"])
-                t_str = t_str[0:8]
-                t_obj = datetime.strptime(t_str, '%H:%M:%S')
-                t_am_pm = t_obj.strftime('%I:%M:%S %p')
+            # for i in range(len(x)):
+            #     t_str = str(x[i]["AuditTrail_time"])
+            #     t_str = t_str[0:8]
+            #     t_obj = datetime.strptime(t_str, '%H:%M:%S')
+            #     t_am_pm = t_obj.strftime('%I:%M:%S %p')
                 
-                x[i]["AuditTrail_datetime"] = str(x[i]["AuditTrail_date"]) + " " + t_am_pm
+            #     x[i]["AuditTrail_datetime"] = str(x[i]["AuditTrail_date"]) + " " + t_am_pm
             
-            return Response(x)
+            # return Response(x)
+            
+            # AuditTrail = AuditTrail.filter(AuditTrail_time__range=[time,"5:00"])
+            
+            # for i in range(len(serializers.data)):
+            #     t_str = str(serializers.data[i]["AuditTrail_time"])
+            #     t_str = t_str[0:8]
+            #     t_obj = datetime.strptime(t_str, '%H:%M:%S')
+            #     t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                
+            #     serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+            
+            
+            # return Response(serializers.data)
         
-        else:
-            for i in range(len(serializers.data)):
-                t_str = str(serializers.data[i]["AuditTrail_time"])
-                t_str = t_str[0:8]
-                t_obj = datetime.strptime(t_str, '%H:%M:%S')
-                #print(str(t_obj))
-                t_am_pm = t_obj.strftime('%I:%M:%S %p')
-                
-                serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+        #else:
+        for i in range(len(serializers.data)):
+            t_str = str(serializers.data[i]["AuditTrail_time"])
+            t_str = t_str[0:8]
+            t_obj = datetime.strptime(t_str, '%H:%M:%S')
+            #print(str(t_obj))
+            t_am_pm = t_obj.strftime('%I:%M:%S %p')
             
-            #print(serializers.data)
-            return Response(serializers.data)
+            serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+        
+        #print(serializers.data)
+        return Response(serializers.data)
 
     except KeyError:
         traceback.print_exc()

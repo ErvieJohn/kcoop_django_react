@@ -19,12 +19,26 @@ const ActivityLogs = () => {
     var [dateVal, setDateVal] = useState(null);
     var [timeVal, setTimeVal] = useState(null);
 
+    var dateToday = new Date();
+    var dd = String(dateToday.getDate()).padStart(2, '0');
+    var mm = String(dateToday.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = dateToday.getFullYear();
+
+    dateToday = yyyy + '-' + mm + '-' + dd;
+    //var [dateToVal, setDateToVal] = useState(dateToday);
+    var [dateToVal, setDateToVal] = useState(null);
+    //console.log(dateToVal);
+
+    var [timeToVal, setTimeToVal] = useState(null);
+
     const usernameRef = useRef(null);
     const actionRef = useRef(null);
     const dateRef = useRef(null);
+    const dateToRef = useRef(null);
     const timeRef = useRef(null);
+    const timeToRef = useRef(null);
 
-    const getAuditTrail = (user, username, action, date, time) => {
+    const getAuditTrail = (user, username, action, date, time, toDate, toTime) => {
         var InsertAPIURL = `${BASE_URL}/getAuditTrail/`;
     
         var headers = {
@@ -32,8 +46,8 @@ const ActivityLogs = () => {
             'Content-Type': 'application/json',
           };
           var DataBody = {username: user[0].username, staff: user[0].Staff,
-            usernameInput: username, action: action, date: date, time: time}; 
-          //console.log("DataBody: ", DataBody);
+            usernameInput: username, action: action, date: date, time: time, toDate: toDate, toTime: toTime}; 
+          console.log("DataBody: ", DataBody);
           fetch(InsertAPIURL, {
             method: 'POST',
             headers: headers,
@@ -159,15 +173,28 @@ const ActivityLogs = () => {
         dateVal = e.target.value;
         setDateVal(dateVal);
     }
+    function onChangeToDate(e){
+        dateToVal = e.target.value;
+        setDateToVal(dateToVal);
+    }
+
+    
 
     function onChangeTime(e){
         timeVal = e.target.value;
         setTimeVal(timeVal);
     }
 
+    function onChangeToTime(e){
+        timeToVal = e.target.value;
+        setTimeToVal(timeToVal);
+    }
+
+    
+
 
     function searchData(){
-        getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal);
+        getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal, dateToVal, timeToVal);
         //console.log(user, usernameVal, actionVal, dateVal, timeVal);
     }
 
@@ -180,19 +207,23 @@ const ActivityLogs = () => {
         
         actionRef.current.value = "All";
         dateRef.current.value = null;
+        dateToRef.current.value = null;
         timeRef.current.value = null;
+        timeToRef.current.value = null;
 
         
         setActionVal("All");
         setDateVal(null);
+        setDateToVal(null);
         setTimeVal(null);
+        setTimeToVal(null);
 
-        getAuditTrail(user, null, null, null, null);
+        getAuditTrail(user, null, null, null, null, null, null);
     }
 
 
     useEffect(() => {
-        getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal);
+        getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal, dateToVal, timeToVal);
     }, []);
 
 
@@ -205,14 +236,14 @@ const ActivityLogs = () => {
     <center style={{margin: user[0].Staff ? "none":"0 100px 0 100px"}}>
         <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
             {user[0].Staff ? (
-            <div id='icon-text-cms'>
+            <div id='icon-text-cms' style={{marginTop:"20px"}}>
                 <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
                 <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
                 onChange={onChangeUsername}/>
             </div>):(<></>)}
             
             
-            <div id='icon-text-cms'>
+            <div id='icon-text-cms' style={{marginTop:"20px"}}>
                 <b style={{marginRight: "10px", marginTop: "2px"}}><label for="action">Action:</label></b>
                 <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
                 onChange={onChangeAction}>
@@ -224,18 +255,40 @@ const ActivityLogs = () => {
                     <option value="Log Out">Log Out</option>
                 </select>
             </div>
-            <div id='icon-text-cms'>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>Date: </b> <input ref={dateRef} className="inputSO" type="date"
-                    style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
+            <div>
+                <center><b>Date</b></center>
+                <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                    <div id='icon-text-cms'>
+                        <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
+                    </div>
+                    <div id='icon-text-cms'>
+                        <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
+                            {/* value={dateToVal}  */}
+                    </div>
+                </div>
+                
             </div>
             
-            <div id='icon-text-cms'>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>Time: </b> <input ref={timeRef} className="inputSO" type="time" 
-                style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
+            <div>
+                <center><b>Time</b></center>
+                <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                    <div id='icon-text-cms'>
+                        <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
+                        style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
+                    </div>
+                    <div id='icon-text-cms'>
+                        <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
+                        style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
+                    </div>
+                </div>
+                
             </div>
-            <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px'}} 
+            
+            <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px', marginTop:"20px"}} 
                     onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
-            <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px'}} 
+            <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px', marginTop:"20px"}} 
                     onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
             
             
