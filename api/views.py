@@ -23,7 +23,7 @@ import traceback
 
 import os
 
-from django.db.models import Q
+import numpy as np
 
 # for HEADER
 @api_view(['GET'])
@@ -346,6 +346,7 @@ def cmsLogout(request):
 ##### FOR ADMIN
 def createAuditTrail(activity, action, username):
     gen_uuid = str(uuid.uuid4())
+    #time = datetime.now().strftime("%H:%M")
     auditTrail = TBL_AuditTrail.objects.create(AuditTrail_id=gen_uuid,AuditTrail_user=username,
                                                 AuditTrail_activity=activity, AuditTrail_action=action)
 
@@ -1301,41 +1302,70 @@ def getAuditTrail(request):
         date = request.data['date']
         time = request.data['time']
         
-        print(username, staff, action, date, time)
+        #print(username, staff, action, date, time)
         #print(username, type(staff))
-        if staff:
+        if staff: #if user is super user search is enabled
             usernameInput = request.data['usernameInput']   
             AuditTrail = TBL_AuditTrail.objects.all().order_by('-AuditTrail_date', '-AuditTrail_time')
+            #print(AuditTrail)
+            
+            if(usernameInput):
+                AuditTrail = AuditTrail.filter(AuditTrail_user=usernameInput)
+                    
+            if(action):
+                if action != "All":
+                    AuditTrail = AuditTrail.filter(AuditTrail_action=action) 
+                
+            if(date):
+                AuditTrail = AuditTrail.filter(AuditTrail_date=date) 
+            
             serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
             
-            if(usernameInput or action or date or time):
-                #print(usernameInput)
-                AuditTrail = TBL_AuditTrail.objects.filter( Q(AuditTrail_user=usernameInput) | Q(AuditTrail_action=action) | 
-                    Q(AuditTrail_date=date) | Q(AuditTrail_time=time)).order_by('-AuditTrail_date', '-AuditTrail_time')
-                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
-            else:
-                AuditTrail = TBL_AuditTrail.objects.all().order_by('-AuditTrail_date', '-AuditTrail_time')
-                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
-            
         else:
-            if(action or date or time):
-                AuditTrail = TBL_AuditTrail.objects.filter(AuditTrail_user=username).order_by('-AuditTrail_date', '-AuditTrail_time')
-                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
-            else:
-                AuditTrail = TBL_AuditTrail.objects.filter(AuditTrail_user=username).order_by('-AuditTrail_date', '-AuditTrail_time')
-                serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
-        
-        for i in range(len(serializers.data)):
-            t_str = str(serializers.data[i]["AuditTrail_time"])
-            t_str = t_str[0:8]
-            t_obj = datetime.strptime(t_str, '%H:%M:%S')
-            #print(str(t_obj))
-            t_am_pm = t_obj.strftime('%I:%M:%S %p')
+            AuditTrail = TBL_AuditTrail.objects.filter(AuditTrail_user=username).order_by('-AuditTrail_date', '-AuditTrail_time')
             
-            serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+            if(action):
+                if action != "All":
+                    AuditTrail = AuditTrail.filter(AuditTrail_action=action) 
+                
+            if(date):
+                AuditTrail = AuditTrail.filter(AuditTrail_date=date) 
+                
+            serializers = TBL_AuditTrailSerializer(AuditTrail, many=True)
         
-        #print(serializers.data)
-        return Response(serializers.data)
+        if(time): #for time, if the time is inputed
+            x = []
+            for i in range(len(serializers.data)):
+                t_str = str(serializers.data[i]["AuditTrail_time"])
+                t_str = t_str[0:5]
+                if(t_str!=time):
+                    #print("t_str", t_str, "time", time)
+                    pass
+                else:
+                    x.append(serializers.data[i])
+
+            for i in range(len(x)):
+                t_str = str(x[i]["AuditTrail_time"])
+                t_str = t_str[0:8]
+                t_obj = datetime.strptime(t_str, '%H:%M:%S')
+                t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                
+                x[i]["AuditTrail_datetime"] = str(x[i]["AuditTrail_date"]) + " " + t_am_pm
+            
+            return Response(x)
+        
+        else:
+            for i in range(len(serializers.data)):
+                t_str = str(serializers.data[i]["AuditTrail_time"])
+                t_str = t_str[0:8]
+                t_obj = datetime.strptime(t_str, '%H:%M:%S')
+                #print(str(t_obj))
+                t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                
+                serializers.data[i]["AuditTrail_datetime"] = str(serializers.data[i]["AuditTrail_date"]) + " " + t_am_pm
+            
+            #print(serializers.data)
+            return Response(serializers.data)
 
     except KeyError:
         traceback.print_exc()

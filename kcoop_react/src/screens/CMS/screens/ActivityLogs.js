@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ReactTable from "react-table-6";  
 import "react-table-6/react-table.css";
 
@@ -8,7 +8,7 @@ import { BASE_URL } from '../../../config';
 import { useOutletContext } from "react-router-dom";
 import LoadingSpinner from '../../LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faRemove, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const ActivityLogs = () => {
     const [User] = useOutletContext();
@@ -19,6 +19,11 @@ const ActivityLogs = () => {
     var [dateVal, setDateVal] = useState(null);
     var [timeVal, setTimeVal] = useState(null);
 
+    const usernameRef = useRef(null);
+    const actionRef = useRef(null);
+    const dateRef = useRef(null);
+    const timeRef = useRef(null);
+
     const getAuditTrail = (user, username, action, date, time) => {
         var InsertAPIURL = `${BASE_URL}/getAuditTrail/`;
     
@@ -28,7 +33,7 @@ const ActivityLogs = () => {
           };
           var DataBody = {username: user[0].username, staff: user[0].Staff,
             usernameInput: username, action: action, date: date, time: time}; 
-          console.log("DataBody: ", DataBody);
+          //console.log("DataBody: ", DataBody);
           fetch(InsertAPIURL, {
             method: 'POST',
             headers: headers,
@@ -41,7 +46,7 @@ const ActivityLogs = () => {
             //data = res;
             
             setData(res);
-            console.log("res: ",res[0].AuditTrail_datetime);
+            //console.log(res);
             //console.log(data);
     
           }).catch(error => {
@@ -111,7 +116,26 @@ const ActivityLogs = () => {
 
     function searchData(){
         getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal);
-        console.log(user, usernameVal, actionVal, dateVal, timeVal);
+        //console.log(user, usernameVal, actionVal, dateVal, timeVal);
+    }
+
+    function clearData(){
+
+        if(user[0].Staff){
+            usernameRef.current.value = null;
+            setUsernameVal(null);
+        }
+        
+        actionRef.current.value = "All";
+        dateRef.current.value = null;
+        timeRef.current.value = null;
+
+        
+        setActionVal("All");
+        setDateVal(null);
+        setTimeVal(null);
+
+        getAuditTrail(user, null, null, null, null);
     }
 
 
@@ -131,14 +155,14 @@ const ActivityLogs = () => {
             {user[0].Staff ? (
             <div id='icon-text-cms'>
                 <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
-                <input className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
+                <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
                 onChange={onChangeUsername}/>
             </div>):(<></>)}
             
             
             <div id='icon-text-cms'>
                 <b style={{marginRight: "10px", marginTop: "2px"}}><label for="action">Action:</label></b>
-                <select name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
+                <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
                 onChange={onChangeAction}>
                     <option value="All">All</option>
                     <option value="Create">Create</option>
@@ -149,16 +173,19 @@ const ActivityLogs = () => {
                 </select>
             </div>
             <div id='icon-text-cms'>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>Date: </b> <input className="inputSO" type="date"
+                <b style={{marginRight: "10px", marginTop: "2px"}}>Date: </b> <input ref={dateRef} className="inputSO" type="date"
                     style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
             </div>
             
             <div id='icon-text-cms'>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>Time: </b> <input className="inputSO" type="time" 
+                <b style={{marginRight: "10px", marginTop: "2px"}}>Time: </b> <input ref={timeRef} className="inputSO" type="time" 
                 style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
             </div>
-
-            <button type="button" class="search-cms" onClick={searchData}>Search</button>
+            <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px'}} 
+                    onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
+            <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px'}} 
+                    onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
+            
             
         </div>
     </center>
@@ -174,7 +201,7 @@ const ActivityLogs = () => {
         />  
     </div>
     ):
-    <div style={{height: "100px"}}>
+    <div style={{height: "420px",alignItems: "center", alignContent: "center",justifyContent: "center", display: "flex"}}>
         <center>
             <h3>
                 No data found
