@@ -231,14 +231,16 @@ const Navbar = (props) => {
                    
                   
                </div>
-               <NavLink to={SidebarData[0].link} className="link-cms" activeclassName="active-cms">
+               <NavLink to={SidebarData[0].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Home'}>
                   <div id="icon-text-cms">
                     <div className="icon-cms">{SidebarData[0].icon}</div>
                     <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
                     <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[0].text}</div>
                   </div>
+                  
                </NavLink>
                <botton to={SidebarData[1].link} className="link-cms" activeclassName="active-cms" onClick={toggleWhoweare}
+                  title={ isOpen ? '':'Who We Are'}
                   style={{cursor: "pointer",
                           WebkitTapHighlightColor: "transparent",
                           WebkitUserSelect: "none",
@@ -256,7 +258,7 @@ const Navbar = (props) => {
                </botton>
               {isWhoweareOpen ? (
                   whoweareData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms">
+                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
                            <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
                        </NavLink>
                    ))
@@ -264,6 +266,7 @@ const Navbar = (props) => {
               }
 
               <botton to={SidebarData[2].link} className="link-cms" activeclassName="active-cms" onClick={togglePandS}
+                title={ isOpen ? '':'Programs And Services'}
                   style={{cursor: "pointer",
                           WebkitTapHighlightColor: "transparent",
                           WebkitUserSelect: "none",
@@ -282,7 +285,7 @@ const Navbar = (props) => {
                </botton>
               {isPandSOpen ? (
                   PnSData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms">
+                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
                            <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
                        </NavLink>
                    ))
@@ -290,6 +293,7 @@ const Navbar = (props) => {
               }
 
               <botton to={SidebarData[3].link} className="link-cms" activeclassName="active-cms" onClick={toggleSO}
+              title={ isOpen ? '':'Satallite Offices'}
                   style={{cursor: "pointer",
                           WebkitTapHighlightColor: "transparent",
                           WebkitUserSelect: "none",
@@ -310,7 +314,7 @@ const Navbar = (props) => {
               
               {isSOOpen ? (
                   SOData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms">
+                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
                            <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
                        </NavLink>
                    ))
@@ -318,6 +322,7 @@ const Navbar = (props) => {
               }
 
               <botton to={SidebarData[4].link} className="link-cms" activeclassName="active-cms" onClick={togglePublication}
+              title={ isOpen ? '':'Publications'}
                   style={{cursor: "pointer",
                           WebkitTapHighlightColor: "transparent",
                           WebkitUserSelect: "none",
@@ -338,7 +343,7 @@ const Navbar = (props) => {
               
               {isPublicationOpen ? (
                   PublicationData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms">
+                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
                            <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
                        </NavLink>
                    ))
@@ -346,6 +351,7 @@ const Navbar = (props) => {
               }
 
               <botton to={SidebarData[5].link} className="link-cms" activeclassName="active-cms" onClick={toggleStories}
+              title={ isOpen ? '':'Stories'}
                   style={{cursor: "pointer",
                           WebkitTapHighlightColor: "transparent",
                           WebkitUserSelect: "none",
@@ -366,14 +372,14 @@ const Navbar = (props) => {
               
               {isStoriesOpen ? (
                   StoriesData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms">
+                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
                            <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
                        </NavLink>
                    ))
                 ) : (<></>) 
               }
 
-               <NavLink to={SidebarData[6].link} className="link-cms" activeclassName="active-cms">
+               <NavLink to={SidebarData[6].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Careers'}>
                <div id="icon-text-cms">
                     <div className="icon-cms">{SidebarData[6].icon}</div>
                     <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
@@ -388,7 +394,7 @@ const Navbar = (props) => {
                 {isOpen ? (<div className="icon-cms" style={{marginLeft: "15px"}}><FontAwesomeIcon icon={faUser}/><b style={{marginLeft: "20px"}}>{user[0].username}</b></div>):
                 (<></>)}
 
-                  <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms">
+                  <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Activity Logs'}>
                       <div id="icon-text-cms">
                         <div className="icon-cms">{SidebarData[7].icon}</div>
                         <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
@@ -399,6 +405,7 @@ const Navbar = (props) => {
                 
                 
                 <botton to="#" className="link-cms" activeclassName="active-cms" onClick={toggleLogout}
+                    title={ isOpen ? '':'Logout'}
                     style={{cursor: "pointer",
                             WebkitTapHighlightColor: "transparent",
                             WebkitUserSelect: "none",
@@ -406,6 +413,7 @@ const Navbar = (props) => {
                             MozUserSelect: "none",
                             msUserSelect: "none",
                             userSelect: "none",}}>
+                      
                     <div id="icon-text-cms">
                       <div className="icon-cms"><FontAwesomeIcon icon={faSignOut} /></div>
                       <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
