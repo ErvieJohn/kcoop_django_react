@@ -371,7 +371,9 @@ export const AuthProvider = ({children}) => {
                 }
               })
 
+
               publicationsData = dataActive;
+              console.log(publicationsData[2].Publications_content);
               setPublicationsData(publicationsData);
               
 

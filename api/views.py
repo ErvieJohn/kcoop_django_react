@@ -41,15 +41,6 @@ def getWhoWeAreType(request):
     #person = {'name': 'ervie', 'age': 22}
     serializers = WhoWeAreTypeSerializer(WhoWeAreType, many=True)
     
-    # adding image file name
-    try:
-        for i in range(len(serializers.data)):
-            imageName = os.path.basename(serializers.data[i]["WhoWeAre_image"])
-            serializers.data[i]["file_name"] = imageName
-            #print(os.path.basename(serializersID.data["Home_image"]))
-    except:
-        traceback.print_exc()
-    
     return Response(serializers.data)
 
 # for Who We Are
@@ -160,7 +151,9 @@ def getTBL_Publications(request):
         data = request.data["Publications_name"]
         Publications = TBL_Publications.objects.filter(Publications_name=data).order_by('-Publications_pubDate')
         serializers = TBL_PublicationsContentSerializer(Publications, many=True)
-        #print(serializers.data)
+        print(serializers.data)
+        
+        
         for i in range (len(serializers.data)): #convert date to shortend month
             if (serializers.data[i]["Publications_pubDate"]):
                 dateFormat = serializers.data[i]["Publications_pubDate"]
@@ -175,6 +168,7 @@ def getTBL_Publications(request):
                 
             else:
                 serializers.data[i]["Stories_date"] = ""
+                    
                 
         # adding image file name
         try:
@@ -236,15 +230,19 @@ def getTBL_Stories(request):
         serializers = TBL_StoriesContentSerializer(Stories, many=True)
         #datetime_str = serializers.data[0]["Stories_date"]
         #print(serializers.data)
-        for i in range (len(serializers.data)): #convert date to shortend month
-            if (serializers.data[i]["Stories_date"]):
-                dateFormat = serializers.data[i]["Stories_date"]
-                date = datetime.fromisoformat(dateFormat)
-                dateConverted = date.strftime('%b-%d-%Y')
-                serializers.data[i]["Stories_date"] = dateConverted
-                
-            else:
-                serializers.data[i]["Stories_date"] = ""
+        
+        try:
+            for i in range (len(serializers.data)): #convert date to shortend month
+                if (serializers.data[i]["Stories_date"]):
+                    dateFormat = serializers.data[i]["Stories_date"]
+                    date = datetime.fromisoformat(dateFormat)
+                    dateConverted = date.strftime('%b-%d-%Y')
+                    serializers.data[i]["Stories_date"] = dateConverted
+                    
+                else:
+                    serializers.data[i]["Stories_date"] = ""
+        except:
+            traceback.print_exc()
         
         
         return Response(serializers.data)
@@ -287,16 +285,18 @@ def getCareersData(request):
 def getHomeData(request):
     Home = TBL_Home.objects.all()
     serializers = TBL_HomeSerializer(Home, many=True)
-    
-    for i in range (len(serializers.data)): #convert date to shortend month
-            if (serializers.data[i]["Home_date"]):
-                dateFormat = serializers.data[i]["Home_date"]
-                date = datetime.fromisoformat(dateFormat)
-                dateConverted = date.strftime('%b-%d-%Y')
-                serializers.data[i]["Home_date"] = dateConverted
-                
-            else:
-                serializers.data[i]["Home_date"] = ""
+    try:
+        for i in range (len(serializers.data)): #convert date to shortend month
+                if (serializers.data[i]["Home_date"]):
+                    dateFormat = serializers.data[i]["Home_date"]
+                    date = datetime.fromisoformat(dateFormat)
+                    dateConverted = date.strftime('%b-%d-%Y')
+                    serializers.data[i]["Home_date"] = dateConverted
+                    
+                else:
+                    serializers.data[i]["Home_date"] = ""
+    except:
+        traceback.print_exc()
     
     return Response(serializers.data)
 

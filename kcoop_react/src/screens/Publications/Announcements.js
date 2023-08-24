@@ -75,7 +75,7 @@ export default function Announcements() {
                                       whiteSpace: "pre-line",
                                     }}
                                   >
-                                    {(content.Publications_content.length > 0) ? (<p
+                                    {(content.Publications_content != null) ? (<p
                                       //style={{
                                       //  textIndent: "30px",
                                       //}}
