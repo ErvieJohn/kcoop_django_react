@@ -206,7 +206,7 @@ const CMSHome = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Home_title: title, Home_id: id, username: user[0].username};
+      var DataBody = {Home_title: title, Home_id: id, username: user[0].username, staff: user[0].Staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
