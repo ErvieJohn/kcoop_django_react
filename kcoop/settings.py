@@ -30,8 +30,8 @@ SECRET_KEY = env('DB_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False #False #True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','.ngrok.io', '.ngrok-free.app', '103.3.61.162']
-
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1','.ngrok.io', '.ngrok-free.app', '103.3.61.162']
+ALLOWED_HOSTS = ['*', '103.3.61.162']
 
 # Application definition
 
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware', #for whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware', #for whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,11 +136,16 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'kcoop_react/build/static')] #CHANGE public TO build #kcoop_react/build/static
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'django_react_static', 'static')
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# without whitenoise
+#MEDIA_URL = '/static/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media') # kcoop_react/build/static/media # main
 
+# with whitenoise
 MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media') # kcoop_react/build/static/media # main
+MEDIA_ROOT = os.path.join(BASE_DIR, 'django_react_static', 'static', 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
