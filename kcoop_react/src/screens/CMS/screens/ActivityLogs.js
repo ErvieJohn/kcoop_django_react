@@ -47,7 +47,7 @@ const ActivityLogs = () => {
           };
           var DataBody = {username: user[0].username, staff: user[0].Staff,
             usernameInput: username, action: action, date: date, time: time, toDate: toDate, toTime: toTime}; 
-          console.log("DataBody: ", DataBody);
+          //console.log("DataBody: ", DataBody);
           fetch(InsertAPIURL, {
             method: 'POST',
             headers: headers,

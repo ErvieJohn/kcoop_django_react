@@ -185,12 +185,12 @@ const Navbar = (props) => {
     <>
       <header className="header-cms" style={{left: isOpen ? '280px':'50px', paddingRight: "70px", transition: 'all 0.5s' }}>
         <div>
-            <b>{pageTitle}</b>
+            <b id='pagetitle-cms'>{pageTitle}</b>
         </div> 
         <div>
           <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
           style={{marginRight: "15px", marginTop: "3px"}}></img>
-          <span style={{position: "relative",top: "15px"}}>
+          <span className='kcooptitle-cms'>
             <b> KASAGANA-KA  </b> COOPERATIVE
           </span>
           
@@ -198,8 +198,8 @@ const Navbar = (props) => {
         
             {/* <b>ADMINISTRATION</b> */}
             
-        <button style={{marginLeft: "20px", border: "none", height: "20px", backgroundColor: "transparent"}} onClick={onDarkMode}>
-          <b style={{fontSize: "16px"}}>Dark Mode</b> {isDarkMode ? 
+        <button className="darkmodesize-cms" onClick={onDarkMode}>
+          <b className="darkmodetxt-cms">Dark Mode</b> {isDarkMode ? 
         <FontAwesomeIcon icon={faToggleOn}/> : <FontAwesomeIcon icon={faToggleOff} />}</button>
             {/* <label className='toggleLabel'>
                 <strong className='toggleStrong'>Dark Mode</strong>

@@ -136,6 +136,50 @@ ul.list-cms  li {
   margin: 0; /* to normalize figure element */
 }
 
+.kcooptitle-cms {
+  position: relative;
+  top: 15px;
+}
+
+.darkmodesize-cms {
+  margin-left: 20px;
+  border: none;
+  height: 20px;
+  background-color: transparent;
+}
+
+.darkmodetxt-cms {
+  font-size: 16px;
+}
+
+
+@media screen and (max-width: 600px) {
+  #pagetitle-cms {
+    display: none;
+  }
+
+  .form-cms, .uploaded-row {
+    width: 250px;
+  }
+
+  .kcooptitle-cms {
+    top: 5px;
+    font-size: 13px;
+  }
+
+  .darkmodetxt-cms {
+    font-size: 11px;
+  }
+
+  .darkmodesize-cms{
+    height: auto;
+  }
+
+  
+
+
+}
+
 @media screen and (min-width: 400px) {
 
   ul.list-cms  li {
