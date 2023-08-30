@@ -153,21 +153,23 @@ def getTBL_Publications(request):
         serializers = TBL_PublicationsContentSerializer(Publications, many=True)
         print(serializers.data)
         
-        
-        for i in range (len(serializers.data)): #convert date to shortend month
-            if (serializers.data[i]["Publications_pubDate"]):
-                dateFormat = serializers.data[i]["Publications_pubDate"]
-                #print()
-                if(len(dateFormat)>4):
-                    date = datetime.fromisoformat(dateFormat)
+        try:
+            for i in range (len(serializers.data)): #convert date to shortend month
+                if (serializers.data[i]["Publications_pubDate"]):
+                    dateFormat = serializers.data[i]["Publications_pubDate"]
+                    #print()
+                    if(len(dateFormat)>4):
+                        date = datetime.fromisoformat(dateFormat)
+                        
+                        dateConverted = date.strftime('%b-%d-%Y')
+                        serializers.data[i]["Publications_pubDate"] = dateConverted
+                    else:
+                        serializers.data[i]["Publications_pubDate"] = dateFormat
                     
-                    dateConverted = date.strftime('%b-%d-%Y')
-                    serializers.data[i]["Publications_pubDate"] = dateConverted
                 else:
-                    serializers.data[i]["Publications_pubDate"] = dateFormat
-                
-            else:
-                serializers.data[i]["Stories_date"] = ""
+                    serializers.data[i]["Stories_date"] = ""
+        except:
+            traceback.print_exc()
                     
                 
         # adding image file name
