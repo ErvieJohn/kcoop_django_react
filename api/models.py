@@ -116,6 +116,11 @@ class TBL_AuditTrail(models.Model):
     AuditTrail_action = models.CharField(blank=True, default="")
     AuditTrail_staff = models.CharField(blank=True, default="")
 
+class TBL_Member(models.Model):
+    Member_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Member_username = models.CharField(blank=True, default="", unique=True)
+    Member_password = models.CharField(blank=True, default="")
+
 '''
 class TBL_Announcements(models.Model):
     Announcements_id = models.AutoField(primary_key=True)

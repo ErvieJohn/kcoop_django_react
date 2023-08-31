@@ -1,0 +1,159 @@
+body.active-modal-login {
+    overflow-y: hidden;
+}
+
+.modal-login, .overlay-modal-login {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    z-index: 1;
+}
+
+.overlay-modal-login {
+    background: rgba(49,49,49,0.8);
+}
+.modal-login-content {
+    position: absolute;
+    /* top: 40%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    /* background: #f1f1f1;
+    padding: 14px 28px; */
+    background: transparent;
+    border-radius: 8px;
+    max-width: 600px;
+    min-width: 300px;
+    z-index: 2;
+}
+
+.close-modal-login {
+    position: absolute;
+    top: 30px;
+    right: 15px;
+    padding: 5px 7px;
+    background: transparent;
+    border: none;
+}
+
+.btn-modal-showpass{
+    position: absolute;
+    top: 215px;
+    right: 60px;
+    padding: 5px 7px;
+    background: transparent;
+    border: none;
+}
+
+.btn-no-account {
+    position: absolute;
+    left: 15px;
+    padding: 5px 7px;
+    background: transparent;
+    border: none;
+    color: rgb(9, 105, 218);
+    border: none;
+    bottom: 10px;
+}
+
+/* FOR LOGIN FORM */
+.Auth-form-modal {
+width: 420px;
+box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+/*padding-top: 30px;
+padding-bottom: 20px;*/
+border-radius: 8px;
+background-color: #feb062;
+}
+
+.form-group-modal {
+background-color: transparent;
+margin-bottom: 15px;
+}
+
+.Auth-form-content-modal  {
+padding-top: 30px;
+padding-left: 12%;
+padding-right: 12%;
+background-color: white;
+padding-bottom: 70px;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 8px;
+}
+
+.Auth-form-title-modal  {
+text-align: center;
+margin-bottom: 1em;
+font-size: 24px;
+color: rgb(34, 34, 34);
+font-weight: 800;
+background-color: transparent;
+padding-top: 20px;
+}
+
+.label-modal {
+font-size: 14px;
+font-weight: 600;
+color: rgb(34, 34, 34);
+background-color: transparent;
+}
+.form-control-modal{
+border-radius: 10px;
+border-width: 2px;
+display: block;
+width: 100%;
+height: 34px;
+padding: 6px 12px;
+font-size: 14px;
+line-height: 1.42857143;
+color: #555;
+background-color: #fff;
+background-image: none;
+border: 1px solid #ccc;
+}
+
+.form-control-modal:focus{
+    border-color: #3c8dbc;
+    box-shadow: none;
+    outline: 0;
+}
+
+.d-grid-modal{
+align-content: center;
+text-align: center;
+background-color: white;
+}
+
+.btn-modal-login{
+background-color: #feb062;
+color: white;
+font-weight: bold;
+width: 200px;
+border-radius: 3px;
+box-shadow: none;
+border: 1px solid transparent;
+
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+}
+
+  

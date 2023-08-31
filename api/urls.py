@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import member_api
 
 urlpatterns = [
     path('getTBL_Header/', views.getTBL_Header), # for Header
@@ -79,5 +80,7 @@ urlpatterns = [
     ### Audit Trail
     path('getAuditTrail/', views.getAuditTrail),
     
-
+    ### Member
+    path('getMember/', member_api.getMember),
+    
 ]

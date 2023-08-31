@@ -5,7 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 import {AuthContext} from '../context/AuthContext';
 
-export default function Header() {
+export default function Header(props) {
   const {WhoWeAre,
   ProgramAndServices,
   Headers,
@@ -20,6 +20,13 @@ export default function Header() {
   getHeadersData,
 } = useContext(AuthContext);
 
+  const [modal, setModal] = useState(props.modal);
+
+  const toggleModal = () => {
+    setModal(!modal);
+    props.modalToggle();
+  };
+
 
   useEffect(() => {
     getWhoWeAreTypeData();
@@ -32,6 +39,7 @@ export default function Header() {
   }, []);
 
   return (
+  <>
     <header
       className="main-header"
       style={{ backgroundColor: "rgb(254, 176, 98)" }}
@@ -256,7 +264,7 @@ export default function Header() {
                   
                 </ul>
               </li>
-              <li className>
+              <li >
                 <a
                   href="/careers"
                   draggable="false"
@@ -265,10 +273,21 @@ export default function Header() {
                   Careers
                 </a>
               </li>
+
+              <li >
+                  <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
+                  cursor: 'pointer', width: "100px", color: "black"}} onClick={toggleModal}
+                  data-toggle={window.innerWidth < 768 ? "collapse" : ""}
+                  data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
+                    <b>Login/Signup</b>
+                  </button>
+              </li>
             </ul>
           </div>
         </div>{" "}
       </nav>
     </header>
+
+  </>
   );
 }
