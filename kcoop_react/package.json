@@ -32,6 +32,8 @@
     "react-icons": "^4.9.0",
     "react-messenger-customer-chat": "^0.8.0",
     "react-modal": "^3.16.1",
+    "react-native-phone-number-input": "^2.1.0",
+    "react-phone-number-input": "^3.3.6",
     "react-quill": "^2.0.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.12.1",

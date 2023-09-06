@@ -17,7 +17,7 @@ export default function NCR() {
     }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    <div className="content-wrapper" style={{minHeight: '705px'}}>
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}

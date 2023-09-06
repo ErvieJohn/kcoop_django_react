@@ -95,6 +95,7 @@ import { EditK_Bahagi } from "./screens/CMS/screens/CMSStories/EditK_Bahagi";
 import CMSVideos from "./screens/CMS/screens/CMSStories/CMSVideos";
 import CMSCareers from "./screens/CMS/screens/CMSCareers";
 import ActivityLogs from "./screens/CMS/screens/ActivityLogs";
+import Register from "./screens/Register";
 
 function App() {
   return (
@@ -191,6 +192,9 @@ function App() {
 
               <Route exact path="/careers" element={<Careers />} />
 
+              {/* REGISTRATION */}
+              <Route exact path='/register' element={<Register/>}/>
+
               
           </Route>
 
@@ -239,7 +243,7 @@ function App() {
               <Route exact path='/cms/careers' element={<CMSCareers/>}/>
 
               <Route exact path='/cms/activity_logs' element={<ActivityLogs/>}/>
-              
+
             </Route>
             
           

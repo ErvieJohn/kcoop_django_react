@@ -276,7 +276,7 @@ export default function Header(props) {
 
               <li >
                   <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
-                  cursor: 'pointer', width: "100px", color: "black"}} onClick={toggleModal}
+                  cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleModal}
                   data-toggle={window.innerWidth < 768 ? "collapse" : ""}
                   data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
                     <b>Login/Signup</b>
