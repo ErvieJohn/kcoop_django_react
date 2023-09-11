@@ -16,7 +16,10 @@ import { useOutletContext } from "react-router-dom";
 
 function CMSHistory() {
   const [User] = useOutletContext();
-  const user = JSON.parse(User);
+  //const user = JSON.parse(User);
+  const user = User;
+
+  const [staff, setStaff] = useState(false);
 
   const {getWhoWeAreData, getWhoWeAre} = useContext(AuthContext);
 
@@ -37,6 +40,37 @@ function CMSHistory() {
   //     prevCount + 1)})
   // console.log(count);
 
+  const getCmsStaff = (user) =>{
+    var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+
+    var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      var DataBody = {username: user}; 
+      //console.log("DataBody: ", DataBody);
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+      .then(response => response.json())
+      .then(response => {
+        let res = response;
+
+        if(res.Staff){
+            setStaff(true);
+        }
+        else{
+            setStaff(false);
+        }
+        //console.log(res);
+        //console.log(data);
+
+      }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+}
+
   useHotkeys('alt+s', (e) => {
     if(!isEnable){
       saveClicked();
@@ -44,6 +78,7 @@ function CMSHistory() {
   }, [isEnable])
 
   useEffect(()=>{
+    getCmsStaff(user.username);
     getWhoWeAre(titlePage);
     
   },[])
@@ -57,7 +92,7 @@ function CMSHistory() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {WhoWeAre_title: titlePage, edited: editedText, username: user[0].username, staff: user[0].Staff}; // for kwentong -  k
+      var DataBody = {WhoWeAre_title: titlePage, edited: editedText, username: user.username, staff: staff}; // for kwentong -  k
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',

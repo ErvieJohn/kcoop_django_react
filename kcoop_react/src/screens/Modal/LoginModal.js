@@ -37,8 +37,10 @@ function LoginModal(props) {
               setMember(member);
               //console.log("DATA: ", member);
               if(member.Member){
-                localStorage.setItem('Member', member.Member);
-                setShowResult(member.result);
+                //console.log("member.Member: ", member.Member[0]);
+                localStorage.setItem('Member', JSON.stringify(member.Member[0]));
+                //setShowResult(member.result);
+                navigate('/app/dashboard/');
               }
               else{
                 setShowResult(member.result);

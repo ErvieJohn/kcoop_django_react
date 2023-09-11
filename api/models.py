@@ -3,6 +3,8 @@ import uuid
 
 from datetime import datetime
 
+from django.contrib.auth.hashers import make_password
+
 # Create your models here.
 #class TBL_Headers(models.Model):
 
@@ -118,8 +120,15 @@ class TBL_AuditTrail(models.Model):
 
 class TBL_Member(models.Model):
     Member_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Member_firstname = models.CharField(blank=True, default="")
+    Member_lastname = models.CharField(blank=True, default="")
     Member_username = models.CharField(blank=True, default="", unique=True)
     Member_password = models.CharField(blank=True, default="")
+    Member_admin = models.BooleanField(null=True)
+    
+    def save(self, *args, **kwargs):
+        self.Member_password = make_password(self.Member_password)
+        super(TBL_Member, self).save(*args, **kwargs)
 
 '''
 class TBL_Announcements(models.Model):

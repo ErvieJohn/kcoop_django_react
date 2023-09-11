@@ -13,7 +13,8 @@ const Navbar = (props) => {
   const location = useLocation();
 
   //const [pageTitle, setPageTitle] = useState(null);
-  const user = JSON.parse(props.user);
+  // const user = JSON.parse(props.user);
+  const user = props.user;
   //console.log(user);
   const[isOpen ,setIsOpen] = useState(false);
   const toggle = () => {
@@ -391,7 +392,7 @@ const Navbar = (props) => {
                
                <div className='footer-logout-cms' style={{width: isOpen ? '280px' : '50px', transition: 'all 0.5s'}}>
 
-                {isOpen ? (<div className="icon-cms" style={{marginLeft: "15px"}}><FontAwesomeIcon icon={faUser}/><b style={{marginLeft: "20px"}}>{user[0].username}</b></div>):
+                {isOpen ? (<div className="icon-cms" style={{marginLeft: "15px"}}><FontAwesomeIcon icon={faUser}/><b style={{marginLeft: "20px"}}>{user.username}</b></div>):
                 (<></>)}
 
                   <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Activity Logs'}>

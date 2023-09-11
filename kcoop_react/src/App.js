@@ -96,6 +96,7 @@ import CMSVideos from "./screens/CMS/screens/CMSStories/CMSVideos";
 import CMSCareers from "./screens/CMS/screens/CMSCareers";
 import ActivityLogs from "./screens/CMS/screens/ActivityLogs";
 import Register from "./screens/Register";
+import AppDashboard from "./screens/App/screens/AppDashboard";
 
 function App() {
   return (
@@ -247,6 +248,7 @@ function App() {
             </Route>
             
           
+          <Route exact path="/app/dashboard" element={<AppDashboard/>} />
 
           {/*FOR ERROR */}
           <Route element={<ErrorLayout/>}>

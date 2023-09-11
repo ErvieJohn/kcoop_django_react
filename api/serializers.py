@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 
+from django.contrib.auth.models import User
+
 class HeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Header
@@ -90,4 +92,9 @@ class TBL_AuditTrailSerializer(serializers.ModelSerializer):
 class TBL_MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Member
-        fields = ('Member_username', 'Member_password')
+        fields = ('Member_username', 'Member_password', 'Member_firstname', 'Member_lastname', 'Member_admin')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = User 
+        fields = ['id', 'username', 'password', 'email', 'is_staff']

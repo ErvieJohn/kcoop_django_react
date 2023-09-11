@@ -13,7 +13,11 @@ import { useOutletContext } from "react-router-dom";
 
 function CMSRegion4A() {
     const [User] = useOutletContext();
-    const user = JSON.parse(User);
+    // const user = JSON.parse(User);
+
+    const user = User;
+  
+    const [staff, setStaff] = useState(false);
 
     const pageTitle = "Region IV - A";
 
@@ -31,6 +35,37 @@ function CMSRegion4A() {
     const imgInputRef = useRef(null);
     const cityValue = useRef(null);
     const [selectValue, setSelectValue] = useState("");
+
+    const getCmsStaff = (user) =>{
+      var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+  
+      var headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
+        var DataBody = {username: user}; 
+        //console.log("DataBody: ", DataBody);
+        fetch(InsertAPIURL, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(DataBody)
+        })
+        .then(response => response.json())
+        .then(response => {
+          let res = response;
+  
+          if(res.Staff){
+              setStaff(true);
+          }
+          else{
+              setStaff(false);
+          }
+          //console.log(res);
+          //console.log(data);
+  
+        }).catch(error => {
+            console.log(`getting data error from api url ${error}`)});
+    }
 
     const getTBL_SatalliteOffices = (titlePage) => {
         var InsertAPIURL = `${BASE_URL}/getTBL_SatalliteOffices/`; 
@@ -106,7 +141,7 @@ function CMSRegion4A() {
       };
       //var pageTitle = "National Capital Region";
       var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, SatalliteOffices_status: status,
-        username: user[0].username, staff: user[0].Staff};
+        username: user.username, staff: staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -151,7 +186,7 @@ function CMSRegion4A() {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, username: user[0].username, staff: user[0].Staff};
+      var DataBody = {SatalliteOffices_region: region, SatalliteOffices_id: id, username: user.username, staff: staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -213,8 +248,8 @@ function CMSRegion4A() {
     formData.append('image', image);
     formData.append('SatalliteOffices_region', pageTitle);
     formData.append('SatalliteOffices_city', selectValue);
-    formData.append('username', user[0].username);
-    formData.append('staff', user[0].Staff);
+    formData.append('username', user.username);
+    formData.append('staff', staff);
 
     axios.post(`${BASE_URL}/uploadSOImage/`, formData).then((response)=>{
       //console.log(res);
@@ -235,6 +270,7 @@ function CMSRegion4A() {
   }
 
   useEffect(()=>{
+    getCmsStaff(user.username);
     getTBL_SatalliteOffices(pageTitle);
   },[])
 

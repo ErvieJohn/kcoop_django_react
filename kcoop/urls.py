@@ -8,7 +8,15 @@ from .views import index
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+## FOR JWT AUTHENTICATION
+from rest_framework_simplejwt import views as jwt_views
+
 urlpatterns = [
+    ## FOR JWT AUTHENTICATION
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    
+    
     path('admin/', admin.site.urls),
 
 
@@ -63,6 +71,9 @@ urlpatterns = [
     
     # Registration
     path('register/', views.index, name='register'),
+    
+    # APP dashboard
+    path('app/dashboard/', views.index, name='dashboard'),
 
 ]
 

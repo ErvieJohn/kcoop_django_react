@@ -18,10 +18,46 @@ import { useOutletContext } from "react-router-dom";
 
 export const EditAnnouncements =  () => {
   const [User] = useOutletContext();
-  const user = JSON.parse(User);
+  // const user = JSON.parse(User);
+
+  const user = User;
+  
+  const [staff, setStaff] = useState(false);
 
   const {getAnnouncementDataID, 
     selectedData, announcementsStatus} = useContext(AuthContext);
+  
+    const getCmsStaff = (user) =>{
+      var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+  
+      var headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
+        var DataBody = {username: user}; 
+        //console.log("DataBody: ", DataBody);
+        fetch(InsertAPIURL, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(DataBody)
+        })
+        .then(response => response.json())
+        .then(response => {
+          let res = response;
+  
+          if(res.Staff){
+              setStaff(true);
+          }
+          else{
+              setStaff(false);
+          }
+          //console.log(res);
+          //console.log(data);
+  
+        }).catch(error => {
+            console.log(`getting data error from api url ${error}`)});
+    }
+  
 
   const param = useParams();
   const paramID = param.id;
@@ -154,7 +190,7 @@ export const EditAnnouncements =  () => {
     formData.append('Publications_title', editedTitle);
     formData.append('Publications_content', editedContent);
     formData.append('Publications_image', editedImage);
-    formData.append('username', user[0].username);
+    formData.append('username', user.username);
 
     axios.post(`${BASE_URL}/updatePubContent/`, formData).catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -200,6 +236,7 @@ export const EditAnnouncements =  () => {
   }
 
   useEffect(() => {
+    getCmsStaff(user.username);
     getAnnouncementDataID(paramID);
   }, [paramID]);
 

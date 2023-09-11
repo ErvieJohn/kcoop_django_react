@@ -12,7 +12,14 @@ import { faFilter, faRemove, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const ActivityLogs = () => {
     const [User] = useOutletContext();
-    const user = JSON.parse(User);
+    //let parseUser = JSON.parse(User);
+    let parseUser = User;
+    
+    var [user, setUser] = useState(parseUser.username);
+    const [staff, setStaff] = useState(false);
+    //console.log("user", JSON.parse(User));
+    //const [user, setUser] = useState(JSON.parse(User));
+    
     const [data, setData] = useState([]);
     var [usernameVal, setUsernameVal] = useState(null);
     var [actionVal, setActionVal] = useState(null);
@@ -38,6 +45,37 @@ const ActivityLogs = () => {
     const timeRef = useRef(null);
     const timeToRef = useRef(null);
 
+    const getCmsStaff = (user) =>{
+        var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+    
+        var headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          };
+          var DataBody = {username: user}; 
+          //console.log("DataBody: ", DataBody);
+          fetch(InsertAPIURL, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(DataBody)
+          })
+          .then(response => response.json())
+          .then(response => {
+            let res = response;
+
+            if(res.Staff){
+                setStaff(true);
+            }
+            else{
+                setStaff(false);
+            }
+            //console.log(res);
+            //console.log(data);
+    
+          }).catch(error => {
+              console.log(`getting data error from api url ${error}`)});
+    }
+
     const getAuditTrail = (user, username, action, date, time, toDate, toTime) => {
         var InsertAPIURL = `${BASE_URL}/getAuditTrail/`;
     
@@ -45,7 +83,7 @@ const ActivityLogs = () => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           };
-          var DataBody = {username: user[0].username, staff: user[0].Staff,
+          var DataBody = {username: user, staff: staff,
             usernameInput: username, action: action, date: date, time: time, toDate: toDate, toTime: toTime}; 
           //console.log("DataBody: ", DataBody);
           fetch(InsertAPIURL, {
@@ -70,7 +108,7 @@ const ActivityLogs = () => {
     
     var columns = [];
 
-    if(user[0].Staff){
+    if(staff){
         columns = [{  
             Header: 'Username',  
             accessor: 'AuditTrail_user',
@@ -200,7 +238,7 @@ const ActivityLogs = () => {
 
     function clearData(){
 
-        if(user[0].Staff){
+        if(staff){
             usernameRef.current.value = null;
             setUsernameVal(null);
         }
@@ -223,7 +261,10 @@ const ActivityLogs = () => {
 
 
     useEffect(() => {
+        //console.log("user: ", user);
+        getCmsStaff(user);
         getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal, dateToVal, timeToVal);
+
     }, []);
 
 
@@ -233,9 +274,9 @@ const ActivityLogs = () => {
     <center>
         <h1><b>Activity Logs</b></h1>
     </center>
-    <center style={{margin: user[0].Staff ? "none":"0 100px 0 100px"}}>
+    <center style={{margin: staff ? "none":"0 100px 0 100px"}}>
         <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
-            {user[0].Staff ? (
+            {staff ? (
             <div id='icon-text-cms' style={{marginTop:"20px"}}>
                 <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
                 <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}

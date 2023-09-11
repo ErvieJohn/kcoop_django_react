@@ -18,7 +18,13 @@ import { useOutletContext } from "react-router-dom";
 
 export const EditKwentong_K =  () => {
   const [User] = useOutletContext();
-  const user = JSON.parse(User);
+  // const user = JSON.parse(User);
+
+  const user = User;
+  
+  const [staff, setStaff] = useState(false);
+
+
     const {dataStories,
         getStoriesDataID,
         storiesStatus,
@@ -56,6 +62,37 @@ export const EditKwentong_K =  () => {
   const imgInputRef = useRef(null);
   const [oldImage, setOldImage] = useState();
   const [showImage, setShowImage] = useState();
+
+  const getCmsStaff = (user) =>{
+    var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+
+    var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      var DataBody = {username: user}; 
+      //console.log("DataBody: ", DataBody);
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+      .then(response => response.json())
+      .then(response => {
+        let res = response;
+
+        if(res.Staff){
+            setStaff(true);
+        }
+        else{
+            setStaff(false);
+        }
+        //console.log(res);
+        //console.log(data);
+
+      }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
  
   function formatDate(date) {
     var d = new Date(date),
@@ -158,8 +195,8 @@ export const EditKwentong_K =  () => {
     formData.append('Stories_title', editedTitle);
     formData.append('Stories_content', editedContent);
     formData.append('Stories_image', editedImage);
-    formData.append('username', user[0].username);
-    formData.append('staff', user[0].Staff);
+    formData.append('username', user.username);
+    formData.append('staff', staff);
 
     axios.post(`${BASE_URL}/updateStoriesContent/`, formData).catch(error => {
           console.log(`getting data error from api url ${error}`)});
@@ -203,6 +240,7 @@ export const EditKwentong_K =  () => {
   }
 
   useEffect(() => {
+    getCmsStaff(user.username);
     getStoriesDataID(paramID);
   }, [paramID]);
 

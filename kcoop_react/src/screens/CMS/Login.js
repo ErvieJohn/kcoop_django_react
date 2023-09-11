@@ -5,79 +5,51 @@ import {BASE_URL} from '../../config';
 
 import { Navigate } from "react-router-dom";
 
+import jwt_decode from "jwt-decode";
+
 function Login() {
     var [user, setUser] = useState("");
     var [pass, setPass] = useState("");
 
-    const [LoggedUser, setLoggedUser] = useState(localStorage.getItem("USER"));
+    // const [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
 
-    var [isLogin, setIsLogin] = useState(false);
+    const [LoggedUser, setLoggedUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null);
+    
     var [showResult, setShowResult] = useState("");
 
-    const AuthLogin = (user, pass) => {
-        var InsertAPIURL = `${BASE_URL}/cmsLogin/`;
+    const AuthLogin = async (user, pass) => {
+        var InsertAPIURL = `${BASE_URL}/api/login/`;
 
         var headers = {
-            Accept: 'application/json',
             'Content-Type': 'application/json',
         };
         //var pageTitle = "National Capital Region";
         var DataBody = {username: user, password: pass};
         //console.log("DATA BODY", JSON.stringify(DataBody));
-        fetch(InsertAPIURL, {
+        let response = await fetch(InsertAPIURL, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(DataBody)
-        })
-            .then(response => response.json())
-            .then(response => {
-            var data = response;
-            
-            //console.log("DATA11: ", data.data);
-            if(data.data=="Invalid Username or Password"){
-                showResult = data.data;
-                setShowResult(showResult);
+        }).catch(error => {
+            console.log(`Error: ${error}`)});  
 
-                setUser("");
-                setPass("");
-            }
-            else{
-                showResult = "";
-                setShowResult(showResult);
-
-                var userStaff = data.Staff;
-                var User = [{"username":user,"password":pass, "Staff":userStaff}];
-                //console.log(User);
-                localStorage.setItem('USER', JSON.stringify(User));
-
-                isLogin = JSON.parse(localStorage.getItem('USER'));
-                setIsLogin(isLogin);
-                //console.log("isLogin", isLogin)
-
-                //return <Navigate replace to="/cms" />;
-                let isUserlogged = localStorage.getItem("USER");
-                setLoggedUser(isUserlogged);
-
-                if(localStorage.getItem('isDarkMode') === null){
-                   
-                    localStorage.setItem('isDarkMode', Boolean(false));
-                }
-            }
-            
-            }).catch(error => {
-            console.log(`getting data error from api url ${error}`)});  
+        let data = await response.json();
+        if(response.status === 200){
+            //console.log("data: ", data);
+            //console.log("token: ", data.access);
+            // setAuthTokens(data)
+            setLoggedUser(jwt_decode(data.access))
+            localStorage.setItem('authTokens', JSON.stringify(data))
+        }
+        else{
+            showResult = "Invalid Username or Password";
+            setShowResult(showResult);
+        }     
     }
 
     function handleSubmit(e){
         e.preventDefault();
         AuthLogin(user, pass);
-        
-        // UPDATE user logged 
-        
-        /*if(isUserlogged){
-            return <Navigate replace to="/cms" />;
-        }
-        */
     }
 
  return(
@@ -101,7 +73,8 @@ function Login() {
                                 placeholder=""
                                 color='black'
                                 value={user}
-                                onChange={text=>setUser(text.target.value)}
+                                onChange={text=>{setUser(text.target.value);
+                                                setShowResult("");}}
                                 required
                                 />
                             </div>
@@ -113,12 +86,13 @@ function Login() {
                                 placeholder=""
                                 color='black'
                                 value={pass}
-                                onChange={text=>setPass(text.target.value)}
+                                onChange={text=>{setPass(text.target.value);
+                                                setShowResult("");}}
                                 required
                                 />
                             </div>
                             <div className="d-grid gap-2 mt-3">
-                                 <p style={{color: 'red', textAlign: 'center'}}>{(user.length > 0 || pass.length > 0) ? (""):(showResult)}</p> 
+                                 <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
                                 <button type="submit" className="btn">
                                 Log in
                                 </button>

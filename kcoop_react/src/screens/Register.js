@@ -94,7 +94,8 @@ function Register() {
                                                 
                                                 <label style={{marginLeft: "10px"}}>+63 </label>
                                                 <input
-                                                    style={{marginLeft: "10px"}}
+                                                    style={{marginLeft: "10px", width: "225px",
+                                                    padding:" 0px 25px"}}
                                                     maxLength={10}
                                                     type='tel'
                                                     value={phoneNumber}

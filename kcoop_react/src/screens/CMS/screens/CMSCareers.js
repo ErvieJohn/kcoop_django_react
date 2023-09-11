@@ -14,8 +14,12 @@ import { useOutletContext } from "react-router-dom";
 
 const CMSCareers = () => {
   const [User] = useOutletContext();
-  const user = JSON.parse(User);
+  // const user = JSON.parse(User);
     
+  const user = User;
+  
+  const [staff, setStaff] = useState(false);
+
   const [imageFile, setImageFile] = useState('');
   const [image, setImage] = useState('');
 
@@ -31,6 +35,37 @@ const CMSCareers = () => {
   const [fileName, setFileName] = useState("No selected file");
   const [showImage, setShowImage] = useState(null)
   const imgInputRef = useRef(null);
+
+  const getCmsStaff = (user) =>{
+    var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
+
+    var headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      var DataBody = {username: user}; 
+      //console.log("DataBody: ", DataBody);
+      fetch(InsertAPIURL, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(DataBody)
+      })
+      .then(response => response.json())
+      .then(response => {
+        let res = response;
+
+        if(res.Staff){
+            setStaff(true);
+        }
+        else{
+            setStaff(false);
+        }
+        //console.log(res);
+        //console.log(data);
+
+      }).catch(error => {
+          console.log(`getting data error from api url ${error}`)});
+  }
 
   const getWhoWeAre = () => {
     var InsertAPIURL = `${BASE_URL}/getCareersData/?format=json`;
@@ -81,7 +116,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id, Careers_status: status, username: user[0].username, staff: user[0].Staff};
+      var DataBody = {Careers_id: id, Careers_status: status, username: user.username, staff: staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -150,8 +185,8 @@ const CMSCareers = () => {
   const onClickUpload = () =>{
     const formData = new FormData();
     formData.append('image', image);
-    formData.append('username', user[0].username);
-    formData.append('staff', user[0].Staff);
+    formData.append('username', user.username);
+    formData.append('staff', staff);
 
     axios.post(`${BASE_URL}/uploadCareersImage/`, formData).then((response)=>{
       //console.log(res);
@@ -190,7 +225,7 @@ const CMSCareers = () => {
         'Content-Type': 'application/json',
       };
       //var pageTitle = "National Capital Region";
-      var DataBody = {Careers_id: id, username: user[0].username, staff: user[0].Staff};
+      var DataBody = {Careers_id: id, username: user.username, staff: staff};
       //console.log("DATA BODY", JSON.stringify(DataBody));
       fetch(InsertAPIURL, {
         method: 'POST',
@@ -232,6 +267,7 @@ const CMSCareers = () => {
   }
 
   useEffect(()=>{
+    getCmsStaff(user.username);
     getWhoWeAre();
   },[])
 

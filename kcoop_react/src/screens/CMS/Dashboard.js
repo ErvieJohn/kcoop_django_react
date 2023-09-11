@@ -8,6 +8,8 @@ import './Dashboard.css';
 
 import { BASE_URL } from '../../config';
 
+import jwt_decode from "jwt-decode";
+
 const events = [
   "load",
   "mousemove",
@@ -18,7 +20,11 @@ const events = [
 ];
 
 function Dashboard() {
-  const [User, setUser] = useState(localStorage.getItem('USER'));
+  const [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null);
+  const [User, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null);
+  const [loading, setLoading] = useState(true);
+  //console.log("User: ", User);
+
   const [isOpen, setOpen] = useState(false);
   var statDM;
   if(localStorage.getItem('isDarkMode') != null){
@@ -53,10 +59,10 @@ function Dashboard() {
 
   const AuthLogout = () =>{
     
-    var userArr = JSON.parse(User);
+    var userArr = User;
     //console.log(userArr[0]["username"]);
-    cmsLogout(userArr[0]["username"]);
-    localStorage.removeItem('USER');
+    cmsLogout(userArr["username"]);
+    localStorage.removeItem('authTokens');
     let isLoggedIn = null;
     setUser(isLoggedIn);
   }
@@ -94,17 +100,50 @@ function Dashboard() {
     if (timer) clearTimeout(timer);
   };
 
+
+
+
+  // FOR REFRESH AUTH TOKEN
+  let updateToken = async ()=> {
+
+    let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({'refresh':authTokens?.refresh})
+    })
+
+    let data = await response.json()
+    
+    if (response.status === 200){
+        setAuthTokens(data)
+        setUser(jwt_decode(data.access))
+        localStorage.setItem('authTokens', JSON.stringify(data))
+    }else{
+        AuthLogout()
+    }
+
+    if(loading){
+        setLoading(false)
+    }
+  }
+
   // when component mounts, it adds an event listeners to the window
   // each time any of the event is triggered, i.e on mouse move, click, scroll, keypress etc, the timer to logout user after 10 secs of inactivity resets.
   // However, if none of the event is triggered within 10 secs, that is app is inactive, the app automatically logs out.
   useEffect(() => {
+    if(loading){
+      updateToken()
+    }
+
     Object.values(events).forEach((item) => {
       window.addEventListener(item, () => {
         resetTimer();
         handleLogoutTimer();
       });
     });
-  }, []);
+  }, [authTokens, loading]);
 
   return(
     <>
