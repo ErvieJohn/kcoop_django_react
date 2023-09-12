@@ -125,10 +125,7 @@ class TBL_Member(models.Model):
     Member_username = models.CharField(blank=True, default="", unique=True)
     Member_password = models.CharField(blank=True, default="")
     Member_admin = models.BooleanField(null=True)
-    
-    def save(self, *args, **kwargs):
-        self.Member_password = make_password(self.Member_password)
-        super(TBL_Member, self).save(*args, **kwargs)
+
 
 '''
 class TBL_Announcements(models.Model):

@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate
 
 
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .member_serializer import MyTokenObtainPairSerializer
+from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainPairSerializer
 
 
 @api_view(['POST'])
@@ -58,5 +58,8 @@ def getMemberAdmin(request):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
+class memberMyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = memberMyTokenObtainPairSerializer
     
 

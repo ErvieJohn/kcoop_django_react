@@ -1,52 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../../../config';
+import jwt_decode from "jwt-decode";
+import { Navigate, useNavigate } from "react-router-dom";
+
+// for passing props with outlet
+import { useOutletContext } from "react-router-dom";
+import LoadingSpinner from '../../LoadingSpinner';
 
 function AppDashboard() {
-  let parseMember = JSON.parse(localStorage.getItem('Member'));
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [member, setMember] = useState(parseMember);
+  const [member] = useOutletContext();
+  // const navigate = useNavigate();
+
+  // let parseMember = JSON.parse(localStorage.getItem('Member'));
+  //const [memberAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
   
-  const getMemberAdmin = (member) => {
-    var InsertAPIURL = `${BASE_URL}/getMemberAdmin/`;
+  
 
-    var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      //var pageTitle = "National Capital Region";
-      var DataBody = {Member_username: member.username};
-      //console.log("DATA BODY", JSON.stringify(DataBody));
-      fetch(InsertAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(DataBody)
-      })
-        .then(response => response.json())
-        .then(response => {
-          let admin = response;
-          //console.log(getCareersAllData);
-          
-          //console.log("DATA: ", member);
-          if(admin.isAdmin){
-            setIsAdmin(true);
-          }
-          
-        }).catch(error => {
-          console.log(`getting data error from api url ${error}`)});
-}
-
-  useEffect(()=>{
-    getMemberAdmin(member);
+  // useEffect(()=>{
     
-  },[])
+    
+  // },[])
   return (
     <>
-    {isAdmin ? (
-      <div>ADMIN</div>
+    {member ? (
+      <>
+      {member.is_member_admin ? (
+          <div>ADMIN</div>
+          
+        ): (
+          <div>DASHBOARD</div>
+      )}
       
-    ): (
-      <div>DASHBOARD</div>
-    )}
+      </>):( <LoadingSpinner/>
+      )}
+    
     </>
    
   )

@@ -163,7 +163,7 @@ def getTBL_Publications(request):
         data = request.data["Publications_name"]
         Publications = TBL_Publications.objects.filter(Publications_name=data).order_by('-Publications_pubDate')
         serializers = TBL_PublicationsContentSerializer(Publications, many=True)
-        print(serializers.data)
+        #print(serializers.data)
         
         try:
             for i in range (len(serializers.data)): #convert date to shortend month

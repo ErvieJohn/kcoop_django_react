@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 import {AuthContext} from '../context/AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Header(props) {
   const {WhoWeAre,
@@ -26,6 +27,17 @@ export default function Header(props) {
     setModal(!modal);
     props.modalToggle();
   };
+
+  const navigate = useNavigate();
+
+  const toggleLogut = () => {
+    localStorage.removeItem('memberAuthTokens');
+    setMemberAuthToken(null);
+    navigate('/app/login');
+  };
+
+
+  const [memberAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
 
 
   useEffect(() => {
@@ -275,12 +287,22 @@ export default function Header(props) {
               </li>
 
               <li >
-                  <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
-                  cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleModal}
-                  data-toggle={window.innerWidth < 768 ? "collapse" : ""}
-                  data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
-                    <b>Login/Signup</b>
-                  </button>
+                  {memberAuthToken ? ( //logout button
+                    <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
+                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleLogut}
+                    data-toggle={window.innerWidth < 768 ? "collapse" : ""}
+                    data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
+                      <b>Logout</b>
+                    </button>
+                  ):(//login/singup button
+                    <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
+                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleModal}
+                    data-toggle={window.innerWidth < 768 ? "collapse" : ""}
+                    data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
+                      <b>Login/Signup</b>
+                    </button>
+                  )}
+                  
               </li>
             </ul>
           </div>
