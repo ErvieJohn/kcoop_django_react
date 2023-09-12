@@ -327,49 +327,7 @@ def createAuditTrail(activity, action, username, staff):
                                                 AuditTrail_staff=staff)
 
 
-@api_view(['POST'])
-def cmsLogin(request):
-    username = request.data["username"]
-    password = request.data["password"]
-    
-    user = get_object_or_404(User, username=request.data['username'])
-    
-    if not user.check_password(password):
-        #return Response("missing user", status=status.HTTP_404_NOT_FOUND)
-        return Response({"data":"Invalid Username or Password"},status=status.HTTP_404_NOT_FOUND)
-    
-    token, created = Token.objects.get_or_create(user=user)
-    
-    serializer = UserSerializer(user)
-    isSuperUser = serializer.data["is_staff"]
-    createAuditTrail("Logged in","Log In",username,isSuperUser)
-    return Response({'token': token.key, "data":"Success", 'user': serializer.data})
-    
-    # user = authenticate(username=username, password=password)
-    
-    # #user = User.objects.filter(username=username)
-    
-    # #user = User.objects.filter(username=username)
-    
-    
-    # if user is not None:
-    #     isSuperUser = User.objects.get(username=username)
-    #     #print(isSuperUser.is_staff)
-    #     #print(user)
-    #     gen_uuid = str(uuid.uuid4())
-    #     #datetimeNow = datetime.now().strftime("%Y-%m-%d%H:%M:%S")
-    #     #print(timeNow, dateNow)
-    #     #time = datetime.now().strftime('%I:%M:%S %p')
-    #     staff = isSuperUser.is_staff
-    #     createAuditTrail("Logged in","Log In",username,staff)
-    #     # history = TBL_AuditTrail.objects.filter(AuditTrail_user=username)
-    #     # historySerializer = TBL_AuditTrailSerializer(history, many=True)
-    #     # print(historySerializer.data)
-        
-    #     return Response({"data":"Success","Staff":isSuperUser.is_staff})
-    # else:
-    #     return Response({"data":"Invalid Username or Password"})
-    
+
 @api_view(['POST'])
 def cmsLogout(request):
     username = request.data["username"]
@@ -382,13 +340,6 @@ def cmsLogout(request):
     createAuditTrail("Logged out","Log Out",username,staff)
     
     return Response({"data":"User Logout"})
-
-
-@api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def cmsCheckToken(request):
-    return Response({"detail":"passed!"})
 
 @api_view(['POST'])
 def getCmsStaff(request):

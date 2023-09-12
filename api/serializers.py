@@ -88,11 +88,7 @@ class TBL_AuditTrailSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_AuditTrail
         fields = ('AuditTrail_user', 'AuditTrail_action', 'AuditTrail_date', 'AuditTrail_time','AuditTrail_activity', 'AuditTrail_staff')
-        
-class TBL_MemberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TBL_Member
-        fields = ('Member_username', 'Member_password', 'Member_firstname', 'Member_lastname', 'Member_admin')
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta(object):

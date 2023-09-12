@@ -45,7 +45,7 @@ function AppLayout(){
 
     useEffect(() => {
         if(loading){
-        //   updateToken()
+           updateToken()
         }
       }, [memberAuthToken, loading]);
 

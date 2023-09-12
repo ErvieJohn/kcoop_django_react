@@ -118,32 +118,18 @@ class TBL_AuditTrail(models.Model):
     AuditTrail_action = models.CharField(blank=True, default="")
     AuditTrail_staff = models.CharField(blank=True, default="")
 
-class TBL_Member(models.Model):
-    Member_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
-    Member_firstname = models.CharField(blank=True, default="")
-    Member_lastname = models.CharField(blank=True, default="")
-    Member_username = models.CharField(blank=True, default="", unique=True)
-    Member_password = models.CharField(blank=True, default="")
-    Member_admin = models.BooleanField(null=True)
 
-
-'''
-class TBL_Announcements(models.Model):
-    Announcements_id = models.AutoField(primary_key=True)
-    Announcements_title = models.CharField()
-    Announcements_date = models.CharField()
-    Announcements_image = models.CharField()
-    Announcements_content = models.TextField(blank=True, default="")
-
-class Announcements(models.Model):
-    announcements_id = models.AutoField(primary_key=True)
-    title = models.CharField()
-    date = models.CharField()
-    ImgSrc = models.CharField()
-    description = models.TextField(blank=True, default="")
-'''
-
-
+from django.contrib.auth.models import User
+class TBL_Category(models.Model):
+    User_id =  models.ForeignKey(User, on_delete=models.CASCADE)
+    Category_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Category_name = models.CharField(blank=True, default="", unique=True)
+    
+class TBL_Product(models.Model):
+    Category_id = models.ForeignKey("TBL_Category", on_delete=models.CASCADE)
+    Product_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Home_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    Product_title = models.CharField(blank=True, default="")
 
 
 

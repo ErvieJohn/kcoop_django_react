@@ -34,9 +34,7 @@ urlpatterns = [
     
     
     # FOR CMS 
-    path('cmsLogin/', views.cmsLogin),
     path('cmsLogout/', views.cmsLogout),
-    path('cmsCheckToken/', views.cmsCheckToken),
     path('getCmsStaff/', views.getCmsStaff),
     
     
@@ -88,9 +86,5 @@ urlpatterns = [
     
     ### Member WITH JWT
     path('api/member/login/', member_api.memberMyTokenObtainPairView.as_view(), name='member_token_obtain_pair'),
-    
-    
-    path('getMember/', member_api.getMember),
-    path('getMemberAdmin/', member_api.getMemberAdmin),
     
 ]
