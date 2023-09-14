@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from . import member_api
+from . import product_api
 
 urlpatterns = [
     path('getTBL_Header/', views.getTBL_Header), # for Header
@@ -85,6 +86,10 @@ urlpatterns = [
     path('getAuditTrail/', views.getAuditTrail),
     
     ### Member WITH JWT
-    path('api/member/login/', member_api.memberMyTokenObtainPairView.as_view(), name='member_token_obtain_pair'),
+    path('api/member/login/', member_api.memberMyTokenObtainPairView.as_view(), name='member_token_obtain_pair'), #;ogin the user
+    path('api/member/register/', product_api.registerMember, name="register_member"), # create a user
+    
+    ### MEMBER PRODUCT
+    path('api/member/insertProduct/', product_api.insertProduct, name="insert_member's_product"), # create a product
     
 ]

@@ -121,14 +121,15 @@ class TBL_AuditTrail(models.Model):
 
 from django.contrib.auth.models import User
 class TBL_Category(models.Model):
-    User_id =  models.ForeignKey(User, on_delete=models.CASCADE)
+    # User_id =  models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': "Members"})
     Category_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Category_name = models.CharField(blank=True, default="", unique=True)
     
 class TBL_Product(models.Model):
+    User_id =  models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'groups__name': "Members"})
     Category_id = models.ForeignKey("TBL_Category", on_delete=models.CASCADE)
     Product_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
-    Home_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
+    Product_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Product_title = models.CharField(blank=True, default="")
 
 

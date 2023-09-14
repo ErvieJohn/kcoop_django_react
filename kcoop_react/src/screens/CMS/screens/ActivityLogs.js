@@ -271,91 +271,94 @@ const ActivityLogs = () => {
 
   return (
     <>
-    <center>
-        <h1><b>Activity Logs</b></h1>
-    </center>
-    <center style={{margin: staff ? "none":"0 100px 0 100px"}}>
-        <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
-            {staff ? (
-            <div id='icon-text-cms' style={{marginTop:"20px"}}>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
-                <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
-                onChange={onChangeUsername}/>
-            </div>):(<></>)}
-            
-            
-            <div id='icon-text-cms' style={{marginTop:"20px"}}>
-                <b style={{marginRight: "10px", marginTop: "2px"}}><label for="action">Action:</label></b>
-                <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
-                onChange={onChangeAction}>
-                    <option value="All">All</option>
-                    <option value="Create">Create</option>
-                    <option value="Update">Update</option>
-                    <option value="Delete">Delete</option>
-                    <option value="Log In">Log In</option>
-                    <option value="Log Out">Log Out</option>
-                </select>
-            </div>
-            <div>
-                <center><b>Date</b></center>
-                <div style={{display:"grid", justifyItems: 'flex-end'}}>
-                    <div id='icon-text-cms'>
-                        <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
-                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
-                    </div>
-                    <div id='icon-text-cms'>
-                        <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
-                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
-                            {/* value={dateToVal}  */}
-                    </div>
-                </div>
-                
-            </div>
-            
-            <div>
-                <center><b>Time</b></center>
-                <div style={{display:"grid", justifyItems: 'flex-end'}}>
-                    <div id='icon-text-cms'>
-                        <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
-                        style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
-                    </div>
-                    <div id='icon-text-cms'>
-                        <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
-                        style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
-                    </div>
-                </div>
-                
-            </div>
-            
-            <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px', marginTop:"20px"}} 
-                    onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
-            <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px', marginTop:"20px"}} 
-                    onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
-            
-            
-        </div>
-    </center>
-    {data.length > 0 ? (
-    <div>  
-        <ReactTable  
-            className='react-table-cms'
-            style={{marginRight: "30px"}}
-            data={data}  
-            columns={columns}  
-            defaultPageSize = {10}  
-            pageSizeOptions = {[10,30,50,80,100]}  
-        />  
-    </div>
-    ):
-    <div style={{height: "420px",alignItems: "center", alignContent: "center",justifyContent: "center", display: "flex"}}>
+    <div>
         <center>
-            <h3>
-                No data found
-            </h3>
+            <h1><b>Activity Logs</b></h1>
         </center>
-        {/* <LoadingSpinner/> */}
+        <center style={{margin: staff ? "none":"0 100px 0 100px"}}>
+            <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
+                {staff ? (
+                <div id='icon-text-cms' style={{marginTop:"20px"}}>
+                    <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
+                    <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
+                    onChange={onChangeUsername}/>
+                </div>):(<></>)}
+                
+                
+                <div id='icon-text-cms' style={{marginTop:"20px"}}>
+                    <b style={{marginRight: "10px", marginTop: "2px"}}><label for="action">Action:</label></b>
+                    <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
+                    onChange={onChangeAction}>
+                        <option value="All">All</option>
+                        <option value="Create">Create</option>
+                        <option value="Update">Update</option>
+                        <option value="Delete">Delete</option>
+                        <option value="Log In">Log In</option>
+                        <option value="Log Out">Log Out</option>
+                    </select>
+                </div>
+                <div>
+                    <center><b>Date</b></center>
+                    <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
+                                style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
+                        </div>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
+                                style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
+                                {/* value={dateToVal}  */}
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div>
+                    <center><b>Time</b></center>
+                    <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
+                        </div>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px', marginTop:"20px"}} 
+                        onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
+                <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px', marginTop:"20px"}} 
+                        onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
+                
+                
+            </div>
+        </center>
+        {data.length > 0 ? (
+        <div>  
+            <ReactTable  
+                className='react-table-cms'
+                style={{marginRight: "30px"}}
+                data={data}  
+                columns={columns}  
+                defaultPageSize = {10}  
+                pageSizeOptions = {[10,30,50,80,100]}  
+            />  
+        </div>
+        ):
+        <div style={{height: "420px",alignItems: "center", alignContent: "center",justifyContent: "center", display: "flex"}}>
+            <center>
+                <h3>
+                    No data found
+                </h3>
+            </center>
+            {/* <LoadingSpinner/> */}
+        </div>
+        }
     </div>
-    }
+    
     </>
     
   )

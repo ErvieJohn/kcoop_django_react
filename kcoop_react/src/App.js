@@ -95,7 +95,6 @@ import { EditK_Bahagi } from "./screens/CMS/screens/CMSStories/EditK_Bahagi";
 import CMSVideos from "./screens/CMS/screens/CMSStories/CMSVideos";
 import CMSCareers from "./screens/CMS/screens/CMSCareers";
 import ActivityLogs from "./screens/CMS/screens/ActivityLogs";
-import Register from "./screens/Register";
 import AppDashboard from "./screens/App/screens/AppDashboard";
 import AppLayout from "./screens/App/Layout/AppLayout";
 import AppLogin from "./screens/App/screens/AppLogin";
@@ -194,10 +193,6 @@ function App() {
 
 
               <Route exact path="/careers" element={<Careers />} />
-
-              {/* REGISTRATION */}
-              <Route exact path='/register' element={<Register/>}/>
-
               
           </Route>
 

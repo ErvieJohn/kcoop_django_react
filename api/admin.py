@@ -15,6 +15,7 @@ admin.site.register(TBL_StoriesType)
 admin.site.register(TBL_Stories)
 admin.site.register(TBL_Careers)
 admin.site.register(TBL_Home)
-admin.site.register(Image)
+admin.site.register(TBL_Category)
+admin.site.register(TBL_Product)
 
 # Register your models here.

@@ -10,8 +10,6 @@ from .serializers import UserSerializer
 
 from rest_framework.exceptions import APIException
 
-from django.contrib.auth.models import User
-
 class UnauthorizedException(APIException):
     status_code = 401
     default_detail = "Not logged in"
@@ -51,13 +49,13 @@ class memberMyTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise UnauthorizedException
            
             
-@api_view(['POST'])
-def registerMember(request):
-    if request.data:
-        inputUser = request.data["Member_username"]
-        user = User.objects.create_user(username='testmember',
-                                 email='jlennon@beatles.com',
-                                 password='glass onion')
+# @api_view(['POST'])
+# def registerMember(request):
+#     if request.data:
+#         inputUser = request.data["Member_username"]
+#         user = User.objects.create_user(username='testmember',
+#                                  email='jlennon@beatles.com',
+#                                  password='glass onion')
 
         
         

@@ -1,10 +1,11 @@
 import {React, useState} from 'react';
 import "../../Modal/LoginModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faEye, faEyeSlash, faL } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../../config';
 import { useNavigate, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import AppRegister from './AppRegister';
 
 function AppLogin() {
     const navigate = useNavigate();
@@ -40,6 +41,7 @@ function AppLogin() {
           
           setMember(jwt_decode(data.access))
           localStorage.setItem('memberAuthTokens', JSON.stringify(data))
+          localStorage.removeItem('showRegister');
           //navigate('/app/dashboard/');
       }
       else{
@@ -61,11 +63,29 @@ function AppLogin() {
     setShowPass(!showPass);
   };
 
+  const [clickedRegister, setClickedRegister] = useState(()=> localStorage.getItem('showRegister') ? JSON.parse(localStorage.getItem('showRegister')) : false);
+
   const isLoginPageToggle = () => {
-    navigate("/register/");
+    if(localStorage.getItem('showRegister')){
+        let showreg = JSON.parse(localStorage.getItem('showRegister'));
+        //console.log(showreg);
+        //console.log("clicked in register");
+        localStorage.setItem('showRegister', !showreg);
+        setClickedRegister(!showreg);
+    }
+    else{
+        //console.log("clicked in login");
+        localStorage.setItem('showRegister', !clickedRegister);
+        setClickedRegister(!clickedRegister);
+    }
+
+    
+    //navigate("/register/");
     //setIsLoginPage(!isLoginPage);
 
   };
+
+
 
   return (
     <>
@@ -75,58 +95,75 @@ function AppLogin() {
         <>
             <div className='login-body' style={{backgroundColor:  'rgb(55, 52, 52)', width: '100%',
                         height: '100%'}}>
-                <div className="modal-login-content">
-                    <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
-                        <h3 className="Auth-form-title-modal">KCOOP Login</h3>
-                            <div className="Auth-form-content-modal">
-                                
-                                <div className="form-group-modal mt-3">
-                                    <label >Username:</label>
-                                    <input
-                                    type="username"
-                                    className="form-control-modal mt-1"
-                                    placeholder="Enter Username"
-                                    color='black'
-                                    value={user}
-                                    onChange={text=>{setUser(text.target.value);
-                                        showResult = " ";
-                                        setShowResult(showResult);
-                                    }}
-                                    required
-                                    />
-                                </div>
-                                <div className="form-group-modal mt-3">
-                                    <label >Password:</label>
-                                    <input
-                                    type={showPass ? "text" : "password"}
-                                    className="form-control-modal mt-1"
-                                    placeholder="Enter Password"
-                                    color='black'
-                                    value={pass}
-                                    onChange={text=>{setPass(text.target.value);
-                                                        showResult = " ";
-                                                        setShowResult(showResult);
-                                    }}
-                                    required
-                                    />
-                                </div>
-                                <div className="d-grid-modal gap-2 mt-3">
-                                        <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
-                                    <button type="submit" className="btn-modal-login">
-                                        Log in
-                                    </button>
-                                </div>
+            <div className='Auth-login-container'>
 
-                            </div>
-                    </form>
-                    
-                    <button className="btn-modal-showpass" onClick={showPassToggle}> 
-                        <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
-                    </button>
+                <div className="modal-login-content">
+                    {clickedRegister ? (
+                        <AppRegister backButton={isLoginPageToggle} loginMember={AuthLogin}/>
+                    ) : (
+                        <>
+                            <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
+                                <h3 className="Auth-form-title-modal">KCOOP Login</h3>
+                                    <div className="Auth-form-content-modal">
+                                        
+                                        <div className="form-group-modal mt-3">
+                                            <label >Username:</label>
+                                            <input
+                                            type="username"
+    
+                                            // onKeyDown={event => (event.key >= 'a' && event.key <= 'z') || (event.key >= 'A' && event.key <= 'Z')
+                                            //                       || (event.key >= '0' && event.key <= '9')}
+                                            className="form-control-modal mt-1"
+                                            placeholder="Enter Username"
+                                            color='black'
+                                            value={user}
+                                            onChange={text=>{setUser(text.target.value);
+                                                showResult = " ";
+                                                setShowResult(showResult);
+                                            }}
+                                            required
+                                            />
+                                        </div>
+                                        <div className="form-group-modal mt-3">
+                                            <label >Password:</label>
+                                            <input
+                                            type={showPass ? "text" : "password"}
+                                            className="form-control-modal mt-1"
+                                            placeholder="Enter Password"
+                                            color='black'
+                                            value={pass}
+                                            onChange={text=>{setPass(text.target.value);
+                                                                showResult = " ";
+                                                                setShowResult(showResult);
+                                            }}
+                                            required
+                                            />
+                                        </div>
+                                        <div className="d-grid-modal gap-2 mt-3">
+                                                <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
+                                            <button type="submit" className="btn-modal-login">
+                                                Log in
+                                            </button>
+                                        </div>
+
+                                    </div>
+                            </form>
                             
-                    <button className="btn-no-account" onClick={isLoginPageToggle}>I have don't have an account yet.</button> 
+                            <button className="btn-modal-showpass" onClick={showPassToggle}> 
+                                <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
+                            </button>
+                                    
+                            <button className="btn-no-account" onClick={isLoginPageToggle}>I have don't have an account yet.</button> 
+                        </>
+                        
+                    )}
+                    
                     
                 </div>
+
+            </div>
+                
+                
             </div>
         </>
     )}

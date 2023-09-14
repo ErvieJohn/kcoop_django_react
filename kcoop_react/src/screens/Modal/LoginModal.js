@@ -41,6 +41,7 @@ function LoginModal(props) {
           
           setMember(jwt_decode(data.access))
           localStorage.setItem('memberAuthTokens', JSON.stringify(data))
+          localStorage.removeItem('showRegister');
           navigate('/app/dashboard/');
       }
       else{
@@ -63,7 +64,9 @@ function LoginModal(props) {
   };
 
   const isLoginPageToggle = () => {
-    navigate("/register/");
+    //navigate("/register/");
+    localStorage.setItem('showRegister', true);
+    navigate("/app/login");
     props.modalToggle();
     //setIsLoginPage(!isLoginPage);
 

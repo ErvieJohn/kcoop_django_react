@@ -63,7 +63,7 @@ body.active-modal-login {
 /* FOR LOGIN FORM */
 .Auth-form-modal {
 width: 420px;
-box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+box-shadow: rgb(0 0 0 / 16%) 20px 20px 20px;
 /*padding-top: 30px;
 padding-bottom: 20px;*/
 border-radius: 8px;
@@ -156,4 +156,38 @@ border: 1px solid transparent;
     background-image: none;
 }
 
+
+.Auth-login-container {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 118vh;
+    background-color: #37525f;
+    position:absolute;
+    top: -120px;
+    /*background-color: rgb(55, 52, 52);*/
+  }
+
+/* REGISTER */
+.btn-register-showpass{
+    position: absolute;
+    top: 436px;
+    right: 60px;
+    padding: 5px 7px;
+    background: transparent;
+    border: none;
+}
+
+.btn-has-account {
+    position: absolute;
+    left: 15px;
+    padding: 5px 7px;
+    background: transparent;
+    border: none;
+    color: rgb(9, 105, 218);
+    border: none;
+    bottom: 10px;
+}
   
