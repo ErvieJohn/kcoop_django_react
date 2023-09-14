@@ -91,5 +91,5 @@ urlpatterns = [
     
     ### MEMBER PRODUCT
     path('api/member/insertProduct/', product_api.insertProduct, name="insert_member's_product"), # create a product
-    
+    path('api/member/showProducts/', product_api.showMemberProduct, name="show_all_products")
 ]

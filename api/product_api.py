@@ -2,7 +2,8 @@ from .models import *
 from .serializers import *
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 import traceback 
 
@@ -86,4 +87,26 @@ def insertProduct(request):
         return Response({"data":data})
     
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def showMemberProduct(request):
+    #print(request.data)
+    user = request.user
+
+    products = user.tbl_product_set.all()
+    serializer = TBL_ProductSerializer(products, many=True)
+    # print(serializer.data)
     
+    categoryList = []
+    
+    categories = []
+    for i in range (len(serializer.data)):
+        if serializer.data[i]["Category_id"] not in categoryList:
+            categoryList.append(serializer.data[i]["Category_id"])
+            category = TBL_Category.objects.filter(Category_id=serializer.data[i]["Category_id"])
+            categorySerializer = TBL_CategorySerializer(category, many=True)
+            categories.append(categorySerializer.data[0])
+    
+    #print(categories)
+        
+    return Response({"products": serializer.data, "categories":categories})
