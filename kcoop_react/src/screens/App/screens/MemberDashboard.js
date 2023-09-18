@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './MemberDashboard.css';
 import { BASE_URL } from '../../../config';
 import AddProductModal from '../Modal/AddProductModal';
+import MemberSettingModal from '../Modal/MemberSettingModal';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
@@ -11,6 +12,12 @@ const MemberDashboard = (props) => {
     
     const [modal, setModal] = useState(false);
 
+    const [modalSetting, setModalSetting] = useState(false);
+
+    const toggleSettingModal = () => {
+        setModalSetting(!modalSetting);
+    };
+
     const toggleProductModal = () => {
         setModal(!modal);
     };
@@ -19,6 +26,12 @@ const MemberDashboard = (props) => {
         document.body.classList.add('active-modal-product')
     } else {
         document.body.classList.remove('active-modal-product')
+    }
+
+    if(modalSetting) {
+        document.body.classList.add('active-modal-setting')
+    } else {
+        document.body.classList.remove('active-modal-setting')
     }
 
     const getMemberProducts = async() => {
@@ -72,7 +85,7 @@ const MemberDashboard = (props) => {
         </div>
         
         <div>
-            <button style={{marginRight: "50px"}}>Settings</button>
+            <button style={{marginRight: "50px"}} onClick={toggleSettingModal}>Settings</button>
             <button onClick={toggleLogout}>LOGOUT</button>
         </div>
         
@@ -123,6 +136,9 @@ const MemberDashboard = (props) => {
 
         {modal && (
         <AddProductModal modalToggle={toggleProductModal} categories={categories}/>
+    )}
+    {modalSetting && (
+        <MemberSettingModal modalToggle={toggleSettingModal}/>
     )}
     </>
   )
