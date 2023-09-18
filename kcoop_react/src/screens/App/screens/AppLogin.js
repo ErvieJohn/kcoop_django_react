@@ -74,14 +74,9 @@ function AppLogin() {
         setClickedRegister(!showreg);
     }
     else{
-        //console.log("clicked in login");
         localStorage.setItem('showRegister', !clickedRegister);
         setClickedRegister(!clickedRegister);
     }
-
-    
-    //navigate("/register/");
-    //setIsLoginPage(!isLoginPage);
 
   };
 

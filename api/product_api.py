@@ -58,6 +58,7 @@ def insertProduct(request):
         # Check if Category is not exists create category
         if(not category_exist):
             gen_uuid = str(uuid.uuid4())
+            # print(type(gen_uuid))
             try:
                 createCategory = TBL_Category.objects.create(Category_id = gen_uuid, Category_name=category_name)
             except:
@@ -69,7 +70,10 @@ def insertProduct(request):
         dataCategory = category_serializer.data[0]
         
         # create product
-        categoryID = dataCategory["Category_id"]
+        categoryID = str(dataCategory["Category_id"])
+        
+        categ = TBL_Category.objects.get(Category_id=categoryID)
+        #print(categ)
         genProduct_id = str(uuid.uuid4())
         product_image = request.data['product_image']
         product_title = request.data['product_title']
@@ -77,7 +81,7 @@ def insertProduct(request):
         #user_serializer = UserSerializer(user)
         #print(user)
         try:
-            createProduct = TBL_Product.objects.create(User_id=user, Category_id=categoryID, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title)
+            createProduct = TBL_Product.objects.create(User_id=user, Category_id=categ, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title)
         except:
             traceback.print_exc()
         productData = TBL_Product.objects.filter(User_id=user)

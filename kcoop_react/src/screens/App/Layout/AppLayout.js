@@ -54,8 +54,8 @@ function AppLayout(){
         <>
         {member ? (
             <>
-                <NavHeader logout={toggleLogut}/>
-                <Outlet context={[member]} />
+                {/* <NavHeader logout={toggleLogut}/> */}
+                <Outlet context={[member,toggleLogut]}/>
             </>
         ):(
             <>
