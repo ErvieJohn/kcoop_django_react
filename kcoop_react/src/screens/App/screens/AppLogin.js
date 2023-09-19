@@ -6,9 +6,12 @@ import { BASE_URL } from '../../../config';
 import { useNavigate, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppRegister from './AppRegister';
+import LoadingSpinner from '../../LoadingSpinner';
 
 function AppLogin() {
     const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     var [user, setUser] = useState("");
     var [pass, setPass] = useState("");
@@ -43,16 +46,25 @@ function AppLogin() {
           localStorage.setItem('memberAuthTokens', JSON.stringify(data))
           localStorage.removeItem('showRegister');
           //navigate('/app/dashboard/');
+          
       }
       else{
           showResult = "Invalid Username or Password";
           setShowResult(showResult);
       }     
+      
   }
 
   function submitForm (e){
     e.preventDefault();
-    AuthLogin(user, pass);
+    if(!isLoading){
+        setIsLoading(true);
+       
+        <LoadingSpinner/>;
+        AuthLogin(user, pass);
+        setIsLoading(false);
+    }
+    
   }
 
   

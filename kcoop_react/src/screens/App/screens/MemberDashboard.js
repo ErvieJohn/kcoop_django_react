@@ -3,6 +3,9 @@ import './MemberDashboard.css';
 import { BASE_URL } from '../../../config';
 import AddProductModal from '../Modal/AddProductModal';
 import MemberSettingModal from '../Modal/MemberSettingModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAdd, faGear, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { MdSettings } from 'react-icons/md';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
@@ -13,6 +16,9 @@ const MemberDashboard = (props) => {
     const [modal, setModal] = useState(false);
 
     const [modalSetting, setModalSetting] = useState(false);
+
+    const [selectedCategory, setSelectedCategory] = useState([]);
+    const [selectedAllCategory, setSelectedAllCategory] = useState(true);
 
     const toggleSettingModal = () => {
         setModalSetting(!modalSetting);
@@ -60,9 +66,32 @@ const MemberDashboard = (props) => {
       }
 
     function toggleLogout(){
-        console.log(categories, products);
+        //console.log(categories, products);
         props.logout();
     }
+
+    function clickedCategoryBtn(e, id){
+        e.preventDefault();
+        if(selectedCategory.includes(id)){ // REMOVE IN ARRAY
+            setSelectedCategory(selectedCategory.filter(item=> id !== item));
+            if(selectedCategory.length === 0 ){
+                setSelectedAllCategory(true);
+            }
+        }
+        else{ // APPEND ID
+            setSelectedCategory(state=>[...state, id]);
+            //console.log(selectedCategory);
+            setSelectedAllCategory(false);
+        }
+    }
+
+    function clickedAllCategory(e){
+        e.preventDefault();
+        setSelectedCategory([]);
+        setSelectedAllCategory(true);
+    }
+
+
 
     useEffect(() =>{
         getMemberProducts();
@@ -72,43 +101,70 @@ const MemberDashboard = (props) => {
 
   return (
     <>
+    <header className='header-background'>
         <div className='app-header'>
         <div style={{display: "flex"}}>
-            <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
-            style={{marginRight: "15px", marginTop: "3px"}}></img>
-            <span className='kcooptitle-cms'>
-                <b> KASAGANA-KA  </b> COOPERATIVE
-            </span>
+            <a href='/app' style={{color: "black"}}>
+                <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
+                style={{marginRight: "15px", marginTop: "3px"}}></img>
+                <span className='kcooptitle-cms'>
+                    <b> KASAGANA-KA  </b> COOPERATIVE
+                </span>
+            </a>
+            
 
-            <input className='search-product' placeholder='Search a Product'>
+            <input className='app-input-search' type="text" placeholder='Search a Product...'>
             </input>
         </div>
         
-        <div>
-            <button style={{marginRight: "50px"}} onClick={toggleSettingModal}>Settings</button>
-            <button onClick={toggleLogout}>LOGOUT</button>
+            <div>
+                <button className='app-header-buttons' style={{marginRight: "50px"}} onClick={toggleSettingModal}> <FontAwesomeIcon icon={faGear}/> Settings</button>
+                <button className='app-header-buttons' onClick={toggleLogout}> <FontAwesomeIcon icon={faSignOut}/> Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <center><span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "15px"}}> Products </b></span></center>
+
+        <div className='app-body-categories'>
+            <div className='body-categories'>   
+                <span><b style={{marginRight: "10px"}}> Categories: </b></span>
+                <div>
+                    <button className='category-btn' onClick={(e)=>clickedAllCategory(e)} style={{backgroundColor: selectedAllCategory ? ('lightblue'):'transparent'}}>
+                            ALL
+                    </button>
+                </div>
+               
+                {categories ? (categories.slice(0, 5).map((item, index)=>(
+                    <div>
+                        <button className='category-btn' key={item.Category_id} style={{backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
+                        onClick={(e)=>{clickedCategoryBtn(e, item.Category_id)}}>
+                            {item.Category_name}
+                        </button>
+                    </div>
+
+                    
+                ))
+                ):(<></>)}
+                {categories ? (categories.length > 5 ? (
+                    <div>
+                        <button style={{border: "none", backgroundColor: "transparent", color: "blue"}}>
+                                View All
+                        </button>
+                    </div>
+                ):(null)):(null)}
+                
+            </div>
+            
+
+            <div>
+                <button className='app-header-buttons' onClick={toggleProductModal}>
+                 <FontAwesomeIcon icon={faAdd}/> Add Product
+                </button>
+            </div>
         </div>
         
-        </div>
-
-        <div className='app-body'>
-            <span><b> Categories </b></span>
-            <button >
-                    ALL
-            </button>
-            {categories ? (categories.map((item, index)=>(
-                <button key={index}>
-                    {item.Category_name}
-                </button>
-            ))
-            ):(<></>)}
-        </div>
-        <div style={{margin: "0px 50px",display: "flex", justifyContent: "flex-end"}}>
-            <button onClick={toggleProductModal}>
-                    Add Product
-            </button>
-        </div>
-            <center><span><b> Products </b></span></center>
+        
         <div>
             {products ? (products.map((item, index)=>(
                 <div>

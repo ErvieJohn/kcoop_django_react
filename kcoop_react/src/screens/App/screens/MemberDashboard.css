@@ -3,18 +3,143 @@
     justify-content: space-between;
     margin: 10px 50px 10px 50px;
     align-items: center;
+    background-color: transparent;
 }
 
-input.search-product{
+.app-body-categories{
+    margin: 0 50px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header-background {
+    background-color: #feb062;
+    position: relative;
+    top: -10px;
+    left: 0;
+    right: 0;
+    padding-bottom: 1px;
+    padding-top: 5px;
+    margin-bottom: 50px;
+}
+
+.body-categories{
+    display: flex; 
+    flex-direction: row;
+    justify-content:flex-start;
+    width: 500px;
+}
+
+.body-categories > div{
+    margin-right: 15px;
+}
+
+
+/* CSS INPUT SEARCH */
+
+input.app-input-search{
     margin-left: 20px;
     width: 500px;
     height: 30px;
     margin-top: 8px;
-    padding-left: 5px;
+    padding-left: 10px;
+    border-radius: 15px;
+    border-color: rgb(255, 255, 255);
+    /* box-shadow: 3px 1px 0 0 #ffffff, 3px 2px 0 1px #000;
+    box-sizing: border-box; */
 }
 
-.app-body{
-    margin: 0 50px 0;
-    display: flex;
-    flex-direction: row;
+input.app-input-search:focus{
+    border-color: rgb(0, 0, 0);
+    outline: 0;
+    box-shadow: 3px 1px 0 0 #ffffff, 3px 2px 0 1px #000;
+    box-sizing: border-box;
+}
+
+
+/* CSS Button from https://getcssscan.com/css-buttons-examples button 31 */
+.app-header-buttons {
+  appearance: button;
+  background-color: #000;
+  background-image: none;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-shadow: #fff 3px 1px 0 0,#000 3px 2px 0 1px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: ITCAvantGardeStd-Bk,Arial,sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 2px;
+  margin: 0 5px 10px 0;
+  overflow: visible;
+  padding: 5px 10px;
+  text-align: center;
+  text-transform: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  margin-top: 6px;
+}
+
+.app-header-buttons:focus {
+  text-decoration: none;
+}
+
+.app-header-buttons:hover {
+  text-decoration: none;
+}
+
+.app-header-buttons:active {
+  box-shadow: rgba(0, 0, 0, .125) 0 3px 5px inset;
+  outline: 0;
+}
+
+.app-header-buttons:not([disabled]):active {
+  box-shadow: #fff 2px 2px 0 0, #000 2px 2px 0 1px;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .app-header-buttons {
+    padding: 5px 10px;
+  }
+}
+
+
+/* CSS FOR CATEGORIES BUTTONS */
+.category-btn {
+  font-family: "Open Sans", sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.25em 0.5em;
+  /* box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px; */
+  box-shadow: 1px 1px 0 0, 2px 2px 0 0, 2px 2px 0 0, 2px 2px 0 0, 1px 1px 0 0 ;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  border-radius: 15px;
+}
+
+.category-btn:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  .category-btn {
+    padding: 0.25em 0.75em;
+  }
 }
