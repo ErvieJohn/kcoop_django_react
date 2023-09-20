@@ -129,7 +129,7 @@ function AddProductModal(props) {
                                 required/>
 
                                 {showImage ?
-                                <img src={showImage} width="auto" height={250} alt={fileName} />
+                                <img src={showImage} style={{width:"100%", height: "100%", objectFit:"cover", margin: "5px 5px 5px 5px"}} alt={fileName} />
                                 : 
                                 <>
                                 <MdCloudUpload color='#1475cf' size={60} />

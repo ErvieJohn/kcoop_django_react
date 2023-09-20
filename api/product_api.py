@@ -112,5 +112,59 @@ def showMemberProduct(request):
             categories.append(categorySerializer.data[0])
     
     #print(categories)
+    #print(serializer.data)
         
     return Response({"products": serializer.data, "categories":categories})
+
+import json
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def searchMemberProduct(request):
+    #print(request.data)
+    user = request.user
+    search = request.data['input_search']
+    #print(search)
+    selectedCategory = request.data['categories']
+    #print(type(selectedCategory))
+    #selectedCategory=json.loads(selectedCategory)
+    
+    
+    #products = user.tbl_product_set.all()
+    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search)
+    
+    if(len(selectedCategory)>0):
+        products = products.filter(Category_id__in=selectedCategory)
+        # for i in selectedCategory:
+        #     products = products.filter(Category_id__in=i)
+    
+    serializer = TBL_ProductSerializer(products, many=True)
+    
+    categoryList = []
+    
+    categories = []
+    
+    #print(type(selectedCategory))
+    #print("zzzzz")
+    
+    # if(len(selectedCategory)>0): # remove the index if not in selected category
+    #     for i in range (len(serializer.data)):
+    #         if serializer.data[i]["Category_id"] not in selectedCategory:
+    #             serializer.data.pop(i)
+    #             print(i)
+        
+    for i in range (len(serializer.data)):
+        if serializer.data[i]["Category_id"] not in categoryList:
+            categoryList.append(serializer.data[i]["Category_id"])
+            category = TBL_Category.objects.filter(Category_id=serializer.data[i]["Category_id"])
+            categorySerializer = TBL_CategorySerializer(category, many=True)
+            categories.append(categorySerializer.data[0])
+
+    # print("len: ",len(serializer.data))
+    print(serializer.data)
+    
+    
+    
+    return Response({"products": serializer.data, "categories":categories})
+    
+    
+    
