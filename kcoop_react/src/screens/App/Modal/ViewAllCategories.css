@@ -1,0 +1,10 @@
+.parent-modal-categories {
+    display: flex;
+    flex-wrap: wrap;
+}
+.child-modal-categories {
+flex-grow: 0;
+flex-shrink: 0;
+flex-basis: calc(33.33% - 20px);
+list-style-type: none;
+}
