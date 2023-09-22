@@ -4,16 +4,18 @@ import { BASE_URL } from '../../../config';
 import AddProductModal from '../Modal/AddProductModal';
 import MemberSettingModal from '../Modal/MemberSettingModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faFileCircleXmark, faGear, faSearch, faSearchMinus, faSignOut, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft, faAngleRight, faBackward, faBackwardFast, faFileCircleXmark, faForward, faForwardFast, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MdSettings } from 'react-icons/md';
 import ViewAllCategories from '../Modal/ViewAllCategories';
+import jwt_decode from "jwt-decode";
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
     const [products, setProducts] = useState(null);
 
     const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
-    
+    const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
+
     const [modal, setModal] = useState(false);
 
     const [modalSetting, setModalSetting] = useState(false);
@@ -23,11 +25,20 @@ const MemberDashboard = (props) => {
     var [selectedCategory, setSelectedCategory] = useState([]);
     var [selectedAllCategory, setSelectedAllCategory] = useState(true);
 
+    const [searched, setSearched] = useState(false);
+
     const [inputProduct, setInputProduct] = useState("");
 
     var [pageNumbers, setPageNumbers] = useState([]);
     const [currentPage, setCurrentPage] =  useState(1);
     const [currentListNumber, setCurrentListNumber] = useState(0);
+
+    const [dropdown, setDropdown] = useState(false);
+    const [hoverDropdown, setHoverDropdown] = useState(false);
+
+    function clickedDropdown(){
+        setDropdown(!dropdown);
+    }
 
     const toggleSettingModal = () => {
         setModalSetting(!modalSetting);
@@ -178,7 +189,7 @@ const MemberDashboard = (props) => {
         //console.log("selectedCategory: ", inputProduct, "categories: ", selectedCategory);
         defaultPages();
         searchMemberProduct(true);
-
+        setSearched(!searched);
         //console.log("products: ", products, "category: ", categories);
     }
 
@@ -192,6 +203,8 @@ const MemberDashboard = (props) => {
         selectedCategory = [];
         setSelectedCategory(selectedCategory);
         getMemberProducts();
+
+        setSearched(!searched);
     }
 
 
@@ -245,41 +258,85 @@ const MemberDashboard = (props) => {
     <>
     <header className='header-background'>
         <div className='app-header'>
-        <div style={{display: "flex"}}>
-            <a href='/app' style={{color: "black"}}>
-                <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
-                style={{marginRight: "15px", marginTop: "3px"}}></img>
-                <span className='kcooptitle-cms'>
-                    <b> KASAGANA-KA  </b> COOPERATIVE
-                </span>
-            </a>
-            
-            <form onSubmit={clickedSearch}>
-                <input className='app-input-search' type="text" placeholder='Search a Product...'
-                value={inputProduct}
-                onChange={(text)=>{setInputProduct(text.target.value)}}
-                />
-
-                <button type="submit" className="app-header-buttons" style={{marginLeft: "5px"}}>
-                    <FontAwesomeIcon icon={faSearch}/> Search
-                </button>
-            </form>
-            <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={clickedClear}>
-                <FontAwesomeIcon icon={faXmark}/> Clear
-            </button>
-            
-        </div>
-        
-            <div>
-                <button className='app-header-buttons' style={{marginRight: "10px"}} onClick={toggleSettingModal}> <FontAwesomeIcon icon={faGear}/> Settings</button>
-                <button className='app-header-buttons' onClick={toggleLogout}> <FontAwesomeIcon icon={faSignOut}/> Logout</button>
+            <div style={{display: "flex"}}>
+                <a href='/app' style={{color: "black"}}>
+                    <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
+                    style={{marginRight: "15px", marginTop: "3px"}}></img>
+                    <span className='kcooptitle-cms'>
+                        <b> KASAGANA-KA  </b> COOPERATIVE
+                    </span>
+                </a>
+                
+                <form onSubmit={clickedSearch}>
+                    <input className='app-input-search' type="text" placeholder='Search a Product...'
+                    style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
+                    value={inputProduct}
+                    onChange={(text)=>{setInputProduct(text.target.value)}}
+                    />
+                    {searched ? (
+                        <button type="button" style={{marginLeft: "-40px", border: "none", backgroundColor: "transparent",
+                                            position: "absolute", top: "24px"}} onClick={(e)=>{clickedClear(e)}}>
+                            <FontAwesomeIcon icon={faXmark}size='2x' color='black'/>
+                        </button>
+                    ):(
+                        <button type="submit" style={{marginLeft: "-40px", border: "none", backgroundColor: "transparent",
+                                            position: "absolute", top: "24px"}}>
+                        <FontAwesomeIcon icon={faSearch} size='2x' color='black'/> 
+                        </button>
+                    )}
+                    
+                </form>
+                
+                
             </div>
+
+            <div className='dropdown-profile-wrapper'>
+                <button className='dropdown-btn-setting' type="button" 
+                    style={{border: "none", backgroundColor: "transparent", padding: "10px"}} onClick={clickedDropdown}
+                    onMouseOver={(e) => {
+                        e.preventDefault();
+                        setHoverDropdown(true);
+                    }}
+                    onMouseLeave={(e) => {
+                        e.preventDefault();
+                        if(!dropdown){
+                            setHoverDropdown(false);
+                        }
+                        
+                    }}
+                > 
+                    <FontAwesomeIcon icon={faUser} style={{marginRight:"10px"}}/> 
+                    {"Hi, " + member.username + "!"} 
+                    {dropdown ? (<FontAwesomeIcon icon={faXmark} style={{marginLeft:"10px"}}/>): 
+                    (<FontAwesomeIcon icon={faAngleDown} style={{marginLeft:"10px"}}/>)}
+                </button>
+                
+                <div class="dropdown-profile" style={{display: hoverDropdown ? ("flex"):("none")}}
+                    onMouseOver={(e) => {
+                        e.preventDefault();
+                        setHoverDropdown(true);
+                    }}
+                    onMouseLeave={(e) => {
+                        e.preventDefault();
+                        if(!dropdown){
+                            setHoverDropdown(false);
+                        }
+                        
+                    }}
+                >
+                    <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} onClick={toggleSettingModal}> <FontAwesomeIcon icon={faGear}/> My Profile</button>
+                    <button className="dropdown-profile-btn" style={{borderRadius: "0 0 8px 8px"}} onClick={toggleLogout}> <FontAwesomeIcon icon={faSignOut}/> Logout</button>
+                </div> 
+            </div>
+            
         </div>
     </header>
+    {searched ? (
+        <center><span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "26px"}}> Search Result </b></span></center>
+    ):(null)}
+    
 
-    <center><span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "15px"}}> Products </b></span></center>
-
-        <div className='app-body-categories'>
+        <div className='app-body-categories' style={{marginTop: "30px"}}>
             <div className='body-categories'>   
                 <span><b style={{marginRight: "10px"}}> Categories: </b></span>
                 <div>
@@ -317,150 +374,164 @@ const MemberDashboard = (props) => {
                 </button>
             </div>
         </div>
-        <center>
-            {/* {pageNumbers} */}
 
-            {products ? (
-                <div className="page-buttons-wrapper" style={{display: "flex", flexWrap: "wrap", flexDirection: "row", justifyContent: "center"}}>
-                    {(() => {
-                        const pagesnum = [];
-                        
-                        let maxPages = parseInt(products.length / 12)
-                        if(products.length / 12 > maxPages){
-                            maxPages += 1;
-                        }
-                        //console.log(maxPages);
-
-                        pagesnum.push(
-                        <>
-                            <div>
-                                <button disabled={currentPage === 1 ? (true) : (false)}
-                                onClick={()=>{setCurrentPage(1);
-                                                setCurrentListNumber(0);
-                                                //console.log("cur button: ", currentPage);
-                                                //console.log("products length: ", products.length);
-                                            }}>
-                                    Forward to First
-                                </button>
-                            </div>
-
-                            <div>
-                                <button disabled={currentPage > 1 ? (false) : (true)}
-                                onClick={()=>{setCurrentPage(currentPage-1);
-                                                setCurrentListNumber(currentListNumber-12);
-                                                //console.log("cur button: ", currentPage);
-                                                //console.log("products length: ", products.length);
-                                            }}>
-                                    Prev
-                                </button>
-                            </div>
-                        </>
-                        )
-
-                        //for(let i=0;i < maxPages; i++){ // limit to 12 products per page
-                        for(let i=(currentPage-2); i < currentPage+1; i++){
-                            if(i<=-1 || i>=maxPages){
-                                pagesnum.push(
-                                    <button style={{marginRight: "10px", border: "none", backgroundColor: "transparent", }}
-                                    disabled={true}>{" "}</button>
-                                )
-                            }
-                            else{
-                                pagesnum.push(
-                                    <button style={{marginRight: "10px"}}
-                                        key={i}
-                                        onClick={(event)=>{
-                                            event.target.disabled = true;
-                                            setCurrentPage(i+1);
-                                            setCurrentListNumber(((i+1)*12)-12);
-                                            //console.log("index button: ", i+1, currentPage, currentListNumber);
-                                            }}
-                                        disabled={i+1 === currentPage ? (true):(false)}
-                                        >
-                                                
-                                            {i+1}
-                                    </button>)
-                            }
-                            
-                        }
-
-                        pagesnum.push(
-                        <>
-                            <div>
-                                <button disabled={maxPages === currentPage ? (true) : (false)}
-                                onClick={()=>{setCurrentPage(currentPage+1);
-                                                setCurrentListNumber(currentListNumber+12);
-                                                //console.log("cur button: ", currentPage);
-                                                //console.log("products length: ", products.length);
-                                            }}>
-                                    Next
-                                </button>
-                            </div>
-                            <div>
-                                
-                                <button disabled={currentPage === maxPages ? (true) : (false)}
-                                onClick={()=>{setCurrentPage(maxPages);
-                                                setCurrentListNumber((maxPages)*12 - 12);
-                                                //console.log("cur button: ", currentPage);
-                                                //console.log("products length: ", products.length);
-                                            }}>
-                                    Forward to Last
-                                </button>
-                            </div>
-                        </>
-                        )
-
-                        return pagesnum;
-
-                    })()}
-                </div>
-                
-            ): (
-                null
-            )}
-           
-        </center>
-        
-            <div>
-                {products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
-                    <div>
-                        
-                        <ul className='list-cms'>
-                            <li style={{padding: ".625em",textAlign: "center"}}>
-                                <figure className='figure-cms'>
-                                    <center>
-                                        <div style={{height: "200px", width: "200px", justifyContent: "center", justifyItems: "center", alignItems: "center"}}>
-                                            <img src={item.Product_image} style={{height: "100%", width: "100%", marginBottom: "2%", objectFit:"cover"}}/>
-                                        </div>
-                                        <div>
-                                            {item.Product_title.length > 25 ? 
-                                                (<b>{item.Product_title.substring(0,25) + "..."}</b>):
-                                                (<b>{item.Product_title}</b>)}
-                                        </div>
-                                        
-                                    </center>
+        <div style={{marginTop: "30px"}}>
+            {products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
+                <div 
+                    style={{borderRadius: "10px", backgroundColor: "#fff", 
+                            padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
+                >
+                    <ul className='list-cms'>
+                        <li className='list-products'>
+                            <figure className='figure-cms'>
+                                <center>
+                                    <div style={{height: "200px", width: "200px", justifyContent: "center", justifyItems: "center", alignItems: "center"}}>
+                                        <img src={item.Product_image} style={{height: "100%", width: "100%", marginBottom: "2%", objectFit:"cover"}}/>
+                                    </div>
+                                    <div>
+                                        {item.Product_title.length > 25 ? 
+                                            (<b>{item.Product_title.substring(0,25) + "..."}</b>):
+                                            (<b>{item.Product_title}</b>)}
+                                    </div>
                                     
-                                </figure>
-                            </li>
-                        </ul>
-                    </div>
+                                </center>
+                                
+                            </figure>
+                        </li>
+                    </ul>
+                </div>
 
-                        
-                    ))
-                    ):(<center> 
-                        <FontAwesomeIcon icon={faSearchMinus}/>
-                        <b> No Product Found </b>
-                        {inputProduct.length > 0 ? (
-                            <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={clickedClear}>
-                                <FontAwesomeIcon icon={faFileCircleXmark}/> Clear Searches ?
-                            </button>) : (
-                                null
+                    
+                ))
+                ):(<center> 
+                    <FontAwesomeIcon icon={faSearchMinus}/>
+                    <b> No Product Found </b>
+                    {inputProduct.length > 0 ? (
+                        <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                            <FontAwesomeIcon icon={faFileCircleXmark}/> Clear Searches ?
+                        </button>) : (
+                            null
+                        )
+
+                    }
+                    
+                    </center>)}
+        </div>
+        <br style={{clear:"both"}}/>
+        <div style={{marginTop: "30px"}}>
+            <center>
+                {/* {pageNumbers} */}
+
+                {products ? (
+                    <div className="page-buttons-wrapper" style={{display: "flex", flexWrap: "wrap", 
+                    flexDirection: "row", justifyContent: "center", alignItems: "center"
+                }}>
+                        {(() => {
+                            const pagesnum = [];
+                            
+                            let maxPages = parseInt(products.length / 12)
+                            if(products.length / 12 > maxPages){
+                                maxPages += 1;
+                            }
+                            //console.log(maxPages);
+
+                            pagesnum.push(
+                            <>
+                                <div>
+                                    <button disabled={currentPage === 1 ? (true) : (false)}
+                                    style={{marginRight:"10px", border: "none", backgroundColor: "transparent", color: currentPage === 1 ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(1);
+                                                    setCurrentListNumber(0);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleDoubleLeft} size='2x'/>
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <button disabled={currentPage > 1 ? (false) : (true)}
+                                    style={{marginRight:"10px", border: "none", backgroundColor: "transparent", color: !(currentPage > 1) ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(currentPage-1);
+                                                    setCurrentListNumber(currentListNumber-12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleLeft} size='2x'/>
+                                    </button>
+                                </div>
+                            </>
                             )
 
-                        }
-                        
-                        </center>)}
-            </div>
+                            //for(let i=0;i < maxPages; i++){ // limit to 12 products per page
+                            for(let i=(currentPage-2); i < currentPage+1; i++){
+                                if(i<=-1 || i>=maxPages){
+                                    pagesnum.push(
+                                        <button style={{marginRight: "10px", border: "none", backgroundColor: "transparent", 
+                                        borderRadius: "50%", width: "50px", height: "50px"}}
+                                        disabled={true}>{"  "}</button>
+                                    )
+                                }
+                                else{
+                                    pagesnum.push(
+                                        <button style={{marginRight: "10px", borderRadius: "50%", width: "50px", 
+                                            height: "50px", borderColor: i+1 === currentPage ? ("5px solid #000"):("3px solid black")}}
+                                            key={i}
+                                            onClick={(event)=>{
+                                                event.target.disabled = true;
+                                                setCurrentPage(i+1);
+                                                setCurrentListNumber(((i+1)*12)-12);
+                                                //console.log("index button: ", i+1, currentPage, currentListNumber);
+                                                }}
+                                            disabled={i+1 === currentPage ? (true):(false)}
+                                            >
+                                                    
+                                                {i+1}
+                                        </button>)
+                                }
+                                
+                            }
+
+                            pagesnum.push(
+                            <>
+                                <div>
+                                    <button disabled={maxPages === currentPage ? (true) : (false)}
+                                    style={{marginLeft:"10px", border: "none", backgroundColor: "transparent", color: maxPages === currentPage ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(currentPage+1);
+                                                    setCurrentListNumber(currentListNumber+12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleRight} size='2x'/>
+                                    </button>
+                                </div>
+                                <div>
+                                    
+                                    <button disabled={currentPage === maxPages ? (true) : (false)}
+                                    style={{marginLeft:"10px", border: "none", backgroundColor: "transparent", color: currentPage === maxPages ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(maxPages);
+                                                    setCurrentListNumber((maxPages)*12 - 12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleDoubleRight} size='2x'/>
+                                    </button>
+                                </div>
+                            </>
+                            )
+
+                            return pagesnum;
+
+                        })()}
+                    </div>
+                    
+                ): (
+                    null
+                )}
+            
+            </center>
+        </div>
+        
 
     {modal && (
         <AddProductModal modalToggle={toggleProductModal} categories={categories}/>
