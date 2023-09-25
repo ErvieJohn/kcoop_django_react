@@ -30,6 +30,7 @@
     justify-content:flex-start;
     width: 500px;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .body-categories > div{
@@ -183,4 +184,69 @@ input.app-input-search{
 
 .dropdown-profile-btn:hover{
   background-color:rgba(44, 39, 39, 0.125);
+}
+
+/* LIST APP PRODUCTS */
+ul.list-app-products {
+  list-style-type: none;
+  /* margin: 0 0px 0 50px; */
+  padding: 0;
+}
+
+ul.list-app-products :after { /* to clearfix your ul list */
+  content: "";
+  display: table;
+  clear: both;
+}
+ul.list-app-products li {
+  display: block; /* inline-block have an extra 4px margin wich makes it harder to use in this situation */
+  /* width: 25%; You get it (100/3) but use exact number */
+  padding: 30px 0px;
+  float: left; /* if you use block elements you have to float them */
+  text-align: center;
+}
+
+@media screen and (min-width: 300px) and (max-width: 599px) {
+  ul.list-app-products {
+    margin: 0 0px 0 50px;
+  }
+
+  ul.list-app-products  li {
+    width: 100%;
+    margin-left: 100px;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 899px) {
+  ul.list-app-products {
+    margin: 0 0px 0 80px;
+  }
+
+  ul.list-app-products  li {
+    width: 40%;
+    margin-right: 35px;
+  }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1219px) {
+  ul.list-app-products {
+    margin: 0 0px 0 50px;
+  }
+
+  ul.list-app-products  li {
+    width: 28.3333333%;
+    margin-right: 40px;
+  }
+}
+
+@media screen and (min-width: 1220px) {
+  ul.list-app-products {
+    margin: 0 0px 0 100px;
+  }
+
+  ul.list-app-products  li {
+    width: 20%;
+    margin-right: 55px;
+  }
+
 }

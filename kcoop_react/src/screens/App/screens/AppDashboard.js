@@ -7,6 +7,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import LoadingSpinner from '../../LoadingSpinner';
 import MemberDashboard from './MemberDashboard';
+import AdminHome from '../Admin/screens/AdminHome';
 
 // for autologout
 const events = [
@@ -100,7 +101,7 @@ function AppDashboard(props) {
     {member ? (
       <>
       {member.is_member_admin ? (
-          <div>ADMIN</div>
+          <AdminHome logout={toggleLogout}/>
           
         ): (
           <>

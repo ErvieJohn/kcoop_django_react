@@ -120,6 +120,10 @@ class TBL_AuditTrail(models.Model):
 
 
 from django.contrib.auth.models import User
+class TBL_Tag(models.Model):
+    Tag_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    Tag_name = models.CharField(max_length=255)  
+
 class TBL_Category(models.Model):
     Category_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Category_name = models.CharField(blank=True, default="", unique=True)
@@ -130,6 +134,7 @@ class TBL_Product(models.Model):
     Product_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Product_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Product_title = models.CharField(blank=True, default="")
+    Tag = models.ManyToManyField('TBL_Tag')
 
 
 

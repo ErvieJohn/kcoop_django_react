@@ -1,4 +1,4 @@
-import {React, useState, useRef} from 'react';
+import {React, useState, useRef, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAdd, faClose, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../../config';
@@ -9,6 +9,7 @@ import { MdCloudUpload, MdDelete } from 'react-icons/md'
 import { AiFillFileImage } from 'react-icons/ai'
 import './AddProductModal.css';
 import axios from 'axios';
+import { WithContext as ReactTags } from 'react-tag-input';
 
 function AddProductModal(props) {
 
@@ -21,6 +22,7 @@ function AddProductModal(props) {
     const categoryValue = useRef(null);
     const [category, setCategory] = useState(null);
     const [title, setTitle] = useState(null);
+    
 
     const [imageFile, setImageFile] = useState('');
     const [image, setImage] = useState('');
@@ -29,6 +31,9 @@ function AddProductModal(props) {
     const [fileName, setFileName] = useState("No selected file");
     const [showImage, setShowImage] = useState(null);
 
+    const [hasImage, setHasImage] = useState(false);
+    var [errorImage, setErrorImage] = useState("");
+
     function categoryOnChange(e){
         let selectedCategory = e.target.value;
         setCategory(selectedCategory);
@@ -36,10 +41,19 @@ function AddProductModal(props) {
 
     function submitForm (e){
         e.preventDefault();
-        onClickAddProduct();
+        if(hasImage){
+            onClickAddProduct();
+        }
+        else if(!(tags.length > 0)){
+            errorImage = "Please add atlease 1 tag";
+            setErrorImage(errorImage);
+        }
+        else{
+            errorImage = "Please add image";
+            setErrorImage(errorImage);
+        }
     }
-
-
+    
 
     function handleImage(e){
         setImageFile(e.target.files);
@@ -47,15 +61,18 @@ function AddProductModal(props) {
         let imageName = e.target.files[0];
         //console.log(imageName);
         setShowImage(URL.createObjectURL(e.target.files[0]))
-        setFileName(e.target.files[0].name)    
+        setFileName(e.target.files[0].name)   
+        setHasImage(true);
+        errorImage = "";
+        setErrorImage(errorImage);
       }
 
     const onClickAddProduct = () =>{
-        console.log("image: ", image);
-        console.log("member: ", member.username);
-        console.log("title: ", title);
-        console.log("category: ", category);
-        console.log("categories: ", categories)
+        // console.log("image: ", image);
+        // console.log("member: ", member.username);
+        // console.log("title: ", title);
+        // console.log("category: ", category);
+        // console.log("categories: ", categories)
         if(image && member.username && title && category){
             const formData = new FormData();
             formData.append('product_image', image);
@@ -81,12 +98,42 @@ function AddProductModal(props) {
 
     }
 
+    const [tags, setTags] = useState([]);
+    const handleDelete = i => {
+        setTags(tags.filter((tag, index) => index !== i));
+    };
+
+    const handleAddition = tag => {
+        setTags([...tags, tag]);
+    };
+
+    const handleDrag = (tag, currPos, newPos) => {
+        const newTags = tags.slice();
+    
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+    
+        // re-render
+        setTags(newTags);
+      };
+
+    //   const handleTagClick = index => {
+    //     console.log('The tag at index ' + index + ' was clicked');
+    //   };
+
+    useEffect(() => {
+        if(tags.length > 0){
+            errorImage = "";
+            setErrorImage(errorImage);
+        }
+      }, [tags]);
+
   return (
       <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-product">
         </div>
         <div className="modal-login-content">
-              <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
+              <form className="Auth-form-modal" onSubmit={submitForm}>
                 <h3 className="Auth-form-title-modal">Add Product</h3>
                     <div className="Auth-form-content-modal">
                         
@@ -117,6 +164,24 @@ function AddProductModal(props) {
                             ))):(null)}
                             </datalist>
                         </div>
+                        <div className="form-group-modal mt-3">
+                            <label>Tags:</label>
+                            <ReactTags
+                                className="form-control-modal mt-1"
+                                tags={tags}
+                                handleDelete={handleDelete}
+                                handleAddition={handleAddition}
+                                handleDrag={handleDrag}
+                                //inputFieldPosition="bottom"
+                                inline={false}
+                                autocomplete
+                                onChange={text=>{
+                                    errorImage = "";
+                                    setErrorImage(errorImage);}}
+                            />
+
+                        </div>
+                        
                         
                         <center>
                             <label>Image</label>
@@ -150,6 +215,7 @@ function AddProductModal(props) {
                                     setShowImage(null)
                                     setImage(null)
                                     imgInputRef.current.value = null;
+                                    setHasImage(false);
                                 }}
                                 />
                                 </span>
@@ -158,10 +224,15 @@ function AddProductModal(props) {
                         </center>
 
                         <div className="d-grid-modal gap-2 mt-3">
-                            <button type="submit" className="btn-modal-login">
+                            <button type="submit" className="btn-modal-login"  >
                                 <FontAwesomeIcon icon={faAdd}/> Add Product
                             </button>
                         </div>
+                        
+                        <div className="d-grid-modal gap-2 mt-3">
+                            <span><b style={{color: "red", marginTop: "10px"}}>{errorImage}</b></span>
+                        </div>
+                       
 
                     </div>
               </form>

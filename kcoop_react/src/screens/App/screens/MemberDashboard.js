@@ -36,6 +36,8 @@ const MemberDashboard = (props) => {
     const [dropdown, setDropdown] = useState(false);
     const [hoverDropdown, setHoverDropdown] = useState(false);
 
+    const maxCategories = window.innerHeight < 600 ? 2: 5;
+
     function clickedDropdown(){
         setDropdown(!dropdown);
     }
@@ -188,8 +190,16 @@ const MemberDashboard = (props) => {
         e.preventDefault();
         //console.log("selectedCategory: ", inputProduct, "categories: ", selectedCategory);
         defaultPages();
+
         searchMemberProduct(true);
-        setSearched(!searched);
+
+        if(inputProduct.length > 0){
+            setSearched(true);
+        }
+        else{
+            setSearched(false);
+        }
+        
         //console.log("products: ", products, "category: ", categories);
     }
 
@@ -345,7 +355,7 @@ const MemberDashboard = (props) => {
                     </button>
                 </div>
                
-                {categories ? (categories.slice(0, 5).map((item, index)=>(
+                {categories ? (categories.slice(0, maxCategories).map((item, index)=>(
                     <div>
                         <button className='category-btn' key={item.Category_id} style={{ display: products ? ("block"):("none"), backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
                         onClick={(e)=>{clickedCategoryBtn(e, item.Category_id, item)}} >
@@ -356,7 +366,7 @@ const MemberDashboard = (props) => {
                     
                 ))
                 ):(<></>)}
-                {categories ? (categories.length > 5 ? (
+                {categories ? (categories.length > maxCategories ? (
                     <div>
                         <button style={{width: "60px", border: "none", backgroundColor: "transparent", color: "blue", display: products ? ("block"):("none")}}
                             onClick={toggleCategoriesModal}>
@@ -375,13 +385,13 @@ const MemberDashboard = (props) => {
             </div>
         </div>
 
-        <div style={{marginTop: "30px"}}>
+        <div style={{marginTop: "30px 50px 50px 0"}}>
             {products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
                 <div 
                     style={{borderRadius: "10px", backgroundColor: "#fff", 
                             padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
                 >
-                    <ul className='list-cms'>
+                    <ul className='list-app-products'>
                         <li className='list-products'>
                             <figure className='figure-cms'>
                                 <center>
@@ -404,12 +414,17 @@ const MemberDashboard = (props) => {
                     
                 ))
                 ):(<center> 
-                    <FontAwesomeIcon icon={faSearchMinus}/>
+                    <FontAwesomeIcon icon={faSearchMinus} size='5x'/>
+                    <br/>
                     <b> No Product Found </b>
                     {inputProduct.length > 0 ? (
-                        <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
-                            <FontAwesomeIcon icon={faFileCircleXmark}/> Clear Searches ?
-                        </button>) : (
+                        <>
+                            <br/>
+                            <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                                <FontAwesomeIcon icon={faFileCircleXmark}/> Clear Searches ?
+                            </button>
+                        </>
+                        ) : (
                             null
                         )
 
@@ -475,7 +490,7 @@ const MemberDashboard = (props) => {
                                 else{
                                     pagesnum.push(
                                         <button style={{marginRight: "10px", borderRadius: "50%", width: "50px", 
-                                            height: "50px", borderColor: i+1 === currentPage ? ("5px solid #000"):("3px solid black")}}
+                                            height: "50px", border: i+1 === currentPage ? ("0px solid black"):("5px solid black")}}
                                             key={i}
                                             onClick={(event)=>{
                                                 event.target.disabled = true;

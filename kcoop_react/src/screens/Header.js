@@ -5,6 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 import {AuthContext} from '../context/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../config';
 
 export default function Header(props) {
   const {WhoWeAre,
@@ -30,23 +31,55 @@ export default function Header(props) {
 
   const navigate = useNavigate();
 
-  const toggleLogut = () => {
+  const toggleLogout = () => {
     localStorage.removeItem('memberAuthTokens');
     setMemberAuthToken(null);
     navigate('/app/login');
   };
 
-
+  const [loading, setLoading] = useState(true);
   const [memberAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
+
+  let updateToken = async ()=> {
+
+    let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify({'refresh':memberAuthToken?.refresh})
+    })
+
+    let data = await response.json()
+    
+    if (response.status === 200){
+        setMemberAuthToken(data)
+        
+        localStorage.setItem('memberAuthTokens', JSON.stringify(data))
+        //console.log('read update?')
+    }else{
+      toggleLogout()
+    }
+
+    if(loading){
+        setLoading(false)
+    }
+  } 
 
 
   useEffect(() => {
+    // if(loading){
+    //   updateToken();
+    //   console.log('read?')
+    // }
+    
     getWhoWeAreTypeData();
     getProgramsAndServicesData();
     getSatalliteOficesData();
     getPublicationsData();
     getStoriesData();
     getHeadersData();
+    
     //console.log(announcementsData);
   }, []);
 
@@ -289,7 +322,7 @@ export default function Header(props) {
               <li >
                   {memberAuthToken ? ( //logout button
                     <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
-                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleLogut}
+                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleLogout}
                     data-toggle={window.innerWidth < 768 ? "collapse" : ""}
                     data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
                       <b>Logout</b>

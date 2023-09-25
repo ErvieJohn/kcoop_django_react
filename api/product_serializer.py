@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import *
 
+class TBL_TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TBL_Tag
+        fields = ('Tag_id', 'Tag_name')
+
 class TBL_CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Category
