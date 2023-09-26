@@ -11,6 +11,13 @@ import './AddProductModal.css';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 
+const KeyCodes = {
+    comma: 188,
+    enter: 13
+  };
+  
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
 function AddProductModal(props) {
 
     const navigate = useNavigate();
@@ -41,7 +48,7 @@ function AddProductModal(props) {
 
     function submitForm (e){
         e.preventDefault();
-        if(hasImage){
+        if(hasImage && tags.length > 0){
             onClickAddProduct();
         }
         else if(!(tags.length > 0)){
@@ -73,25 +80,31 @@ function AddProductModal(props) {
         // console.log("title: ", title);
         // console.log("category: ", category);
         // console.log("categories: ", categories)
-        if(image && member.username && title && category){
+        if(image && member.username && title && category && tags.length>0){
             const formData = new FormData();
             formData.append('product_image', image);
             formData.append('username', member.username);
             formData.append('product_title', title);
             formData.append('category_name', category);
+            formData.append('tags', JSON.stringify(tags));
+            //console.log("tags: ", JSON.stringify(tags));
 
             axios.post(`${BASE_URL}/api/member/insertProduct/`, formData).then((response)=>{
-                console.log("DATA: ",response.data);
+                //console.log("DATA: ",response.data);
             })
             setFileName("No selected File")
             setShowImage(null)
             setImage(null)
+            setTags([]);
             imgInputRef.current.value = null;
             props.modalToggle();
+            props.getProduct();
             //props.getProducts();
-            window.location.reload();
+            //window.location.reload();
         }
         else{
+            errorImage = "there was a problem!";
+            setErrorImage(errorImage);
             console.log("there was a problem!")
         }
         
@@ -147,6 +160,7 @@ function AddProductModal(props) {
                             value={title}
                             onChange={text=>{setTitle(text.target.value);
                             }}
+                            autoFocus={true}
                             required
                             />
                         </div>
@@ -158,10 +172,10 @@ function AddProductModal(props) {
                             placeholder='Enter Category'
                             required/>
                             <datalist id="category">
-                            <option value="none" selected disabled hidden> </option>
-                            {categories ? (categories.map((item)=>(
-                                <option value={item.Category_name}>{item.Category_name}</option>
-                            ))):(null)}
+                                <option value="none" selected disabled hidden> </option>
+                                {categories ? (categories.map((item)=>(
+                                    <option value={item.Category_name}>{item.Category_name}</option>
+                                ))):(null)}
                             </datalist>
                         </div>
                         <div className="form-group-modal mt-3">
@@ -169,15 +183,19 @@ function AddProductModal(props) {
                             <ReactTags
                                 className="form-control-modal mt-1"
                                 tags={tags}
+                                delimiters={delimiters}
                                 handleDelete={handleDelete}
                                 handleAddition={handleAddition}
                                 handleDrag={handleDrag}
                                 //inputFieldPosition="bottom"
-                                inline={false}
+                                inputFieldPosition="top"
+                                //inline={false}
                                 autocomplete
                                 onChange={text=>{
                                     errorImage = "";
                                     setErrorImage(errorImage);}}
+                                autofocus={false}
+                                allowDeleteFromEmptyInput={false}
                             />
 
                         </div>

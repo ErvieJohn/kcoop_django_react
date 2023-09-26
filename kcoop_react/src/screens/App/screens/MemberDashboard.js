@@ -8,10 +8,12 @@ import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft,
 import { MdSettings } from 'react-icons/md';
 import ViewAllCategories from '../Modal/ViewAllCategories';
 import jwt_decode from "jwt-decode";
+import TagsModal from '../Modal/TagsModal';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
     const [products, setProducts] = useState(null);
+    const [tags, setTags] = useState(null);
 
     const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
@@ -21,6 +23,9 @@ const MemberDashboard = (props) => {
     const [modalSetting, setModalSetting] = useState(false);
 
     const [categoriesModal, setCategoriesModal] = useState(false);
+
+    const [tagsModal, setTagsModal] = useState(false);
+    
 
     var [selectedCategory, setSelectedCategory] = useState([]);
     var [selectedAllCategory, setSelectedAllCategory] = useState(true);
@@ -54,6 +59,11 @@ const MemberDashboard = (props) => {
         setCategoriesModal(!categoriesModal);
     }
 
+    const toggleTagsModal = () =>{
+        setTagsModal(!tagsModal);
+        //console.log("MEMBER TAGS: ", categories);
+    }
+
     if(modal) {
         document.body.classList.add('active-modal-product')
     } else {
@@ -67,6 +77,12 @@ const MemberDashboard = (props) => {
     }
 
     if(categoriesModal) {
+        document.body.classList.add('active-modal-setting')
+    } else {
+        document.body.classList.remove('active-modal-setting')
+    }
+
+    if(tagsModal) {
         document.body.classList.add('active-modal-setting')
     } else {
         document.body.classList.remove('active-modal-setting')
@@ -95,11 +111,12 @@ const MemberDashboard = (props) => {
             if(data.products.length > 0){
               setProducts(data.products);
               setCategories(data.categories);
-              
+              setTags(data.tags);
+              //console.log("data.tag: ",data.tags);
 
               // FOR PAGE NUMBERS
               //updatePageNumber(data);
-              //console.log(pageNumbers)
+              
               
             }      
             
@@ -146,7 +163,7 @@ const MemberDashboard = (props) => {
             
         }
         else{ // APPEND ID
-            let categ = categories.filter(item=> item.Category_id !== id);  // SET THE SELECTED ID TO BOTTOM
+            let categ = categories.filter(item=> item.Category_id !== id);  // SET THE SELECTED ID TO TOP
             categ.unshift(itemCategory);
             //console.log("categ: ", categ);
             setCategories(categ);
@@ -242,6 +259,7 @@ const MemberDashboard = (props) => {
               //return data;
               if(clickBySearch){
                 setCategories(data.categories);
+                setTags(data.tags);
               }
               
               //updatePageNumber(data);
@@ -376,9 +394,11 @@ const MemberDashboard = (props) => {
                 ):(null)):(null)}
                 
             </div>
-            
 
-            <div>
+            <div style={{marginTop: "-7px"}}>
+                <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
+                 <FontAwesomeIcon icon={faSearch}/> Search by Tags
+                </button>
                 <button className='app-header-buttons' onClick={toggleProductModal}>
                  <FontAwesomeIcon icon={faAdd}/> Add Product
                 </button>
@@ -549,7 +569,7 @@ const MemberDashboard = (props) => {
         
 
     {modal && (
-        <AddProductModal modalToggle={toggleProductModal} categories={categories}/>
+        <AddProductModal modalToggle={toggleProductModal} categories={categories} getProduct={getMemberProducts}/>
     )}
     {modalSetting && (
         <MemberSettingModal modalToggle={toggleSettingModal}/>
@@ -559,6 +579,11 @@ const MemberDashboard = (props) => {
         <ViewAllCategories modalToggle={toggleCategoriesModal} categories={categories} 
         selectedCategory={selectedCategory} clickedCategoryBtn={clickedCategoryBtn}/>
     )}
+
+    {tagsModal && (
+        <TagsModal modalToggle={toggleTagsModal} tags={tags}/>
+    )}
+
     </>
   )
 }

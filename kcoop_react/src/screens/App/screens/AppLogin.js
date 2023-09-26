@@ -129,6 +129,7 @@ function AppLogin() {
                                                 setShowResult(showResult);
                                             }}
                                             required
+                                            autoFocus={true}
                                             />
                                         </div>
                                         <div className="form-group-modal mt-3">

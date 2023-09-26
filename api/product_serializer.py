@@ -14,4 +14,4 @@ class TBL_CategorySerializer(serializers.ModelSerializer):
 class TBL_ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = TBL_Product
-        fields = ('User_id', 'Category_id', 'Product_id', 'Product_image', 'Product_title')
+        fields = ('User_id', 'Category_id', 'Product_id', 'Product_image', 'Product_title', 'Tag')

@@ -10,13 +10,14 @@ import traceback
 from django.contrib.auth import authenticate
 import uuid
 
-from .product_serializer import TBL_CategorySerializer, TBL_ProductSerializer
+from .product_serializer import TBL_CategorySerializer, TBL_ProductSerializer, TBL_TagSerializer
 from .serializers import UserSerializer
 
 from django.contrib.auth.models import User, Group
 
 from rest_framework.exceptions import APIException
 
+import json
 
 class NotFoundException(APIException):
     status_code = 404
@@ -52,6 +53,7 @@ def insertProduct(request):
     if request.data:
         username = request.data["username"]
         category_name = request.data["category_name"]
+        tags = json.loads(request.data["tags"])
         
         category_exist = TBL_Category.objects.filter(Category_name=category_name).exists()
         
@@ -82,9 +84,23 @@ def insertProduct(request):
         #print(user)
         try:
             createProduct = TBL_Product.objects.create(User_id=user, Category_id=categ, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title)
+            
+            
+            for i in tags:
+                tag_exist = TBL_Tag.objects.filter(Tag_name=i["text"]).exists()
+                if(not tag_exist):
+                    genTag_id = str(uuid.uuid4())
+                    createTag = TBL_Tag.objects.create(Tag_id=genTag_id, Tag_name=i["text"])
+                else:
+                    createTag = TBL_Tag.objects.get(Tag_name=i["text"])
+                    
+                createProduct.Tag.add(createTag)
+        
         except:
             traceback.print_exc()
-        productData = TBL_Product.objects.filter(User_id=user)
+            
+            
+        productData = TBL_Product.objects.filter(User_id=user).order_by('-created_at')
         productSerializer = TBL_ProductSerializer(productData, many=True)
         data = productSerializer.data
         
@@ -97,7 +113,7 @@ def showMemberProduct(request):
     #print(request.data)
     user = request.user
 
-    products = user.tbl_product_set.all()
+    products = user.tbl_product_set.all().order_by('-created_at')
     serializer = TBL_ProductSerializer(products, many=True)
     # print(serializer.data)
     
@@ -110,47 +126,42 @@ def showMemberProduct(request):
             category = TBL_Category.objects.filter(Category_id=serializer.data[i]["Category_id"])
             categorySerializer = TBL_CategorySerializer(category, many=True)
             categories.append(categorySerializer.data[0])
+            
+    tagList = []
+    tagsUser = []
+    for data in serializer.data:
+        for tags in data["Tag"]:
+            if tags not in tagList:
+                tagList.append(tags)
+                tag = TBL_Tag.objects.filter(Tag_id=tags)
+                tagSerializer = TBL_TagSerializer(tag, many=True)
+                firstTagData = tagSerializer.data[0]
+                tagsUser.append(firstTagData)
     
-    #print(categories)
+    #print(tagsUser)
     #print(serializer.data)
         
-    return Response({"products": serializer.data, "categories":categories})
+    return Response({"products": serializer.data, "categories":categories, "tags": tagsUser})
 
-import json
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def searchMemberProduct(request):
-    #print(request.data)
     user = request.user
     search = request.data['input_search']
-    #print(search)
+    
     selectedCategory = request.data['categories']
-    #print(type(selectedCategory))
-    #selectedCategory=json.loads(selectedCategory)
     
-    
-    #products = user.tbl_product_set.all()
-    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search)
+    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search).order_by('-created_at')
     
     if(len(selectedCategory)>0):
         products = products.filter(Category_id__in=selectedCategory)
-        # for i in selectedCategory:
-        #     products = products.filter(Category_id__in=i)
+        
     
     serializer = TBL_ProductSerializer(products, many=True)
     
     categoryList = []
     
     categories = []
-    
-    #print(type(selectedCategory))
-    #print("zzzzz")
-    
-    # if(len(selectedCategory)>0): # remove the index if not in selected category
-    #     for i in range (len(serializer.data)):
-    #         if serializer.data[i]["Category_id"] not in selectedCategory:
-    #             serializer.data.pop(i)
-    #             print(i)
         
     for i in range (len(serializer.data)):
         if serializer.data[i]["Category_id"] not in categoryList:
@@ -160,11 +171,21 @@ def searchMemberProduct(request):
             categories.append(categorySerializer.data[0])
 
     # print("len: ",len(serializer.data))
-    print(serializer.data)
+    #print(serializer.data)
+    
+    tagList = []
+    tagsUser = []
+    for data in serializer.data:
+        for tags in data["Tag"]:
+            if tags not in tagList:
+                tagList.append(tags)
+                tag = TBL_Tag.objects.filter(Tag_id=tags)
+                tagSerializer = TBL_TagSerializer(tag, many=True)
+                firstTagData = tagSerializer.data[0]
+                tagsUser.append(firstTagData)
     
     
-    
-    return Response({"products": serializer.data, "categories":categories})
+    return Response({"products": serializer.data, "categories":categories, "tags": tagsUser})
     
     
     

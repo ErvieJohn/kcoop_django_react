@@ -135,6 +135,8 @@ class TBL_Product(models.Model):
     Product_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Product_title = models.CharField(blank=True, default="")
     Tag = models.ManyToManyField('TBL_Tag')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 
