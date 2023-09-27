@@ -31,10 +31,10 @@ function MemberSettingModal(props) {
       <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-setting">
         </div>
-        <div className="modal-login-content">
+        <div className="modal-login-content" style={{marginTop:"20px"}}>
               <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
                 <h3 className="Auth-form-title-modal">Account Setting</h3>
-                    <div className="Auth-form-content-modal">
+                    <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
 
                         <div className="form-group-modal mt-3">
                             <label >Username:</label>

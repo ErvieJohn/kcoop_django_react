@@ -137,8 +137,16 @@ def showMemberProduct(request):
                 tagSerializer = TBL_TagSerializer(tag, many=True)
                 firstTagData = tagSerializer.data[0]
                 tagsUser.append(firstTagData)
+                
+    # Changing the key to id and text for REACTTAG
+    for index in range (len(tagsUser)):
+        tagsUser[index]["id"] = tagsUser[index].pop("Tag_id")
+        tagsUser[index]["text"] = tagsUser[index].pop("Tag_name")
+        
+    # print(data)
     
     #print(tagsUser)
+    
     #print(serializer.data)
         
     return Response({"products": serializer.data, "categories":categories, "tags": tagsUser})
@@ -148,6 +156,9 @@ def showMemberProduct(request):
 def searchMemberProduct(request):
     user = request.user
     search = request.data['input_search']
+    tags = json.loads(request.data['selected_tags'])
+    
+    print("tags: ", tags)
     
     selectedCategory = request.data['categories']
     
@@ -156,7 +167,16 @@ def searchMemberProduct(request):
     if(len(selectedCategory)>0):
         products = products.filter(Category_id__in=selectedCategory)
         
-    
+    tagsID = []
+    if(len(tags)>0):
+        for tag in tags:
+            tagsID.append(tag["id"])
+            
+        
+        products = products.filter(Tag__in = tagsID)
+        print("tagsID: ", tagsID)
+        
+    products = products.distinct() # PREVENT DUPLICATE VALUE
     serializer = TBL_ProductSerializer(products, many=True)
     
     categoryList = []
@@ -183,9 +203,11 @@ def searchMemberProduct(request):
                 tagSerializer = TBL_TagSerializer(tag, many=True)
                 firstTagData = tagSerializer.data[0]
                 tagsUser.append(firstTagData)
+                
+    for index in range (len(tagsUser)):
+        tagsUser[index]["id"] = tagsUser[index].pop("Tag_id")
+        tagsUser[index]["text"] = tagsUser[index].pop("Tag_name")
     
+    #print(serializer.data)
     
     return Response({"products": serializer.data, "categories":categories, "tags": tagsUser})
-    
-    
-    

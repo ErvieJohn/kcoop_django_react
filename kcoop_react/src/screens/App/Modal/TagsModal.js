@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose, faEye, faEyeSlash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp, faClose, faEye, faEyeSlash, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { WithContext as ReactTags } from 'react-tag-input';
 
 const KeyCodes = {
@@ -11,60 +11,16 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 function TagsModal(props) {
+
     const [tags, setTags] = useState([]);
-    var [suggestions, setSuggestions] = useState([]);
+    var [suggestions, setSuggestions] = useState(props.tags ? (props.tags):([]));
     var [lenSuggestions, setLenSuggestions] = useState(15);
 
     var [errorMessage, setErrorMessage] = useState(" ");
 
-    const getTags = () => {
-        // var allTags = props.tags;
-        // console.log("allTags: ", allTags);
-          
-        // allTags.forEach((element,index) => {
-        //     allTags[index]["id"] = allTags[index]["Tag_id"] ;
-        //     delete allTags[index]["Tag_id"];
-
-        //     allTags[index]["text"] = allTags[index]["Tag_name"];
-        //     delete allTags[index]["Tag_name"];
-
-        // });
-        
-        
-        suggestions = props.tags;
-        // for(let i=0; i<suggestions.length; i++){
-        //     suggestions[i]["id"] = suggestions[i]["Tag_id"] ;
-        //     delete suggestions[i]["Tag_id"];
-
-        //     suggestions[i]["text"] = suggestions[i]["Tag_name"];
-        //     delete suggestions[i]["Tag_name"];
-        // }
-
-        // suggestions.forEach((element,index) => {
-        //     suggestions[index]["id"] = suggestions[index]["Tag_id"] ;
-        //     delete suggestions[index]["Tag_id"];
-
-        //     suggestions[index]["text"] = suggestions[index]["Tag_name"];
-        //     delete suggestions[index]["Tag_name"];
-
-        // });
-        console.log("suggestions: ", props.tags);
-
-        setSuggestions(suggestions);
-    
-        //console.log("allTags: ", allTags);
-    }
-    
-
-    //console.log("TAGS MODAL: ", props.tags);
-
-    // props.tags.forEach((element,index) => {
-        
-    // });
-
     const handleDelete = i => {
         let addTag = tags.filter((tag, index) => index === i);
-        console.log("addTag: ", addTag);
+        //console.log("addTag: ", addTag);
         var tempTag = suggestions;
         tempTag.push(addTag[0]);
         suggestions = tempTag;
@@ -75,11 +31,13 @@ function TagsModal(props) {
       };
     
     const handleAddition = tag => {
-        console.log("tag: ", tag);
+        //console.log("tag: ", tag);
         if(suggestions.some(e => e.text == tag.text)) { // CHECKING IF THIS TAG EXIST
             setTags([...tags, tag]);
             let delTag = suggestions.filter(item=> item.text !== tag.text);
             setSuggestions(delTag);
+            errorMessage = ""
+            setErrorMessage(errorMessage);
         }
         else{
             errorMessage = "This tag is not in available list"
@@ -97,16 +55,13 @@ function TagsModal(props) {
         // re-render
         setTags(newTags);
       };
-    
-    //   const handleTagClick = index => {
-    //     console.log('The tag at index ' + index + ' was clicked');
-    //   };
 
-      const [toggleSeelAll, setToggleSeeAll] = useState(false);
+      var [toggleSeelAll, setToggleSeeAll] = useState(false);
 
       function clickedSeeAllTags(e){
         e.preventDefault();
-        setToggleSeeAll(!toggleSeelAll);
+        toggleSeelAll = !toggleSeelAll
+        setToggleSeeAll(toggleSeelAll);
 
         if(toggleSeelAll){
             lenSuggestions = suggestions.length;
@@ -119,20 +74,26 @@ function TagsModal(props) {
             
       }
 
-    useEffect (() =>{
-        //console.log("allTags: ", props.tags);
-        getTags();
-        //console.log("zzzzzzzzzzzzzzzz")
-    }, [])
+    function clickedSearchTag(){
+        if(tags.length > 0){
+            props.toggleSearchTag(tags);
+            props.modalToggle();
+        }
+        else{
+            errorMessage = "Please add atleast one tag";
+            setErrorMessage(errorMessage);
+        }
+        
+    }
 
   return (
     <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-setting">
         </div>
-        <div className="modal-login-content">
+        <div className="modal-login-content" style={{marginTop:"20px"}}>
               <div className="Auth-form-modal"> {/*method="post"  onSubmit={submitForm} */}
                 <h3 className="Auth-form-title-modal">Search by Tags</h3>
-                <div className="Auth-form-content-modal">
+                <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
                     <div className="form-group-modal mt-3">
                         <center>
                             <label style={{color: "red"}}>{errorMessage}</label>
@@ -142,7 +103,7 @@ function TagsModal(props) {
                         <ReactTags
                             className="form-control-modal mt-1"
                             tags={tags}
-                            //suggestions={suggestions}
+                            suggestions={suggestions}
                             //delimiters={delimiters}
                             handleDelete={handleDelete}
                             handleAddition={handleAddition}
@@ -162,7 +123,9 @@ function TagsModal(props) {
                         </div>
 
                         <div className="d-grid-modal gap-2 mt-3">
-                            <button type="button" className="btn-modal-login"  style={{color: "black", marginBottom: "5px"}}>
+                            <button type="button" className="btn-modal-login"  style={{color: "black", marginBottom: "5px"}}
+                                onClick={clickedSearchTag}
+                            >
                                 <FontAwesomeIcon icon={faSearch} color='black'/> Search
                             </button>
                         </div>
@@ -194,9 +157,19 @@ function TagsModal(props) {
                             {suggestions ? (
                                 suggestions.length > 15 ? (
                                     <center>
-                                        <button style={{width: "100px", border: "none", backgroundColor: "transparent", color: "blue"}}
+                                        <button style={{width: "150px", border: "none", backgroundColor: "transparent", 
+                                            color: "black", marginTop: "10px"}}
                                             onClick={clickedSeeAllTags}>
-                                                {!toggleSeelAll ? ("See All Tags"):("Less Tags")}
+                                                {!toggleSeelAll ? (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faArrowDown}/> See More Tags
+                                                    </>
+                                                    
+                                                    ):(
+                                                        <>
+                                                            <FontAwesomeIcon icon={faArrowUp}/> See Less Tags
+                                                        </>
+                                                        )}
                                         </button>
                                     </center>
                                     

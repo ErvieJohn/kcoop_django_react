@@ -204,6 +204,33 @@ ul.list-app-products li {
   padding: 30px 0px;
   float: left; /* if you use block elements you have to float them */
   text-align: center;
+  max-height: 360px;
+  min-height: 360px;
+}
+
+.product-tags-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 35px;
+  flex-wrap: wrap;
+  /* margin-right: 20px; */
+}
+
+.product-tags-item {
+  background: #feb062;
+  border: 2px solid black;
+  border-radius: 5px;
+  color: #000;
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.product-tags {
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 @media screen and (min-width: 300px) and (max-width: 599px) {

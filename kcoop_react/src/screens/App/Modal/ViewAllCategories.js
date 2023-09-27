@@ -12,10 +12,10 @@ function ViewAllCategories(props) {
       <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-setting">
         </div>
-        <div className="modal-login-content">
+        <div className="modal-login-content" style={{marginTop:"20px"}}>
               <div className="Auth-form-modal"> {/*method="post"  onSubmit={submitForm} */}
                 <h3 className="Auth-form-title-modal">Categories</h3>
-                <div className="Auth-form-content-modal">
+                <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
                     <ul className='parent-modal-categories'>
                         
                             {props.categories ? (props.categories.map((item, index)=>(

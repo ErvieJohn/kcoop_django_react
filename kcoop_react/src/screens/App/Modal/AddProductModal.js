@@ -98,9 +98,9 @@ function AddProductModal(props) {
             setTags([]);
             imgInputRef.current.value = null;
             props.modalToggle();
-            props.getProduct();
+            //props.getProduct();
             //props.getProducts();
-            //window.location.reload();
+            window.location.reload();
         }
         else{
             errorImage = "there was a problem!";
@@ -133,8 +133,16 @@ function AddProductModal(props) {
     //   const handleTagClick = index => {
     //     console.log('The tag at index ' + index + ' was clicked');
     //   };
+    
+    const [suggestions, setSuggestions] = useState(props.tags ? (props.tags):([]));
+
+    // function getSuggestions(){
+    //     suggestions = props.tags;
+    //     setSuggestions(suggestions);
+    // }
 
     useEffect(() => {
+        //getSuggestions();
         if(tags.length > 0){
             errorImage = "";
             setErrorImage(errorImage);
@@ -145,10 +153,10 @@ function AddProductModal(props) {
       <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-product">
         </div>
-        <div className="modal-login-content">
+        <div className="modal-login-content" style={{marginTop:"20px"}}>
               <form className="Auth-form-modal" onSubmit={submitForm}>
                 <h3 className="Auth-form-title-modal">Add Product</h3>
-                    <div className="Auth-form-content-modal">
+                    <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
                         
                         <div className="form-group-modal mt-3">
                             <label>Product Title:</label>
@@ -183,6 +191,7 @@ function AddProductModal(props) {
                             <ReactTags
                                 className="form-control-modal mt-1"
                                 tags={tags}
+                                suggestions={suggestions}
                                 delimiters={delimiters}
                                 handleDelete={handleDelete}
                                 handleAddition={handleAddition}

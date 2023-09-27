@@ -4,7 +4,7 @@ import { BASE_URL } from '../../../config';
 import AddProductModal from '../Modal/AddProductModal';
 import MemberSettingModal from '../Modal/MemberSettingModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft, faAngleRight, faBackward, faBackwardFast, faFileCircleXmark, faForward, faForwardFast, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft, faAngleRight, faBackward, faBackwardFast, faFileCircleXmark, faForward, faForwardFast, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faTag, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MdSettings } from 'react-icons/md';
 import ViewAllCategories from '../Modal/ViewAllCategories';
 import jwt_decode from "jwt-decode";
@@ -14,6 +14,8 @@ const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
     const [products, setProducts] = useState(null);
     const [tags, setTags] = useState(null);
+
+    const [userTags, setUserTags] = useState(null);
 
     const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
@@ -41,7 +43,9 @@ const MemberDashboard = (props) => {
     const [dropdown, setDropdown] = useState(false);
     const [hoverDropdown, setHoverDropdown] = useState(false);
 
-    const maxCategories = window.innerHeight < 600 ? 2: 5;
+    const maxCategories = window.innerWidth < 600 ? 2: 5;
+
+    const [noProduct, setNoProduct] = useState(true);
 
     function clickedDropdown(){
         setDropdown(!dropdown);
@@ -112,13 +116,17 @@ const MemberDashboard = (props) => {
               setProducts(data.products);
               setCategories(data.categories);
               setTags(data.tags);
+              setUserTags(data.tags);
               //console.log("data.tag: ",data.tags);
 
               // FOR PAGE NUMBERS
               //updatePageNumber(data);
               
-              
-            }      
+              setNoProduct(false);
+            }
+            else{
+                setNoProduct(true);
+            }
             
           }else if(response.statusText === 'Unauthorized'){
             props.logout();
@@ -149,7 +157,7 @@ const MemberDashboard = (props) => {
                 selectedAllCategory = true;
                 setSelectedAllCategory(selectedAllCategory);
 
-                if(inputProduct.length > 0){
+                if(inputProduct.length > 0 || searchedTags){
                     searchMemberProduct();
                 }
                 else{
@@ -162,7 +170,7 @@ const MemberDashboard = (props) => {
             }
             
         }
-        else{ // APPEND ID
+        else{ // PUSH ID
             let categ = categories.filter(item=> item.Category_id !== id);  // SET THE SELECTED ID TO TOP
             categ.unshift(itemCategory);
             //console.log("categ: ", categ);
@@ -192,7 +200,7 @@ const MemberDashboard = (props) => {
         setSelectedAllCategory(selectedAllCategory);
         
         
-        if(inputProduct.length > 0){
+        if(inputProduct.length > 0 || searchedTags){
             searchMemberProduct(); // display searched products
         }
         else{
@@ -203,6 +211,7 @@ const MemberDashboard = (props) => {
 
 
     // FOR SEARCHING THE PRODUCT
+    const [searchedText, setSearchedText] = useState("");
     function clickedSearch(e){
         e.preventDefault();
         //console.log("selectedCategory: ", inputProduct, "categories: ", selectedCategory);
@@ -212,6 +221,7 @@ const MemberDashboard = (props) => {
 
         if(inputProduct.length > 0){
             setSearched(true);
+            setSearchedText(inputProduct);
         }
         else{
             setSearched(false);
@@ -225,19 +235,23 @@ const MemberDashboard = (props) => {
         e.preventDefault();
         //console.log("selectedCategory: ", inputProduct, "categories: ", selectedCategory);
         setInputProduct("");
+        setSearchedText("");
         defaultPages();
 
         selectedCategory = [];
         setSelectedCategory(selectedCategory);
+        selectedTags = [];
+        setSelectedTags(selectedTags);
+
         getMemberProducts();
 
-        setSearched(!searched);
+        setSearched(false);
+        setSearchedTags(false);
     }
-
 
     const searchMemberProduct = async(clickBySearch) => {
         var InsertAPIURL = `${BASE_URL}/api/member/searchMemberProduct/`;
-        var DataBody = {input_search: inputProduct, categories: selectedCategory};
+        var DataBody = {input_search: inputProduct, categories: selectedCategory, selected_tags: JSON.stringify(selectedTags)};
         console.log("DataBody: ", DataBody);
         let response = await fetch(InsertAPIURL, {
               method:'POST',
@@ -250,18 +264,18 @@ const MemberDashboard = (props) => {
           let data = await response.json()
     
           if(response.status === 200){
-            console.log("data: ",data);
+            //console.log("data: ",data);
             // console.log("products: ", data.products);
             // console.log("categories: ", data.categories);
             if(data.products.length > 0){
               setProducts(data.products);
-
               //return data;
               if(clickBySearch){
                 setCategories(data.categories);
-                setTags(data.tags);
+                
               }
-              
+
+              setTags(data.tags);
               //updatePageNumber(data);
             }     
             else{
@@ -272,6 +286,19 @@ const MemberDashboard = (props) => {
           }else if(response.statusText === 'Unauthorized'){
             props.logout();
           }
+    }
+
+    var [selectedTags, setSelectedTags] = useState([]);
+    const [searchedTags, setSearchedTags] = useState(false);
+
+    function toggleSearchTag (tagSelected){
+        //console.log("tagSelected:", tagSelected);
+        selectedTags = tagSelected;
+        setSelectedTags(selectedTags);
+        searchMemberProduct(true);
+
+        setSearchedTags(true);
+        // setSearched(true);
     }
 
     
@@ -359,51 +386,68 @@ const MemberDashboard = (props) => {
             
         </div>
     </header>
-    {searched ? (
-        <center><span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "26px"}}> Search Result </b></span></center>
+    {searchedTags || searched ? (
+        <center>
+            <span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "26px"}}> 
+            {searched ? `Search result for "${searchedText}"` : `Search result by tags`}
+            </b></span>
+            <br/>
+            {products  ? (
+                <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                    <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
+                </button>
+                ):(null)
+            }
+            
+        </center>
+        
+    
     ):(null)}
     
+        {noProduct ? (null):(
+            <div className='app-body-categories' style={{marginTop: "30px"}}>
+                <div className='body-categories'>   
+                    <span><b style={{marginRight: "10px"}}> Categories: </b></span>
+                    
+                    <div>
+                        <button className='category-btn' onClick={(e)=>clickedAllCategory(e)} style={{backgroundColor: selectedAllCategory ? ('lightblue'):'transparent'}}>
+                                ALL
+                        </button>
+                    </div>
 
-        <div className='app-body-categories' style={{marginTop: "30px"}}>
-            <div className='body-categories'>   
-                <span><b style={{marginRight: "10px"}}> Categories: </b></span>
-                <div>
-                    <button className='category-btn' onClick={(e)=>clickedAllCategory(e)} style={{backgroundColor: selectedAllCategory ? ('lightblue'):'transparent'}}>
-                            ALL
+                    {categories ? (categories.slice(0, maxCategories).map((item, index)=>(
+                        <div>
+                            <button className='category-btn' key={item.Category_id} style={{ display: products ? ("block"):("none"), backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
+                            onClick={(e)=>{clickedCategoryBtn(e, item.Category_id, item)}} >
+                                {item.Category_name}
+                            </button>
+                        </div>
+
+                        
+                    ))
+                    ):(<></>)}
+                    {categories ? (categories.length > maxCategories ? (
+                        <div>
+                            <button style={{width: "60px", border: "none", backgroundColor: "transparent", color: "blue", display: products ? ("block"):("none")}}
+                                onClick={toggleCategoriesModal}>
+                                    View All
+                            </button>
+                        </div>
+                    ):(null)):(null)}
+                    
+                </div>
+
+                <div style={{marginTop: "-7px"}}>
+                    <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
+                    <FontAwesomeIcon icon={faSearch}/> Search by Tags
+                    </button>
+                    <button className='app-header-buttons' onClick={toggleProductModal}>
+                    <FontAwesomeIcon icon={faAdd}/> Add Product
                     </button>
                 </div>
-               
-                {categories ? (categories.slice(0, maxCategories).map((item, index)=>(
-                    <div>
-                        <button className='category-btn' key={item.Category_id} style={{ display: products ? ("block"):("none"), backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
-                        onClick={(e)=>{clickedCategoryBtn(e, item.Category_id, item)}} >
-                            {item.Category_name}
-                        </button>
-                    </div>
-
-                    
-                ))
-                ):(<></>)}
-                {categories ? (categories.length > maxCategories ? (
-                    <div>
-                        <button style={{width: "60px", border: "none", backgroundColor: "transparent", color: "blue", display: products ? ("block"):("none")}}
-                            onClick={toggleCategoriesModal}>
-                                View All
-                        </button>
-                    </div>
-                ):(null)):(null)}
-                
-            </div>
-
-            <div style={{marginTop: "-7px"}}>
-                <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
-                 <FontAwesomeIcon icon={faSearch}/> Search by Tags
-                </button>
-                <button className='app-header-buttons' onClick={toggleProductModal}>
-                 <FontAwesomeIcon icon={faAdd}/> Add Product
-                </button>
-            </div>
-        </div>
+            </div>    
+        )}
+        
 
         <div style={{marginTop: "30px 50px 50px 0"}}>
             {products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
@@ -423,8 +467,31 @@ const MemberDashboard = (props) => {
                                             (<b>{item.Product_title.substring(0,25) + "..."}</b>):
                                             (<b>{item.Product_title}</b>)}
                                     </div>
-                                    
                                 </center>
+                                <label className='product-tags'> <FontAwesomeIcon icon={faTag} style={{marginRight: "2px", marginTop: "3px"}}/> Tags: </label>
+                                <div className='product-tags-wrap'>
+                                    {item.Tag.length > 0 ? (item.Tag.slice(0,5).map((tagProd, index) =>(
+                                            <>
+                                                {tags.filter((tag, index) => tagProd === tag.id) ? (
+                                                    <>
+                                                        <div  style={{marginRight: "5px", marginTop: "-10px"}}>  
+                                                            <h5 className='product-tags-item'>{(tags.filter((tag, index) => tagProd === tag.id)[0].text)}
+                                                            </h5> 
+                                                        </div>
+                                                        
+                                                        
+                                                    </>
+                                                    
+                                                    
+                                                ):(null)}
+                                            </>
+                                        ))
+                                    ):(<h5>No Tags</h5>)
+                                    }
+                                    
+                                    {item.Tag.length > 5 ? (<h5>...</h5>):(null)}
+                                    
+                                </div>
                                 
                             </figure>
                         </li>
@@ -433,24 +500,34 @@ const MemberDashboard = (props) => {
 
                     
                 ))
-                ):(<center> 
-                    <FontAwesomeIcon icon={faSearchMinus} size='5x'/>
-                    <br/>
-                    <b> No Product Found </b>
-                    {inputProduct.length > 0 ? (
-                        <>
+                ):( 
+                <>
+                    {searchedTags || searched ? (
+                        <center> 
+                            <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                            <br/>
+                            <b> No Product Found </b>
                             <br/>
                             <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
-                                <FontAwesomeIcon icon={faFileCircleXmark}/> Clear Searches ?
+                                <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
                             </button>
-                        </>
-                        ) : (
-                            null
-                        )
-
-                    }
+                            
+                        </center>
+                    ):(
+                        <center> 
+                            <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                            <br/>
+                            <b> You Don't have product yet </b>
+                            <br/>
+                            <button className='app-header-buttons' onClick={toggleProductModal}>
+                                <FontAwesomeIcon icon={faAdd}/> Add Product
+                            </button>
+                            
+                        </center>
+                        )}
+                </>
                     
-                    </center>)}
+                )}
         </div>
         <br style={{clear:"both"}}/>
         <div style={{marginTop: "30px"}}>
@@ -569,7 +646,7 @@ const MemberDashboard = (props) => {
         
 
     {modal && (
-        <AddProductModal modalToggle={toggleProductModal} categories={categories} getProduct={getMemberProducts}/>
+        <AddProductModal modalToggle={toggleProductModal} categories={categories} getProduct={getMemberProducts} tags={tags}/>
     )}
     {modalSetting && (
         <MemberSettingModal modalToggle={toggleSettingModal}/>
@@ -581,7 +658,7 @@ const MemberDashboard = (props) => {
     )}
 
     {tagsModal && (
-        <TagsModal modalToggle={toggleTagsModal} tags={tags}/>
+        <TagsModal modalToggle={toggleTagsModal} tags={tags} toggleSearchTag={toggleSearchTag}/>
     )}
 
     </>

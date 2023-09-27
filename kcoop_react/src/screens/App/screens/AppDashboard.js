@@ -82,18 +82,18 @@ function AppDashboard(props) {
         if (timer) clearTimeout(timer);
     };
 
-  useEffect(() => {
-    if(loading){
-      updateToken()
-    }
+  // useEffect(() => {
+  //   if(loading){
+  //     updateToken()
+  //   }
 
-    Object.values(events).forEach((item) => {
-      window.addEventListener(item, () => {
-        resetTimer();
-        handleLogoutTimer();
-      });
-    });
-  }, [memberAuthTokens, loading]);
+  //   Object.values(events).forEach((item) => {
+  //     window.addEventListener(item, () => {
+  //       resetTimer();
+  //       handleLogoutTimer();
+  //     });
+  //   });
+  // }, [memberAuthTokens, loading]);
 
  
   return (
