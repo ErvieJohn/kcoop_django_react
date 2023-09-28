@@ -151,6 +151,14 @@ def showMemberProduct(request):
         
     return Response({"products": serializer.data, "categories":categories, "tags": tagsUser})
 
+## CHECKING IF UUID IS VALID
+def is_valid_uuid(val):
+    try:
+        uuid.UUID(str(val))
+        return True
+    except ValueError:
+        return False
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def searchMemberProduct(request):
@@ -158,7 +166,7 @@ def searchMemberProduct(request):
     search = request.data['input_search']
     tags = json.loads(request.data['selected_tags'])
     
-    print("tags: ", tags)
+    #print("tags: ", tags)
     
     selectedCategory = request.data['categories']
     
@@ -170,11 +178,16 @@ def searchMemberProduct(request):
     tagsID = []
     if(len(tags)>0):
         for tag in tags:
-            tagsID.append(tag["id"])
-            
+            if(is_valid_uuid(tag["id"])):
+                tagsID.append(tag["id"])
+
         
         products = products.filter(Tag__in = tagsID)
-        print("tagsID: ", tagsID)
+        
+            #traceback.print_exc()
+            #print(ValueError)
+        
+        
         
     products = products.distinct() # PREVENT DUPLICATE VALUE
     serializer = TBL_ProductSerializer(products, many=True)

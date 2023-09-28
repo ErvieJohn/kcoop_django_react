@@ -4,11 +4,12 @@ import { BASE_URL } from '../../../config';
 import AddProductModal from '../Modal/AddProductModal';
 import MemberSettingModal from '../Modal/MemberSettingModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft, faAngleRight, faBackward, faBackwardFast, faFileCircleXmark, faForward, faForwardFast, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faTag, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faAngleDoubleLeft, faAngleDoubleRight, faAngleDown, faAngleLeft, faAngleRight, faBackward, faBackwardFast, faFileCircleXmark, faFilter, faForward, faForwardFast, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faTag, faUser, faWindowRestore, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { MdSettings } from 'react-icons/md';
 import ViewAllCategories from '../Modal/ViewAllCategories';
 import jwt_decode from "jwt-decode";
 import TagsModal from '../Modal/TagsModal';
+import { WithContext as ReactTags } from 'react-tag-input';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
@@ -301,7 +302,37 @@ const MemberDashboard = (props) => {
         // setSearched(true);
     }
 
+    const handleDelete = i => {
+        selectedTags = selectedTags.filter((tag, index) => index !== i)
+        setSelectedTags(selectedTags);
+        searchMemberProduct(true);
+        if(selectedTags.length > 0){
+            setSearchedTags(true);
+        }
+        else{
+            setSearchedTags(false);
+        }
+
+        
+      };
     
+    const handleAddition = tag => {
+        selectedTags.push(tag);
+        setSelectedTags(selectedTags);
+        //setSelectedTags([...selectedTags, tag]);
+        searchMemberProduct(true);
+        setSearchedTags(true);
+    };
+    
+    const handleDrag = (tag, currPos, newPos) => {
+        const newTags = selectedTags.slice();
+
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+
+        // re-render
+        setSelectedTags(newTags);
+    };
 
     useEffect(() =>{
         getMemberProducts();
@@ -405,47 +436,81 @@ const MemberDashboard = (props) => {
     ):(null)}
     
         {noProduct ? (null):(
-            <div className='app-body-categories' style={{marginTop: "30px"}}>
-                <div className='body-categories'>   
-                    <span><b style={{marginRight: "10px"}}> Categories: </b></span>
-                    
-                    <div>
-                        <button className='category-btn' onClick={(e)=>clickedAllCategory(e)} style={{backgroundColor: selectedAllCategory ? ('lightblue'):'transparent'}}>
-                                ALL
-                        </button>
+            <>
+                <div className='app-body-categories' style={{marginTop: "30px"}}>
+                    <div className='body-categories'>   
+                        <span style={{display: "contents"}}>
+                        <FontAwesomeIcon icon={faWindowRestore} style={{marginRight: "2px", marginTop: "3px"}}/>
+                        <b style={{marginRight: "10px"}}> Categories: </b></span>
+                        
+                        <div>
+                            <button className='category-btn' onClick={(e)=>clickedAllCategory(e)} style={{backgroundColor: selectedAllCategory ? ('lightblue'):'transparent'}}>
+                                    ALL
+                            </button>
+                        </div>
+
+                        {categories ? (categories.slice(0, maxCategories).map((item, index)=>(
+                            <div>
+                                <button className='category-btn' key={item.Category_id} style={{ display: products ? ("block"):("none"), backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
+                                onClick={(e)=>{clickedCategoryBtn(e, item.Category_id, item)}} >
+                                    {item.Category_name}
+                                </button>
+                            </div>
+
+                            
+                        ))
+                        ):(<></>)}
+                        {categories ? (categories.length > maxCategories ? (
+                            <div>
+                                <button style={{width: "60px", border: "none", backgroundColor: "transparent", color: "blue", display: products ? ("block"):("none")}}
+                                    onClick={toggleCategoriesModal}>
+                                        View All
+                                </button>
+                            </div>
+                        ):(null)):(null)}
+                        
                     </div>
 
-                    {categories ? (categories.slice(0, maxCategories).map((item, index)=>(
-                        <div>
-                            <button className='category-btn' key={item.Category_id} style={{ display: products ? ("block"):("none"), backgroundColor: selectedCategory.includes(item.Category_id) ? ('lightblue'):('transparent')}}
-                            onClick={(e)=>{clickedCategoryBtn(e, item.Category_id, item)}} >
-                                {item.Category_name}
-                            </button>
-                        </div>
+                     <div style={{marginTop: "-7px"}}>
+                        {/* <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
+                        <FontAwesomeIcon icon={faSearch}/> Search by Tags
+                        </button> */}
+                        <button className='app-header-buttons' onClick={toggleProductModal}>
+                        <FontAwesomeIcon icon={faAdd}/> Add Product
+                        </button>
+                    </div> 
+                </div>  
 
-                        
-                    ))
-                    ):(<></>)}
-                    {categories ? (categories.length > maxCategories ? (
-                        <div>
-                            <button style={{width: "60px", border: "none", backgroundColor: "transparent", color: "blue", display: products ? ("block"):("none")}}
-                                onClick={toggleCategoriesModal}>
-                                    View All
-                            </button>
-                        </div>
-                    ):(null)):(null)}
+                <div className='app-body-categories'>
+                    <div style={{display: "inherit", alignItems: "flex-start", marginBottom: "30px"}}>
+                        <label style={{marginRight: "20px", marginTop: "10px"}}>
+                        <FontAwesomeIcon icon={faFilter} style={{marginRight: "2px", marginTop: "3px"}}/>
+                            Filter by Tags:</label>
+                            
+                        <ReactTags
+                            className="react-tag-input mt-1"
+                            tags={selectedTags}
+                            suggestions={tags}
+                            //delimiters={delimiters}
+                            handleDelete={handleDelete}
+                            handleAddition={handleAddition}
+                            handleDrag={handleDrag}
+                            //inputFieldPosition="bottom"
+                            inputFieldPosition="top"
+                            autocomplete
+                            placeholder='Please Enter a tag'
+                            // handleInputChange={text=>{
+                            //     errorMessage = "";
+                            //     setErrorMessage(errorMessage);}}
+                            autofocus={false}
+                            allowDeleteFromEmptyInput={false}
+                            //labelField={'Tag_name'}
+                        />
+                    </div>
                     
                 </div>
-
-                <div style={{marginTop: "-7px"}}>
-                    <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
-                    <FontAwesomeIcon icon={faSearch}/> Search by Tags
-                    </button>
-                    <button className='app-header-buttons' onClick={toggleProductModal}>
-                    <FontAwesomeIcon icon={faAdd}/> Add Product
-                    </button>
-                </div>
-            </div>    
+            </>
+            
         )}
         
 

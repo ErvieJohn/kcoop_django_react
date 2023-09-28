@@ -233,6 +233,29 @@ ul.list-app-products li {
   margin-right: 20px;
 }
 
+
+.react-tag-input{
+  border-radius: 10px;
+  border-width: 3px;
+  display: block;
+  width: 500px;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 2px solid #000000;
+  border-color: #000000;
+}
+  
+.react-tag-input:focus{
+    border-color: #3c8dbc;
+    box-shadow: none;
+    outline: 0;
+}
+
 @media screen and (min-width: 300px) and (max-width: 599px) {
   ul.list-app-products {
     margin: 0 0px 0 50px;
