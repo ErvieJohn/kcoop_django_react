@@ -20,8 +20,16 @@ from rest_framework.exceptions import APIException
 import json
 
 class NotFoundException(APIException):
-    status_code = 404
+    status_code = 401
     default_detail = "Registration Error"
+    
+class EmailExistException(APIException):
+    status_code = 409
+    default_detail = "Email already exist."
+    
+class UserExistException(APIException):
+    status_code = 409
+    default_detail = "Username already exist."
 
 @api_view(['POST'])
 def registerMember(request):
@@ -34,19 +42,31 @@ def registerMember(request):
         
         # print(firstname,lastname,email,username,password)
         
-        try:
-            user = User.objects.create_user(username=username,email=email,password=password, 
-                                            first_name=firstname, last_name=lastname)
-            
-            getUser = User.objects.get(username=username)
-            groupMember = Group.objects.get(name='Members') 
-            groupMember.user_set.add(getUser)
+        getEmail = User.objects.filter(email=email).exists()
         
-        except KeyError:
-            traceback.print_exc()
-            raise NotFoundException
+        if(not getEmail):
+            getUser = User.objects.filter(username=username).exists()
+            if(not getUser):
+                try:
+                    user = User.objects.create_user(username=username,email=email,password=password, 
+                                                    first_name=firstname, last_name=lastname)
+                    
+                    getUser = User.objects.get(username=username)
+                    groupMember = Group.objects.get(name='Members') 
+                    groupMember.user_set.add(getUser)
+                
+                except:
+                    traceback.print_exc()
+                    
+                return Response({"data":username + " member has been created!"})
+                    
+            else:
+                raise UserExistException
+                #return Response({"data":"Username already exist."})
         
-        return Response({"data":username + " member has been created!"})
+        else:
+            raise EmailExistException
+            #return Response({"data":"Email already exist."})
 
 @api_view(['POST'])
 def insertProduct(request):

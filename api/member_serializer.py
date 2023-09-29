@@ -42,6 +42,11 @@ class memberMyTokenObtainPairSerializer(TokenObtainPairSerializer):
             #print(token)
             # Add custom claims
             token['username'] = user.username
+            token['FirstName'] = user.first_name
+            token['LastName'] = user.last_name
+            token['Email'] = user.email
+            #print("token: ", token)
+            #token['first_name'] = user.username
             token['is_member_admin'] = user.groups.filter(name='Members_Admin').exists()
             # ...
             return token 

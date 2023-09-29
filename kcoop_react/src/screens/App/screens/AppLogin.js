@@ -124,12 +124,20 @@ function AppLogin() {
                                             placeholder="Enter Username"
                                             color='black'
                                             value={user}
-                                            onChange={text=>{setUser(text.target.value);
+                                            onChange={text=>{
+                                                const re = /^[A-Za-z0-9]+$/;
+                                                if (text.target.value === "" || re.test(text.target.value)){
+                                                    //this.setState({ value: e.target.value });
+                                                    setUser(text.target.value);
+                                                }
+                                                //setUser(text.target.value);
                                                 showResult = " ";
                                                 setShowResult(showResult);
                                             }}
+                                            maxLength={20}
                                             required
                                             autoFocus={true}
+
                                             />
                                         </div>
                                         <div className="form-group-modal mt-3">

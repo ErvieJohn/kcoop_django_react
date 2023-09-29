@@ -89,10 +89,18 @@ function LoginModal(props) {
                             placeholder="Enter Username"
                             color='black'
                             value={user}
-                            onChange={text=>{setUser(text.target.value);
+                            onChange={text=>{
+                                const re = /^[A-Za-z0-9]+$/;
+                                if (text.target.value === "" || re.test(text.target.value)){
+                                    //this.setState({ value: e.target.value });
+                                    setUser(text.target.value);
+                                }
+                                //setUser(text.target.value);
                                 showResult = " ";
                                 setShowResult(showResult);
                             }}
+                            maxLength={20}
+                            autoFocus={true}
                             required
                             />
                         </div>
@@ -104,10 +112,12 @@ function LoginModal(props) {
                             placeholder="Enter Password"
                             color='black'
                             value={pass}
-                            onChange={text=>{setPass(text.target.value);
-                                                showResult = " ";
-                                                setShowResult(showResult);
+                            onChange={text=>{
+                                setPass(text.target.value);
+                                showResult = " ";
+                                setShowResult(showResult);
                             }}
+                            maxLength={20}
                             required
                             />
                         </div>

@@ -70,11 +70,19 @@ function Login() {
                                 <input
                                 type="username"
                                 className="form-control mt-1"
-                                placeholder=""
+                                placeholder="Enter Username"
                                 color='black'
                                 value={user}
-                                onChange={text=>{setUser(text.target.value);
-                                                setShowResult("");}}
+                                onChange={text=>{
+                                    const re = /^[A-Za-z0-9]+$/;
+                                    if (text.target.value === "" || re.test(text.target.value)){
+                                        //this.setState({ value: e.target.value });
+                                        setUser(text.target.value);
+                                    }
+                                    //setUser(text.target.value);
+                                    setShowResult("")}}
+                                maxLength={20}
+                                autoFocus={true}
                                 required
                                 />
                             </div>
@@ -83,7 +91,7 @@ function Login() {
                                 <input
                                 type="password"
                                 className="form-control mt-1"
-                                placeholder=""
+                                placeholder="Enter Password"
                                 color='black'
                                 value={pass}
                                 onChange={text=>{setPass(text.target.value);

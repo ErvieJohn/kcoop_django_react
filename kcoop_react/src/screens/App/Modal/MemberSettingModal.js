@@ -4,6 +4,7 @@ import { faClose, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../../config';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import './MemberSettingModal.css';
 
 function MemberSettingModal(props) {
 
@@ -17,6 +18,8 @@ function MemberSettingModal(props) {
     var [lastname, setLastName] = useState("");
     var [email, setEmail] = useState("");
 
+    var [currentpass, setCurrentPass] = useState("");
+
   function submitForm (e){
     e.preventDefault();
   }
@@ -25,6 +28,12 @@ function MemberSettingModal(props) {
 
   const showPassToggle = () => {
     setShowPass(!showPass);
+  };
+
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+
+  const showCurrentPassToggle = () => {
+    setShowCurrentPass(!showCurrentPass);
   };
 
   return (
@@ -42,13 +51,10 @@ function MemberSettingModal(props) {
                             type="username"
                             // onKeyDown={event => (event.key >= 'a' && event.key <= 'z') || (event.key >= 'A' && event.key <= 'Z')
                             //                                          || (event.key >= '0' && event.key <= '9')}
-                            className="form-control-modal mt-1"
-                            placeholder="Enter Username"
+                            className="show-username-input mt-1"
+                            //placeholder="Enter Username"
                             color='black'
-                            value={user}
-                            onChange={text=>{setUser(text.target.value);
-                                
-                            }}
+                            value={member.username}
                             disabled={true}
                             />
                         </div>
@@ -62,7 +68,7 @@ function MemberSettingModal(props) {
                             className="form-control-modal mt-1"
                             placeholder="Enter First Name"
                             color='black'
-                            value={firstname}
+                            value={member.FirstName}
                             onChange={text=>{setFirstName(text.target.value);
                             }}
                             
@@ -78,7 +84,7 @@ function MemberSettingModal(props) {
                             className="form-control-modal mt-1"
                             placeholder="Enter Last Name"
                             color='black'
-                            value={lastname}
+                            value={member.LastName}
                             onChange={text=>{setLastName(text.target.value);
                             }}
                             
@@ -95,7 +101,7 @@ function MemberSettingModal(props) {
                             className="form-control-modal mt-1"
                             placeholder="Enter Email"
                             color='black'
-                            value={email}
+                            value={member.Email}
                             onChange={text=>{setEmail(text.target.value);
                             }}
                             
@@ -103,19 +109,50 @@ function MemberSettingModal(props) {
                         </div>
 
                         <div className="form-group-modal mt-3">
-                            <label >Password:</label>
-                            <input
-                            type={showPass ? "text" : "password"}
-                            className="form-control-modal mt-1"
-                            placeholder="Enter Password"
-                            color='black'
-                            value={pass}
-                            onChange={text=>{setPass(text.target.value);
-                                               
-                            }}
+                            <label >New Password:</label>
+                            <div style={{display: 'flex'}}>
+                                <input
+                                type={showPass ? "text" : "password"}
+                                className="form-control-modal mt-1"
+                                placeholder="Enter New Password"
+                                color='black'
+                                value={pass}
+                                onChange={text=>{setPass(text.target.value);
+                                                
+                                }}
+                                
+                                />
+                                <button style={{background: "transparent", border: "none"}} onClick={showPassToggle}> 
+                                    <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
+                                </button>
+                            </div>
                             
-                            />
                         </div>
+
+                        <div className="form-group-modal mt-3">
+                            <label >Current Password:</label>
+                            <div style={{display: 'flex'}}>
+                                <input
+                                type={showCurrentPass ? "text" : "password"}
+                                className="form-control-modal mt-1"
+                                placeholder="Enter Current Password"
+                                color='black'
+                                value={currentpass}
+                                onChange={text=>{setCurrentPass(text.target.value);
+                                                
+                                }}
+                                
+                                />
+                                <button style={{background: "transparent", border: "none"}} onClick={showCurrentPassToggle}> 
+                                    <FontAwesomeIcon icon={showCurrentPass ? faEyeSlash : faEye} size = '2x' />
+                                </button>
+                            </div>
+                            
+                        </div>
+
+                        
+                        
+
                         <div className="d-grid-modal gap-2 mt-3">
                             <button type="submit" className="btn-modal-login">
                                 Update
@@ -125,9 +162,7 @@ function MemberSettingModal(props) {
                     </div>
               </form>
               
-              <button className="btn-register-showpass" onClick={showPassToggle}> 
-                  <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
-              </button>
+              
                       
 
               <button className="close-modal-login" onClick={props.modalToggle}>

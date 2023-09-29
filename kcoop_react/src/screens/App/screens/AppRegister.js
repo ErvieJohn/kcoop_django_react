@@ -46,19 +46,24 @@ function AppRegister(props) {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(DataBody)
-        }).catch(error => {
-        console.log(`Error: ${error}`)});  
+        }).catch(err => { const mute = err })
+        // .catch(error => {
+        // console.log(`Error: ${error}`)});  
         
-        let data = await response.json();
+        //
             // console.log(data)
             // console.log(response.status)
+        
+        //console.log(data)
         if(response.status === 200){
             props.loginMember(username, password);
             sessionStorage.removeItem('showRegister');
         }
         else{
-            console.log("error in register");
-            showResult = "There is an error when creating this account.";
+            let data = await response.json();
+            //console.log("error in register");
+            showResult = data.detail;
+            //showResult = "There is an error when creating this account.";
             setShowResult(showResult);
         }  
 
@@ -86,8 +91,16 @@ function AppRegister(props) {
                         placeholder="Enter First Name"
                         color='black'
                         value={firstname}
-                        onChange={text=>{setFirstName(text.target.value);
+                        onChange={text=>{
+                            const re = /^[A-Za-z ]+$/;
+                            if (text.target.value === "" || re.test(text.target.value)){
+                                //this.setState({ value: e.target.value });
+                                setFirstName(text.target.value);
+                            }
+                            //setFirstName(text.target.value);
                         }}
+                        maxLength={30}
+                        autoFocus={true}
                         required
                         />
                     </div>
@@ -102,8 +115,15 @@ function AppRegister(props) {
                         placeholder="Enter Last Name"
                         color='black'
                         value={lastname}
-                        onChange={text=>{setLastName(text.target.value);
+                        onChange={text=>{
+                            const re = /^[A-Za-z ]+$/;
+                            if (text.target.value === "" || re.test(text.target.value)){
+                                //this.setState({ value: e.target.value });
+                                setLastName(text.target.value);
+                            }
+                            //setLastName(text.target.value);
                         }}
+                        maxLength={30}
                         required
                         />
                     </div>
@@ -119,8 +139,17 @@ function AppRegister(props) {
                         placeholder="Enter Email"
                         color='black'
                         value={email}
-                        onChange={text=>{setEmail(text.target.value);
+                        onChange={text=>{
+                            const re = /^[A-Za-z0-9@.]+$/;
+                            if (text.target.value === "" || re.test(text.target.value)){
+                                //this.setState({ value: e.target.value });
+                                setEmail(text.target.value);
+                            }
+                            showResult = " ";
+                            setShowResult(showResult);
+                            //setEmail(text.target.value);
                         }}
+                        maxLength={100}
                         required
                         />
                     </div>
@@ -137,10 +166,17 @@ function AppRegister(props) {
                         placeholder="Enter Username"
                         color='black'
                         value={user}
-                        onChange={text=>{setUser(text.target.value);
+                        onChange={text=>{
+                            const re = /^[A-Za-z0-9]+$/;
+                            if (text.target.value === "" || re.test(text.target.value)){
+                                //this.setState({ value: e.target.value });
+                                setUser(text.target.value);
+                            }
+                            //setUser(text.target.value);
                             showResult = " ";
                             setShowResult(showResult);
                         }}
+                        maxLength={20}
                         required
                         />
                     </div>
@@ -158,6 +194,7 @@ function AppRegister(props) {
                                             setShowResult(showResult);
                         }}
                         required
+                        maxLength={20}
                         />
                     </div>
 
