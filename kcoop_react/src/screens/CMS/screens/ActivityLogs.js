@@ -62,7 +62,7 @@ const ActivityLogs = () => {
           .then(response => response.json())
           .then(response => {
             let res = response;
-
+            //console.log("res: ", res);
             if(res.Staff){
                 setStaff(true);
             }
@@ -275,7 +275,7 @@ const ActivityLogs = () => {
         <center>
             <h1><b>Activity Logs</b></h1>
         </center>
-        <center style={{margin: staff ? "none":"0 100px 0 100px"}}>
+        <center style={{margin: staff ? ("0px"):("0 100px 0 100px")}}>
             <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
                 {staff ? (
                 <div id='icon-text-cms' style={{marginTop:"20px"}}>

@@ -37,6 +37,12 @@ export default function Header(props) {
     navigate('/app/login');
   };
 
+  const toggleApp = () => {
+    //localStorage.removeItem('memberAuthTokens');
+    //setMemberAuthToken(null);
+    navigate('/app');
+  };
+
   const [loading, setLoading] = useState(true);
   const [memberAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
 
@@ -322,10 +328,10 @@ export default function Header(props) {
               <li >
                   {memberAuthToken ? ( //logout button
                     <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 
-                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleLogout}
+                    cursor: 'pointer', width: "100px", color: "black", borderWidth: "0px"}} onClick={toggleApp}
                     data-toggle={window.innerWidth < 768 ? "collapse" : ""}
                     data-target={window.innerWidth < 768 ? "#navbar-collapse" : ""}>
-                      <b>Logout</b>
+                      <b>Go To App</b>
                     </button>
                   ):(//login/singup button
                     <button className="login-btn" style={{borderRadius: "25px", backgroundColor: "#66ffcc", 

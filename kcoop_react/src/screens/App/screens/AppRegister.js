@@ -54,7 +54,7 @@ function AppRegister(props) {
             // console.log(response.status)
         if(response.status === 200){
             props.loginMember(username, password);
-            localStorage.removeItem('showRegister');
+            sessionStorage.removeItem('showRegister');
         }
         else{
             console.log("error in register");

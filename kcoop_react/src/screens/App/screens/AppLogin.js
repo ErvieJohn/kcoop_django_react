@@ -44,7 +44,7 @@ function AppLogin() {
           
           setMember(jwt_decode(data.access))
           localStorage.setItem('memberAuthTokens', JSON.stringify(data))
-          localStorage.removeItem('showRegister');
+          sessionStorage.removeItem('showRegister');
           //navigate('/app/dashboard/');
           
       }
@@ -75,18 +75,18 @@ function AppLogin() {
     setShowPass(!showPass);
   };
 
-  const [clickedRegister, setClickedRegister] = useState(()=> localStorage.getItem('showRegister') ? JSON.parse(localStorage.getItem('showRegister')) : false);
+  const [clickedRegister, setClickedRegister] = useState(()=> sessionStorage.getItem('showRegister') ? JSON.parse(sessionStorage.getItem('showRegister')) : false);
 
   const isLoginPageToggle = () => {
-    if(localStorage.getItem('showRegister')){
-        let showreg = JSON.parse(localStorage.getItem('showRegister'));
+    if(sessionStorage.getItem('showRegister')){
+        let showreg = JSON.parse(sessionStorage.getItem('showRegister'));
         //console.log(showreg);
         //console.log("clicked in register");
-        localStorage.setItem('showRegister', !showreg);
+        sessionStorage.setItem('showRegister', !showreg);
         setClickedRegister(!showreg);
     }
     else{
-        localStorage.setItem('showRegister', !clickedRegister);
+        sessionStorage.setItem('showRegister', !clickedRegister);
         setClickedRegister(!clickedRegister);
     }
 
