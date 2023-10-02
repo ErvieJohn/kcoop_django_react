@@ -10,6 +10,7 @@ import ViewAllCategories from '../Modal/ViewAllCategories';
 import jwt_decode from "jwt-decode";
 import TagsModal from '../Modal/TagsModal';
 import { WithContext as ReactTags } from 'react-tag-input';
+import LoadingSpinner from '../../LoadingSpinner';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
@@ -47,6 +48,8 @@ const MemberDashboard = (props) => {
     const maxCategories = window.innerWidth < 600 ? 2: 5;
 
     const [noProduct, setNoProduct] = useState(true);
+
+    const [loading, setLoading] = useState(true);
 
     function clickedDropdown(){
         setDropdown(!dropdown);
@@ -110,9 +113,10 @@ const MemberDashboard = (props) => {
           let data = await response.json()
     
           if(response.status === 200){
-            // console.log("data: ",data);
-            // console.log("products: ", data.products);
+            //console.log("data: ",data);
+            //console.log("data len: ", data.products.length);
             // console.log("categories: ", data.categories);
+
             if(data.products.length > 0){
               setProducts(data.products);
               setCategories(data.categories);
@@ -128,6 +132,8 @@ const MemberDashboard = (props) => {
             else{
                 setNoProduct(true);
             }
+
+            setLoading(false);
             
           }else if(response.statusText === 'Unauthorized'){
             props.logout();
@@ -154,10 +160,12 @@ const MemberDashboard = (props) => {
             //console.log("categ: ", categ);
             setCategories(categ);
 
+            setLoading(true);
             if(selectedCategory.length === 0 ){
                 selectedAllCategory = true;
                 setSelectedAllCategory(selectedAllCategory);
 
+                
                 if(inputProduct.length > 0 || searchedTags){
                     searchMemberProduct();
                 }
@@ -200,7 +208,7 @@ const MemberDashboard = (props) => {
         selectedAllCategory = true;
         setSelectedAllCategory(selectedAllCategory);
         
-        
+        setLoading(true);
         if(inputProduct.length > 0 || searchedTags){
             searchMemberProduct(); // display searched products
         }
@@ -214,6 +222,7 @@ const MemberDashboard = (props) => {
     // FOR SEARCHING THE PRODUCT
     const [searchedText, setSearchedText] = useState("");
     function clickedSearch(e){
+        setLoading(true);
         e.preventDefault();
         //console.log("selectedCategory: ", inputProduct, "categories: ", selectedCategory);
         defaultPages();
@@ -244,6 +253,7 @@ const MemberDashboard = (props) => {
         selectedTags = [];
         setSelectedTags(selectedTags);
 
+        setLoading(true);
         getMemberProducts();
 
         setSearched(false);
@@ -284,6 +294,8 @@ const MemberDashboard = (props) => {
               //setCategories(null);
             } 
             
+            setLoading(false);
+
           }else if(response.statusText === 'Unauthorized'){
             props.logout();
           }
@@ -294,6 +306,7 @@ const MemberDashboard = (props) => {
 
     function toggleSearchTag (tagSelected){
         //console.log("tagSelected:", tagSelected);
+        setLoading(true);
         selectedTags = tagSelected;
         setSelectedTags(selectedTags);
         searchMemberProduct(true);
@@ -305,6 +318,7 @@ const MemberDashboard = (props) => {
     const handleDelete = i => {
         selectedTags = selectedTags.filter((tag, index) => index !== i)
         setSelectedTags(selectedTags);
+        setLoading(true);
         searchMemberProduct(true);
         if(selectedTags.length > 0){
             setSearchedTags(true);
@@ -320,6 +334,7 @@ const MemberDashboard = (props) => {
         selectedTags.push(tag);
         setSelectedTags(selectedTags);
         //setSelectedTags([...selectedTags, tag]);
+        setLoading(true);
         searchMemberProduct(true);
         setSearchedTags(true);
     };
@@ -515,7 +530,7 @@ const MemberDashboard = (props) => {
         
 
         <div style={{marginTop: "30px 50px 50px 0"}}>
-            {products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
+            {!loading ? (products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
                 <div 
                     style={{borderRadius: "10px", backgroundColor: "#fff", 
                             padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
@@ -592,7 +607,7 @@ const MemberDashboard = (props) => {
                         )}
                 </>
                     
-                )}
+                ))  : (<LoadingSpinner/>) }
         </div>
         <br style={{clear:"both"}}/>
         <div style={{marginTop: "30px"}}>
@@ -722,9 +737,9 @@ const MemberDashboard = (props) => {
         selectedCategory={selectedCategory} clickedCategoryBtn={clickedCategoryBtn}/>
     )}
 
-    {tagsModal && (
+    {/* {tagsModal && (
         <TagsModal modalToggle={toggleTagsModal} tags={tags} toggleSearchTag={toggleSearchTag}/>
-    )}
+    )} */}
 
     </>
   )
