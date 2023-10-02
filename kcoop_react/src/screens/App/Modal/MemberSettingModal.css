@@ -11,3 +11,43 @@
     padding: 6px 12px;
     width: 100%;
 }
+
+
+.w3-container,.w3-panel{
+    padding:0.01em 16px
+}
+.w3-panel{
+    margin-top:16px;
+    margin-bottom:16px
+}
+
+.w3-container:after,.w3-container:before,.w3-panel:after,.w3-panel:before,.w3-row:after,.w3-row:before,.w3-row-padding:after,.w3-row-padding:before, .w3-cell-row:before,.w3-cell-row:after,.w3-clear:after,.w3-clear:before,.w3-bar:before,.w3-bar:after{
+    content:"";
+    display:table;
+    clear:both
+}
+
+.w3-pale-blue,.w3-hover-pale-blue:hover{
+    color:#000!important;
+    background-color:#ddffff!important
+}
+
+.w3-leftbar{
+    border-left:6px solid #ccc!important
+}
+
+.w3-border-blue,.w3-hover-border-blue:hover{
+    border-color:#2196F3!important
+}
+
+.w3-border-blue-grey,.w3-hover-border-blue-grey:hover,.w3-border-blue-gray,.w3-hover-border-blue-gray:hover{
+    border-color:#607d8b!important
+}
+
+.w3-border-red,.w3-hover-border-red:hover{
+    border-color:#f44336!important
+}
+
+.w3-border-red-grey,.w3-hover-border-red-grey:hover,.w3-border-red-gray,.w3-hover-border-red-gray:hover{
+    border-color:#e2aeae!important
+}

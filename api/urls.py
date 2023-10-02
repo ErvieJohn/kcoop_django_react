@@ -86,8 +86,9 @@ urlpatterns = [
     path('getAuditTrail/', views.getAuditTrail),
     
     ### Member WITH JWT
-    path('api/member/login/', member_api.memberMyTokenObtainPairView.as_view(), name='member_token_obtain_pair'), #;ogin the user
+    path('api/member/login/', member_api.memberMyTokenObtainPairView.as_view(), name='member_token_obtain_pair'), #login the user
     path('api/member/register/', product_api.registerMember, name="register_member"), # create a user
+    path('api/member/updateMember/', member_api.updateMember, name="Update_Member"), # update a user
     
     ### MEMBER PRODUCT
     path('api/member/insertProduct/', product_api.insertProduct, name="insert_member's_product"), # create a product
