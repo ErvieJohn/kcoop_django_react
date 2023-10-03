@@ -17,6 +17,9 @@ from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainP
 
 from rest_framework.exceptions import APIException
 
+from datetime import datetime
+from dateutil import tz
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
@@ -108,3 +111,67 @@ def memberUpdater(username, password, firstName, lastName, email, newPassword):
         Error = True
         
     return data, Error
+
+@api_view(['GET']) 
+@permission_classes([IsAuthenticated])
+def getMembers(request):
+    members = User.objects.filter(groups__name='Members')
+    
+    membersData = []
+    for member in members:
+        try:
+            dateAndTime = str(member.date_joined) # convert time to string
+            dateAndTime = dateAndTime.replace('T', ' ').replace('Z','') # remove the T and Z
+            dateAndTime = dateAndTime[:19] # get only date and time
+            
+            dateAndTime = datetime.strptime(dateAndTime, '%Y-%m-%d %H:%M:%S') # convert to datetime type
+            dateAndTime = dateAndTime.replace(tzinfo=tz.tzutc()) # change with utc
+            
+            dateAndTime = dateAndTime.astimezone(tz.tzlocal()) # convert the utc
+            dateAndTime = dateAndTime.strftime("%Y-%m-%d %I:%M:%S %p") # convert the datetime YYYY-MM-DD hh:mm:ss PP
+            
+        except:
+            traceback.print_exc()
+        membersData.append({"Username":member.username, "FirstName":member.first_name, "LastName":member.last_name,
+                            "Email":member.email, "DateJoined": dateAndTime }) #member.date_joined})
+    
+    return Response({"data":membersData})
+
+
+@api_view(['POST']) 
+@permission_classes([IsAuthenticated])
+def searchMembers(request):
+    searchBy = request.data["searchby"]
+    inputSearch = request.data["inputsearch"]
+    
+    if(searchBy=="Firstname"):
+        members = User.objects.filter(first_name__contains=inputSearch, groups__name='Members')
+        
+    elif(searchBy=="Lastname"):
+        members = User.objects.filter(last_name__contains=inputSearch, groups__name='Members')
+        
+    elif(searchBy=="Email"):
+        members = User.objects.filter(email__contains=inputSearch, groups__name='Members')
+    
+    else:
+        members = User.objects.filter(username__contains=inputSearch, groups__name='Members')
+        
+    membersData = []
+    for member in members:
+        try:
+            dateAndTime = str(member.date_joined) # convert time to string
+            dateAndTime = dateAndTime.replace('T', ' ').replace('Z','') # remove the T and Z
+            dateAndTime = dateAndTime[:19] # get only date and time
+            
+            dateAndTime = datetime.strptime(dateAndTime, '%Y-%m-%d %H:%M:%S') # convert to datetime type
+            dateAndTime = dateAndTime.replace(tzinfo=tz.tzutc()) # change with utc
+            
+            dateAndTime = dateAndTime.astimezone(tz.tzlocal()) # convert the utc
+            dateAndTime = dateAndTime.strftime("%Y-%m-%d %I:%M:%S %p") # convert the datetime YYYY-MM-DD hh:mm:ss PP
+            
+        except:
+            traceback.print_exc()
+        membersData.append({"Username":member.username, "FirstName":member.first_name, "LastName":member.last_name,
+                            "Email":member.email, "DateJoined": dateAndTime }) #member.date_joined})
+    
+    return Response({"data":membersData})

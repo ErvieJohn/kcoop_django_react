@@ -94,4 +94,9 @@ urlpatterns = [
     path('api/member/insertProduct/', product_api.insertProduct, name="insert_member's_product"), # create a product
     path('api/member/showProducts/', product_api.showMemberProduct, name="show_all_products"), # show all product
     path('api/member/searchMemberProduct/', product_api.searchMemberProduct, name="search_products"), # show searched product
+    
+    ### ADMIN APP
+    path('api/member/getMembers/', member_api.getMembers, name="get_all_members"), # get all members
+    path('api/member/searchMembers/', member_api.searchMembers, name="search_members"), # search members
+    
 ]

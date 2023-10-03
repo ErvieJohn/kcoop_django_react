@@ -45,8 +45,8 @@ class memberMyTokenObtainPairSerializer(TokenObtainPairSerializer):
             token['FirstName'] = user.first_name
             token['LastName'] = user.last_name
             token['Email'] = user.email
-            print(user.first_name)
-            print("user.last_name: ", user.last_name)
+            #print(user.first_name)
+            #print("user.last_name: ", user.last_name)
             #print("token: ", token)
             #token['first_name'] = user.username
             token['is_member_admin'] = user.groups.filter(name='Members_Admin').exists()
