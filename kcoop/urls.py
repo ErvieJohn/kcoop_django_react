@@ -74,6 +74,9 @@ urlpatterns = [
     
     # APP dashboard
     path('app/dashboard/', views.index, name='dashboard'),
+    
+    # App Admin
+    path('app/admin/member/<str:username>', views.admin_member, name='admin_member'),
 
 ]
 

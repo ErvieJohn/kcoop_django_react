@@ -37,7 +37,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class memberMyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-        if(user.groups.filter(name='Members').exists() or user.groups.filter(name='Members_Admin').exists()):
+        if(user.groups.filter(name='Members').exists()): # or user.groups.filter(name='Members_Admin').exists()
             token = super().get_token(user)
             #print(token)
             # Add custom claims
@@ -49,7 +49,28 @@ class memberMyTokenObtainPairSerializer(TokenObtainPairSerializer):
             #print("user.last_name: ", user.last_name)
             #print("token: ", token)
             #token['first_name'] = user.username
-            token['is_member_admin'] = user.groups.filter(name='Members_Admin').exists()
+            # token['is_member_admin'] = user.groups.filter(name='Members_Admin').exists()
+            # ...
+            return token 
+        else:
+            raise UnauthorizedException
+        
+class adminMyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        if(user.groups.filter(name='Members_Admin').exists()): # or user.groups.filter(name='Members').exists()
+            token = super().get_token(user)
+            #print(token)
+            # Add custom claims
+            token['username'] = user.username
+            # token['FirstName'] = user.first_name
+            # token['LastName'] = user.last_name
+            # token['Email'] = user.email
+            #print(user.first_name)
+            #print("user.last_name: ", user.last_name)
+            #print("token: ", token)
+            #token['first_name'] = user.username
+            # token['is_member_admin'] = user.groups.filter(name='Members_Admin').exists()
             # ...
             return token 
         else:

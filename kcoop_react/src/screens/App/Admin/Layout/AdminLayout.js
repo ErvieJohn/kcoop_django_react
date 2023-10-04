@@ -1,10 +1,9 @@
 import {React, useContext, useEffect, useState} from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 
-import { BASE_URL } from '../../../config';
+import { BASE_URL } from '../../../../config';
 
 import jwt_decode from "jwt-decode";
-import NavHeader from '../Nav/NavHeader';
 
 // for autologout
 const events = [
@@ -16,14 +15,15 @@ const events = [
     "keypress",
   ];
 
-function AppLayout(){
-    const [memberAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
-    const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
+function AdminLayout(){
+    const [adminAuthToken, setAdminAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
+    const [admin, setAdmin] = useState(()=> localStorage.getItem('adminAuthToken') ? jwt_decode(localStorage.getItem('adminAuthToken')) : null);
     const [loading, setLoading] = useState(true);
 
     const toggleLogout = () => {
-        localStorage.removeItem('memberAuthTokens');
-        setMember(null);
+        console.log("Loggedout");
+        localStorage.removeItem('adminAuthToken');
+        setAdmin(null);
         //navigate('/app/login');
     };
 
@@ -35,17 +35,17 @@ function AppLayout(){
     //         headers:{
     //             'Content-Type':'application/json'
     //         },
-    //         body:JSON.stringify({'refresh':memberAuthToken?.refresh})
+    //         body:JSON.stringify({'refresh':adminAuthToken?.refresh})
     //     })
 
     //     let data = await response.json()
         
     //     if (response.status === 200){
-    //         setMemberAuthToken(data)
-    //         setMember(jwt_decode(data.access))
-    //         localStorage.setItem('memberAuthTokens', JSON.stringify(data))
+    //         setAdminAuthToken(data)
+    //         setAdmin(jwt_decode(data.access))
+    //         localStorage.setItem('adminAuthToken', JSON.stringify(data))
     //     }else{
-    //         toggleLogut()
+    //         toggleLogout()
     //     }
 
     //     if(loading){
@@ -57,7 +57,7 @@ function AppLayout(){
     //     if(loading){
     //        updateToken()
     //     }
-    //   }, [memberAuthToken, loading]);
+    //   }, [adminAuthToken, loading]);
 
     let timer;
 
@@ -89,20 +89,21 @@ function AppLayout(){
         });
       }, []);
 
+
     return(
         <>
-        {member ? (
+        {admin ? (
             <>
-                {/* <NavHeader logout={toggleLogut}/> */}
-                <Outlet context={[member,toggleLogout]}/>
+                {/* <NavHeader logout={toggleLogout}/> */}
+                <Outlet context={[toggleLogout]}/>
             </>
         ):(
             <>
-                <Navigate replace to="/app/login" />
+                <Navigate replace to="/app/admin/login" />
             </>
         )}
         </>
     )
 }
 
-export default AppLayout
+export default AdminLayout

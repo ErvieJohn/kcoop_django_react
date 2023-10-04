@@ -19,7 +19,7 @@ def index(request):
 def page_not_found_view(request, exception):
     return render(request, 'index.html', status=404)
 
-# ADMIN
+# CMS
 def cms_announcements(request,id):
     return render(request, 'index.html', {})
 
@@ -30,4 +30,8 @@ def cms_kwentong_k(request,id):
     return render(request, 'index.html', {})
 
 def cms_k_bahagi(request,id):
+    return render(request, 'index.html', {})
+
+# App Admin 
+def admin_member(request,username):
     return render(request, 'index.html', {})

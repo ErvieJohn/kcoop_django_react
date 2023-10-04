@@ -9,18 +9,8 @@ import LoadingSpinner from '../../LoadingSpinner';
 import MemberDashboard from './MemberDashboard';
 import AdminHome from '../Admin/screens/AdminHome';
 
-// for autologout
-const events = [
-  "load",
-  "mousemove",
-  "mousedown",
-  "click",
-  "scroll",
-  "keypress",
-];
-
 function AppDashboard(props) {
-  const [member1, toggleLogut] = useOutletContext();
+  const [member1, toggleLogout] = useOutletContext();
   //console.log(member1);
   // const navigate = useNavigate();
 
@@ -29,10 +19,6 @@ function AppDashboard(props) {
   const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
 
   const [loading, setLoading] = useState(true);
-
-  const toggleLogout= () =>{
-    toggleLogut();
-  }
 
   // FOR REFRESH AUTH TOKEN
   let updateToken = async ()=> {
@@ -60,28 +46,6 @@ function AppDashboard(props) {
     }
   }
 
-
-    let timer;
-
-    // this function sets the timer that logs out the user after 10 secs
-    const handleLogoutTimer = () => {
-        timer = setTimeout(() => {
-        // clears any pending timer.
-        resetTimer();
-        // Listener clean up. Removes the existing event listener from the window
-        Object.values(events).forEach((item) => {
-            window.removeEventListener(item, resetTimer);
-        });
-        // logs out user
-        toggleLogout();
-        }, 300000); // 300000ms = 5mins. You can change the time.
-    };
-
-    // this resets the timer if it exists.
-    const resetTimer = () => {
-        if (timer) clearTimeout(timer);
-    };
-
   // useEffect(() => {
   //   if(loading){
   //     updateToken()
@@ -94,36 +58,15 @@ function AppDashboard(props) {
   //     });
   //   });
   // }, [memberAuthTokens, loading]);
-
  
   return (
     <>
     {member ? (
       <>
-      {member.is_member_admin ? (
-          <AdminHome logout={toggleLogout}/>
-          
-        ): (
-          <>
-          <MemberDashboard logout={toggleLogout}/>
-            {/* <div>DASHBOARD</div> */}
-            
-            {/* {categories ? (<>
-              <b>CATEGORIES</b>
-            </>):(<>
-              <b>NO CATEGORIES</b>
-            </>)}
-
-            {products ? (<>
-              <b>PRODUCTS</b>
-            </>):(<>
-              <b>NO PRODUCTS</b>
-            </>)} */}
-          </>
-          
-          
-      )}
+      <MemberDashboard logout={toggleLogout}/>
       
+          {/* <AdminHome logout={toggleLogout}/> */}
+
       </>):( <LoadingSpinner/>
       )}
     

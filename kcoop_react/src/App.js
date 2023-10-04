@@ -98,6 +98,11 @@ import ActivityLogs from "./screens/CMS/screens/ActivityLogs";
 import AppDashboard from "./screens/App/screens/AppDashboard";
 import AppLayout from "./screens/App/Layout/AppLayout";
 import AppLogin from "./screens/App/screens/AppLogin";
+import AdminLogin from "./screens/App/Admin/screens/AdminLogin";
+import AdminLayout from "./screens/App/Admin/Layout/AdminLayout";
+import AdminHome from "./screens/App/Admin/screens/AdminHome";
+import AdminNavigate from "./screens/App/Admin/screens/AdminNavigate";
+import AdminEditMember from "./screens/App/Admin/screens/AdminEditMember";
 
 function App() {
   return (
@@ -250,6 +255,15 @@ function App() {
           <Route element={<AppLayout/>}>
             <Route exact path="/app" element={<AppDashboard/>} />
             <Route exact path="/app/dashboard" element={<AppDashboard/>} />
+          </Route>
+
+
+          {/* App Admin Login   */}
+          <Route exact path='/app/admin/login' element={<AdminLogin/>}/>
+          {/* for app */}
+          <Route element={<AdminLayout/>}>
+            <Route exact path="/app/admin" element={<AdminNavigate/>} />
+            <Route path="/app/admin/edit/:username" element={<AdminEditMember />} />
           </Route>
           
 

@@ -96,7 +96,12 @@ urlpatterns = [
     path('api/member/searchMemberProduct/', product_api.searchMemberProduct, name="search_products"), # show searched product
     
     ### ADMIN APP
-    path('api/member/getMembers/', member_api.getMembers, name="get_all_members"), # get all members
-    path('api/member/searchMembers/', member_api.searchMembers, name="search_members"), # search members
+    path('api/admin/login/', member_api.adminMyTokenObtainPairView.as_view(), name='Admin_Login'), #App Admin Login
+    
+    path('api/admin/getMembers/', member_api.getMembers, name="get_all_members"), # get all members
+    path('api/admin/searchMembers/', member_api.searchMembers, name="search_members"), # search members
+    path('api/admin/getMemberProduct/', product_api.getMemberProduct, name="Get_MemberProduct"), # Get Member's Products
+    
+    
     
 ]

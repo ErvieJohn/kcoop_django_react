@@ -10,23 +10,27 @@ import LoadingSpinner from '../../../LoadingSpinner';
 import './AdminHome.css';
 
 function AdminHome(props) {
-    const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
-    const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
+    const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
+    const [admin, setAdmin] = useState(()=> localStorage.getItem('adminAuthToken') ? jwt_decode(localStorage.getItem('adminAuthToken')) : null);
 
     const [searchByValue, setSearchByValue] = useState("Username");
 
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState([]);
 
+    var [inputSearch, setInputSearch] = useState("");
+
     // FOR USER DROPDOWN
     const [dropdown, setDropdown] = useState(false);
     const [hoverDropdown, setHoverDropdown] = useState(false);
 
-    var [inputSearch, setInputSearch] = useState("");
-
     function clickedDropdown(){
         setDropdown(!dropdown);
     }
+
+    
+
+    
 
     function toggleLogout(){
         props.logout();
@@ -43,9 +47,11 @@ function AdminHome(props) {
         sortable: true,
         maxWidth: 180,
         width: 180,
-        // Cell: row => (
-        //     <div style={{ textAlign: "center"}}>{row.value}</div>
-        //   )
+        Cell: row => (
+            <div style={{ textAlign: "center" }}>
+                <a href={'/app/admin/edit/' + row.value} target='_blank'>{row.value}</a>
+            </div>
+          )
         },
         {  
         Header: 'First Name',  
@@ -88,12 +94,12 @@ function AdminHome(props) {
         }];
 
     const getMembers = async() => {
-        var InsertAPIURL = `${BASE_URL}/api/member/getMembers/`;
+        var InsertAPIURL = `${BASE_URL}/api/admin/getMembers/`;
         let response = await fetch(InsertAPIURL, {
               method:'GET',
               headers:{
                   'Content-Type':'application/json',
-                  'Authorization':'Bearer ' + String(memberAuthTokens.access)
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
               }
           })
           let data = await response.json()
@@ -110,13 +116,13 @@ function AdminHome(props) {
     }
 
     const searchMembers = async() => {
-        var InsertAPIURL = `${BASE_URL}/api/member/searchMembers/`;
+        var InsertAPIURL = `${BASE_URL}/api/admin/searchMembers/`;
         var DataBody = {searchby: searchByValue, inputsearch: inputSearch}
         let response = await fetch(InsertAPIURL, {
               method:'POST',
               headers:{
                   'Content-Type':'application/json',
-                  'Authorization':'Bearer ' + String(memberAuthTokens.access)
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
               },
               body:JSON.stringify(DataBody)
           })
@@ -189,7 +195,7 @@ function AdminHome(props) {
                         }}
                     > 
                         <FontAwesomeIcon icon={faUser} style={{marginRight:"10px"}}/> 
-                        {"Hi, " + member.username + "!"} 
+                        {"Hi, " + admin.username + "!"} 
                         {dropdown ? (<FontAwesomeIcon icon={faXmark} style={{marginLeft:"10px"}}/>): 
                         (<FontAwesomeIcon icon={faAngleDown} style={{marginLeft:"10px"}}/>)}
                     </button>

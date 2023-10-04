@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 
 
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainPairSerializer
+from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainPairSerializer, adminMyTokenObtainPairSerializer
 
 from rest_framework.exceptions import APIException
 
@@ -25,6 +25,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
     
 class memberMyTokenObtainPairView(TokenObtainPairView):
     serializer_class = memberMyTokenObtainPairSerializer
+    
+class adminMyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = adminMyTokenObtainPairSerializer
     
 
 class HttpResponseNoContent(HttpResponse):
