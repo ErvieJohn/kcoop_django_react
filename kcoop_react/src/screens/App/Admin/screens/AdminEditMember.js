@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useOutletContext } from "react-router-dom";
 import { BASE_URL } from '../../../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faGear, faSignOut, faUser, faXmark, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faGear, faSignOut, faUser, faXmark, faExclamationCircle, faSearch, faPlayCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons';
 import jwt_decode from "jwt-decode";
 import LoadingSpinner from '../../../LoadingSpinner';
+import './AdminEditMember.css';
 
 function AdminEditMember() {
     const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
@@ -53,6 +54,28 @@ function AdminEditMember() {
     
     function clickedDropdown(){
         setDropdown(!dropdown);
+    }
+
+    var [inputSearch, setInputSearch] = useState("");
+    const [searchLoading, setSearchLoading] = useState(true);
+
+    function handleOnChangeSearch(text){
+        inputSearch = text.target.value;
+        setInputSearch(inputSearch);
+        //setSearchLoading(false);
+        //searchProduct();
+    }
+
+    const [buttonActive, setButtonActive] = useState(true);
+
+    function clickedActive(e){
+        e.preventDefault();
+        setButtonActive(true);
+    }
+
+    function clickedDeactive(e){
+        e.preventDefault();
+        setButtonActive(false);
     }
 
     useEffect(() =>{
@@ -135,7 +158,54 @@ function AdminEditMember() {
             ):(
                 <>
                     {member ? (
-                        <b>{member.Username}</b>
+                        <>
+                            <div className='content-header'>
+                                <label for="search-product" style={{marginRight: "10px"}}>Search Member's Product:</label> 
+                                <input className='app-input-search' type="text" placeholder={'Search product...'}
+                                    style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>, marginRight: "20px"}}
+                                    value={inputSearch}
+                                    onChange={(text)=>{
+                                        handleOnChangeSearch(text);
+                                        
+                                    }}
+                                />
+
+                                <br/>
+                                
+                                <div className='admin-tab-wrapper' style={{marginTop: "10px"}}>
+                                    <button className='admin-tab-button' 
+                                        style={{marginRight: "2px", backgroundColor: buttonActive ? ("white"):("#000"),
+                                                    color: buttonActive ? "black" : "white"}} //, borderBottom: buttonActive ? "none":"1px solid transparent"
+                                        onClick={clickedActive}
+                                    >
+                                        <FontAwesomeIcon icon={faPlayCircle} color={buttonActive ? "black" : "white"}/> Active Products
+                                    </button>
+
+                                    <button className='admin-tab-button' 
+                                        style={{backgroundColor: !buttonActive ? ("white"):("#000"),
+                                                color: !buttonActive ? "black" : "white"}} //, borderBottom: !buttonActive ? "none":"1px solid transparent"
+                                        onClick={clickedDeactive}>
+                                        <FontAwesomeIcon icon={faStopCircle} color={!buttonActive ? "black" : "white"}/> Deactive Products
+                                    </button>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div style={{width: "100%", borderTop: "1px solid", marginTop: "3px"}}></div>
+                            <div style={{marginTop: "10px"}}>
+                                {buttonActive ? (<>
+                                    <div>
+                                        Active Products
+                                    </div>
+                                </>):(<>
+                                    <div>
+                                        Deactive Products
+                                    </div>
+                                </>)   
+                                
+                                }
+                            </div>
+                        </>
+
                     ):(
                         <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" style={{display: "block"}}>
                             <div style={{display: "flex", marginTop: "10px"}}>

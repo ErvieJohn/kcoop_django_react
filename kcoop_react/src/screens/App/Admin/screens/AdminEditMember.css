@@ -1,0 +1,30 @@
+.admin-tab-wrapper{
+    width: 100%;
+    /* border-bottom: double; */
+    display: flex;
+    flex-direction: row;
+}
+
+.admin-tab-button{
+    border-radius: 8px;
+    cursor: pointer;
+    outline: 0;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    font-size: 16px;
+    border: double;
+    width: 100%;
+}
+
+.admin-tab-button:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: "black";
+}
+

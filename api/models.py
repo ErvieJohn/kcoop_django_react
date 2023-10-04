@@ -25,7 +25,7 @@ class TBL_WhoWeAre(models.Model):
     WhoWeAre_title = models.CharField()
     WhoWeAre_content = models.TextField(blank=True, default="")
     WhoWeAre_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
-    WhoWeAre_status = models.TextField(null=True, blank=True, default="")
+    WhoWeAre_status = models.TextField(null=True, blank=True, default="Deactivated")
 
 class TBL_ProgramAndServicesType(models.Model):
     ProgramAndServicestype_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
@@ -134,6 +134,7 @@ class TBL_Product(models.Model):
     Product_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Product_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Product_title = models.CharField(blank=True, default="")
+    Product_status = models.CharField(null=True, blank=True, default="Activated")
     Tag = models.ManyToManyField('TBL_Tag')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

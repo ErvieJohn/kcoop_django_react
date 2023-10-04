@@ -111,7 +111,7 @@ def insertProduct(request):
         #user_serializer = UserSerializer(user)
         #print(user)
         try:
-            createProduct = TBL_Product.objects.create(User_id=user, Category_id=categ, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title)
+            createProduct = TBL_Product.objects.create(User_id=user, Category_id=categ, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title, Product_status="Active")
             
             
             for i in tags:
@@ -141,7 +141,7 @@ def showMemberProduct(request):
     #print(request.data)
     user = request.user
 
-    products = user.tbl_product_set.all().order_by('-created_at')
+    products = user.tbl_product_set.filter(Product_status="Active").order_by('-created_at')
     serializer = TBL_ProductSerializer(products, many=True)
     # print(serializer.data)
     
@@ -198,7 +198,7 @@ def searchMemberProduct(request):
     
     selectedCategory = request.data['categories']
     
-    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search).order_by('-created_at')
+    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search, Product_status="Active").order_by('-created_at')
     
     if(len(selectedCategory)>0):
         products = products.filter(Category_id__in=selectedCategory)
@@ -281,8 +281,9 @@ def getMemberProduct(request):
         userData = {"Username":user.username, "FirstName":user.first_name, "LastName":user.last_name,
                                 "Email":user.email, "DateJoined": dateAndTime }
         
-        memberProduct = user.tbl_product_set.all().order_by('-created_at')
-        serializer = TBL_ProductSerializer(memberProduct, many=True)
+        ### For Active
+        memberProductActive = user.tbl_product_set.filter(Product_status="Active").order_by('-created_at')
+        serializer = TBL_ProductSerializer(memberProductActive, many=True)
         
         categoryList = []
         
@@ -309,8 +310,40 @@ def getMemberProduct(request):
         for index in range (len(tagsUser)):
             tagsUser[index]["id"] = tagsUser[index].pop("Tag_id")
             tagsUser[index]["text"] = tagsUser[index].pop("Tag_name")
+            
+            
+        ### For Deactive
+        memberProductDeactive = user.tbl_product_set.filter(Product_status="Deactive").order_by('-created_at')
+        serializerDeactive = TBL_ProductSerializer(memberProductDeactive, many=True)
         
-        return Response({"userData":userData, "productsData": {"products": serializer.data, "categories":categories, "tags": tagsUser}})
+        categoryListDeactive = []
+        
+        categoriesDeactive = []
+        for i in range (len(serializerDeactive.data)):
+            if serializerDeactive.data[i]["Category_id"] not in categoryListDeactive:
+                categoryListDeactive.append(serializerDeactive.data[i]["Category_id"])
+                category = TBL_Category.objects.filter(Category_id=serializerDeactive.data[i]["Category_id"])
+                categorySerializer = TBL_CategorySerializer(category, many=True)
+                categoriesDeactive.append(categorySerializer.data[0])
+                
+        tagListDeactive = []
+        tagsUserDeactive = []
+        for data in serializerDeactive.data:
+            for tags in data["Tag"]:
+                if tags not in tagListDeactive:
+                    tagListDeactive.append(tags)
+                    tag = TBL_Tag.objects.filter(Tag_id=tags)
+                    tagSerializer = TBL_TagSerializer(tag, many=True)
+                    firstTagData = tagSerializer.data[0]
+                    tagsUserDeactive.append(firstTagData)
+                    
+        # Changing the key to id and text for REACTTAG
+        for index in range (len(tagsUserDeactive)):
+            tagsUserDeactive[index]["id"] = tagsUserDeactive[index].pop("Tag_id")
+            tagsUserDeactive[index]["text"] = tagsUserDeactive[index].pop("Tag_name")
+        
+        return Response({"userData":userData, "productsDataActive": {"products": serializer.data, "categories":categories, "tags": tagsUser}
+                         , "productsDataDeactive": {"products": serializerDeactive.data, "categories":categoriesDeactive, "tags": tagsUserDeactive}})
     
     else:
         raise MemberNotFoundException("Member Not Found!")
