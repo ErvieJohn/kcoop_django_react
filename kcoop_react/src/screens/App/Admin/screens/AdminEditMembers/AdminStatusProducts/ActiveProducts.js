@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPencilSquare, faPlayCircle, faStopCircle, faTag, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import './AdminStatusProducts.css';
 
 function ActiveProducts(props) {
   const activeProducts = props.activeProducts;
@@ -31,7 +32,7 @@ function ActiveProducts(props) {
                             </div>
                         </center>
                         <label className='product-tags'> <FontAwesomeIcon icon={faTag} style={{marginRight: "2px", marginTop: "3px"}}/> Tags: </label>
-                        <div className='product-tags-wrap'>
+                        <div className='product-tags-wrap' style={{height: "65px"}}>
                             {item.Tag.length > 0 ? (item.Tag.slice(0,5).map((tagProd, index) =>(
                                     <>
                                         {activeTags.filter((tag, index) => tagProd === tag.id) ? (
@@ -53,6 +54,18 @@ function ActiveProducts(props) {
                             
                             {item.Tag.length > 5 ? (<h5>...</h5>):(null)}
                             
+                        </div>
+
+                        <div style={{margin: "5px 0 0 10px", display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
+                            <button className='btn-admin-status' 
+                              //onClick={e=>ActivateButton(e, item.Home_id)}
+                              ><FontAwesomeIcon icon={faStopCircle}/></button>
+                            <button className='btn-admin-status' 
+                              //</div>onClick={e=>DeleteButton(e, item.Home_id)}
+                              ><FontAwesomeIcon icon={faPencilSquare}/></button>
+                            <button className='btn-admin-status' 
+                              //</div>onClick={e=>DeleteButton(e, item.Home_id)}
+                              ><FontAwesomeIcon icon={faTrashCan} /></button>
                         </div>
                         
                     </figure>

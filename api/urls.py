@@ -101,6 +101,7 @@ urlpatterns = [
     path('api/admin/getMembers/', member_api.getMembers, name="get_all_members"), # get all members
     path('api/admin/searchMembers/', member_api.searchMembers, name="search_members"), # search members
     path('api/admin/getMemberProduct/', product_api.getMemberProduct, name="Get_MemberProduct"), # Get Member's Products
+    path('api/admin/updateMemberProduct/', product_api.updateMemberProduct, name="Update_MemberProduct"), # Update Member's Products
     
     
     

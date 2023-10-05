@@ -347,3 +347,33 @@ def getMemberProduct(request):
     
     else:
         raise MemberNotFoundException("Member Not Found!")
+    
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def updateMemberProduct(request):
+    if request.data:
+        username = request.data['username']
+        status = request.data["status"]
+        productID = request.data["product_id"]
+
+        try:
+            user = User.objects.filter(username=username).first()
+            # print(user)
+            
+        except:
+            traceback.print_exc()
+            
+        if(user):
+            try:
+                memberProduct = user.tbl_product_set.get(Product_id=productID)
+                memberProduct.Product_status = status
+                memberProduct.save()
+            except:
+                traceback.print_exc()
+
+            return Response({"detail":"Successfully update the status!"})
+        
+        else:
+            raise MemberNotFoundException("Member Not Found!")    
+        
