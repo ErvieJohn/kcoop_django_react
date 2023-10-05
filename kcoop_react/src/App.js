@@ -102,7 +102,7 @@ import AdminLogin from "./screens/App/Admin/screens/AdminLogin";
 import AdminLayout from "./screens/App/Admin/Layout/AdminLayout";
 import AdminHome from "./screens/App/Admin/screens/AdminHome";
 import AdminNavigate from "./screens/App/Admin/screens/AdminNavigate";
-import AdminEditMember from "./screens/App/Admin/screens/AdminEditMember";
+import AdminEditMember from "./screens/App/Admin/screens/AdminEditMembers/AdminEditMember";
 
 function App() {
   return (

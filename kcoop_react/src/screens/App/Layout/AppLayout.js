@@ -4,7 +4,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import { BASE_URL } from '../../../config';
 
 import jwt_decode from "jwt-decode";
-import NavHeader from '../Nav/NavHeader';
 
 // for autologout
 const events = [

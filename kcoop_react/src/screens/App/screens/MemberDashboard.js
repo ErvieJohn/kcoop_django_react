@@ -536,7 +536,7 @@ const MemberDashboard = (props) => {
                             padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
                 >
                     <ul className='list-app-products'>
-                        <li className='list-products'>
+                        <li className='list-products' style={{maxHeight: "360px", minHeight: "360px"}}>
                             <figure className='figure-cms'>
                                 <center>
                                     <div style={{height: "200px", width: "200px", justifyContent: "center", justifyItems: "center", alignItems: "center"}}>

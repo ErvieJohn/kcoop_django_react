@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useOutletContext } from "react-router-dom";
-import { BASE_URL } from '../../../../config';
+import { BASE_URL } from '../../../../../config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faGear, faSignOut, faUser, faXmark, faExclamationCircle, faSearch, faPlayCircle, faStopCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faGear, faSignOut, faUser, faXmark, faExclamationCircle, faSearch, faPlayCircle, faStopCircle, faFileCircleCheck, faFileCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import jwt_decode from "jwt-decode";
-import LoadingSpinner from '../../../LoadingSpinner';
+import LoadingSpinner from '../../../../LoadingSpinner';
 import './AdminEditMember.css';
+import ActiveProducts from './AdminStatusProducts/ActiveProducts';
+import InactiveProducts from './AdminStatusProducts/InactiveProducts';
+import AdminNavHeader from '../../AdminNavHeader/AdminNavHeader';
 
 function AdminEditMember() {
     const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
@@ -22,6 +25,10 @@ function AdminEditMember() {
     const [products, setProducts] = useState(null);
     const [tags, setTags] = useState(null);
 
+    const [inactiveProducts, setInactiveProducts] = useState(null);
+    const [inactiveCategories, setInactiveCategories] = useState(null);
+    const [inactiveTags, setInactiveTags] = useState(null);
+
     const [isLoading, setIsLoading] = useState(true);
 
     const getMemberProduct = async() => {
@@ -36,10 +43,20 @@ function AdminEditMember() {
               body:JSON.stringify(DataBody)
           })
           let data = await response.json();
-          console.log("response.statusText: ", response.statusText);
+          //console.log("response.statusText: ", response.statusText);
           if(response.status === 200){
            //console.log("data.data: ", data.data);
             setMember(data.userData);
+
+            // Active Products
+            setProducts(data.productsDataActive.products);
+            setCategories(data.productsDataActive.categories);
+            setTags(data.productsDataActive.tags);
+
+            // Inactive Products
+            setInactiveProducts(data.productsDataInactive.products);
+            setInactiveCategories(data.productsDataInactive.categories);
+            setInactiveTags(data.productsDataInactive.tags);
 
             setIsLoading(false);
             
@@ -73,7 +90,7 @@ function AdminEditMember() {
         setButtonActive(true);
     }
 
-    function clickedDeactive(e){
+    function clickedInactive(e){
         e.preventDefault();
         setButtonActive(false);
     }
@@ -89,7 +106,7 @@ function AdminEditMember() {
 
   return (
     <>
-        <header className='header-background'>
+        {/* <header className='header-background'>
             <div className='app-header'>
                 <div style={{display: "flex"}}>
                     <a href='/app' style={{color: "black"}}>
@@ -151,55 +168,82 @@ function AdminEditMember() {
                 </div>
                 
             </div>
-        </header>
-        <div style={{margin: "0 50px 0 50px"}}>
+        </header> */}
+        <AdminNavHeader toggleLogout={toggleLogout}/>
+        <div>
             {isLoading ? (
                 <LoadingSpinner/>
-            ):(
+                ):(
                 <>
                     {member ? (
                         <>
-                            <div className='content-header'>
-                                <label for="search-product" style={{marginRight: "10px"}}>Search Member's Product:</label> 
-                                <input className='app-input-search' type="text" placeholder={'Search product...'}
-                                    style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>, marginRight: "20px"}}
-                                    value={inputSearch}
-                                    onChange={(text)=>{
-                                        handleOnChangeSearch(text);
-                                        
-                                    }}
-                                />
+                            <div style={{margin: "0 50px 0 50px"}}>
+                                <div className='content-header'>
+                                    <label for="search-product" style={{marginRight: "10px"}}>Search Member's Product:</label> 
+                                    <input className='app-input-search' type="text" placeholder={'Search product...'}
+                                        style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>, marginRight: "20px"}}
+                                        value={inputSearch}
+                                        onChange={(text)=>{
+                                            handleOnChangeSearch(text);
+                                            
+                                        }}
+                                    />
 
-                                <br/>
-                                
-                                <div className='admin-tab-wrapper' style={{marginTop: "10px"}}>
-                                    <button className='admin-tab-button' 
-                                        style={{marginRight: "2px", backgroundColor: buttonActive ? ("white"):("#000"),
-                                                    color: buttonActive ? "black" : "white"}} //, borderBottom: buttonActive ? "none":"1px solid transparent"
-                                        onClick={clickedActive}
-                                    >
-                                        <FontAwesomeIcon icon={faPlayCircle} color={buttonActive ? "black" : "white"}/> Active Products
-                                    </button>
-
-                                    <button className='admin-tab-button' 
-                                        style={{backgroundColor: !buttonActive ? ("white"):("#000"),
-                                                color: !buttonActive ? "black" : "white"}} //, borderBottom: !buttonActive ? "none":"1px solid transparent"
-                                        onClick={clickedDeactive}>
-                                        <FontAwesomeIcon icon={faStopCircle} color={!buttonActive ? "black" : "white"}/> Deactive Products
-                                    </button>
                                     <br/>
+                                    
+                                    <div className='admin-tab-wrapper' style={{marginTop: "10px"}}>
+                                        <button className='admin-tab-button' 
+                                            style={{marginRight: "2px", backgroundColor: buttonActive ? ("white"):("#000"),
+                                                        color: buttonActive ? "black" : "white"}} //, borderBottom: buttonActive ? "none":"1px solid transparent"
+                                            onClick={clickedActive}
+                                        >
+                                            <FontAwesomeIcon icon={faPlayCircle} color={buttonActive ? "black" : "white"}/> Active Products
+                                        </button>
+
+                                        <button className='admin-tab-button' 
+                                            style={{backgroundColor: !buttonActive ? ("white"):("#000"),
+                                                    color: !buttonActive ? "black" : "white"}} //, borderBottom: !buttonActive ? "none":"1px solid transparent"
+                                            onClick={clickedInactive}>
+                                            <FontAwesomeIcon icon={faStopCircle} color={!buttonActive ? "black" : "white"}/> Inactive Products
+                                        </button>
+                                        <br/>
+                                    </div>
                                 </div>
+                                <div style={{width: "100%", borderTop: "1px solid", marginTop: "3px"}}></div>
                             </div>
-                            <div style={{width: "100%", borderTop: "1px solid", marginTop: "3px"}}></div>
-                            <div style={{marginTop: "10px"}}>
+                            
+                            
+                            <div style={{marginTop: "20px"}}>
                                 {buttonActive ? (<>
-                                    <div>
-                                        Active Products
-                                    </div>
+                                    {products.length > 0 ? (
+                                        
+                                        <ActiveProducts activeProducts={products} activeCategories={categories} activeTags={tags} />
+                                        
+                                    ):(
+                                        <div>
+                                            <center style={{marginTop: "30px"}}>
+                                                <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                                                <br/>
+                                                <b>No Active Products Found!</b>
+                                            </center>
+                                        </div>
+                                    )}
+                                    
                                 </>):(<>
-                                    <div>
-                                        Deactive Products
-                                    </div>
+                                    {inactiveProducts.length > 0 ? (
+                                        
+                                        <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} inactiveTags={inactiveTags} />
+                                        
+                                    ):(
+                                        <div>
+                                            <center style={{marginTop: "30px"}}>
+                                                <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                                                <br/>
+                                                <b style={{marginTop: "10px"}}>No Inactive Products Found!</b>
+                                            </center>
+                                        </div>
+                                    )}
+                                    
                                 </>)   
                                 
                                 }

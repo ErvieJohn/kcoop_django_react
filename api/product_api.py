@@ -261,7 +261,7 @@ def getMemberProduct(request):
     username = request.data['username']
     try:
         user = User.objects.filter(username=username).first()
-        print(user)
+        # print(user)
         
     except:
         traceback.print_exc()
@@ -312,38 +312,38 @@ def getMemberProduct(request):
             tagsUser[index]["text"] = tagsUser[index].pop("Tag_name")
             
             
-        ### For Deactive
-        memberProductDeactive = user.tbl_product_set.filter(Product_status="Deactive").order_by('-created_at')
-        serializerDeactive = TBL_ProductSerializer(memberProductDeactive, many=True)
+        ### For Inactive
+        memberProductInactive = user.tbl_product_set.filter(Product_status="Inactive").order_by('-created_at')
+        serializerInactive = TBL_ProductSerializer(memberProductInactive, many=True)
         
-        categoryListDeactive = []
+        categoryListInactive = []
         
-        categoriesDeactive = []
-        for i in range (len(serializerDeactive.data)):
-            if serializerDeactive.data[i]["Category_id"] not in categoryListDeactive:
-                categoryListDeactive.append(serializerDeactive.data[i]["Category_id"])
-                category = TBL_Category.objects.filter(Category_id=serializerDeactive.data[i]["Category_id"])
+        categoriesInactive = []
+        for i in range (len(serializerInactive.data)):
+            if serializerInactive.data[i]["Category_id"] not in categoryListInactive:
+                categoryListInactive.append(serializerInactive.data[i]["Category_id"])
+                category = TBL_Category.objects.filter(Category_id=serializerInactive.data[i]["Category_id"])
                 categorySerializer = TBL_CategorySerializer(category, many=True)
-                categoriesDeactive.append(categorySerializer.data[0])
+                categoriesInactive.append(categorySerializer.data[0])
                 
-        tagListDeactive = []
-        tagsUserDeactive = []
-        for data in serializerDeactive.data:
+        tagListInactive = []
+        tagsUserInactive = []
+        for data in serializerInactive.data:
             for tags in data["Tag"]:
-                if tags not in tagListDeactive:
-                    tagListDeactive.append(tags)
+                if tags not in tagListInactive:
+                    tagListInactive.append(tags)
                     tag = TBL_Tag.objects.filter(Tag_id=tags)
                     tagSerializer = TBL_TagSerializer(tag, many=True)
                     firstTagData = tagSerializer.data[0]
-                    tagsUserDeactive.append(firstTagData)
+                    tagsUserInactive.append(firstTagData)
                     
         # Changing the key to id and text for REACTTAG
-        for index in range (len(tagsUserDeactive)):
-            tagsUserDeactive[index]["id"] = tagsUserDeactive[index].pop("Tag_id")
-            tagsUserDeactive[index]["text"] = tagsUserDeactive[index].pop("Tag_name")
+        for index in range (len(tagsUserInactive)):
+            tagsUserInactive[index]["id"] = tagsUserInactive[index].pop("Tag_id")
+            tagsUserInactive[index]["text"] = tagsUserInactive[index].pop("Tag_name")
         
         return Response({"userData":userData, "productsDataActive": {"products": serializer.data, "categories":categories, "tags": tagsUser}
-                         , "productsDataDeactive": {"products": serializerDeactive.data, "categories":categoriesDeactive, "tags": tagsUserDeactive}})
+                         , "productsDataInactive": {"products": serializerInactive.data, "categories":categoriesInactive, "tags": tagsUserInactive}})
     
     else:
         raise MemberNotFoundException("Member Not Found!")

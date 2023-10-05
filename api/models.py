@@ -134,7 +134,7 @@ class TBL_Product(models.Model):
     Product_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
     Product_image = models.ImageField(null=True, blank=True, default="no_img.jpg")
     Product_title = models.CharField(blank=True, default="")
-    Product_status = models.CharField(null=True, blank=True, default="Activated")
+    Product_status = models.CharField(null=True, blank=True, default="Active")
     Tag = models.ManyToManyField('TBL_Tag')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
