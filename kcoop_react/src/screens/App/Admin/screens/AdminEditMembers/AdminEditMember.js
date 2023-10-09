@@ -97,7 +97,7 @@ function AdminEditMember() {
         sessionStorage.setItem("inActiveTab", false);
     }
 
-
+    // API FOR UPDATING THE STATUS OF THE MEMBERS PRODUCT
     const updateStatus = async(id, status) => {
         var InsertAPIURL = `${BASE_URL}/api/admin/updateMemberProduct/`;
         var DataBody = {username: userParam, product_id: id, status: status}
@@ -124,6 +124,39 @@ function AdminEditMember() {
         setIsLoading(true);
         updateStatus(id, status);
     }
+
+    // API FOR DELETING THE MEMBER'S PRODUCT
+    const deleteMemberProduct = async(id, status) => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/deleteMemberProduct/`;
+        var DataBody = {username: userParam, product_id: id}
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json();
+          //console.log("response.statusText: ", response.statusText);
+          if(response.status === 200){
+            getMemberProduct();
+            
+          }else if(response.statusText === 'Unauthorized'){
+            toggleLogout();
+          }
+    }
+
+    function clickedDelete(e, id){
+        e.preventDefault();
+        var answer = window.confirm("Are you sure do you want to delete this product?");
+        if (answer) {
+            setIsLoading(true);
+            deleteMemberProduct(id);
+        }
+            
+    }
+
 
     useEffect(() =>{
         if(isLoading){
@@ -248,7 +281,7 @@ function AdminEditMember() {
                                     {products.length > 0 ? (
                                         
                                         <ActiveProducts activeProducts={products} activeCategories={categories} 
-                                            activeTags={tags} clickedInactivate={clickedInactivate}/>
+                                            activeTags={tags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}/>
                                         
                                     ):(
                                         <div>
@@ -264,7 +297,7 @@ function AdminEditMember() {
                                     {inactiveProducts.length > 0 ? (
                                         
                                         <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} 
-                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate}/>
+                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}/>
                                         
                                     ):(
                                         <div>

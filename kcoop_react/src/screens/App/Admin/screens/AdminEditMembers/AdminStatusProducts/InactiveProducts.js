@@ -64,7 +64,7 @@ function InactiveProducts(props) {
                                 //</div>onClick={e=>DeleteButton(e, item.Home_id)}
                                 ><FontAwesomeIcon icon={faPencilSquare}/></button>
                             <button className='btn-admin-status' 
-                                //</div>onClick={e=>DeleteButton(e, item.Home_id)}
+                                onClick={e=>props.clickedDelete(e, item.Product_id)}
                                 ><FontAwesomeIcon icon={faTrashCan} /></button>
                         </div>
                       

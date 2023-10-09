@@ -377,3 +377,29 @@ def updateMemberProduct(request):
         else:
             raise MemberNotFoundException("Member Not Found!")    
         
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def deleteMemberProduct(request):
+    if request.data:
+        username = request.data['username']
+        productID = request.data["product_id"]
+
+        try:
+            user = User.objects.filter(username=username).first()
+            # print(user)
+            
+        except:
+            traceback.print_exc()
+            
+        if(user):
+            try:
+                memberProduct = user.tbl_product_set.get(Product_id=productID)
+                memberProduct.delete()
+            except:
+                traceback.print_exc()
+
+            return Response({"detail":"Successfully deleted the product!"})
+        
+        else:
+            raise MemberNotFoundException("Member Not Found!")    

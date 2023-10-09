@@ -72,7 +72,7 @@ function AdminLayout(){
         });
         // logs out user
         toggleLogout();
-        }, 300000); // 300000ms = 5mins. You can change the time.
+        }, 600000); // 600000ms = 10mins. You can change the time.
     };
 
     // this resets the timer if it exists.

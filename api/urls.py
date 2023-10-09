@@ -102,7 +102,6 @@ urlpatterns = [
     path('api/admin/searchMembers/', member_api.searchMembers, name="search_members"), # search members
     path('api/admin/getMemberProduct/', product_api.getMemberProduct, name="Get_MemberProduct"), # Get Member's Products
     path('api/admin/updateMemberProduct/', product_api.updateMemberProduct, name="Update_MemberProduct"), # Update Member's Products
-    
-    
-    
+    path('api/admin/deleteMemberProduct/', product_api.deleteMemberProduct, name="Delete_Member_Product"), # delete Member's Products
+
 ]
