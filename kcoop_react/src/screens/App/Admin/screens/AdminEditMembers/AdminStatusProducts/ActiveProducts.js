@@ -8,9 +8,9 @@ function ActiveProducts(props) {
   const activeCategories = props.activeCategories;
   const activeTags = props.activeTags;
 
-  const [currentListNumber, setCurrentListNumber] = useState(0);
+  const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
 
-  //console.log("activeProducts: ", activeProducts);
+  const [currentListNumber, setCurrentListNumber] = useState(0);
 
   return (
       activeProducts.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
@@ -58,7 +58,7 @@ function ActiveProducts(props) {
 
                         <div style={{margin: "5px 0 0 10px", display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
                             <button className='btn-admin-status' 
-                              //onClick={e=>ActivateButton(e, item.Home_id)}
+                              onClick={e=>props.clickedInactivate(e, item.Product_id, "Inactive")}
                               ><FontAwesomeIcon icon={faStopCircle}/></button>
                             <button className='btn-admin-status' 
                               //</div>onClick={e=>DeleteButton(e, item.Home_id)}

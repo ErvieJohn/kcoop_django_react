@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag } from '@fortawesome/free-solid-svg-icons';
+import { faPlayCircle, faTag, faTrashCan, faPencilSquare } from '@fortawesome/free-solid-svg-icons';
 
 
 function InactiveProducts(props) {
@@ -53,8 +53,20 @@ function InactiveProducts(props) {
                           }
                           
                           {item.Tag.length > 5 ? (<h5>...</h5>):(null)}
-                          
+
                       </div>
+
+                        <div style={{margin: "5px 0 0 10px", display: "flex", justifyContent: "space-between", flexDirection: "row"}}>
+                            <button className='btn-admin-status' 
+                                onClick={e=>props.clickedInactivate(e, item.Product_id, "Active")}
+                                ><FontAwesomeIcon icon={faPlayCircle}/></button>
+                            <button className='btn-admin-status' 
+                                //</div>onClick={e=>DeleteButton(e, item.Home_id)}
+                                ><FontAwesomeIcon icon={faPencilSquare}/></button>
+                            <button className='btn-admin-status' 
+                                //</div>onClick={e=>DeleteButton(e, item.Home_id)}
+                                ><FontAwesomeIcon icon={faTrashCan} /></button>
+                        </div>
                       
                   </figure>
               </li>

@@ -83,16 +83,46 @@ function AdminEditMember() {
         //searchProduct();
     }
 
-    const [buttonActive, setButtonActive] = useState(true);
+    const [buttonActive, setButtonActive] = useState(sessionStorage.getItem("inActiveTab") ? JSON.parse(sessionStorage.getItem("inActiveTab")) : true);
 
     function clickedActive(e){
         e.preventDefault();
         setButtonActive(true);
+        sessionStorage.setItem("inActiveTab", true);
     }
 
     function clickedInactive(e){
         e.preventDefault();
         setButtonActive(false);
+        sessionStorage.setItem("inActiveTab", false);
+    }
+
+
+    const updateStatus = async(id, status) => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/updateMemberProduct/`;
+        var DataBody = {username: userParam, product_id: id, status: status}
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json();
+          //console.log("response.statusText: ", response.statusText);
+          if(response.status === 200){
+            getMemberProduct();
+            
+          }else if(response.statusText === 'Unauthorized'){
+            toggleLogout();
+          }
+    }
+
+    function clickedInactivate(e, id, status){
+        e.preventDefault();
+        setIsLoading(true);
+        updateStatus(id, status);
     }
 
     useEffect(() =>{
@@ -217,7 +247,8 @@ function AdminEditMember() {
                                 {buttonActive ? (<>
                                     {products.length > 0 ? (
                                         
-                                        <ActiveProducts activeProducts={products} activeCategories={categories} activeTags={tags} />
+                                        <ActiveProducts activeProducts={products} activeCategories={categories} 
+                                            activeTags={tags} clickedInactivate={clickedInactivate}/>
                                         
                                     ):(
                                         <div>
@@ -232,7 +263,8 @@ function AdminEditMember() {
                                 </>):(<>
                                     {inactiveProducts.length > 0 ? (
                                         
-                                        <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} inactiveTags={inactiveTags} />
+                                        <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} 
+                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate}/>
                                         
                                     ):(
                                         <div>
