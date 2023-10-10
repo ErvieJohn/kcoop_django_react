@@ -61,7 +61,7 @@ function ActiveProducts(props) {
                               onClick={e=>props.clickedInactivate(e, item.Product_id, "Inactive")}
                               ><FontAwesomeIcon icon={faStopCircle}/></button>
                             <button className='btn-admin-status' 
-                              //onClick={e=>clickedDelete(e, item.Product_id)}
+                              onClick={e=>props.clickedEdit(e, item)}
                               ><FontAwesomeIcon icon={faPencilSquare}/></button>
                             <button className='btn-admin-status' 
                               onClick={e=>props.clickedDelete(e, item.Product_id)}

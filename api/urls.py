@@ -103,5 +103,6 @@ urlpatterns = [
     path('api/admin/getMemberProduct/', product_api.getMemberProduct, name="Get_MemberProduct"), # Get Member's Products
     path('api/admin/updateMemberProduct/', product_api.updateMemberProduct, name="Update_MemberProduct"), # Update Member's Products
     path('api/admin/deleteMemberProduct/', product_api.deleteMemberProduct, name="Delete_Member_Product"), # delete Member's Products
+    path('api/admin/modifyMemberProduct/', product_api.modifyMemberProduct, name="Modify_Member_Product"), # modify Member's Products
 
 ]

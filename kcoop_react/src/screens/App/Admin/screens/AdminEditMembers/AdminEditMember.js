@@ -9,6 +9,8 @@ import './AdminEditMember.css';
 import ActiveProducts from './AdminStatusProducts/ActiveProducts';
 import InactiveProducts from './AdminStatusProducts/InactiveProducts';
 import AdminNavHeader from '../../AdminNavHeader/AdminNavHeader';
+import AdminModifyProduct from '../AdminModal/AdminModifyProduct';
+import axios from 'axios';
 
 function AdminEditMember() {
     const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
@@ -157,6 +159,52 @@ function AdminEditMember() {
             
     }
 
+    const [modalEdit, setModalEdit] = useState(false);
+    const [editProductValue, setEditProductValue] = useState(null);
+
+    function clickedEdit(e, item){
+        e.preventDefault();
+        setModalEdit(!modalEdit);
+        if(!editProductValue){
+            setEditProductValue(item);
+        }
+        else{
+            setEditProductValue(null);
+        }
+    }
+
+    const modifyMemberProduct = async(productID, productTitle, productCategory, productTag, productImage, changedImage) => {
+        let config = {
+            headers:{
+                'Authorization':'Bearer ' + String(adminAuthToken.access)
+            }
+        };
+        const formData = new FormData();
+        formData.append('username', userParam);
+        formData.append('product_id', productID);
+        formData.append('product_title', productTitle);
+        formData.append('category_name', productCategory);
+        formData.append('tags', JSON.stringify(productTag));
+        formData.append('product_image', productImage);
+        formData.append('changedImage', changedImage)
+        
+        
+
+        let response = await axios.post(`${BASE_URL}/api/admin/modifyMemberProduct/`, formData, config);
+
+        //let data = await response.json();
+        //console.log("response.statusText: ", response.statusText);
+        if(response.status === 200){
+            setIsLoading(true);
+            getMemberProduct();
+            setModalEdit(false); // to close the toggle
+            setEditProductValue(null);
+        
+        }else if(response.statusText === 'Unauthorized'){
+            toggleLogout();
+        }
+    }
+
 
     useEffect(() =>{
         if(isLoading){
@@ -281,7 +329,8 @@ function AdminEditMember() {
                                     {products.length > 0 ? (
                                         
                                         <ActiveProducts activeProducts={products} activeCategories={categories} 
-                                            activeTags={tags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}/>
+                                            activeTags={tags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}
+                                            clickedEdit={clickedEdit}/>
                                         
                                     ):(
                                         <div>
@@ -328,6 +377,10 @@ function AdminEditMember() {
             )}
         </div>
 
+        {modalEdit && (
+            <AdminModifyProduct modalToggle={clickedEdit} item={editProductValue} 
+                categories={categories} tags={tags} modifyMemberProduct={modifyMemberProduct}/>
+        )}
     </>
     
   )

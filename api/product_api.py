@@ -403,3 +403,73 @@ def deleteMemberProduct(request):
         
         else:
             raise MemberNotFoundException("Member Not Found!")    
+        
+        
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def modifyMemberProduct(request):
+    if request.data:
+        username = request.data['username']
+        productID = request.data["product_id"]
+        
+        category_name = request.data["category_name"]
+        tags = json.loads(request.data["tags"])
+        
+        product_image = request.data['product_image']
+        changedImage = json.loads(request.data['changedImage'])
+        product_title = request.data['product_title']
+        
+        
+        
+        category_exist = TBL_Category.objects.filter(Category_name=category_name).exists()
+        
+        # Check if Category is not exists create category
+        if(not category_exist):
+            gen_uuid = str(uuid.uuid4())
+            # print(type(gen_uuid))
+            try:
+                createCategory = TBL_Category.objects.create(Category_id = gen_uuid, Category_name=category_name)
+            except:
+                traceback.print_exc()
+        
+        category = TBL_Category.objects.get(Category_name=category_name)            
+
+
+        try:
+            user = User.objects.filter(username=username).first()
+            # print(user)
+            
+        except:
+            traceback.print_exc()
+            
+        if(user):
+            try:
+                memberProduct = user.tbl_product_set.get(Product_id=productID)
+                memberProduct.Product_title = product_title
+                memberProduct.Category_id = category
+            
+                print("changedImage: ", changedImage)
+                if(changedImage):
+                    print("READDDD?")
+                    memberProduct.Product_image = product_image
+                    
+                memberProduct.Tag.set([])
+                
+                for i in tags:
+                    tag_exist = TBL_Tag.objects.filter(Tag_name=i["text"]).exists()
+                    if(not tag_exist):
+                        genTag_id = str(uuid.uuid4())
+                        createTag = TBL_Tag.objects.create(Tag_id=genTag_id, Tag_name=i["text"])
+                    else:
+                        createTag = TBL_Tag.objects.get(Tag_name=i["text"])
+                        
+                    memberProduct.Tag.add(createTag)
+                
+                memberProduct.save()
+            except:
+                traceback.print_exc()
+
+            return Response({"detail":"Successfully modified the product!"})
+        
+        else:
+            raise MemberNotFoundException("Member Not Found!")    
