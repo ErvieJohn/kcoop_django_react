@@ -11,10 +11,12 @@ import { faAdd, faClose, faEye, faEyeSlash, faPencilSquare, faExclamationCircle 
 import './AdminModifyProduct.css';
 
 function AdminModifyProduct(props) {
+    const isActiveTab= useState(sessionStorage.getItem("inActiveTab") ? JSON.parse(sessionStorage.getItem("inActiveTab")) : true);
+
     const product = props.item;
     const [title, setTitle] = useState(product.Product_title);
 
-    const categories = props.categories;
+    const categories = !isActiveTab ? props.categories : props.inactiveCategories;
     const categoryValue = useRef(null);
     const [category, setCategory] = useState((categories.filter(item=> product.Category_id === item.Category_id))[0].Category_name);
     function categoryOnChange(e){
@@ -26,7 +28,7 @@ function AdminModifyProduct(props) {
         setErrorText(errorText);
     }
 
-    const tags = props.tags;
+    const tags = !isActiveTab ? props.tags : props.inactiveTags;
 
     const [tag, setTag] = useState(()=>{
         let tagValue = [];

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faPencilSquare, faPlayCircle, faStopCircle, faTag, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faPencilSquare, faPlayCircle, faStopCircle, faTag, faTrashCan, 
+    faAngleDoubleLeft, faAngleLeft, faAngleDoubleRight, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import './AdminStatusProducts.css';
 
 function ActiveProducts(props) {
@@ -11,9 +12,11 @@ function ActiveProducts(props) {
   const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
 
   const [currentListNumber, setCurrentListNumber] = useState(0);
+  const [currentPage, setCurrentPage] =  useState(1);
 
   return (
-      activeProducts.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
+    <>
+      {activeProducts.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
         <div 
             style={{borderRadius: "10px", backgroundColor: "#fff", 
                     padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
@@ -72,10 +75,123 @@ function ActiveProducts(props) {
                 </li>
             </ul>
         </div>
+        ))} 
+        
+        <br style={{clear:"both"}}/>
+        <div style={{marginTop: "30px"}}>
+            <center>
+                {/* {pageNumbers} */}
 
+                {activeProducts ? (
+                    <div className="page-buttons-wrapper" style={{display: "flex", flexWrap: "wrap", 
+                    flexDirection: "row", justifyContent: "center", alignItems: "center"
+                }}>
+                        {(() => {
+                            const pagesnum = [];
+                            
+                            let maxPages = parseInt(activeProducts.length / 12)
+                            if(activeProducts.length / 12 > maxPages){
+                                maxPages += 1;
+                            }
+                            //console.log(maxPages);
+
+                            pagesnum.push(
+                            <>
+                                <div>
+                                    <button disabled={currentPage === 1 ? (true) : (false)}
+                                    style={{marginRight:"10px", border: "none", backgroundColor: "transparent", color: currentPage === 1 ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(1);
+                                                    setCurrentListNumber(0);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleDoubleLeft} size='2x'/>
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <button disabled={currentPage > 1 ? (false) : (true)}
+                                    style={{marginRight:"10px", border: "none", backgroundColor: "transparent", color: !(currentPage > 1) ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(currentPage-1);
+                                                    setCurrentListNumber(currentListNumber-12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleLeft} size='2x'/> 
+                                    </button>
+                                </div>
+                            </>
+                            )
+
+                            //for(let i=0;i < maxPages; i++){ // limit to 12 products per page
+                            for(let i=(currentPage-2); i < currentPage+1; i++){
+                                if(i<=-1 || i>=maxPages){
+                                    pagesnum.push(
+                                        <button style={{marginRight: "10px", border: "none", backgroundColor: "transparent", 
+                                        borderRadius: "50%", width: "50px", height: "50px"}}
+                                        disabled={true}>{"  "}</button>
+                                    )
+                                }
+                                else{
+                                    pagesnum.push(
+                                        <button style={{marginRight: "10px", borderRadius: "50%", width: "50px", 
+                                            height: "50px", border: i+1 === currentPage ? ("0px solid black"):("5px solid black")}}
+                                            key={i}
+                                            onClick={(event)=>{
+                                                event.target.disabled = true;
+                                                setCurrentPage(i+1);
+                                                setCurrentListNumber(((i+1)*12)-12);
+                                                //console.log("index button: ", i+1, currentPage, currentListNumber);
+                                                }}
+                                            disabled={i+1 === currentPage ? (true):(false)}
+                                            >
+                                                    
+                                                {i+1}
+                                        </button>)
+                                }
+                                
+                            }
+
+                            pagesnum.push(
+                            <>
+                                <div>
+                                    <button disabled={maxPages === currentPage ? (true) : (false)}
+                                    style={{marginLeft:"10px", border: "none", backgroundColor: "transparent", color: maxPages === currentPage ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(currentPage+1);
+                                                    setCurrentListNumber(currentListNumber+12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleRight} size='2x'/>
+                                    </button>
+                                </div>
+                                <div>
+                                    
+                                    <button disabled={currentPage === maxPages ? (true) : (false)}
+                                    style={{marginLeft:"10px", border: "none", backgroundColor: "transparent", color: currentPage === maxPages ? ("gray"):("black")}}
+                                    onClick={()=>{setCurrentPage(maxPages);
+                                                    setCurrentListNumber((maxPages)*12 - 12);
+                                                    //console.log("cur button: ", currentPage);
+                                                    //console.log("products length: ", products.length);
+                                                }}>
+                                        <FontAwesomeIcon icon={faAngleDoubleRight} size='2x'/> 
+                                    </button>
+                                </div>
+                            </>
+                            )
+
+                            return pagesnum;
+
+                        })()}
+                    </div>
+                    
+                ): (
+                    null
+                )}
             
-        ))
-    
+            </center>
+        </div>
+    </>  
   )
 }
 

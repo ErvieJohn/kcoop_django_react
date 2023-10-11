@@ -346,7 +346,8 @@ function AdminEditMember() {
                                     {inactiveProducts.length > 0 ? (
                                         
                                         <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} 
-                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}/>
+                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate} 
+                                            clickedDelete={clickedDelete} clickedEdit={clickedEdit}/>
                                         
                                     ):(
                                         <div>
@@ -379,7 +380,8 @@ function AdminEditMember() {
 
         {modalEdit && (
             <AdminModifyProduct modalToggle={clickedEdit} item={editProductValue} 
-                categories={categories} tags={tags} modifyMemberProduct={modifyMemberProduct}/>
+                categories={categories} tags={tags} modifyMemberProduct={modifyMemberProduct} 
+                inactiveCategories={inactiveCategories} inactiveTags={inactiveTags} />
         )}
     </>
     
