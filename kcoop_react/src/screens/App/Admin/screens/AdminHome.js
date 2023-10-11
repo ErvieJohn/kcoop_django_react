@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import jwt_decode from "jwt-decode";
 
 import ReactTable from "react-table-6";  
@@ -27,6 +27,40 @@ function AdminHome(props) {
 
     function handleSearchByChange(e) {
         setSearchByValue(e.target.value);
+    }
+
+    const deleteMember = async(username) => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/deleteMember/`;
+        var DataBody = {username: username}
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
+              },
+              body:JSON.stringify(DataBody)
+          })
+          
+    
+          if(response.status === 200){
+            searchMembers();
+            setIsLoading(false);
+            
+          }else {
+            // if(response.statusText === 'Unauthorized'){
+            props.logout();
+          }
+    }
+
+    function clickedDeleteUser(e, username){
+        e.preventDefault();
+
+        var answer = window.confirm("Do you want to delete this member?");
+        if (answer) {
+            setIsLoading(true);
+            deleteMember(username);
+        }
+        
     }
 
     var columns = [];
@@ -65,22 +99,38 @@ function AdminHome(props) {
         Header: 'Email',  
         accessor: 'Email',
         sortable: false,
-        maxWidth: 400,
-        width: 400,  
+        maxWidth: 280,
+        width: 280,  
         Cell: row => (
             <div style={{ textAlign: "center" }}>{row.value}</div>
             )
         }
         ,{  
-        Header: 'Date Joined',  
-        accessor: 'DateJoined',
-        sortable: true,
-        maxWidth: 220,
-        width: 220,
-        Cell: row => (
-            <div style={{ textAlign: "center" }}>{row.value}</div>
-          )
-        }];
+            Header: 'Date Joined',  
+            accessor: 'DateJoined',
+            sortable: true,
+            maxWidth: 220,
+            width: 220,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>{row.value}</div>
+            )
+        }
+        ,{  
+            Header: 'Delete',  
+            accessor: 'Username',
+            sortable: false,
+            maxWidth: 120,
+            width: 120,
+            Cell: row => (
+                <div style={{ textAlign: "center" }}>
+                    <button className='btn-admin-status' 
+                        onClick={e=>clickedDeleteUser(e, row.value)}
+                        ><FontAwesomeIcon icon={faTrashCan} /></button>               
+                </div>
+                
+            )
+        }
+    ];
 
     const getMembers = async() => {
         var InsertAPIURL = `${BASE_URL}/api/admin/getMembers/`;

@@ -151,7 +151,7 @@ function AdminEditMember() {
 
     function clickedDelete(e, id){
         e.preventDefault();
-        var answer = window.confirm("Are you sure do you want to delete this product?");
+        var answer = window.confirm("Do you want to delete this product?");
         if (answer) {
             setIsLoading(true);
             deleteMemberProduct(id);

@@ -20,6 +20,9 @@ from rest_framework.exceptions import APIException
 from datetime import datetime
 from dateutil import tz
 
+import jwt
+from rest_framework_jwt.utils import jwt_decode_handler
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
@@ -38,6 +41,9 @@ class UpdateErrorException(APIException):
     default_detail = ""
         #default_detail = "Email already exist."
     
+class UnauthorizedException(APIException):
+    status_code = 401
+    default_detail = "Not logged in"
 
 @api_view(['POST']) #@permission_classes([IsAuthenticated])
 def updateMember(request):
@@ -178,3 +184,31 @@ def searchMembers(request):
                             "Email":member.email, "DateJoined": dateAndTime }) #member.date_joined})
     
     return Response({"data":membersData})
+
+
+@api_view(['POST']) 
+@permission_classes([IsAuthenticated])
+def deleteMember(request):
+    if request.data:
+        token = request.META.get('HTTP_AUTHORIZATION').split(' ')
+        token = token[1]
+        tokenDecode = jwt_decode_handler(token)
+        
+        isAdmin = User.objects.filter(username = tokenDecode["username"], groups__name = 'Members_Admin').exists()
+
+        if(isAdmin): 
+            username = request.data["username"]
+            #print("username: ", username)
+            
+            user = User.objects.filter(username=username).first()
+            
+            if(user):
+                user.delete()
+                
+                return Response({"detail":"Successfully deleted the member {}!".format(username)})
+                
+            else:
+                raise UnauthorizedException
+        
+        else:
+            raise UnauthorizedException
