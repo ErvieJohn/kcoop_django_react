@@ -105,4 +105,6 @@ urlpatterns = [
     path('api/admin/deleteMemberProduct/', product_api.deleteMemberProduct, name="Delete_Member_Product"), # delete Member's Products
     path('api/admin/modifyMemberProduct/', product_api.modifyMemberProduct, name="Modify_Member_Product"), # modify Member's Products
     path('api/admin/deleteMember/', member_api.deleteMember, name="Delete_Member"), # delete member 
+    path('api/admin/searchProduct/', product_api.searchProduct, name="Search_Product"), # search Product
+    
 ]

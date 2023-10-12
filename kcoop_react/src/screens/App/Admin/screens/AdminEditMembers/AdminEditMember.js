@@ -33,6 +33,10 @@ function AdminEditMember() {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    var [selectedCategory, setSelectedCategory] = useState([]);
+    var [selectedTags, setSelectedTags] = useState([]);
+    const [inputProduct, setInputProduct] = useState("");
+
     const getMemberProduct = async() => {
         var InsertAPIURL = `${BASE_URL}/api/admin/getMemberProduct/`;
         var DataBody = {username: userParam}
@@ -67,13 +71,6 @@ function AdminEditMember() {
           }
     }
 
-    // FOR USER DROPDOWN
-    const [dropdown, setDropdown] = useState(false);
-    const [hoverDropdown, setHoverDropdown] = useState(false);
-    
-    function clickedDropdown(){
-        setDropdown(!dropdown);
-    }
 
     var [inputSearch, setInputSearch] = useState("");
     const [searchLoading, setSearchLoading] = useState(true);
@@ -81,6 +78,9 @@ function AdminEditMember() {
     function handleOnChangeSearch(text){
         inputSearch = text.target.value;
         setInputSearch(inputSearch);
+
+        setIsLoading(true);
+        searchProduct();
         //setSearchLoading(false);
         //searchProduct();
     }
@@ -206,6 +206,44 @@ function AdminEditMember() {
     }
 
 
+    const searchProduct = async() => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/searchProduct/`;
+        var DataBody = {username: userParam,input_search: inputSearch, categories: selectedCategory, selected_tags: JSON.stringify(selectedTags)};
+        //console.log("DataBody: ", DataBody);
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json()
+    
+          if(response.status === 200){
+            //console.log("data.data: ", data.data);
+             setMember(data.userData);
+ 
+             // Active Products
+             setProducts(data.productsDataActive.products);
+             setCategories(data.productsDataActive.categories);
+             setTags(data.productsDataActive.tags);
+ 
+             // Inactive Products
+             setInactiveProducts(data.productsDataInactive.products);
+             setInactiveCategories(data.productsDataInactive.categories);
+             setInactiveTags(data.productsDataInactive.tags);
+ 
+             setIsLoading(false);
+             
+           }else if(response.statusText === 'Unauthorized'){
+             toggleLogout();
+           } 
+
+            setIsLoading(false);
+    }
+
+
     useEffect(() =>{
         if(isLoading){
             getMemberProduct();
@@ -282,9 +320,7 @@ function AdminEditMember() {
         </header> */}
         <AdminNavHeader toggleLogout={toggleLogout}/>
         <div>
-            {isLoading ? (
-                <LoadingSpinner/>
-                ):(
+            
                 <>
                     {member ? (
                         <>
@@ -323,46 +359,50 @@ function AdminEditMember() {
                                 <div style={{width: "100%", borderTop: "1px solid", marginTop: "3px"}}></div>
                             </div>
                             
+                            {isLoading ? (
+                                <LoadingSpinner/>
+                            ):(
+                                <div style={{marginTop: "20px"}}>
+                                    {buttonActive ? (<>
+                                        {products.length > 0 ? (
+                                            
+                                            <ActiveProducts activeProducts={products} activeCategories={categories} 
+                                                activeTags={tags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}
+                                                clickedEdit={clickedEdit}/>
+                                            
+                                        ):(
+                                            <div>
+                                                <center style={{marginTop: "30px"}}>
+                                                    <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                                                    <br/>
+                                                    <b>No Active Products Found!</b>
+                                                </center>
+                                            </div>
+                                        )}
+                                        
+                                    </>):(<>
+                                        {inactiveProducts.length > 0 ? (
+                                            
+                                            <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} 
+                                                inactiveTags={inactiveTags} clickedInactivate={clickedInactivate} 
+                                                clickedDelete={clickedDelete} clickedEdit={clickedEdit}/>
+                                            
+                                        ):(
+                                            <div>
+                                                <center style={{marginTop: "30px"}}>
+                                                    <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
+                                                    <br/>
+                                                    <b style={{marginTop: "10px"}}>No Inactive Products Shown!</b>
+                                                </center>
+                                            </div>
+                                        )}
+                                        
+                                    </>)   
+                                    
+                                    }
+                                </div>
+                            )}
                             
-                            <div style={{marginTop: "20px"}}>
-                                {buttonActive ? (<>
-                                    {products.length > 0 ? (
-                                        
-                                        <ActiveProducts activeProducts={products} activeCategories={categories} 
-                                            activeTags={tags} clickedInactivate={clickedInactivate} clickedDelete={clickedDelete}
-                                            clickedEdit={clickedEdit}/>
-                                        
-                                    ):(
-                                        <div>
-                                            <center style={{marginTop: "30px"}}>
-                                                <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
-                                                <br/>
-                                                <b>No Active Products Found!</b>
-                                            </center>
-                                        </div>
-                                    )}
-                                    
-                                </>):(<>
-                                    {inactiveProducts.length > 0 ? (
-                                        
-                                        <InactiveProducts inactiveProducts={inactiveProducts} inactiveCategories={inactiveCategories} 
-                                            inactiveTags={inactiveTags} clickedInactivate={clickedInactivate} 
-                                            clickedDelete={clickedDelete} clickedEdit={clickedEdit}/>
-                                        
-                                    ):(
-                                        <div>
-                                            <center style={{marginTop: "30px"}}>
-                                                <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
-                                                <br/>
-                                                <b style={{marginTop: "10px"}}>No Inactive Products Found!</b>
-                                            </center>
-                                        </div>
-                                    )}
-                                    
-                                </>)   
-                                
-                                }
-                            </div>
                         </>
 
                     ):(
@@ -375,7 +415,7 @@ function AdminEditMember() {
                     )}
                     
                 </>
-            )}
+            
         </div>
 
         {modalEdit && (

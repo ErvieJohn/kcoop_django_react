@@ -473,3 +473,129 @@ def modifyMemberProduct(request):
         
         else:
             raise MemberNotFoundException("Member Not Found!")    
+        
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def searchProduct(request):
+    user = request.data['username']
+    search = request.data['input_search']
+    tags = json.loads(request.data['selected_tags'])
+    selectedCategory = request.data['categories']
+
+    try:
+        user = User.objects.filter(username=user).first()
+        # print(user)
+        
+        if(user):
+            ### FOR DATE TIME FORMAT
+            dateAndTime = str(user.date_joined) # convert time to string
+            dateAndTime = dateAndTime.replace('T', ' ').replace('Z','') # remove the T and Z
+            dateAndTime = dateAndTime[:19] # get only date and time
+            
+            dateAndTime = datetime.strptime(dateAndTime, '%Y-%m-%d %H:%M:%S') # convert to datetime type
+            dateAndTime = dateAndTime.replace(tzinfo=tz.tzutc()) # change with utc
+            
+            dateAndTime = dateAndTime.astimezone(tz.tzlocal()) # convert the utc
+            dateAndTime = dateAndTime.strftime("%Y-%m-%d %I:%M:%S %p") # convert the datetime YYYY-MM-DD hh:mm:ss PP
+            
+            userData = {"Username":user.username, "FirstName":user.first_name, "LastName":user.last_name,
+                                    "Email":user.email, "DateJoined": dateAndTime }
+            
+        
+            memberProductActive = user.tbl_product_set.filter(Product_status="Active", User_id=user, Product_title__contains = search).order_by('Product_title')
+            
+            if(len(selectedCategory)>0):
+                memberProductActive = memberProductActive.filter(Category_id__in=selectedCategory)
+
+            tagsID = []
+            if(len(tags)>0):
+                for tag in tags:
+                    if(is_valid_uuid(tag["id"])):
+                        tagsID.append(tag["id"])
+
+                memberProductActive = memberProductActive.filter(Tag__in = tagsID)
+            
+            serializer = TBL_ProductSerializer(memberProductActive, many=True)
+            
+            categoryList = []
+            
+            categories = []
+            for i in range (len(serializer.data)):
+                if serializer.data[i]["Category_id"] not in categoryList:
+                    categoryList.append(serializer.data[i]["Category_id"])
+                    category = TBL_Category.objects.filter(Category_id=serializer.data[i]["Category_id"])
+                    categorySerializer = TBL_CategorySerializer(category, many=True)
+                    categories.append(categorySerializer.data[0])
+                    
+            tagList = []
+            tagsUser = []
+            for data in serializer.data:
+                for tagsInactive in data["Tag"]:
+                    if tagsInactive not in tagList:
+                        tagList.append(tagsInactive)
+                        tag = TBL_Tag.objects.filter(Tag_id=tagsInactive)
+                        tagSerializer = TBL_TagSerializer(tag, many=True)
+                        firstTagData = tagSerializer.data[0]
+                        tagsUser.append(firstTagData)
+                        
+            # Changing the key to id and text for REACTTAG
+            for index in range (len(tagsUser)):
+                tagsUser[index]["id"] = tagsUser[index].pop("Tag_id")
+                tagsUser[index]["text"] = tagsUser[index].pop("Tag_name")
+                
+                
+            ### For Inactive
+            memberProductInactive = user.tbl_product_set.filter(Product_status="Inactive", User_id=user, Product_title__contains = search).order_by('-created_at')
+            if(len(selectedCategory)>0):
+                memberProductActive = memberProductActive.filter(Category_id__in=selectedCategory)
+                
+         
+            tagsID = []
+            if(len(tags)>0):
+                for tag in tags:
+                    if(is_valid_uuid(tag["id"])):
+                        tagsID.append(tag["id"])
+
+                memberProductActive = memberProductActive.filter(Tag__in = tagsID)
+            
+            serializerInactive = TBL_ProductSerializer(memberProductInactive, many=True)
+            
+            categoryListInactive = []
+            
+            categoriesInactive = []
+            for i in range (len(serializerInactive.data)):
+                if serializerInactive.data[i]["Category_id"] not in categoryListInactive:
+                    categoryListInactive.append(serializerInactive.data[i]["Category_id"])
+                    category = TBL_Category.objects.filter(Category_id=serializerInactive.data[i]["Category_id"])
+                    categorySerializer = TBL_CategorySerializer(category, many=True)
+                    categoriesInactive.append(categorySerializer.data[0])
+                    
+            tagListInactive = []
+            tagsUserInactive = []
+            for data in serializerInactive.data:
+                for tags in data["Tag"]:
+                    if tags not in tagListInactive:
+                        tagListInactive.append(tags)
+                        tag = TBL_Tag.objects.filter(Tag_id=tags)
+                        tagSerializer = TBL_TagSerializer(tag, many=True)
+                        firstTagData = tagSerializer.data[0]
+                        tagsUserInactive.append(firstTagData)
+                        
+            # Changing the key to id and text for REACTTAG
+            for index in range (len(tagsUserInactive)):
+                tagsUserInactive[index]["id"] = tagsUserInactive[index].pop("Tag_id")
+                tagsUserInactive[index]["text"] = tagsUserInactive[index].pop("Tag_name")
+            
+            return Response({"userData":userData, "productsDataActive": {"products": serializer.data, "categories":categories, "tags": tagsUser}
+                            , "productsDataInactive": {"products": serializerInactive.data, "categories":categoriesInactive, "tags": tagsUserInactive}})
+        
+        else:
+            raise MemberNotFoundException("Member Not Found!")
+        
+    except:
+        traceback.print_exc()
+      
+    
+    
+        
