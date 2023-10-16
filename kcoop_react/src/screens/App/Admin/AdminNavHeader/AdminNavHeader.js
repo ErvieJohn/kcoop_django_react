@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faUserFriends, faUserGroup, faUserSecret, faXmark } from '@fortawesome/free-solid-svg-icons';
 import jwt_decode from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
 
 function AdminNavHeader(props) {
     const [admin, setAdmin] = useState(()=> localStorage.getItem('adminAuthToken') ? jwt_decode(localStorage.getItem('adminAuthToken')) : null);
@@ -12,6 +13,16 @@ function AdminNavHeader(props) {
 
     function clickedDropdown(){
         setDropdown(!dropdown);
+    }
+
+    const navigate = useNavigate();
+
+    function toggleMemberActivityLog(){
+        navigate('/app/admin/MemberActivityLog');
+    }
+
+    function toggleAdminActivityLog(){
+        navigate('/app/admin/AdminActivityLog');
     }
     
   return (
@@ -50,7 +61,7 @@ function AdminNavHeader(props) {
                         (<FontAwesomeIcon icon={faAngleDown} style={{marginLeft:"10px"}}/>)}
                     </button>
                     
-                    <div class="dropdown-profile" style={{display: hoverDropdown ? ("flex"):("none")}}
+                    <div class="dropdown-profile" style={{display: hoverDropdown ? ("flex"):("none"), width: "200px"}}
                         onMouseOver={(e) => {
                             e.preventDefault();
                             setHoverDropdown(true);
@@ -66,7 +77,16 @@ function AdminNavHeader(props) {
                         {/* <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
                         // onClick={toggleSettingModal}
                         > <FontAwesomeIcon icon={faGear}/> My Profile</button> */}
+                        
+                        <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
+                        onClick={toggleMemberActivityLog}
+                        > <FontAwesomeIcon icon={faUserGroup}/> Member Activity Logs</button> 
+                        <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
+                        onClick={toggleAdminActivityLog}
+                        > <FontAwesomeIcon icon={faUserSecret}/> Admin Activity Logs</button> 
                         <button className="dropdown-profile-btn" style={{borderRadius: "0 0 8px 8px"}} onClick={props.toggleLogout}> <FontAwesomeIcon icon={faSignOut}/> Logout</button>
+                        
+                    
                     </div> 
                 </div>
                 

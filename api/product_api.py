@@ -62,6 +62,10 @@ def registerMember(request):
                     getUser = User.objects.get(username=username)
                     groupMember = Group.objects.get(name='Members') 
                     groupMember.user_set.add(getUser)
+                    
+                    gen_uuid = str(uuid.uuid4())
+                    createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=username,
+                        MemberAuditTrail_activity= username + " has been created", MemberAuditTrail_action="Create")
                 
                 except:
                     traceback.print_exc()
@@ -113,7 +117,6 @@ def insertProduct(request):
         try:
             createProduct = TBL_Product.objects.create(User_id=user, Category_id=categ, Product_id=genProduct_id, Product_image=product_image, Product_title=product_title, Product_status="Active")
             
-            
             for i in tags:
                 tag_exist = TBL_Tag.objects.filter(Tag_name=i["text"]).exists()
                 if(not tag_exist):
@@ -123,6 +126,10 @@ def insertProduct(request):
                     createTag = TBL_Tag.objects.get(Tag_name=i["text"])
                     
                 createProduct.Tag.add(createTag)
+                
+            gen_uuid = str(uuid.uuid4())
+            createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=username,
+                MemberAuditTrail_activity= "Created a product titled " + product_title, MemberAuditTrail_action="Create")
         
         except:
             traceback.print_exc()
@@ -369,6 +376,11 @@ def updateMemberProduct(request):
                 memberProduct = user.tbl_product_set.get(Product_id=productID)
                 memberProduct.Product_status = status
                 memberProduct.save()
+                
+                gen_uuid = str(uuid.uuid4())
+                createAdminAuditTrail = AdminAuditTrail.objects.create(AdminAuditTrail_id = gen_uuid, AdminAuditTrail_user=request.user,
+                    AdminAuditTrail_activity= "Updated the status of " + memberProduct.Product_title + " to " + status, AdminAuditTrail_action="Update")
+                
             except:
                 traceback.print_exc()
 
@@ -396,6 +408,11 @@ def deleteMemberProduct(request):
             try:
                 memberProduct = user.tbl_product_set.get(Product_id=productID)
                 memberProduct.delete()
+                
+                gen_uuid = str(uuid.uuid4())
+                createAdminAuditTrail = AdminAuditTrail.objects.create(AdminAuditTrail_id = gen_uuid, AdminAuditTrail_user=request.user,
+                    AdminAuditTrail_activity= "Deleted the product titled " + memberProduct.Product_title  + " of member named " + username, AdminAuditTrail_action="Delete")
+                
             except:
                 traceback.print_exc()
 
@@ -447,10 +464,8 @@ def modifyMemberProduct(request):
                 memberProduct = user.tbl_product_set.get(Product_id=productID)
                 memberProduct.Product_title = product_title
                 memberProduct.Category_id = category
-            
-                print("changedImage: ", changedImage)
-                if(changedImage):
-                    print("READDDD?")
+
+                if(changedImage):    
                     memberProduct.Product_image = product_image
                     
                 memberProduct.Tag.set([])
@@ -466,6 +481,11 @@ def modifyMemberProduct(request):
                     memberProduct.Tag.add(createTag)
                 
                 memberProduct.save()
+                
+                gen_uuid = str(uuid.uuid4())
+                createAdminAuditTrail = AdminAuditTrail.objects.create(AdminAuditTrail_id = gen_uuid, AdminAuditTrail_user=request.user,
+                    AdminAuditTrail_activity= "Updated the product titled " + memberProduct.Product_title + " of member named " +  username, AdminAuditTrail_action="Update")
+                
             except:
                 traceback.print_exc()
 

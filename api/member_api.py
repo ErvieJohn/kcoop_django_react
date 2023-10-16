@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 
 
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainPairSerializer, adminMyTokenObtainPairSerializer
+from .member_serializer import MyTokenObtainPairSerializer, memberMyTokenObtainPairSerializer, adminMyTokenObtainPairSerializer, AdminAuditTrailSerializer, MemberAuditTrailSerializer
 
 from rest_framework.exceptions import APIException
 
@@ -98,6 +98,11 @@ def memberUpdater(username, password, firstName, lastName, email, newPassword):
                 
                 u.set_password(newPassword)
                 u.save()
+                
+                gen_uuid = str(uuid.uuid4())
+                createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=saveUser.username,
+                        MemberAuditTrail_activity= saveUser.username + " update the details", MemberAuditTrail_action="Update")
+                
                 data = "Your details has been updated!"
                 Error = False
                 
@@ -105,6 +110,11 @@ def memberUpdater(username, password, firstName, lastName, email, newPassword):
                 if(saveUser.first_name != firstName or saveUser.last_name != lastName or 
                         saveUser.email != email):
                     u.save()
+                    
+                    gen_uuid = str(uuid.uuid4())
+                    createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=saveUser.username,
+                            MemberAuditTrail_activity= saveUser.username + " update the details", MemberAuditTrail_action="Update")
+                    
                     data = "Your details has been updated!"
                     Error = False
                     
@@ -190,12 +200,16 @@ def searchMembers(request):
 @permission_classes([IsAuthenticated])
 def deleteMember(request):
     if request.data:
-        token = request.META.get('HTTP_AUTHORIZATION').split(' ')
-        token = token[1]
-        tokenDecode = jwt_decode_handler(token)
+        # token = request.META.get('HTTP_AUTHORIZATION').split(' ')
+        # token = token[1]
+        # tokenDecode = jwt_decode_handler(token)
         
-        isAdmin = User.objects.filter(username = tokenDecode["username"], groups__name = 'Members_Admin').exists()
-
+        # isAdmin = User.objects.filter(username = tokenDecode["username"], groups__name = 'Members_Admin').exists()
+        userAdmin = request.user
+        isAdmin = userAdmin.groups.filter(name='Members_Admin').exists()
+        
+        
+        print(isAdmin)
         if(isAdmin): 
             username = request.data["username"]
             #print("username: ", username)
@@ -205,6 +219,10 @@ def deleteMember(request):
             if(user):
                 user.delete()
                 
+                gen_uuid = str(uuid.uuid4())
+                createAdminAuditTrail = AdminAuditTrail.objects.create(AdminAuditTrail_id = gen_uuid, AdminAuditTrail_user=userAdmin,
+                        AdminAuditTrail_activity= "Deleted the " + username, AdminAuditTrail_action="Delete")
+                
                 return Response({"detail":"Successfully deleted the member {}!".format(username)})
                 
             else:
@@ -212,3 +230,147 @@ def deleteMember(request):
         
         else:
             raise UnauthorizedException
+
+
+@api_view(['POST']) 
+def logoutMember(request):
+    if request.data:
+        gen_uuid = str(uuid.uuid4())
+        createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=request.data["username"],
+                MemberAuditTrail_activity= request.data["username"] + " Logged Out ", MemberAuditTrail_action="Logout")
+        
+        return Response({"detail": request.data["username"] + " Logged Out"})
+        
+@api_view(['POST']) 
+def logoutAdmin(request):
+    if request.data:
+        gen_uuid = str(uuid.uuid4())
+        createAdminAuditTrail = AdminAuditTrail.objects.create(AdminAuditTrail_id = gen_uuid, AdminAuditTrail_user=request.data["username"],
+                AdminAuditTrail_activity= request.data["username"] + " Logged Out ", AdminAuditTrail_action="Logout")
+        
+        return Response({"detail": request.data["username"] + " Logged Out"})
+    
+    
+@api_view(['GET']) 
+@permission_classes([IsAuthenticated])
+def adminActivityLog(request):  
+    try:
+        user = request.user
+        isAdmin = user.groups.filter(name='Members_Admin').exists()
+        if(isAdmin):
+            activityLogs = AdminAuditTrail.objects.all().order_by('-AdminAuditTrail_date', '-AdminAuditTrail_time')
+            serializer = AdminAuditTrailSerializer(activityLogs, many=True)
+            
+            for i in range(len(serializer.data)):
+                t_str = str(serializer.data[i]["AdminAuditTrail_time"])
+                #t_str = t_str[0:8]
+                t_obj = datetime.strptime(t_str, '%H:%M:%S.%f')
+                #print(str(t_obj))
+                t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                
+                serializer.data[i]["AdminAuditTrail_time"] = t_am_pm
+            
+            return Response({"data":serializer.data})
+        
+        else:
+            raise UnauthorizedException
+            
+    except:
+        traceback.print_exc()
+        
+
+@api_view(['GET']) 
+@permission_classes([IsAuthenticated])
+def memberActivityLog(request):  
+    try:
+        user = request.user
+        isAdmin = user.groups.filter(name='Members_Admin').exists()
+        if(isAdmin):
+            activityLogs = MemberAuditTrail.objects.all().order_by('-MemberAuditTrail_date', '-MemberAuditTrail_time')
+            serializer = MemberAuditTrailSerializer(activityLogs, many=True)
+            
+            for i in range(len(serializer.data)):
+                t_str = str(serializer.data[i]["MemberAuditTrail_time"])
+                #t_str = t_str[0:8]
+                t_obj = datetime.strptime(t_str, '%H:%M:%S.%f')
+                #print(str(t_obj))
+                t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                
+                serializer.data[i]["MemberAuditTrail_time"] = t_am_pm
+            
+            return Response({"data":serializer.data})
+        
+        else:
+            raise UnauthorizedException
+            
+    except:
+        traceback.print_exc()
+        
+@api_view(['POST']) 
+@permission_classes([IsAuthenticated])
+def searchAdminActivityLog(request):
+    user = request.user
+    isAdmin = user.groups.filter(name='Members_Admin').exists()
+    if(isAdmin):
+        if request.data:
+            inputsearch = request.data["inputsearch"]
+            action = request.data["action"]
+            dateFrom = request.data["dateFrom"]
+            dateTo = request.data["dateTo"]
+            timeFrom = request.data["timeFrom"]
+            timeTo = request.data["timeTo"]
+            
+            print("timeFrom: ", timeFrom, " timeTo: ", timeTo)
+            
+            try:
+                activityLogs = AdminAuditTrail.objects.all().order_by('-AdminAuditTrail_date', '-AdminAuditTrail_time')
+
+                if(inputsearch):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_user__contains=inputsearch)
+                    
+                if(action):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_action=action)
+                
+                ### FOR DATE
+                if(dateFrom and dateTo):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_date__range=[dateFrom,dateTo])
+
+                elif(dateFrom and dateTo is None):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_date__gte=dateFrom)
+                    
+                elif(dateFrom is None and dateTo):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_date__lte=dateTo) 
+                
+                ### FOR TIME
+                if(timeFrom and timeTo):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_time__range=[timeFrom,timeTo])
+                    
+                elif(timeFrom and timeTo is None):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_time__gte=timeFrom+":00")
+                    
+                elif(timeFrom is None and timeTo):
+                    activityLogs = activityLogs.filter(AdminAuditTrail_time__lte=timeTo+":00")
+                    
+                
+                serializer = AdminAuditTrailSerializer(activityLogs, many=True)
+                
+                if(len(serializer.data) > 0):
+                    for i in range(len(serializer.data)):
+                        t_str = str(serializer.data[i]["AdminAuditTrail_time"])
+                        #t_str = t_str[0:8]
+                        t_obj = datetime.strptime(t_str, '%H:%M:%S.%f')
+                        #print(str(t_obj))
+                        t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                        
+                        serializer.data[i]["AdminAuditTrail_time"] = t_am_pm
+            
+                return Response({"data":serializer.data})
+            
+            except:
+                traceback.print_exc()
+    else:
+        raise UnauthorizedException
+        
+        
+        
+        

@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { BASE_URL } from '../../../../config';
 
 import jwt_decode from "jwt-decode";
+import axios from 'axios';
 
 // for autologout
 const events = [
@@ -20,10 +21,28 @@ function AdminLayout(){
     const [admin, setAdmin] = useState(()=> localStorage.getItem('adminAuthToken') ? jwt_decode(localStorage.getItem('adminAuthToken')) : null);
     const [loading, setLoading] = useState(true);
 
+    const logout = async() => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/logoutAdmin/`;
+        var DataBody = {username: admin.username}
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json();
+          //console.log("response.statusText: ", response.statusText);
+          if(response.status === 200){
+            setAdmin(null);
+          }
+    }
+
     const toggleLogout = () => {
-        console.log("Loggedout");
+        //console.log("Loggedout");
+        logout();
         localStorage.removeItem('adminAuthToken');
-        setAdmin(null);
+
         //navigate('/app/login');
     };
 

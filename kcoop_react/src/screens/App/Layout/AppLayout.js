@@ -20,9 +20,28 @@ function AppLayout(){
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
     const [loading, setLoading] = useState(true);
 
+    const logout = async() => {
+        var InsertAPIURL = `${BASE_URL}/api/member/logoutMember/`;
+        var DataBody = {username: member.username}
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json();
+          //console.log("response.statusText: ", response.statusText);
+          if(response.status === 200){
+            setMember(null);
+          }
+    }
+
     const toggleLogout = () => {
+        logout();
         localStorage.removeItem('memberAuthTokens');
-        setMember(null);
+        
+        //setMember(null);
         //navigate('/app/login');
     };
 

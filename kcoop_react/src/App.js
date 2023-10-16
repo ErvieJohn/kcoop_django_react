@@ -103,6 +103,8 @@ import AdminLayout from "./screens/App/Admin/Layout/AdminLayout";
 import AdminHome from "./screens/App/Admin/screens/AdminHome";
 import AdminNavigate from "./screens/App/Admin/screens/AdminNavigate";
 import AdminEditMember from "./screens/App/Admin/screens/AdminEditMembers/AdminEditMember";
+import MemberAuditTrail from "./screens/App/Admin/screens/AdminAuditTrail/MemberAuditTrail";
+import AdminAuditTrail from "./screens/App/Admin/screens/AdminAuditTrail/AdminAuditTrail";
 
 function App() {
   return (
@@ -264,6 +266,8 @@ function App() {
           <Route element={<AdminLayout/>}>
             <Route exact path="/app/admin" element={<AdminNavigate/>} />
             <Route path="/app/admin/edit/:username" element={<AdminEditMember />} />
+            <Route exact path="/app/admin/MemberActivityLog" element={<MemberAuditTrail/>} />
+            <Route exact path="/app/admin/AdminActivityLog" element={<AdminAuditTrail/>} />
           </Route>
           
 

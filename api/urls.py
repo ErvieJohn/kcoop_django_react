@@ -106,5 +106,12 @@ urlpatterns = [
     path('api/admin/modifyMemberProduct/', product_api.modifyMemberProduct, name="Modify_Member_Product"), # modify Member's Products
     path('api/admin/deleteMember/', member_api.deleteMember, name="Delete_Member"), # delete member 
     path('api/admin/searchProduct/', product_api.searchProduct, name="Search_Product"), # search Product
+    path('api/admin/adminActivityLog/', member_api.adminActivityLog, name="Admin_Audit_Trail"), # Get Admin Activity Logs
+    path('api/admin/memberActivityLog/', member_api.memberActivityLog, name="Member_Audit_Trail"), # Get Member Activity Logs
+    path('api/admin/searchAdminActivityLog/', member_api.searchAdminActivityLog, name="Search_Admin_ActivityLog"), # Search Admin Activity Logs
+    
+    # Logout
+    path('api/member/logoutMember/', member_api.logoutMember, name="Logout_Member"), # Logout_Member
+    path('api/admin/logoutAdmin/', member_api.logoutAdmin, name="logout_Admin"), # logout_Admin
     
 ]

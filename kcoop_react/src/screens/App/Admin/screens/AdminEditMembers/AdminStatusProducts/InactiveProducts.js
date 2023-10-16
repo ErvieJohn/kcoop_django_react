@@ -33,7 +33,7 @@ function InactiveProducts(props) {
                           </div>
                       </center>
                       <label className='product-tags'> <FontAwesomeIcon icon={faTag} style={{marginRight: "2px", marginTop: "3px"}}/> Tags: </label>
-                      <div className='product-tags-wrap'>
+                      <div className='product-tags-wrap' style={{height: "65px"}}>
                           {item.Tag.length > 0 ? (item.Tag.slice(0,5).map((tagProd, index) =>(
                                   <>
                                       {inactiveTags.filter((tag, index) => tagProd === tag.id) ? (

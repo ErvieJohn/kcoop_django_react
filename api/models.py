@@ -138,7 +138,23 @@ class TBL_Product(models.Model):
     Tag = models.ManyToManyField('TBL_Tag')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
+    
+class MemberAuditTrail(models.Model):
+    MemberAuditTrail_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    MemberAuditTrail_user = models.CharField(blank=True, default="")
+    MemberAuditTrail_activity = models.CharField(blank=True, default="")
+    MemberAuditTrail_action = models.CharField(blank=True, default="")
+    MemberAuditTrail_date = models.DateField(auto_now_add=True, blank=True, null=True)
+    MemberAuditTrail_time = models.TimeField(auto_now_add=True, blank=True, null=True)
+    # MemberAuditTrail_createdAt = models.DateTimeField(auto_now_add=True)
+    
+class AdminAuditTrail(models.Model):
+    AdminAuditTrail_id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
+    AdminAuditTrail_user = models.CharField(blank=True, default="")
+    AdminAuditTrail_activity = models.CharField(blank=True, default="")
+    AdminAuditTrail_action = models.CharField(blank=True, default="")
+    AdminAuditTrail_date = models.DateField(auto_now_add=True, blank=True, null=True)
+    AdminAuditTrail_time = models.TimeField(auto_now_add=True, blank=True, null=True)
+    # AdminAuditTrail_createdAt = models.DateTimeField(auto_now_add=True)
 
 
