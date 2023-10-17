@@ -79,7 +79,7 @@ function AppRegister(props) {
     <>
          <form className="Auth-form-modal" method="post" onSubmit={submitRegistrationForm}> 
             <h3 className="Auth-form-title-modal">KCOOP Registration</h3>
-                <div className="Auth-form-content-modal">
+                <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
                     
                     <div className="form-group-modal mt-3">
                         <label >First Name:</label>
@@ -183,19 +183,27 @@ function AppRegister(props) {
 
                     <div className="form-group-modal mt-3">
                         <label >Password:</label>
-                        <input
-                        type={showPass ? "text" : "password"}
-                        className="form-control-modal mt-1"
-                        placeholder="Enter Password"
-                        color='black'
-                        value={pass}
-                        onChange={text=>{setPass(text.target.value);
-                                            showResult = " ";
-                                            setShowResult(showResult);
-                        }}
-                        required
-                        maxLength={20}
-                        />
+                        <div style={{display: 'flex'}}>
+                            <input
+                            type={showPass ? "text" : "password"}
+                            className="form-control-modal mt-1"
+                            placeholder="Enter Password"
+                            color='black'
+                            value={pass}
+                            onChange={text=>{setPass(text.target.value);
+                                                showResult = " ";
+                                                setShowResult(showResult);
+                            }}
+                            required
+                            maxLength={20}
+                            />
+                            
+                            <button type="button" style={{background: "transparent", border: "none"}} onClick={showPassToggle}> 
+                                <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
+                            </button>
+
+                        </div>
+                        
                     </div>
 
                     <div className="d-grid-modal gap-2 mt-3">
@@ -203,15 +211,13 @@ function AppRegister(props) {
                         <button type="submit" className="btn-modal-login">
                             Register
                         </button>
+                        
                     </div>
-
+                    <button style={{color: "#0969da", background: "transparent", border: "none", marginTop: "15px", marginLeft: "-25px"}} onClick={backLoginToggle}>I already have an account.</button>
                 </div>
         </form>
-        <button className="btn-register-showpass" onClick={showPassToggle}> 
-            <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
-        </button>
 
-        <button className="btn-has-account" onClick={backLoginToggle}>I already have an account.</button>
+        
     </>
    
   )

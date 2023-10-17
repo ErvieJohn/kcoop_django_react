@@ -81,7 +81,7 @@ function MemberSettingModal(props) {
         <div className="modal-login-content" style={{marginTop:"20px"}}>
               <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
                 <h3 className="Auth-form-title-modal">Account Setting</h3>
-                    <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
+                    <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 190}}>
                         <div class="w3-panel w3-pale-blue w3-leftbar w3-border-blue">
                             <div style={{display: "flex", marginTop: "10px"}}>
                                 <FontAwesomeIcon icon={faCircleInfo} style={{marginTop: "5px"}}/>
