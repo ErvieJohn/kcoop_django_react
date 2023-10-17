@@ -320,7 +320,7 @@ def searchAdminActivityLog(request):
             timeFrom = request.data["timeFrom"]
             timeTo = request.data["timeTo"]
             
-            print("timeFrom: ", timeFrom, " timeTo: ", timeTo)
+            # print("timeFrom: ", timeFrom, " timeTo: ", timeTo)
             
             try:
                 activityLogs = AdminAuditTrail.objects.all().order_by('-AdminAuditTrail_date', '-AdminAuditTrail_time')
@@ -370,7 +370,70 @@ def searchAdminActivityLog(request):
                 traceback.print_exc()
     else:
         raise UnauthorizedException
-        
+    
+    
+@api_view(['POST']) 
+@permission_classes([IsAuthenticated])
+def searchMemberActivityLog(request):
+    user = request.user
+    isAdmin = user.groups.filter(name='Members_Admin').exists()
+    if(isAdmin):
+        if request.data:
+            try:
+                inputsearch = request.data["inputsearch"]
+                action = request.data["action"]
+                dateFrom = request.data["dateFrom"]
+                dateTo = request.data["dateTo"]
+                timeFrom = request.data["timeFrom"]
+                timeTo = request.data["timeTo"]
+                
+                activityLogs = MemberAuditTrail.objects.all().order_by('-MemberAuditTrail_date', '-MemberAuditTrail_time')
+
+                if(inputsearch):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_user__contains=inputsearch)
+                    
+                if(action):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_action=action)
+                
+                ### FOR DATE
+                if(dateFrom and dateTo):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_date__range=[dateFrom,dateTo])
+
+                elif(dateFrom and dateTo is None):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_date__gte=dateFrom)
+                    
+                elif(dateFrom is None and dateTo):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_date__lte=dateTo) 
+                
+                ### FOR TIME
+                if(timeFrom and timeTo):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_time__range=[timeFrom,timeTo])
+                    
+                elif(timeFrom and timeTo is None):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_time__gte=timeFrom+":00")
+                    
+                elif(timeFrom is None and timeTo):
+                    activityLogs = activityLogs.filter(MemberAuditTrail_time__lte=timeTo+":00")
+                    
+                
+                serializer = MemberAuditTrailSerializer(activityLogs, many=True)
+                
+                if(len(serializer.data) > 0):
+                    for i in range(len(serializer.data)):
+                        t_str = str(serializer.data[i]["MemberAuditTrail_time"])
+                        #t_str = t_str[0:8]
+                        t_obj = datetime.strptime(t_str, '%H:%M:%S.%f')
+                        #print(str(t_obj))
+                        t_am_pm = t_obj.strftime('%I:%M:%S %p')
+                        
+                        serializer.data[i]["MemberAuditTrail_time"] = t_am_pm
+            
+                return Response({"data":serializer.data})
+                
+            except:
+                traceback.print_exc()
+    else:
+        raise UnauthorizedException
         
         
         

@@ -46,30 +46,30 @@ function AppLayout(){
     };
 
     // FOR REFRESH AUTH TOKEN
-    // let updateToken = async ()=> {
+    let updateToken = async ()=> {
 
-    //     let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
-    //         method:'POST',
-    //         headers:{
-    //             'Content-Type':'application/json'
-    //         },
-    //         body:JSON.stringify({'refresh':memberAuthToken?.refresh})
-    //     })
+        let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'refresh':memberAuthToken?.refresh})
+        })
 
-    //     let data = await response.json()
+        let data = await response.json()
         
-    //     if (response.status === 200){
-    //         setMemberAuthToken(data)
-    //         setMember(jwt_decode(data.access))
-    //         localStorage.setItem('memberAuthTokens', JSON.stringify(data))
-    //     }else{
-    //         toggleLogut()
-    //     }
+        if (response.status === 200){
+            setMemberAuthToken(data)
+            setMember(jwt_decode(data.access))
+            localStorage.setItem('memberAuthTokens', JSON.stringify(data))
+        }else{
+            toggleLogout();
+        }
 
-    //     if(loading){
-    //         setLoading(false)
-    //     }
-    // }
+        if(loading){
+            setLoading(false)
+        }
+    }
 
     // useEffect(() => {
     //     if(loading){
@@ -90,7 +90,7 @@ function AppLayout(){
         });
         // logs out user
         toggleLogout();
-        }, 300000); // 300000ms = 5mins. You can change the time.
+        }, 600000); // 300000ms = 5mins. You can change the time.
     };
 
     // this resets the timer if it exists.
@@ -105,7 +105,12 @@ function AppLayout(){
             handleLogoutTimer();
           });
         });
-      }, []);
+
+        if(loading){
+            updateToken();
+        }
+
+      }, [memberAuthToken, loading]);
 
     return(
         <>

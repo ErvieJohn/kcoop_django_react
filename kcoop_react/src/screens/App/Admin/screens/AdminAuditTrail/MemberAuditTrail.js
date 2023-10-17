@@ -1,10 +1,13 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import AdminNavHeader from '../../AdminNavHeader/AdminNavHeader';
 import { useOutletContext } from 'react-router-dom';
 import LoadingSpinner from '../../../../LoadingSpinner';
 import jwt_decode from "jwt-decode";
 import { BASE_URL } from '../../../../../config';
 import ReactTable from 'react-table-6';
+import { faSearch, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './AuditTrail.css';
 
 function MemberAuditTrail() {
     const [adminAuthToken, setMemberAuthToken] = useState(()=> localStorage.getItem('adminAuthToken') ? JSON.parse(localStorage.getItem('adminAuthToken')) : null);
@@ -38,7 +41,7 @@ function MemberAuditTrail() {
         {  
             Header: 'Activity',  
             accessor: 'MemberAuditTrail_activity',
-            sortable: true,
+            sortable: false,
             maxWidth: 400,
             width: 420,
             // Cell: row => (
@@ -47,7 +50,7 @@ function MemberAuditTrail() {
         },{  
             Header: 'Date',  
             accessor: 'MemberAuditTrail_date',
-            sortable: false,
+            sortable: true,
             maxWidth: 180,
             width: 180,  
             Cell: row => (
@@ -87,6 +90,194 @@ function MemberAuditTrail() {
           }
     }
 
+    const [isSearched, setIsSearched] = useState(false);
+
+    var [inputSearch, setInputSearch] = useState(null);
+    var [actionVal, setActionVal] = useState(null);
+    var [dateVal, setDateVal] = useState(null);
+    var [timeVal, setTimeVal] = useState(null);
+
+    var [dateToVal, setDateToVal] = useState(null);
+    //console.log(dateToVal);
+
+    var [timeToVal, setTimeToVal] = useState(null);
+
+    const inputSearchRef = useRef(null);
+    const actionRef = useRef(null);
+    const dateRef = useRef(null);
+    const dateToRef = useRef(null);
+    const timeRef = useRef(null);
+    const timeToRef = useRef(null);
+
+    const searchActivityLog = async(searched) => {
+        var InsertAPIURL = `${BASE_URL}/api/admin/searchMemberActivityLog/`;
+
+        var DataBody;
+        
+        if(!searched){
+            DataBody = {inputsearch: inputSearch, action: actionVal, dateFrom: dateVal, timeFrom: timeVal, dateTo: dateToVal, timeTo: timeToVal}
+        }
+        else{
+            DataBody = {inputsearch: null, action: null, dateFrom: null, timeFrom: null, dateTo: null, timeTo: null}
+        }
+        
+        //console.log("DataBody: ", DataBody);
+        let response = await fetch(InsertAPIURL, {
+              method:'POST',
+              headers:{
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer ' + String(adminAuthToken.access)
+              },
+              body:JSON.stringify(DataBody)
+          })
+          let data = await response.json()
+    
+          if(response.status === 200){
+           //console.log("data.data: ", data.data);
+            setData(data.data);
+
+            setIsLoading(false);
+            
+          }else if(response.statusText === 'Unauthorized'){
+            toggleLogout();
+          }
+    }
+
+
+    function handleOnChangeSearch(text){
+        if(text.target.value.length > 0){
+            inputSearch = text.target.value;
+
+            setIsSearched(true);
+        }
+        else{
+            inputSearch = null;
+            if(actionVal, dateVal, timeVal, dateToVal, timeToVal == null || (actionVal == "All" && inputSearch, timeVal, dateToVal, timeToVal = null)){
+                setIsSearched(false);
+            }
+        }
+        setInputSearch(inputSearch);
+        setIsLoading(true);
+        searchActivityLog(false);
+    }
+
+    function onChangeAction(e){
+        if(e.target.value !== "All"){
+            actionVal = e.target.value;
+
+            setIsSearched(true);
+        }
+        else{
+            actionVal = null;
+
+            if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+                setIsSearched(false);
+            }
+            
+        }
+        
+        setActionVal(actionVal);
+        setIsLoading(true);
+        searchActivityLog(false);
+
+        //setIsSearched(true);
+    }
+
+    function onChangeDate(e){
+        dateVal = e.target.value;
+        setDateVal(dateVal);
+
+        setIsLoading(true);
+        searchActivityLog(false);
+
+        setIsSearched(true);
+
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+
+            setIsSearched(false);
+        }
+        
+    }
+
+    function onChangeToDate(e){
+        dateToVal = e.target.value;
+        setDateToVal(dateToVal);
+
+        
+
+        setIsLoading(true);
+        searchActivityLog(false);
+
+        setIsSearched(true);
+
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
+        }
+    }
+
+    function onChangeTime(e){
+        timeVal = e.target.value;
+        setTimeVal(timeVal);
+
+        setIsLoading(true);
+        searchActivityLog(false);
+
+        setIsSearched(true);
+
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
+        }
+    }
+
+    function onChangeToTime(e){
+        timeToVal = e.target.value;
+        setTimeToVal(timeToVal);
+
+        setIsLoading(true);
+        searchActivityLog(false);
+
+        setIsSearched(true);
+
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
+        }
+    }
+
+    function onClickClear(){
+        inputSearchRef.current.value = null;
+        actionRef.current.value = "All";
+        dateRef.current.value = null;
+        dateToRef.current.value = null;
+        timeRef.current.value = null;
+        timeToRef.current.value = null;
+
+        inputSearch = null;
+        setInputSearch(inputSearch);
+        setActionVal(null);
+        setDateVal(null);
+        setDateToVal(null);
+        setTimeVal(null);
+        setTimeToVal(null);
+
+        setIsLoading(true);
+        searchActivityLog(true);
+        setIsSearched(false);
+    }
+
     useEffect(() =>{
         if(isLoading){
             getActivityLog();
@@ -99,7 +290,76 @@ function MemberAuditTrail() {
     <>
         <AdminNavHeader toggleLogout={toggleLogout}/>
         <div style={{margin: "0 50px 0 50px"}}>
-            <div className='content-header'>
+            <center>
+                <b style={{fontSize: "18px"}}>
+                    Member's Activity Logs
+                </b>
+            </center>
+        <div className='content-header'>
+                <b style={{marginRight: "10px", marginTop: "2px"}}>
+                    <label>Username:</label> 
+                </b>
+                <input className='admin-input-search-AT' type="text" placeholder='Search Admin User'
+                            style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
+                            value={inputSearch}
+                            onChange={(text)=>{
+                                handleOnChangeSearch(text);
+                                
+                            }}
+                            ref={inputSearchRef}
+                        />
+                <div id='icon-text-cms'>
+                    <b style={{marginRight: "10px", marginTop: "2px"}}>
+                        <label for="action">Action:</label>
+                    </b>
+                    <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" 
+                    style={{height: "25px", width: "200px"}}
+                    onChange={onChangeAction}>
+                        <option value="All">All</option>
+                        <option value="Create">Create</option>
+                        <option value="Update">Update</option>
+                        <option value="Login">Login</option>
+                        <option value="Logout">Logout</option>
+                    </select>
+                </div>
+                   
+
+                <div style={{marginLeft: "10px"}}>
+                    <center><b>Date</b></center>
+                    <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
+                                style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
+                        </div>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
+                                style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
+                                {/* value={dateToVal}  */}
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div style={{marginLeft: "10px"}}>
+                    <center><b>Time</b></center>
+                    <div style={{display:"grid", justifyItems: 'flex-end'}}>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
+                        </div>
+                        <div id='icon-text-cms'>
+                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
+                            style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div style={{display: isSearched ? "block" : "none",marginLeft: "10px"}}>
+                    <button class="btn-admin-status" onClick={onClickClear}>
+                            <FontAwesomeIcon icon={faXmarkCircle}/>
+                    </button>
+                </div>
 
             </div>
 

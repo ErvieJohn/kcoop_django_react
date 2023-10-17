@@ -47,30 +47,30 @@ function AdminLayout(){
     };
 
     // FOR REFRESH AUTH TOKEN
-    // let updateToken = async ()=> {
+    let updateToken = async ()=> {
 
-    //     let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
-    //         method:'POST',
-    //         headers:{
-    //             'Content-Type':'application/json'
-    //         },
-    //         body:JSON.stringify({'refresh':adminAuthToken?.refresh})
-    //     })
+        let response = await fetch(`${BASE_URL}/api/token/refresh/`, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'refresh':adminAuthToken?.refresh})
+        })
 
-    //     let data = await response.json()
+        let data = await response.json()
         
-    //     if (response.status === 200){
-    //         setAdminAuthToken(data)
-    //         setAdmin(jwt_decode(data.access))
-    //         localStorage.setItem('adminAuthToken', JSON.stringify(data))
-    //     }else{
-    //         toggleLogout()
-    //     }
+        if (response.status === 200){
+            setAdminAuthToken(data)
+            setAdmin(jwt_decode(data.access))
+            localStorage.setItem('adminAuthToken', JSON.stringify(data))
+        }else{
+            toggleLogout()
+        }
 
-    //     if(loading){
-    //         setLoading(false)
-    //     }
-    // }
+        if(loading){
+            setLoading(false)
+        }
+    }
 
     // useEffect(() => {
     //     if(loading){
@@ -106,7 +106,12 @@ function AdminLayout(){
             handleLogoutTimer();
           });
         });
-      }, []);
+
+        if(loading){
+            updateToken();
+        }
+
+      }, [adminAuthToken, loading]);
 
 
     return(

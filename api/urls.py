@@ -109,6 +109,8 @@ urlpatterns = [
     path('api/admin/adminActivityLog/', member_api.adminActivityLog, name="Admin_Audit_Trail"), # Get Admin Activity Logs
     path('api/admin/memberActivityLog/', member_api.memberActivityLog, name="Member_Audit_Trail"), # Get Member Activity Logs
     path('api/admin/searchAdminActivityLog/', member_api.searchAdminActivityLog, name="Search_Admin_ActivityLog"), # Search Admin Activity Logs
+    path('api/admin/searchMemberActivityLog/', member_api.searchMemberActivityLog, name="Search_Member_ActivityLog"), # Search Member Activity Logs
+    
     
     # Logout
     path('api/member/logoutMember/', member_api.logoutMember, name="Logout_Member"), # Logout_Member

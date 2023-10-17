@@ -152,7 +152,7 @@ function AdminAuditTrail() {
         }
         else{
             inputSearch = null;
-            if(actionVal, dateVal, timeVal, dateToVal, timeToVal == null || actionVal == "All"){
+            if(actionVal, dateVal, timeVal, dateToVal, timeToVal == null || (actionVal == "All" && inputSearch, timeVal, dateToVal, timeToVal = null)){
                 setIsSearched(false);
             }
         }
@@ -169,11 +169,14 @@ function AdminAuditTrail() {
         }
         else{
             actionVal = null;
-            
-            if(inputSearch, dateVal, timeVal, dateToVal, timeToVal == null){
-                //console.log("inputSearch: ", inputSearch);
+
+            if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
                 setIsSearched(false);
             }
+            
         }
         
         setActionVal(actionVal);
@@ -187,18 +190,18 @@ function AdminAuditTrail() {
         dateVal = e.target.value;
         setDateVal(dateVal);
 
-        
-
         setIsLoading(true);
         searchActivityLog(false);
 
         setIsSearched(true);
 
-        if(dateVal == null){
-            if(inputSearch, actionVal, timeVal, dateToVal, timeToVal == null || actionVal == "All"){
-                setIsSearched(false);
-            }
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+
+            setIsSearched(false);
         }
+        
     }
 
     function onChangeToDate(e){
@@ -212,10 +215,11 @@ function AdminAuditTrail() {
 
         setIsSearched(true);
 
-        if(dateToVal == null){
-            if(inputSearch, actionVal, dateVal, timeVal, timeToVal == null || actionVal == "All"){
-                setIsSearched(false);
-            }
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
         }
     }
 
@@ -228,10 +232,11 @@ function AdminAuditTrail() {
 
         setIsSearched(true);
 
-        if(timeVal == null){
-            if(inputSearch, actionVal, dateVal, dateToVal, timeToVal == null || actionVal == "All"){
-                setIsSearched(false);
-            }
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
         }
     }
 
@@ -244,10 +249,11 @@ function AdminAuditTrail() {
 
         setIsSearched(true);
 
-        if(timeToVal == null){
-            if(inputSearch, actionVal, dateVal, dateToVal == null || actionVal == "All"){
-                setIsSearched(false);
-            }
+        if((inputSearch == null) && (timeVal == null || timeVal == "") && 
+                (dateToVal == null || dateToVal == "") && (timeToVal == null || timeToVal == "")  && 
+                (actionVal == null || actionVal == "All") && (dateVal == null || dateVal == "")){
+                    
+            setIsSearched(false);
         }
     }
 
@@ -284,7 +290,12 @@ function AdminAuditTrail() {
     <>
         <AdminNavHeader toggleLogout={toggleLogout}/>
         <div style={{margin: "0 50px 0 50px"}}>
-            <div className='content-header'>
+            <center>
+                <b style={{fontSize: "18px"}}>
+                    Admin Activity Logs
+                </b>
+            </center>
+        <div className='content-header'>
                 <b style={{marginRight: "10px", marginTop: "2px"}}>
                     <label>Admin User:</label> 
                 </b>
