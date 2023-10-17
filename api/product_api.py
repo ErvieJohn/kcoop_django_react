@@ -205,7 +205,7 @@ def searchMemberProduct(request):
     
     selectedCategory = request.data['categories']
     
-    products = TBL_Product.objects.filter(User_id=user, Product_title__contains = search, Product_status="Active").order_by('-created_at')
+    products = TBL_Product.objects.filter(User_id=user, Product_title__icontains = search, Product_status="Active").order_by('-created_at')
     
     if(len(selectedCategory)>0):
         products = products.filter(Category_id__in=selectedCategory)
@@ -523,7 +523,7 @@ def searchProduct(request):
                                     "Email":user.email, "DateJoined": dateAndTime }
             
         
-            memberProductActive = user.tbl_product_set.filter(Product_status="Active", User_id=user, Product_title__contains = search).order_by('Product_title')
+            memberProductActive = user.tbl_product_set.filter(Product_status="Active", User_id=user, Product_title__icontains = search).order_by('Product_title')
             
             if(len(selectedCategory)>0):
                 memberProductActive = memberProductActive.filter(Category_id__in=selectedCategory)
@@ -566,7 +566,7 @@ def searchProduct(request):
                 
                 
             ### For Inactive
-            memberProductInactive = user.tbl_product_set.filter(Product_status="Inactive", User_id=user, Product_title__contains = search).order_by('-created_at')
+            memberProductInactive = user.tbl_product_set.filter(Product_status="Inactive", User_id=user, Product_title__icontains = search).order_by('-created_at')
             if(len(selectedCategory)>0):
                 memberProductActive = memberProductActive.filter(Category_id__in=selectedCategory)
                 

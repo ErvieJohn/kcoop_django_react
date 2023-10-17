@@ -164,16 +164,16 @@ def searchMembers(request):
     inputSearch = request.data["inputsearch"]
     
     if(searchBy=="Firstname"):
-        members = User.objects.filter(first_name__contains=inputSearch, groups__name='Members')
+        members = User.objects.filter(first_name__icontains=inputSearch, groups__name='Members')
         
     elif(searchBy=="Lastname"):
-        members = User.objects.filter(last_name__contains=inputSearch, groups__name='Members')
+        members = User.objects.filter(last_name__icontains=inputSearch, groups__name='Members')
         
     elif(searchBy=="Email"):
-        members = User.objects.filter(email__contains=inputSearch, groups__name='Members')
+        members = User.objects.filter(email__icontains=inputSearch, groups__name='Members')
     
     else:
-        members = User.objects.filter(username__contains=inputSearch, groups__name='Members')
+        members = User.objects.filter(username__icontains=inputSearch, groups__name='Members')
         
     membersData = []
     for member in members:
@@ -326,7 +326,7 @@ def searchAdminActivityLog(request):
                 activityLogs = AdminAuditTrail.objects.all().order_by('-AdminAuditTrail_date', '-AdminAuditTrail_time')
 
                 if(inputsearch):
-                    activityLogs = activityLogs.filter(AdminAuditTrail_user__contains=inputsearch)
+                    activityLogs = activityLogs.filter(AdminAuditTrail_user__icontains=inputsearch)
                     
                 if(action):
                     activityLogs = activityLogs.filter(AdminAuditTrail_action=action)
@@ -390,7 +390,7 @@ def searchMemberActivityLog(request):
                 activityLogs = MemberAuditTrail.objects.all().order_by('-MemberAuditTrail_date', '-MemberAuditTrail_time')
 
                 if(inputsearch):
-                    activityLogs = activityLogs.filter(MemberAuditTrail_user__contains=inputsearch)
+                    activityLogs = activityLogs.filter(MemberAuditTrail_user__icontains=inputsearch)
                     
                 if(action):
                     activityLogs = activityLogs.filter(MemberAuditTrail_action=action)
