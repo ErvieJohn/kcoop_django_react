@@ -19,7 +19,6 @@ body.active-modal-login {
 }
 .modal-login-content {
     position: absolute;
-    /* top: 40%; */
     left: 50%;
     transform: translate(-50%, -50%);
     line-height: 1.4;
@@ -30,6 +29,7 @@ body.active-modal-login {
     max-width: 600px;
     min-width: 300px;
     z-index: 2;
+    top: 40%;
 }
 
 .close-modal-login {
