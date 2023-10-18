@@ -1,1 +1,2 @@
-deployed to local
+development for local only
+
