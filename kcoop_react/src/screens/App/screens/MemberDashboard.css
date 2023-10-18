@@ -272,6 +272,19 @@ ul.list-app-products li {
   align-items: center;
 }
 
+.product-list-app{
+  border-radius: 10px;
+  background-color: rgba(44, 39, 39, 0.125);
+  padding: 0px 10px;
+}
+
+.app-body-tags{
+  display: flex;
+  flex-direction: row;
+  margin: 0 50px;
+  flex-wrap: wrap;
+}
+
 @media screen and (min-width: 300px) and (max-width: 374px) {
   ul.list-app-products {
     margin: 0 0px 0 50px;
@@ -308,6 +321,15 @@ ul.list-app-products li {
 
   .Auth-form-modal{
     width: 330px;
+  }
+
+  .product-list-app{
+    margin-left: -120px;
+    margin-right: 120px;
+  }
+
+  .addbtn-product-wrapper, .app-header-buttons{
+    width: 100%;
   }
 }
 
@@ -349,6 +371,15 @@ ul.list-app-products li {
   .Auth-form-modal{
     width: 370px;
   }
+
+  .product-list-app{
+    margin-left: -120px;
+    margin-right: 120px;
+  }
+
+  .addbtn-product-wrapper, .app-header-buttons{
+    width: 100%;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 899px) {
@@ -387,6 +418,10 @@ ul.list-app-products li {
 
   .Auth-form-modal{
     width: 420px;
+  }
+
+  .app-body-tags{
+    justify-content: space-between;
   }
 }
 
@@ -427,6 +462,10 @@ ul.list-app-products li {
   .Auth-form-modal{
     width: 420px;
   }
+
+  .app-body-tags{
+    justify-content: space-between;
+  }
 }
 
 @media screen and (min-width: 1220px) {
@@ -465,6 +504,10 @@ ul.list-app-products li {
 
   .Auth-form-modal{
     width: 420px;
+  }
+
+  .app-body-tags{
+    justify-content: space-between;
   }
 
 }

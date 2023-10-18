@@ -45,7 +45,7 @@ const MemberDashboard = (props) => {
     const [dropdown, setDropdown] = useState(false);
     const [hoverDropdown, setHoverDropdown] = useState(false);
 
-    const maxCategories = window.innerWidth < 600 ? 2: 5;
+    const maxCategories = window.innerWidth < 600 ? 0: 5;
 
     const [noProduct, setNoProduct] = useState(true);
 
@@ -439,9 +439,12 @@ const MemberDashboard = (props) => {
             </b></span>
             <br/>
             {products  ? (
-                <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
-                    <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
-                </button>
+                <div className='addbtn-product-wrapper'>
+                    <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                        <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
+                    </button>
+                </div>
+                
                 ):(null)
             }
             
@@ -484,19 +487,10 @@ const MemberDashboard = (props) => {
                             </div>
                         ):(null)):(null)}
                         
-                    </div>
-
-                     <div style={{marginTop: "-7px"}}>
-                        {/* <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
-                        <FontAwesomeIcon icon={faSearch}/> Search by Tags
-                        </button> */}
-                        <button className='app-header-buttons' onClick={toggleProductModal}>
-                        <FontAwesomeIcon icon={faAdd}/> Add Product
-                        </button>
                     </div> 
                 </div>  
 
-                <div className='app-body-categories'>
+                <div className='app-body-tags'>
                     <div style={{display: "inherit", alignItems: "flex-start", marginBottom: "30px"}}>
                         <label style={{marginRight: "20px", marginTop: "10px"}}>
                         <FontAwesomeIcon icon={faFilter} style={{marginRight: "2px", marginTop: "3px"}}/>
@@ -522,6 +516,14 @@ const MemberDashboard = (props) => {
                             //labelField={'Tag_name'}
                         />
                     </div>
+                    <div className='addbtn-product-wrapper'>
+                        {/* <button className='app-header-buttons' style={{marginRight: "15px"}} onClick={toggleTagsModal}> 
+                        <FontAwesomeIcon icon={faSearch}/> Search by Tags
+                        </button> */}
+                        <button className='app-header-buttons' onClick={toggleProductModal}>
+                            <FontAwesomeIcon icon={faAdd}/> Add Product
+                        </button>
+                    </div>
                     
                 </div>
             </>
@@ -531,10 +533,7 @@ const MemberDashboard = (props) => {
 
         <div style={{marginTop: "30px 50px 50px 0"}}>
             {!loading ? (products ? (products.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
-                <div 
-                    style={{borderRadius: "10px", backgroundColor: "#fff", 
-                            padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
-                >
+                <div className='product-list-app'>
                     <ul className='list-app-products'>
                         <li className='list-products' style={{maxHeight: "360px", minHeight: "360px"}}>
                             <figure className='figure-cms'>
@@ -583,14 +582,17 @@ const MemberDashboard = (props) => {
                 ):( 
                 <>
                     {searchedTags || searched ? (
-                        <center className="center-no-product"> 
+                        <center style={{marginTop: "20px"}}> 
                             <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
                             <br/>
                             <b> No Product Found </b>
                             <br/>
-                            <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
-                                <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
-                            </button>
+                            <div className='addbtn-product-wrapper'>
+                                <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                                    <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
+                                </button>
+                            </div>
+                            
                             
                         </center>
                     ):(
