@@ -7,6 +7,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppRegister from './AppRegister';
 import LoadingSpinner from '../../LoadingSpinner';
+import LoadingModal from '../../Modal/LoadingModal';
 
 function AppLogin() {
     const navigate = useNavigate();
@@ -60,7 +61,7 @@ function AppLogin() {
     if(!isLoading){
         setIsLoading(true);
        
-        <LoadingSpinner/>;
+        // <LoadingSpinner/>;
         AuthLogin(user, pass);
         setIsLoading(false);
     }
@@ -183,6 +184,11 @@ function AppLogin() {
             </div>
         </>
     )}
+
+    {isLoading && (
+        <LoadingModal/>
+    )}
+
     </>
     
         

@@ -29,7 +29,7 @@ body.active-modal-login {
     max-width: 600px;
     min-width: 300px;
     z-index: 2;
-    top: 40%;
+    top: 50%;
 }
 
 .close-modal-login {
@@ -63,7 +63,6 @@ body.active-modal-login {
 
 /* FOR LOGIN FORM */
 .Auth-form-modal {
-width: 420px;
 box-shadow: rgb(0 0 0 / 16%) 20px 20px 20px;
 /*padding-top: 30px;
 padding-bottom: 20px;*/

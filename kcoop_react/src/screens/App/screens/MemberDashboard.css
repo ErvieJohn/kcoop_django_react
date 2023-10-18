@@ -1,7 +1,6 @@
 .app-header{
     display: flex;
     justify-content: space-between;
-    margin: 10px 50px 10px 50px;
     align-items: center;
     background-color: transparent;
 }
@@ -59,7 +58,7 @@
 
 input.app-input-search{
     margin-left: 20px;
-    width: 500px;
+    /* width: 500px; */
     height: 30px;
     margin-top: 8px;
     padding-left: 20px;
@@ -254,7 +253,26 @@ ul.list-app-products li {
     outline: 0;
 }
 
-@media screen and (min-width: 300px) and (max-width: 599px) {
+.kcooptitle-app {
+  position: relative;
+  top: 15px;
+}
+
+.center-no-product{
+  top: 40%;
+  position: absolute;
+}
+
+.dropdown-btn-setting{
+  border: none;
+  background-color: transparent;
+  padding: 10px;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+@media screen and (min-width: 300px) and (max-width: 374px) {
   ul.list-app-products {
     margin: 0 0px 0 50px;
   }
@@ -262,6 +280,74 @@ ul.list-app-products li {
   ul.list-app-products  li {
     width: 100%;
     margin-left: 100px;
+  }
+
+  .kcooptitle-app{
+    display: none;
+  }
+
+  .app-header{
+    margin: 10px 10px;
+  }
+
+  .center-no-product{
+    left: 37%;
+  }
+
+  input.app-input-search{
+    width: 200px;
+  }
+
+  .show-username-app{
+    display: none;
+  }
+
+  .show-userlogo-app{
+    display: none;
+  }
+
+  .Auth-form-modal{
+    width: 330px;
+  }
+}
+
+
+@media screen and (min-width: 375px) and (max-width: 599px) {
+  ul.list-app-products {
+    margin: 0 0px 0 50px;
+  }
+
+  ul.list-app-products  li {
+    width: 100%;
+    margin-left: 100px;
+  }
+
+  .kcooptitle-app{
+    display: none;
+  }
+
+  .app-header{
+    margin: 10px 10px;
+  }
+
+  .center-no-product{
+    left: 30%;
+  }
+
+  input.app-input-search{
+    width: 200px;
+  }
+
+  .show-username-app{
+    display: none;
+  }
+
+  .show-userlogo-app{
+    display: block;
+  }
+
+  .Auth-form-modal{
+    width: 370px;
   }
 }
 
@@ -274,6 +360,34 @@ ul.list-app-products li {
     width: 40%;
     margin-right: 35px;
   }
+
+  .kcooptitle-app{
+    display: none;
+  }
+
+  .app-header{
+    margin: 10px 50px;
+  }
+
+  .center-no-product{
+    left: 35%;
+  }
+
+  input.app-input-search{
+    width: 400px;
+  }
+
+  .show-username-app{
+    display: block;
+  }
+
+  .show-userlogo-app{
+    display: block;
+  }
+
+  .Auth-form-modal{
+    width: 420px;
+  }
 }
 
 @media screen and (min-width: 900px) and (max-width: 1219px) {
@@ -285,6 +399,34 @@ ul.list-app-products li {
     width: 28.3333333%;
     margin-right: 40px;
   }
+
+  .kcooptitle-app{
+    display: block;
+  }
+
+  .app-header{
+    margin: 10px 50px;
+  }
+
+  .center-no-product{
+    left: 40%;
+  }
+
+  input.app-input-search{
+    width: 500px;
+  }
+
+  .show-username-app{
+    display: block;
+  }
+
+  .show-userlogo-app{
+    display: block;
+  }
+
+  .Auth-form-modal{
+    width: 420px;
+  }
 }
 
 @media screen and (min-width: 1220px) {
@@ -295,6 +437,34 @@ ul.list-app-products li {
   ul.list-app-products  li {
     width: 20%;
     margin-right: 55px;
+  }
+
+  .kcooptitle-app{
+    display: block;
+  }
+
+  .app-header{
+    margin: 10px 50px;
+  }
+
+  .center-no-product{
+    left: 42%;
+  }
+
+  input.app-input-search{
+    width: 500px;
+  }
+
+  .show-username-app{
+    display: block;
+  }
+
+  .show-userlogo-app{
+    display: block;
+  }
+
+  .Auth-form-modal{
+    width: 420px;
   }
 
 }

@@ -5,6 +5,7 @@ import { faClose, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../config';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import LoadingModal from './LoadingModal';
 
 function LoginModal(props) {
 
@@ -17,7 +18,11 @@ function LoginModal(props) {
 
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const AuthLogin = async (user, pass) => {
+      setIsLoading(true);
+
       var InsertAPIURL = `${BASE_URL}/api/member/login/`;
 
       var headers = {
@@ -42,12 +47,17 @@ function LoginModal(props) {
           setMember(jwt_decode(data.access))
           localStorage.setItem('memberAuthTokens', JSON.stringify(data))
           sessionStorage.removeItem('showRegister');
+
+          
+
           navigate('/app/dashboard/');
       }
       else{
           showResult = "Invalid Username or Password";
           setShowResult(showResult);
-      }     
+      } 
+      
+      setIsLoading(false);
   }
 
   function submitForm (e){
@@ -72,78 +82,87 @@ function LoginModal(props) {
 
   };
 
+  
+
   return (
-      <div className="modal-login">
-        <div onClick={props.modalToggle} className="overlay-modal-login">
-        </div>
-        <div className="modal-login-content">
-              <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
-                <h3 className="Auth-form-title-modal">KCOOP Login</h3>
-                    <div className="Auth-form-content-modal">
+    <>
+        <div className="modal-login">
+            <div onClick={props.modalToggle} className="overlay-modal-login">
+            </div>
+            <div className="modal-login-content">
+                <form className="Auth-form-modal" method="post" onSubmit={submitForm}>
+                    <h3 className="Auth-form-title-modal">KCOOP Login</h3>
+                        <div className="Auth-form-content-modal">
+                            
+                            <div className="form-group-modal mt-3">
+                                <label >Username:</label>
+                                <input
+                                type="username"
+                                className="form-control-modal mt-1"
+                                placeholder="Enter Username"
+                                color='black'
+                                value={user}
+                                onChange={text=>{
+                                    const re = /^[A-Za-z0-9]+$/;
+                                    if (text.target.value === "" || re.test(text.target.value)){
+                                        //this.setState({ value: e.target.value });
+                                        setUser(text.target.value);
+                                    }
+                                    //setUser(text.target.value);
+                                    showResult = " ";
+                                    setShowResult(showResult);
+                                }}
+                                maxLength={20}
+                                autoFocus={true}
+                                required
+                                />
+                            </div>
+                            <div className="form-group-modal mt-3">
+                                <label >Password:</label>
+                                <input
+                                type={showPass ? "text" : "password"}
+                                className="form-control-modal mt-1"
+                                placeholder="Enter Password"
+                                color='black'
+                                value={pass}
+                                onChange={text=>{
+                                    setPass(text.target.value);
+                                    showResult = " ";
+                                    setShowResult(showResult);
+                                }}
+                                maxLength={20}
+                                required
+                                />
+                            </div>
+                            <div className="d-grid-modal gap-2 mt-3">
+                                    <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
+                                <button type="submit" className="btn-modal-login">
+                                    Log in
+                                </button>
+                            </div>
+
+                        </div>
+                </form>
+                
+                <button className="btn-modal-showpass" onClick={showPassToggle}> 
+                    <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
+                </button>
                         
-                        <div className="form-group-modal mt-3">
-                            <label >Username:</label>
-                            <input
-                            type="username"
-                            className="form-control-modal mt-1"
-                            placeholder="Enter Username"
-                            color='black'
-                            value={user}
-                            onChange={text=>{
-                                const re = /^[A-Za-z0-9]+$/;
-                                if (text.target.value === "" || re.test(text.target.value)){
-                                    //this.setState({ value: e.target.value });
-                                    setUser(text.target.value);
-                                }
-                                //setUser(text.target.value);
-                                showResult = " ";
-                                setShowResult(showResult);
-                            }}
-                            maxLength={20}
-                            autoFocus={true}
-                            required
-                            />
-                        </div>
-                        <div className="form-group-modal mt-3">
-                            <label >Password:</label>
-                            <input
-                            type={showPass ? "text" : "password"}
-                            className="form-control-modal mt-1"
-                            placeholder="Enter Password"
-                            color='black'
-                            value={pass}
-                            onChange={text=>{
-                                setPass(text.target.value);
-                                showResult = " ";
-                                setShowResult(showResult);
-                            }}
-                            maxLength={20}
-                            required
-                            />
-                        </div>
-                        <div className="d-grid-modal gap-2 mt-3">
-                                <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
-                            <button type="submit" className="btn-modal-login">
-                                Log in
-                            </button>
-                        </div>
 
-                    </div>
-              </form>
-              
-              <button className="btn-modal-showpass" onClick={showPassToggle}> 
-                  <FontAwesomeIcon icon={showPass ? faEyeSlash : faEye} size = '2x' />
-              </button>
-                      
+                <button className="close-modal-login" onClick={props.modalToggle}>
+                    <FontAwesomeIcon icon={faClose} size = '2x' />
+                </button>
 
-              <button className="close-modal-login" onClick={props.modalToggle}>
-                  <FontAwesomeIcon icon={faClose} size = '2x' />
-              </button>
+                <button className="btn-no-account" onClick={isLoginPageToggle}>I have don't have an account yet.</button> 
+                
+            </div>
+        </div>
 
-              <button className="btn-no-account" onClick={isLoginPageToggle}>I have don't have an account yet.</button> 
-              
-          </div>
-      </div>
+        {isLoading &&(
+            <LoadingModal/>
+        )}
+    </>
+      
   )
 }
 

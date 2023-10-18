@@ -5,6 +5,7 @@ import { faBackward, faClose, faEye, faEyeSlash, faL, faLessThan } from '@fortaw
 import { BASE_URL } from '../../../config';
 import { useNavigate, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import LoadingModal from '../../Modal/LoadingModal';
 
 function AppRegister(props) {
     var [user, setUser] = useState("");
@@ -30,8 +31,11 @@ function AppRegister(props) {
         props.backButton();
     };
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const Register = async (firstname, lastname, email, username, password) => {
+        setIsLoading(true);
+
         var InsertAPIURL = `${BASE_URL}/api/member/register/`;
 
         var headers = {
@@ -66,7 +70,7 @@ function AppRegister(props) {
             //showResult = "There is an error when creating this account.";
             setShowResult(showResult);
         }  
-
+        setIsLoading(false);
     }
 
     function submitRegistrationForm(e){
@@ -74,6 +78,8 @@ function AppRegister(props) {
         //console.log(firstname, lastname, email, user, pass);
         Register(firstname, lastname, email, user, pass);
     }
+
+    
 
   return (
     <>
@@ -217,7 +223,9 @@ function AppRegister(props) {
                 </div>
         </form>
 
-        
+        {isLoading &&(
+            <LoadingModal/>
+        )}
     </>
    
   )

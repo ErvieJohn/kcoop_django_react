@@ -363,7 +363,7 @@ const MemberDashboard = (props) => {
                 <a href='/app' style={{color: "black"}}>
                     <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
                     style={{marginRight: "15px", marginTop: "3px"}}></img>
-                    <span className='kcooptitle-cms'>
+                    <span className='kcooptitle-app' >
                         <b> KASAGANA-KA  </b> COOPERATIVE
                     </span>
                 </a>
@@ -392,8 +392,7 @@ const MemberDashboard = (props) => {
             </div>
 
             <div className='dropdown-profile-wrapper'>
-                <button className='dropdown-btn-setting' type="button" 
-                    style={{border: "none", backgroundColor: "transparent", padding: "10px"}} onClick={clickedDropdown}
+                <button className='dropdown-btn-setting' type="button" onClick={clickedDropdown}
                     onMouseOver={(e) => {
                         e.preventDefault();
                         setHoverDropdown(true);
@@ -406,8 +405,9 @@ const MemberDashboard = (props) => {
                         
                     }}
                 > 
-                    <FontAwesomeIcon icon={faUser} style={{marginRight:"10px"}}/> 
-                    {"Hi, " + member.username + "!"} 
+                    <FontAwesomeIcon icon={faUser} className='show-userlogo-app' style={{marginRight:"10px"}}/>
+                    <b className='show-username-app'>{"Hi, " + member.username + "!"} </b>
+                    
                     {dropdown ? (<FontAwesomeIcon icon={faXmark} style={{marginLeft:"10px"}}/>): 
                     (<FontAwesomeIcon icon={faAngleDown} style={{marginLeft:"10px"}}/>)}
                 </button>
@@ -583,7 +583,7 @@ const MemberDashboard = (props) => {
                 ):( 
                 <>
                     {searchedTags || searched ? (
-                        <center> 
+                        <center className="center-no-product"> 
                             <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
                             <br/>
                             <b> No Product Found </b>
@@ -594,7 +594,7 @@ const MemberDashboard = (props) => {
                             
                         </center>
                     ):(
-                        <center> 
+                        <center className='center-no-product'> 
                             <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
                             <br/>
                             <b> You Don't have product yet </b>
