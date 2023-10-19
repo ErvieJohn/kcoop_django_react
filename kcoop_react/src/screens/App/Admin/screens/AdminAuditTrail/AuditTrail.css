@@ -2,6 +2,127 @@
     border: 1px solid #000;
     border-radius: 15px;
     padding-left: 20px;
-    margin-right: 20px;
-    width: 250px;
+    width: 200px;
+    height: 25px;
+}
+
+.content-header-AL{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.app-admin-clear-btn{
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 1px 1px 0 2px rgba(0,0,0,.3);
+    color: #000;
+    cursor: pointer;
+    font-size: 18px;
+    height: 30px;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+@media screen and (min-width: 300px) and (max-width: 374px) {
+    .content-header-AL{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .app-admin-clear-btn{
+        width: 100%;
+        left: 40%;
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .app-admin-clear-btn-wrapper{
+        width: 50%;
+    }
+
+    .app-admin-labels{
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 599px) {
+    .content-header-AL{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .app-admin-clear-btn{
+        width: 100%;
+        left: 40%;
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .app-admin-clear-btn-wrapper{
+        width: 50%;
+    }
+
+    .app-admin-labels{
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 899px) {
+    .admin-input-search-AT{
+        margin-right: 20px;
+    }
+
+    .content-header-AL{
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .app-admin-search-margin{
+        margin-left: 10px;
+    }
+
+    .app-admin-clear-btn{
+        width: 65px;
+    }
+
+}
+
+@media screen and (min-width: 900px) and (max-width: 1219px) {
+    .admin-input-search-AT{
+        margin-right: 20px;
+    }
+
+    .content-header-AL{
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .app-admin-search-margin{
+        margin-left: 10px;
+    }
+
+    .app-admin-clear-btn{
+        width: 65px;
+    }
+
+}
+
+@media screen and (min-width: 1220px) {
+    .admin-input-search-AT{
+        margin-right: 20px;
+    }
+
+    .content-header-AL{
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .app-admin-search-margin{
+        margin-left: 10px;
+    }
+
+    .app-admin-clear-btn{
+        width: 65px;
+    }
 }

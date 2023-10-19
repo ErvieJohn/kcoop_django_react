@@ -162,7 +162,7 @@ input.app-input-search{
 .dropdown-profile {
   position: absolute;
   top: 55px;
-  right: 50px;
+  /* right: 50px; */
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.2);
@@ -331,6 +331,10 @@ ul.list-app-products li {
   .addbtn-product-wrapper, .app-header-buttons{
     width: 100%;
   }
+
+  .dropdown-profile{
+    right: 0px;
+  }
 }
 
 
@@ -380,6 +384,10 @@ ul.list-app-products li {
   .addbtn-product-wrapper, .app-header-buttons{
     width: 100%;
   }
+
+  .dropdown-profile{
+    right: 15px;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 899px) {
@@ -422,6 +430,10 @@ ul.list-app-products li {
 
   .app-body-tags{
     justify-content: space-between;
+  }
+
+  .dropdown-profile{
+    right: 50px;
   }
 }
 
@@ -466,6 +478,10 @@ ul.list-app-products li {
   .app-body-tags{
     justify-content: space-between;
   }
+
+  .dropdown-profile{
+    right: 50px;
+  }
 }
 
 @media screen and (min-width: 1220px) {
@@ -508,6 +524,10 @@ ul.list-app-products li {
 
   .app-body-tags{
     justify-content: space-between;
+  }
+
+  .dropdown-profile{
+    right: 50px;
   }
 
 }

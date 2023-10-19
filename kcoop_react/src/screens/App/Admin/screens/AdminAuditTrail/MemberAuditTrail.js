@@ -22,8 +22,8 @@ function MemberAuditTrail() {
             Header: 'Username',  
             accessor: 'MemberAuditTrail_user',
             sortable: true,
-            maxWidth: 180,
-            width: 180,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
             Cell: row => (
                 <div style={{ textAlign: "center" }}>{row.value}</div>
                 )
@@ -32,8 +32,8 @@ function MemberAuditTrail() {
             Header: 'Action',  
             accessor: 'MemberAuditTrail_action',
             sortable: true,
-            maxWidth: 180,
-            width: 180,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
             // Cell: row => (
             //     <div style={{ textAlign: "center" }}>{row.value}</div>
             //     )
@@ -42,8 +42,8 @@ function MemberAuditTrail() {
             Header: 'Activity',  
             accessor: 'MemberAuditTrail_activity',
             sortable: false,
-            maxWidth: 400,
-            width: 420,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.4) : 400,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.4) : 400,
             // Cell: row => (
             //     <div style={{ textAlign: "center" }}>{row.value}</div>
             //     )
@@ -51,8 +51,8 @@ function MemberAuditTrail() {
             Header: 'Date',  
             accessor: 'MemberAuditTrail_date',
             sortable: true,
-            maxWidth: 180,
-            width: 180,  
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,  
             Cell: row => (
                 <div style={{ textAlign: "center" }}>{row.value}</div>
                 )
@@ -60,8 +60,8 @@ function MemberAuditTrail() {
             Header: 'Time',  
             accessor: 'MemberAuditTrail_time',
             sortable: true,
-            maxWidth: 220,
-            width: 220,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 220,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 220,
             Cell: row => (
                 <div style={{ textAlign: "center" }}>{row.value}</div>
             )
@@ -289,28 +289,30 @@ function MemberAuditTrail() {
   return (
     <>
         <AdminNavHeader toggleLogout={toggleLogout}/>
-        <div style={{margin: "0 50px 0 50px"}}>
+        <div className='app-admin-content'>
             <center>
                 <b style={{fontSize: "18px"}}>
-                    Member's Activity Logs
+                    Members Activity Logs
                 </b>
             </center>
-        <div className='content-header'>
-                <b style={{marginRight: "10px", marginTop: "2px"}}>
-                    <label>Username:</label> 
-                </b>
-                <input className='admin-input-search-AT' type="text" placeholder='Search Admin User'
-                            style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
-                            value={inputSearch}
-                            onChange={(text)=>{
-                                handleOnChangeSearch(text);
-                                
-                            }}
-                            ref={inputSearchRef}
-                        />
+        <div className='content-header-AL'>
                 <div id='icon-text-cms'>
                     <b style={{marginRight: "10px", marginTop: "2px"}}>
-                        <label for="action">Action:</label>
+                        <label className='app-admin-labels'>Username:</label> 
+                    </b>
+                    <input className='admin-input-search-AT' type="text" placeholder='Search Username'
+                                style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
+                                value={inputSearch}
+                                onChange={(text)=>{
+                                    handleOnChangeSearch(text);
+                                    
+                                }}
+                                ref={inputSearchRef}
+                            />
+                </div>
+                <div id='icon-text-cms'>
+                    <b style={{marginRight: "10px", marginTop: "2px"}}>
+                        <label className='app-admin-labels' for="action">Action:</label>
                     </b>
                     <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" 
                     style={{height: "25px", width: "200px"}}
@@ -324,15 +326,15 @@ function MemberAuditTrail() {
                 </div>
                    
 
-                <div style={{marginLeft: "10px"}}>
+                <div className='app-admin-search-margin'>
                     <center><b>Date</b></center>
                     <div style={{display:"grid", justifyItems: 'flex-end'}}>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
+                            <b className='app-admin-labels' style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
                                 style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
                         </div>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
+                            <b className='app-admin-labels' style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
                                 style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
                                 {/* value={dateToVal}  */}
                         </div>
@@ -340,24 +342,24 @@ function MemberAuditTrail() {
                     
                 </div>
                 
-                <div style={{marginLeft: "10px"}}>
+                <div className='app-admin-search-margin'>
                     <center><b>Time</b></center>
                     <div style={{display:"grid", justifyItems: 'flex-end'}}>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
+                            <b className='app-admin-labels' style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
                             style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
                         </div>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
+                            <b className='app-admin-labels' style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
                             style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
                         </div>
                     </div>
                     
                 </div>
 
-                <div style={{display: isSearched ? "block" : "none",marginLeft: "10px"}}>
-                    <button class="btn-admin-status" onClick={onClickClear}>
-                            <FontAwesomeIcon icon={faXmarkCircle}/>
+                <div className='app-admin-clear-btn-wrapper' style={{display: isSearched ? "block" : "none",marginLeft: "10px"}}>
+                    <button class="app-admin-clear-btn" onClick={onClickClear}>
+                            <FontAwesomeIcon icon={faXmarkCircle}/> {window.innerWidth >= 768 ? "":"Clear Search"}
                     </button>
                 </div>
 
@@ -372,7 +374,6 @@ function MemberAuditTrail() {
                     <>
                         <ReactTable  
                             className='react-table-cms'
-                            style={{marginRight: "30px"}}
                             data={data}  
                             columns={columns}  
                             defaultPageSize = {10}  

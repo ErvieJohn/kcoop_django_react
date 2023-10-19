@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faGear, faLessThan, faSearch, faSearchMinus, faSignOut, faUser, faUserFriends, faUserGroup, faUserSecret, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faGear, faLessThan, faListCheck, faSearch, faSearchMinus, faSignOut, faUser, faUserFriends, faUserGroup, faUserSecret, faXmark } from '@fortawesome/free-solid-svg-icons';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
@@ -13,15 +13,26 @@ function AdminNavHeader(props) {
 
     function clickedDropdown(){
         setDropdown(!dropdown);
+
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            setHoverDropdown(!hoverDropdown);
+        }
     }
 
     const navigate = useNavigate();
 
+    function toggleListMember(){
+        clickedDropdown();
+        navigate('/app/admin');
+    }
+
     function toggleMemberActivityLog(){
+        clickedDropdown();
         navigate('/app/admin/MemberActivityLog');
     }
 
     function toggleAdminActivityLog(){
+        clickedDropdown();
         navigate('/app/admin/AdminActivityLog');
     }
     
@@ -29,12 +40,15 @@ function AdminNavHeader(props) {
     <header className='header-background'>
             <div className='app-header'>
                 <div style={{display: "flex"}}>
-                    <a href='/app/admin' style={{color: "black"}}>
+                    <a href='/app/admin' style={{color: "black", display: "flex",alignItems: "center"}}>
                         <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
-                        style={{marginRight: "15px", marginTop: "3px"}}></img>
-                        <span className='kcooptitle-cms'>
-                            <b> KASAGANA-KA  </b> COOPERATIVE <i style={{fontFamily: "monospace", marginLeft: "7px"}}> Administrator</i>
+                        style={{marginRight: "15px"}}></img>
+                        <span className='kcooptitle-app-admin'>
+                            <b> KASAGANA-KA  </b> COOPERATIVE 
                         </span>
+
+                        <i style={{fontFamily: "monospace", marginLeft: "7px"}}> Administrator</i>
+                        
                     </a>
                     
                 </div>
@@ -55,8 +69,9 @@ function AdminNavHeader(props) {
                             
                         }}
                     > 
-                        <FontAwesomeIcon icon={faUser} style={{marginRight:"10px"}}/> 
-                        {"Hi, " + admin.username + "!"} 
+                        <FontAwesomeIcon icon={faUser} className='show-userlogo-app' style={{marginRight:"10px"}}/> 
+                        <b className='show-username-app'>{"Hi, " + admin.username + "!"} </b>
+
                         {dropdown ? (<FontAwesomeIcon icon={faXmark} style={{marginLeft:"10px"}}/>): 
                         (<FontAwesomeIcon icon={faAngleDown} style={{marginLeft:"10px"}}/>)}
                     </button>
@@ -79,8 +94,12 @@ function AdminNavHeader(props) {
                         > <FontAwesomeIcon icon={faGear}/> My Profile</button> */}
                         
                         <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
+                        onClick={toggleListMember}
+                        > <FontAwesomeIcon icon={faListCheck}/> List of Members</button> 
+                        
+                        <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
                         onClick={toggleMemberActivityLog}
-                        > <FontAwesomeIcon icon={faUserGroup}/> Member Activity Logs</button> 
+                        > <FontAwesomeIcon icon={faUserGroup}/> Members Activity Logs</button> 
                         <button className="dropdown-profile-btn" style={{borderRadius: "8px 8px 0 0"}} 
                         onClick={toggleAdminActivityLog}
                         > <FontAwesomeIcon icon={faUserSecret}/> Admin Activity Logs</button> 

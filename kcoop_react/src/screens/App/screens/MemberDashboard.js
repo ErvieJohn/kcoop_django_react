@@ -53,9 +53,19 @@ const MemberDashboard = (props) => {
 
     function clickedDropdown(){
         setDropdown(!dropdown);
+        
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            setHoverDropdown(!hoverDropdown);
+        }
+
+        // if(window.orientation > 1){
+        //     setHoverDropdown(!hoverDropdown);
+        // }
+        
     }
 
     const toggleSettingModal = () => {
+        clickedDropdown();
         setModalSetting(!modalSetting);
     };
 
@@ -433,22 +443,25 @@ const MemberDashboard = (props) => {
         </div>
     </header>
     {searchedTags || searched ? (
-        <center>
-            <span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "26px"}}> 
-            {searched ? `Search result for "${searchedText}"` : `Search result by tags`}
-            </b></span>
-            <br/>
-            {products  ? (
-                <div className='addbtn-product-wrapper'>
-                    <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
-                        <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
-                    </button>
-                </div>
+        <div style={{margin: "0px 50px"}}>
+            <center>
+                <span><b style={{fontFamily: "ITCAvantGardeStd-Bk,Arial,sans-serif", fontSize: "26px"}}> 
+                {searched ? `Search result for "${searchedText}"` : `Search result by tags`}
+                </b></span>
+                <br/>
+                {products  ? (
+                    <div className='addbtn-product-wrapper'>
+                        <button type="button" className="app-header-buttons" onClick={(e)=>{clickedClear(e)}}>
+                            <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
+                        </button>
+                    </div>
+                    
+                    ):(null)
+                }
                 
-                ):(null)
-            }
-            
-        </center>
+            </center>
+        </div>
+        
         
     
     ):(null)}
@@ -580,7 +593,7 @@ const MemberDashboard = (props) => {
                     
                 ))
                 ):( 
-                <>
+                <div style={{margin: "0px 50px"}}>
                     {searchedTags || searched ? (
                         <center style={{marginTop: "20px"}}> 
                             <FontAwesomeIcon icon={faFileCircleXmark} size='5x'/>
@@ -588,7 +601,7 @@ const MemberDashboard = (props) => {
                             <b> No Product Found </b>
                             <br/>
                             <div className='addbtn-product-wrapper'>
-                                <button type="button" className="app-header-buttons" style={{marginLeft: "10px"}} onClick={(e)=>{clickedClear(e)}}>
+                                <button type="button" className="app-header-buttons" onClick={(e)=>{clickedClear(e)}}>
                                     <FontAwesomeIcon icon={faXmark}/> Clear Searches ?
                                 </button>
                             </div>
@@ -607,7 +620,7 @@ const MemberDashboard = (props) => {
                             
                         </center>
                         )}
-                </>
+                </div>
                     
                 ))  : (<LoadingSpinner/>) }
         </div>

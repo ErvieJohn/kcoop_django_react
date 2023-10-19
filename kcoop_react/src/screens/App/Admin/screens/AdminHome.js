@@ -68,8 +68,8 @@ function AdminHome(props) {
         Header: 'Username',  
         accessor: 'Username',
         sortable: true,
-        maxWidth: 180,
-        width: 180,
+        maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.1) : 180,
+        width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.1) : 180,
         Cell: row => (
             <div style={{ textAlign: "center" }}>
                 <a href={'/app/admin/edit/' + row.value} target='_blank'>{row.value}</a>
@@ -80,8 +80,8 @@ function AdminHome(props) {
         Header: 'First Name',  
         accessor: 'FirstName',
         sortable: true,
-        maxWidth: 180,
-        width: 180,
+        maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
+        width: window.innerWidth >=  1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
         // Cell: row => (
         //     <div style={{ textAlign: "center" }}>{row.value}</div>
         //     )
@@ -90,8 +90,8 @@ function AdminHome(props) {
         Header: 'Last Name',  
         accessor: 'LastName',
         sortable: true,
-        maxWidth: 180,
-        width: 180,
+        maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
+        width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 180,
         // Cell: row => (
         //     <div style={{ textAlign: "center" }}>{row.value}</div>
         //     )
@@ -99,8 +99,8 @@ function AdminHome(props) {
         Header: 'Email',  
         accessor: 'Email',
         sortable: false,
-        maxWidth: 280,
-        width: 280,  
+        maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.3) : 280,
+        width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.3) : 280,  
         Cell: row => (
             <div style={{ textAlign: "center" }}>{row.value}</div>
             )
@@ -109,8 +109,8 @@ function AdminHome(props) {
             Header: 'Date Joined',  
             accessor: 'DateJoined',
             sortable: true,
-            maxWidth: 220,
-            width: 220,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 220,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 220,
             Cell: row => (
                 <div style={{ textAlign: "center" }}>{row.value}</div>
             )
@@ -119,8 +119,8 @@ function AdminHome(props) {
             Header: 'Delete',  
             accessor: 'Username',
             sortable: false,
-            maxWidth: 120,
-            width: 120,
+            maxWidth: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 120,
+            width: window.innerWidth >= 1024 ? Math.round((window.innerWidth - 30) * 0.15) : 120,
             Cell: row => (
                 <div style={{ textAlign: "center" }}>
                     <button className='btn-admin-status' 
@@ -198,55 +198,58 @@ function AdminHome(props) {
 
   return (
     <> 
-            <AdminNavHeader toggleLogout={toggleLogout}/>
-            <div style={{margin: "0 50px 0 50px"}}>
-                <div className='content-header'>
-                    <div className='content-header-search' >
-                        <label for="search-by" style={{marginRight: "10px"}}>Search by:</label> 
-                        <select name="search-by" value={searchByValue} id="search-by" style={{marginRight: "10px"}}
-                            onChange={handleSearchByChange}
-                        > 
-                            <option selected value="Username">Username</option> 
-                            <option value="Firstname">First Name</option> 
-                            <option value="Lastname">Last Name</option> 
-                            <option value="Email">Email</option> 
-                        </select>
-                        <input className='app-input-search' type="text" placeholder={'Search for '+searchByValue}
-                            style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
-                            value={inputSearch}
-                            onChange={(text)=>{
-                                handleOnChangeSearch(text);
-                                
-                            }}
-                        />
-
-                    </div>
+        <AdminNavHeader toggleLogout={toggleLogout}/>
+        <div className='app-admin-content'>
+            <center>
+                <b style={{fontSize: "18px"}}>
+                    List of Members
+                </b>
+            </center>
+            
+            <div className='content-header'>
+                <div className='content-header-search' >
+                    <label for="search-by" style={{marginRight: "10px"}}>Search by:</label> 
+                    <select name="search-by" value={searchByValue} id="search-by"
+                        onChange={handleSearchByChange}
+                    > 
+                        <option selected value="Username">Username</option> 
+                        <option value="Firstname">First Name</option> 
+                        <option value="Lastname">Last Name</option> 
+                        <option value="Email">Email</option> 
+                    </select>
                 </div>
-                
-                <div className='content-member-table'>
-                {isLoading ? (
-                    <>
-                        <LoadingSpinner/>
-                    </>):(
-                    <>
-                        <ReactTable  
-                            className='react-table-cms'
-                            style={{marginRight: "30px"}}
-                            data={data}  
-                            columns={columns}  
-                            defaultPageSize = {10}  
-                            pageSizeOptions = {[10,30,50,80,100]}  
-                    />   
-                    </>
-                )}
-                    
-                     
-                </div>
-
-
+                <input className='app-admin-input-search' type="text" placeholder={'Search for '+searchByValue}
+                    style={{backgroundImage: <FontAwesomeIcon icon={faSearch}/>}}
+                    value={inputSearch}
+                    onChange={(text)=>{
+                        handleOnChangeSearch(text);
+                        
+                    }}
+                />
             </div>
             
-        
+            <div className='content-member-table'>
+            {isLoading ? (
+                <>
+                    <LoadingSpinner/>
+                </>):(
+                <>
+                    <ReactTable  
+                        className='react-table-cms'
+                        // style={{marginRight: "30px"}}
+                        data={data}  
+                        columns={columns}  
+                        defaultPageSize = {10}  
+                        pageSizeOptions = {[10,30,50,80,100]}  
+                />   
+                </>
+            )}
+                
+                    
+            </div>
+
+
+        </div>
     </>
     
   )
