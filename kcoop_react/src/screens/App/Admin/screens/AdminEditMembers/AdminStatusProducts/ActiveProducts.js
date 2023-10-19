@@ -17,10 +17,7 @@ function ActiveProducts(props) {
   return (
     <>
       {activeProducts.slice(currentListNumber, currentListNumber+12).map((item, index)=>(
-        <div 
-            style={{borderRadius: "10px", backgroundColor: "#fff", 
-                    padding: "0 10px", backgroundColor: "rgba(44, 39, 39, 0.125)"}}
-        >
+        <div className='product-list-app'>
             <ul className='list-app-products'>
                 <li className='list-products'  style={{maxHeight: "400px", minHeight: "400px"}}>
                     <figure className='figure-cms'>

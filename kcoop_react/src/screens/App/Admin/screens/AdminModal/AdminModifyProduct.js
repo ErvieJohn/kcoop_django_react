@@ -126,12 +126,12 @@ function AdminModifyProduct(props) {
     <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-product">
         </div>
-        <div className="modal-login-content" style={{maxWidth: "840px", minWidth: "840px", top: "50%"}}>
-              <form className="Auth-form-modal" style={{width: "840px"}}> 
+        <div className="modal-login-content" style={{marginTop:"20px"}}>
+              <form className="Auth-form-modal"> 
               {/* onSubmit={submitForm}> */}
                 <h3 className="Auth-form-title-modal">Edit Product</h3>
                     <div className="Auth-form-content-modal" style={{overflowY: 'scroll', height: window.innerHeight - 200}}>
-                        <div id="icon-text-admin">
+                        <div id={window.innerWidth >= 1024 ? "icon-text-admin" : ""}>
                             <div className='admin-edit-line'>
                                 <div className="form-group-modal mt-3">
                                     <label>Product Title:</label>

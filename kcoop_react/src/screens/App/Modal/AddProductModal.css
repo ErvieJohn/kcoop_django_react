@@ -5,7 +5,7 @@
     align-items: center;
     border: 2px dashed #1475cf;
     height: 300px;
-    width: 320px;
+    /* width: 320px; */
     cursor: pointer;
     border-radius: 5px;
   }
@@ -18,7 +18,7 @@
     padding: 15px 20px;
     border-radius: 5px;
     background-color: #e9f0ff;
-    width: 320px;
+    /* width: 320px; */
   }
   
   .upload-content-product{
