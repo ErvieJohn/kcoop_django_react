@@ -9,7 +9,8 @@
 .sidebar-cms{
   background: #000;
   color: #fff;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 100%;
   /*width: 30%;*/
   transition: all 0.5s;
   overflow-y: auto;
@@ -94,14 +95,48 @@
   justify-content: center;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 300px) and (max-width: 374px) {
+  .cms-text-content{
+    width: 240px;
+  }
+
+}
+
+@media screen and (min-width: 375px) and (max-width: 599px) {
+  .cms-text-content{
+    width: 290px;
+  }
+
+}
+
+@media screen and (min-width: 600px) and (max-width: 899px) {
+  .cms-text-content{
+    margin-right: 20px;
+  }
+
+}
+
+@media screen and (min-width: 900px) and (max-width: 1219px) {
 
   #combine-cms {
     display: flex;
   }
 
+  .cms-text-content{
+    margin-right: 20px;
+  }
+
 }
 
+@media screen and (min-width: 1220px) {
+  #combine-cms {
+    display: flex;
+  }
+
+  .cms-text-content{
+    margin-right: 20px;
+  }
+}
 
 
 

@@ -124,7 +124,7 @@ function CMSCP() {
   return (
     <>
     {getWhoWeAreData ? (<>
-      <div style={{margin: "20px"}}> 
+      <div className='cms-text-content'> 
         <center>
           <h1>
             <b>{titlePage}</b>
@@ -183,7 +183,7 @@ function CMSCP() {
             
           }}
         />
-        <center id="icon-text-cms">
+        <center>
           <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}><FontAwesomeIcon icon={faSave}/> SAVE</button>
            <div style={{marginLeft: "10px", marginTop: "10px"}}>
             <h4>OR <code style={{color: !isEnable ? '#c7254e' :'rgb(102, 110, 110)'}}>ALT + S</code></h4>

@@ -99,7 +99,6 @@
   line-height: normal;
   color: #282828;
   display: block;
-  width: 300px;
   box-sizing: border-box;
   user-select: auto;
   font-size: 16px;
@@ -180,10 +179,25 @@ ul.list-cms  li {
 
 }
 
+@media screen and (min-width: 200px) {
+
+  ul.list-cms  li {
+    width: 100%;
+  }
+
+  .inputSO{
+    width: 185px;
+  }
+}
+
 @media screen and (min-width: 400px) {
 
   ul.list-cms  li {
     width: 100%;
+  }
+
+  .inputSO{
+    width: 185px;
   }
 }
 
@@ -192,6 +206,10 @@ ul.list-cms  li {
   ul.list-cms  li {
     width: 50%;
   }
+
+  .inputSO{
+    width: 185px;
+  }
 }
 
 @media screen and (min-width: 900px) {
@@ -199,12 +217,20 @@ ul.list-cms  li {
   ul.list-cms  li {
     width: 33.3333333%;
   }
+
+  .inputSO{
+    width: 300px;
+  }
 }
 
 @media screen and (min-width: 1024px) {
 
   ul.list-cms  li {
     width: 25%;
+  }
+
+  .inputSO{
+    width: 300px;
   }
 
 }

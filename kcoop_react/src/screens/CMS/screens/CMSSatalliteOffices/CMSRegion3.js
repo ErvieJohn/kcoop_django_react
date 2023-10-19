@@ -279,7 +279,7 @@ function CMSRegion3() {
   return (
     <>
     {satalliteOfficesData ? (<>
-        <div> 
+        <div className='cms-text-content'> 
           <center>
             <h1><b>{pageTitle}</b></h1>
           </center> 

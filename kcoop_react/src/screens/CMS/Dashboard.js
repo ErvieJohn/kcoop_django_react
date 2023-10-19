@@ -157,7 +157,7 @@ function Dashboard() {
     <Navbar logout={AuthLogout} user={User} open={isOpenFunc} darkmode={isDarkMode} currentDM={darkMode} /> 
 
     
-         <main className={darkMode ? 'cmsMainDarkMode' : 'cmsMain'} style={{marginLeft: !isOpen ? "80px":"290px"}}>
+         <main className={darkMode ? 'cmsMainDarkMode' : 'cmsMain'} style={{marginLeft: !isOpen ? "70px":"290px"}}>
         {/* <main className='cmsMainDarkMode' style={{marginLeft: !isOpen ? "80px":"290px"}}> */}
           <Outlet context={[User]}/>
         </main>
