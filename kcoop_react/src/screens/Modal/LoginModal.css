@@ -163,10 +163,11 @@ border: 1px solid transparent;
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 118vh;
+    /* height: 118vh; */
     background-color: #37525f;
     position:absolute;
-    top: -120px;
+    /* top: -120px; */
+    height: 100%;
     /*background-color: rgb(55, 52, 52);*/
   }
 

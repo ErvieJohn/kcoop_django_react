@@ -92,7 +92,7 @@ function Dashboard() {
       });
       // logs out user
       AuthLogout();
-    }, 300000); // 300000ms = 5mins. You can change the time.
+    }, 600000); // 300000ms = 5mins. You can change the time.
   };
 
   // this resets the timer if it exists.

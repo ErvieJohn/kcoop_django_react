@@ -333,7 +333,7 @@ const CMSAnnualReports = () => {
               <figure className='figure-cms'>
                 <img src={item.Publications_image} style={{height: "200px", width: "180px", marginBottom: "2%"}}/>
                 <br/>
-                <center>
+                <center className='cms-content-titles'>
                     <b>
                         {item.file_name}
                     </b>

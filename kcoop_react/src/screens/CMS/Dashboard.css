@@ -151,6 +151,10 @@ ul.list-cms  li {
   font-size: 16px;
 }
 
+.cms-content-titles{
+  width: 190px;
+}
+
 
 @media screen and (max-width: 600px) {
   #pagetitle-cms {

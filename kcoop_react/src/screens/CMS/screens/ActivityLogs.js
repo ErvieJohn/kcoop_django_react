@@ -9,6 +9,7 @@ import { useOutletContext } from "react-router-dom";
 import LoadingSpinner from '../../LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faRemove, faSearch } from '@fortawesome/free-solid-svg-icons';
+import './ActivityLogs.css';
 
 const ActivityLogs = () => {
     const [User] = useOutletContext();
@@ -45,6 +46,8 @@ const ActivityLogs = () => {
     const timeRef = useRef(null);
     const timeToRef = useRef(null);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const getCmsStaff = (user) =>{
         var InsertAPIURL = `${BASE_URL}/getCmsStaff/`;
     
@@ -77,6 +80,8 @@ const ActivityLogs = () => {
     }
 
     const getAuditTrail = (user, username, action, date, time, toDate, toTime) => {
+        setIsLoading(true);
+
         var InsertAPIURL = `${BASE_URL}/getAuditTrail/`;
     
         var headers = {
@@ -100,6 +105,7 @@ const ActivityLogs = () => {
             setData(res);
             //console.log(res);
             //console.log(data);
+            setIsLoading(false);
     
           }).catch(error => {
               console.log(`getting data error from api url ${error}`)});
@@ -263,7 +269,10 @@ const ActivityLogs = () => {
     useEffect(() => {
         //console.log("user: ", user);
         getCmsStaff(user);
-        getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal, dateToVal, timeToVal);
+        if(isLoading){
+            getAuditTrail(user, usernameVal, actionVal, dateVal, timeVal, dateToVal, timeToVal);
+        }
+        
 
     }, []);
 
@@ -276,17 +285,17 @@ const ActivityLogs = () => {
             <h1><b>Activity Logs</b></h1>
         </center>
         <center style={{margin: staff ? ("0px"):("0 100px 0 100px")}}>
-            <div style={{justifyContent: 'space-between', marginBottom: "10px", marginRight: "30px"}} id='icon-text-cms'>
+            <div className='cms-AL-header' style={{marginBottom: "10px"}} id='icon-text-cms'>
                 {staff ? (
                 <div id='icon-text-cms' style={{marginTop:"20px"}}>
-                    <b style={{marginRight: "10px", marginTop: "2px"}}>Username: </b> 
+                    <b className='cms-header-labels' style={{marginTop: "2px"}}>Username: </b> 
                     <input ref={usernameRef} className="inputSO" type="text" placeholder='Enter Username' style={{height: "25px", width: "200px"}}
                     onChange={onChangeUsername}/>
                 </div>):(<></>)}
                 
                 
                 <div id='icon-text-cms' style={{marginTop:"20px"}}>
-                    <b style={{marginRight: "10px", marginTop: "2px"}}><label for="action">Action:</label></b>
+                    <b className='cms-header-labels' style={{marginTop: "2px"}}><label for="action">Action:</label></b>
                     <select ref={actionRef} defaultValue="All" name="action" id="action" className="inputSO" style={{height: "25px", width: "200px"}}
                     onChange={onChangeAction}>
                         <option value="All">All</option>
@@ -301,11 +310,11 @@ const ActivityLogs = () => {
                     <center><b>Date</b></center>
                     <div style={{display:"grid", justifyItems: 'flex-end'}}>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
+                            <b className='cms-header-labels' style={{marginTop: "2px"}}>From: </b> <input ref={dateRef} className="inputSO" type="date"
                                 style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeDate}/>
                         </div>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
+                            <b className='cms-header-labels' style={{marginTop: "2px"}}>To: </b> <input ref={dateToRef} className="inputSO" type="date"
                                 style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToDate}/> 
                                 {/* value={dateToVal}  */}
                         </div>
@@ -317,45 +326,53 @@ const ActivityLogs = () => {
                     <center><b>Time</b></center>
                     <div style={{display:"grid", justifyItems: 'flex-end'}}>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
+                            <b className='cms-header-labels' style={{marginTop: "2px"}}>From: </b> <input ref={timeRef} className="inputSO" type="time" 
                             style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeTime}/>
                         </div>
                         <div id='icon-text-cms'>
-                            <b style={{marginRight: "10px", marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
+                            <b className='cms-header-labels' style={{marginTop: "2px"}}>To: </b> <input ref={timeToRef} className="inputSO" type="time" 
                             style={{width: "100px", height: "25px", width: "150px"}} onChange={onChangeToTime}/>
                         </div>
                     </div>
                     
                 </div>
                 
-                <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px', marginTop:"20px"}} 
-                        onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
-                <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px', marginTop:"20px"}} 
-                        onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
+                <div className='cms-clear-btn-wrapper'>
+                    <button className='btn-cms' style={{backgroundColor: 'black', color:'white', width: '100px', marginTop:"20px"}} 
+                            onClick={clearData}><FontAwesomeIcon icon={faRemove}/> Clear</button>
+                    <br/>
+                    <button className='btn-cms' style={{backgroundColor: 'lightseagreen', color:'white', width: '100px', marginTop:"20px"}} 
+                            onClick={searchData}><FontAwesomeIcon icon={faSearch}/> Search</button>
+                </div>
+                
                 
                 
             </div>
         </center>
-        {data.length > 0 ? (
-        <div>  
-            <ReactTable  
-                className='react-table-cms'
-                style={{marginRight: "30px"}}
-                data={data}  
-                columns={columns}  
-                defaultPageSize = {10}  
-                pageSizeOptions = {[10,30,50,80,100]}  
-            />  
-        </div>
-        ):
-        <div style={{height: "420px",alignItems: "center", alignContent: "center",justifyContent: "center", display: "flex"}}>
-            <center>
-                <h3>
-                    No data found
-                </h3>
-            </center>
-            {/* <LoadingSpinner/> */}
-        </div>
+        {isLoading ? (
+            <LoadingSpinner/>
+        
+        ): (
+            <div className='cms-text-content'>  
+                <ReactTable  
+                    className='react-table-cms'
+                    data={data}  
+                    columns={columns}  
+                    defaultPageSize = {10}  
+                    pageSizeOptions = {[10,30,50,80,100]}  
+                />  
+            </div>
+            // <div style={{height: "420px",alignItems: "center", alignContent: "center",justifyContent: "center", display: "flex"}}>
+            //     <center>
+            //         <h3>
+            //             No data found
+            //         </h3>
+            //     </center>
+                
+            // </div>
+        )
+        
+        
         }
     </div>
     

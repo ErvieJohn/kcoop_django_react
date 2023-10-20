@@ -2,9 +2,10 @@
     align-items: center;
     background-color: #3e4548;
     display: flex;
-    height: 118vh;
+    /* height: 118vh; */
     justify-content: center;
     position: absolute;
-    top: -120px;
+    height: 100%;
+    /* top: -120px; */
     width: 100vw;
 }

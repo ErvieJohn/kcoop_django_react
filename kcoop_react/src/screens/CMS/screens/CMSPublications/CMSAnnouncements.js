@@ -340,38 +340,38 @@ const CMSAnnouncements = () => {
           <h5> </h5>
         </>)}
         <div>
-        <div>
-        <ul className='list-cms'>
-          {activeSlider.map((item)=>{return(
-              <>
-              <li style={{padding: ".625em",textAlign: "center"}}>
-              <figure className='figure-cms'>
-                  <img src={item.Publications_image} style={{height: "200px", width: "180px"}}/>
-                  <br/>
-                  <center>
-                    <b>
-                        {item.Publications_title}
-                    </b>
-                  </center>
-                  <button className='btn-cms'
-                  style={{width:'50px', backgroundColor: 'red', color:'white'}} 
-                  onClick={e=>DeactivateButton(e, item.Publications_id)}
-                  ><FontAwesomeIcon icon={faStop}/></button>
-                  <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
-                  <button className='btn-cms' style={{width:'50px', backgroundColor: 'blue', color:'white'}} 
-                  onClick={e=>EditButton(e, item.Publications_id)}><FontAwesomeIcon icon={faEdit}/></button>
-                  <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
-                  <button className='btn-cms' style={{width:'50px', backgroundColor: 'black', color:'white'}} 
-                  onClick={e=>DeleteButton(e, item.Publications_id)}><FontAwesomeIcon icon={faTrash}/></button>
-              </figure>
-              </li>
-              </>
-            )}
-        
-            )}
-        </ul>
-        <br style={{clear:"both"}}/>
-        </div>
+          <ul className='list-cms'>
+            {activeSlider.map((item)=>{return(
+                <>
+                <li style={{padding: ".625em",textAlign: "center"}}>
+                <figure className='figure-cms'>
+                    <img src={item.Publications_image} style={{height: "200px", width: "180px"}}/>
+                    <br/>
+                    <center>
+                      <div className='cms-content-titles'>
+                          {item.Publications_title.length > 25 ? 
+                              (<b>{item.Publications_title.substring(0,25) + "..."}</b>):
+                              (<b>{item.Publications_title}</b>)}
+                      </div>
+                    </center>
+                    <button className='btn-cms'
+                    style={{width:'50px', backgroundColor: 'red', color:'white'}} 
+                    onClick={e=>DeactivateButton(e, item.Publications_id)}
+                    ><FontAwesomeIcon icon={faStop}/></button>
+                    <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
+                    <button className='btn-cms' style={{width:'50px', backgroundColor: 'blue', color:'white'}} 
+                    onClick={e=>EditButton(e, item.Publications_id)}><FontAwesomeIcon icon={faEdit}/></button>
+                    <div style={{width:'10px',height:'auto',display:'inline-block'}}/>
+                    <button className='btn-cms' style={{width:'50px', backgroundColor: 'black', color:'white'}} 
+                    onClick={e=>DeleteButton(e, item.Publications_id)}><FontAwesomeIcon icon={faTrash}/></button>
+                </figure>
+                </li>
+                </>
+              )}
+          
+              )}
+          </ul>
+          <br style={{clear:"both"}}/>
         </div>
         <h3> Deactivated Files </h3>
         {notActiveSlider.length > 0 ? (<>
@@ -383,9 +383,11 @@ const CMSAnnouncements = () => {
               <figure className='figure-cms'>
                 <img src={item.Publications_image} style={{height: "200px", width: "180px"}}/>
                 <center>
-                  <b>
-                      {item.Publications_title}
-                  </b>
+                  <div className='cms-content-titles'>
+                      {item.Publications_title.length > 25 ? 
+                          (<b>{item.Publications_title.substring(0,25) + "..."}</b>):
+                          (<b>{item.Publications_title}</b>)}
+                  </div>
                 </center>
                 <br/>
                 <button className='btn-cms' style={{width:'50px', backgroundColor: 'green', color:'white'}} 
@@ -462,20 +464,23 @@ const CMSAnnouncements = () => {
                 </div>
             </div>
             
-            <div id="desc-cms" style={{width: "500px"}}>
+            <div id="desc-cms">
               <label style={{fontSize: "16px"}}>Description</label>
-              <CKEditor
-                    editor={ClassicEditor}
-                    data = {edit}
-                    
-                    onChange={(event, editor) => {
+              <div className='cms-text-content'>
+                <CKEditor
+                      editor={ClassicEditor}
+                      data = {edit}
                       
-                      const dataEditor = editor.getData();
-                      
-                      setEdited(dataEditor);
-                      //console.log("edited",edited);
-                    }}
-                  />
+                      onChange={(event, editor) => {
+                        
+                        const dataEditor = editor.getData();
+                        
+                        setEdited(dataEditor);
+                        //console.log("edited",edited);
+                      }}
+                    />
+              </div>
+              
             </div>
             
               

@@ -282,23 +282,32 @@ export const EditAnnouncements =  () => {
               <h1>Edit {pageTitle}</h1>
             </center>
             <br/>
-            <center style={{paddingRight: "100px"}}>
-              <div id="icon-text-cms" style={{width: "100%"}}>
-                <b>
-                <label style={{fontSize: "16px", marginRight: "10px"}}>Title:  </label>
-                </b>
-                <input className="inputSO" type="text" value={titleInput} onChange={titleOnChange}></input>
-                <b><label style={{fontSize: "16px", marginLeft: "20px", marginRight: "10px"}}>Date:  </label></b>
-                <input className="inputSO" type="date" value={dateInput} onChange={dateOnChange}></input>
+            <center style={{paddingRight: window.innerWidth >= 768 ? "100px" : "0px"}}>
+              <div className="cms-AL-header">
+                <div id="icon-text-cms">
+                  <b>
+                    <label style={{fontSize: "16px", marginRight: "10px"}}>Title:  </label>
+                  </b>
+                  <input className="inputSO" type="text" value={titleInput} onChange={titleOnChange}></input>
+                </div>
+
+                <div id="icon-text-cms">
+                  <b>
+                    <label className="cms-date-input" style={{fontSize: "16px", marginRight: "10px"}}>Date:  </label>
+                  </b>
+                  <input className="inputSO" type="date" value={dateInput} onChange={dateOnChange}></input>
+                </div>
+                
               </div>
+              
+              
               <br/>
               
-              <div id="icon-text-cms">
+              <div id={window.innerWidth >= 768 ? "icon-text-cms" : ""}>
                 
-                <div>
+                <div style={{marginBottom: "20px"}}>
                   <br/>
-                  <div style={{width:"375px", maxWidth:"375px", height: "375px", maxHeight: "375px", display: "flex", 
-                      position: "relative"}}>
+                  <div className="cms-edit-image-content">
                     <div style={{position: "absolute", top: "50%", transform: "translate(0, -50%)",
                       borderStyle: "dashed", borderColor: 'skyblue', padding: "10px 10px 10px 10px"}}>
                       <img src={showImage} style={{maxWidth: "100%", height: "auto"}} />
@@ -316,47 +325,50 @@ export const EditAnnouncements =  () => {
                     onClick={onUndoClicked} disabled={isEnableUndo}><FontAwesomeIcon icon={faUndo}/> Undo</button>
                 </div>
                 
-                <div id="desc-cms" style={{width: "500px", marginLeft: "50px"}}>
+                <div id="desc-cms">
                   <label style={{fontSize: "16px"}}>Description</label>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    data = {edit}
+                  <div className="cms-text-content">
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data = {edit}
 
-                    onChange={(event, editor) => {
-                      
-                      const dataEditor = editor.getData();
-                      edited = dataEditor;
-                      //console.log("dataEditor", dataEditor);
-                      //console.log("oldText", edited, oldText);
-                      //console.log("text", edited, text);
-                      
-                      if(edited==text){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else if(edited == oldText){
-                        //disabled
-                        setIsEnable(true);
-                      }
-                      else{
-                        //enabled
-                        setIsEnable(false);
-                      }
-                    
-                      if (!executed) {
-                          setExecuted(true);
-                          // do something
+                      onChange={(event, editor) => {
+                        
+                        const dataEditor = editor.getData();
+                        edited = dataEditor;
+                        //console.log("dataEditor", dataEditor);
+                        //console.log("oldText", edited, oldText);
+                        //console.log("text", edited, text);
+                        
+                        if(edited==text){
                           //disabled
                           setIsEnable(true);
-                          //console.log("Executed");
-                          setOldText(edited);
-                      }
+                        }
+                        else if(edited == oldText){
+                          //disabled
+                          setIsEnable(true);
+                        }
+                        else{
+                          //enabled
+                          setIsEnable(false);
+                        }
                       
-                    }}
-                  />
+                        if (!executed) {
+                            setExecuted(true);
+                            // do something
+                            //disabled
+                            setIsEnable(true);
+                            //console.log("Executed");
+                            setOldText(edited);
+                        }
+                        
+                      }}
+                    />
+                  </div>
+                  
                 </div>
               </div>
-              <center id="icon-text-cms">
+              <center id={window.innerWidth >= 768 ? "icon-text-cms" : ""}>
                 <button className='btn-cms' onClick={saveClicked} style={{backgroundColor: !isEnable ? 'rgb(0, 254, 254)' : 
                 'rgb(102, 110, 110)', color: !isEnable ? 'black':'white', width: "200px", marginTop: "15px"}} disabled={isEnable}>
                   <FontAwesomeIcon icon={faSave}/> SAVE</button>

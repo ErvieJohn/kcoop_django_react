@@ -341,9 +341,11 @@ const CMSK_Bahagi = () => {
                   <img src={item.Stories_image} style={{height: "90px", width: "180px"}}/>
                   <br/>
                   <center>
-                    <b>
-                        {item.Stories_title}
-                    </b>
+                    <div className='cms-content-titles'>
+                        {item.Stories_title.length > 25 ? 
+                            (<b>{item.Stories_title.substring(0,25) + "..."}</b>):
+                            (<b>{item.Stories_title}</b>)}
+                    </div>
                   </center>
                   <button className='btn-cms'
                   style={{width:'50px',backgroundColor: 'red', color:'white'}} 
@@ -376,9 +378,12 @@ const CMSK_Bahagi = () => {
                 <img src={item.Stories_image} style={{height: "90px", width: "180px"}}/>
                 <br/>
                 <center>
-                  <b>
-                      {item.Stories_title}
-                  </b>
+                    <div className='cms-content-titles'>
+                        
+                        { item.Stories_title ?  (item.Stories_title.length > 25 ? 
+                            (<b>{item.Stories_title.substring(0,25) + "..."}</b>):
+                            (<b>{item.Stories_title}</b>)):null}
+                    </div>
                 </center>
                 
                 <button className='btn-cms' style={{width:'50px', backgroundColor: 'green', color:'white'}} 
@@ -455,22 +460,22 @@ const CMSK_Bahagi = () => {
                 </div>
             </div>
             
-            <div id="desc-cms" style={{width: "500px"}}>
+            <div id="desc-cms">
               <label style={{fontSize: "16px"}}>Description</label>
-              <CKEditor
-                    editor={ClassicEditor}
-                    data = {edit}
-                    
-                    onChange={(event, editor) => {
+              <div className='cms-text-content'>
+                <CKEditor
+                      editor={ClassicEditor}
+                      data = {edit}
                       
-                      const dataEditor = editor.getData();
-                      
-                      setEdited(dataEditor);
-                    }}
-                  />
+                      onChange={(event, editor) => {
+                        
+                        const dataEditor = editor.getData();
+                        
+                        setEdited(dataEditor);
+                      }}
+                    />
+              </div>
             </div>
-            
-              
           </div>
           
           

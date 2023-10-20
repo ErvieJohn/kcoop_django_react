@@ -182,6 +182,21 @@ const Navbar = (props) => {
     
   }
 
+  const mobileCloseSideBar = () =>{
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      setIsWhoweareOpen (false); 
+      setIsPandSOpen (false); 
+      setIsSOOpen (false); 
+      setISPublicationOpen (false);
+      setIsStoriesOpen(false);
+      setIsLogoutOpen(false);
+
+      setIsOpen(false);
+      props.open(false);
+    }
+    
+  }
+
   return (
     <>
       <header className="header-cms" style={{left: isOpen ? '280px':'50px', paddingRight: "70px", transition: 'all 0.5s' }}>
@@ -232,162 +247,174 @@ const Navbar = (props) => {
                    
                   
                </div>
-               <NavLink to={SidebarData[0].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Home'}>
+
+               <div className='cms-sidebar-list-buttons' style={{overflowY: 'scroll', overflowX: 'hidden'}}>
+                  <NavLink to={SidebarData[0].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Home'}
+                    onClick={mobileCloseSideBar}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[0].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[0].text}</div>
+                      </div>
+                      
+                  </NavLink>
+                  <botton to={SidebarData[1].link} className="link-cms" activeclassName="active-cms" onClick={toggleWhoweare}
+                      title={ isOpen ? '':'Who We Are'}
+                      style={{cursor: "pointer",
+                              WebkitTapHighlightColor: "transparent",
+                              WebkitUserSelect: "none",
+                              KhtmlUserSelect: "none",
+                              MozUserSelect: "none",
+                              msUserSelect: "none",
+                              userSelect: "none",}}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[1].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[1].text}</div>
+                      </div>
+
+                      <div className="icon-arrow-cms">{isOpen ? (isWhoweareOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
+                  </botton>
+                  {isWhoweareOpen ? (
+                      whoweareData.map((item, index)=>(
+                          <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" 
+                            onClick={mobileCloseSideBar}>
+                              <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
+                          </NavLink>
+                      ))
+                    ) : (<></>) 
+                  }
+
+                  <botton to={SidebarData[2].link} className="link-cms" activeclassName="active-cms" onClick={togglePandS}
+                    title={ isOpen ? '':'Programs And Services'}
+                      style={{cursor: "pointer",
+                              WebkitTapHighlightColor: "transparent",
+                              WebkitUserSelect: "none",
+                              KhtmlUserSelect: "none",
+                              MozUserSelect: "none",
+                              msUserSelect: "none",
+                              userSelect: "none",}}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[2].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[2].text}</div> 
+                      </div>
+                      
+
+                      <div className="icon-arrow-cms">{isOpen ? (isPandSOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
+                  </botton>
+                  {isPandSOpen ? (
+                      PnSData.map((item, index)=>(
+                          <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" 
+                            onClick={mobileCloseSideBar}>
+                              <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
+                          </NavLink>
+                      ))
+                    ) : (<></>) 
+                  }
+
+                  <botton to={SidebarData[3].link} className="link-cms" activeclassName="active-cms" onClick={toggleSO}
+                  title={ isOpen ? '':'Satallite Offices'}
+                      style={{cursor: "pointer",
+                              WebkitTapHighlightColor: "transparent",
+                              WebkitUserSelect: "none",
+                              KhtmlUserSelect: "none",
+                              MozUserSelect: "none",
+                              msUserSelect: "none",
+                              userSelect: "none",}}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[3].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[3].text} </div>
+                      </div>
+                      
+                      <div className="icon-arrow-cms">{isOpen ? (isSOOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
+                      
+                  </botton>
+                    
+                  
+                  {isSOOpen ? (
+                      SOData.map((item, index)=>(
+                          <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" 
+                            onClick={mobileCloseSideBar}>
+                              <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
+                          </NavLink>
+                      ))
+                    ) : (<></>) 
+                  }
+
+                  <botton to={SidebarData[4].link} className="link-cms" activeclassName="active-cms" onClick={togglePublication}
+                  title={ isOpen ? '':'Publications'}
+                      style={{cursor: "pointer",
+                              WebkitTapHighlightColor: "transparent",
+                              WebkitUserSelect: "none",
+                              KhtmlUserSelect: "none",
+                              MozUserSelect: "none",
+                              msUserSelect: "none",
+                              userSelect: "none",}}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[4].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[4].text} </div>
+                      </div>
+                      
+                      <div className="icon-arrow-cms">{isOpen ? (isPublicationOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
+                      
+                  </botton>
+                    
+                  
+                  {isPublicationOpen ? (
+                      PublicationData.map((item, index)=>(
+                          <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" 
+                            onClick={mobileCloseSideBar}>
+                              <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
+                          </NavLink>
+                      ))
+                    ) : (<></>) 
+                  }
+
+                  <botton to={SidebarData[5].link} className="link-cms" activeclassName="active-cms" onClick={toggleStories}
+                  title={ isOpen ? '':'Stories'}
+                      style={{cursor: "pointer",
+                              WebkitTapHighlightColor: "transparent",
+                              WebkitUserSelect: "none",
+                              KhtmlUserSelect: "none",
+                              MozUserSelect: "none",
+                              msUserSelect: "none",
+                              userSelect: "none",}}>
+                      <div id="icon-text-cms">
+                        <div className="icon-cms">{SidebarData[5].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[5].text} </div>
+                      </div>
+                      
+                      <div className="icon-arrow-cms">{isOpen ? (isStoriesOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
+                      
+                  </botton>
+                    
+                  
+                  {isStoriesOpen ? (
+                      StoriesData.map((item, index)=>(
+                          <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms"
+                            onClick={mobileCloseSideBar} >
+                              <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
+                          </NavLink>
+                      ))
+                    ) : (<></>) 
+                  }
+
+                  <NavLink to={SidebarData[6].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Careers'} 
+                    onClick={mobileCloseSideBar}>
                   <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[0].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[0].text}</div>
-                  </div>
-                  
-               </NavLink>
-               <botton to={SidebarData[1].link} className="link-cms" activeclassName="active-cms" onClick={toggleWhoweare}
-                  title={ isOpen ? '':'Who We Are'}
-                  style={{cursor: "pointer",
-                          WebkitTapHighlightColor: "transparent",
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          msUserSelect: "none",
-                          userSelect: "none",}}>
-                  <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[1].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[1].text}</div>
-                  </div>
+                        <div className="icon-cms">{SidebarData[6].icon}</div>
+                        <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
+                        <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[6].text}</div>
+                      </div>
+                      
+                  </NavLink>
 
-                  <div className="icon-arrow-cms">{isOpen ? (isWhoweareOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
-               </botton>
-              {isWhoweareOpen ? (
-                  whoweareData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
-                           <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
-                       </NavLink>
-                   ))
-                ) : (<></>) 
-              }
-
-              <botton to={SidebarData[2].link} className="link-cms" activeclassName="active-cms" onClick={togglePandS}
-                title={ isOpen ? '':'Programs And Services'}
-                  style={{cursor: "pointer",
-                          WebkitTapHighlightColor: "transparent",
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          msUserSelect: "none",
-                          userSelect: "none",}}>
-                  <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[2].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[2].text}</div> 
-                  </div>
-                  
-
-                  <div className="icon-arrow-cms">{isOpen ? (isPandSOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
-               </botton>
-              {isPandSOpen ? (
-                  PnSData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
-                           <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
-                       </NavLink>
-                   ))
-                ) : (<></>) 
-              }
-
-              <botton to={SidebarData[3].link} className="link-cms" activeclassName="active-cms" onClick={toggleSO}
-              title={ isOpen ? '':'Satallite Offices'}
-                  style={{cursor: "pointer",
-                          WebkitTapHighlightColor: "transparent",
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          msUserSelect: "none",
-                          userSelect: "none",}}>
-                  <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[3].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[3].text} </div>
-                  </div>
-                  
-                  <div className="icon-arrow-cms">{isOpen ? (isSOOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
-                  
-              </botton>
-                
-              
-              {isSOOpen ? (
-                  SOData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
-                           <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
-                       </NavLink>
-                   ))
-                ) : (<></>) 
-              }
-
-              <botton to={SidebarData[4].link} className="link-cms" activeclassName="active-cms" onClick={togglePublication}
-              title={ isOpen ? '':'Publications'}
-                  style={{cursor: "pointer",
-                          WebkitTapHighlightColor: "transparent",
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          msUserSelect: "none",
-                          userSelect: "none",}}>
-                  <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[4].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[4].text} </div>
-                  </div>
-                  
-                  <div className="icon-arrow-cms">{isOpen ? (isPublicationOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
-                  
-              </botton>
-                
-              
-              {isPublicationOpen ? (
-                  PublicationData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
-                           <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
-                       </NavLink>
-                   ))
-                ) : (<></>) 
-              }
-
-              <botton to={SidebarData[5].link} className="link-cms" activeclassName="active-cms" onClick={toggleStories}
-              title={ isOpen ? '':'Stories'}
-                  style={{cursor: "pointer",
-                          WebkitTapHighlightColor: "transparent",
-                          WebkitUserSelect: "none",
-                          KhtmlUserSelect: "none",
-                          MozUserSelect: "none",
-                          msUserSelect: "none",
-                          userSelect: "none",}}>
-                  <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[5].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[5].text} </div>
-                  </div>
-                  
-                  <div className="icon-arrow-cms">{isOpen ? (isStoriesOpen ? (<FontAwesomeIcon icon={faMinus} />) : (<FontAwesomeIcon icon={faPlus} />)) : (<></>)}</div>
-                  
-              </botton>
-                
-              
-              {isStoriesOpen ? (
-                  StoriesData.map((item, index)=>(
-                       <NavLink to={item.link} key={index} className="link-cms" activeclassName="active-cms" >
-                           <div style={{display: isOpen ? "block" : "none", marginLeft: "5%", fontSize: "14px"}} className="link_text-cms">{item.text}</div>
-                       </NavLink>
-                   ))
-                ) : (<></>) 
-              }
-
-               <NavLink to={SidebarData[6].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Careers'}>
-               <div id="icon-text-cms">
-                    <div className="icon-cms">{SidebarData[6].icon}</div>
-                    <div style={{width:'15px',height:'auto',display:'inline-block'}}/>
-                    <div style={{display: isOpen ? "block" : "none"}} className="link_text-cms">{SidebarData[6].text}</div>
-                  </div>
-                  
-               </NavLink>
+               </div>
+               
 
                
                <div className='footer-logout-cms' style={{width: isOpen ? '280px' : '50px', transition: 'all 0.5s'}}>
@@ -395,7 +422,8 @@ const Navbar = (props) => {
                 {isOpen ? (<div className="icon-cms" style={{marginLeft: "15px"}}><FontAwesomeIcon icon={faUser}/><b style={{marginLeft: "20px"}}>{user.username}</b></div>):
                 (<></>)}
 
-                  <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Activity Logs'}>
+                  <NavLink to={SidebarData[7].link} className="link-cms" activeclassName="active-cms" title={ isOpen ? '':'Activity Logs'}
+                    onClick={mobileCloseSideBar}>
                       <div id="icon-text-cms">
                         <div className="icon-cms">{SidebarData[7].icon}</div>
                         <div style={{width:'15px',height:'auto',display:'inline-block'}}/>

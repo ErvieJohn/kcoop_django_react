@@ -4,10 +4,11 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 118vh;
+    /* height: 118vh; */
     background-color: rgb(55, 52, 52);
     position:absolute;
-    top: -120px;
+    height: 100%;
+    /* top: -120px; */
     /*background-color: rgb(55, 52, 52);*/
   }
   

@@ -290,9 +290,11 @@ const CMSVideos = () => {
                     <iframe width="100%" height={90} src={item.Stories_ytlink} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                   <br/>
                   <center>
-                    <b>
-                        {item.Stories_title}
-                    </b>
+                    <div className='cms-content-titles'>
+                        {item.Stories_title ?  (item.Stories_title.length > 25 ? 
+                            (<b>{item.Stories_title.substring(0,25) + "..."}</b>):
+                            (<b>{item.Stories_title}</b>)) : null}
+                    </div>
                   </center>
                   <button className='btn-cms' 
                   style={{backgroundColor: 'red', color:'white'}} 
@@ -324,9 +326,11 @@ const CMSVideos = () => {
                 {/*<embed width="100%" height={90} src={item.Stories_ytlink} />*/}
                 <iframe width="100%" height={90} src={item.Stories_ytlink} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <center>
-                  <b>
-                      {item.Stories_title}
-                  </b>
+                  <div className='cms-content-titles'>
+                      {item.Stories_title ?  (item.Stories_title.length > 25 ? 
+                          (<b>{item.Stories_title.substring(0,25) + "..."}</b>):
+                          (<b>{item.Stories_title}</b>)) : null}
+                  </div>
                 </center>
                 <br/>
                 <button className='btn-cms'  style={{backgroundColor: 'green', color:'white'}} onClick={e=>ActivateButton(e, item.Stories_id)}><FontAwesomeIcon icon={faPlay}/></button>
