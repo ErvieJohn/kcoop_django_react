@@ -10,6 +10,7 @@ function MemberSettingModal(props) {
 
     const navigate = useNavigate();
 
+    const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
 
     //var [user, setUser] = useState("");
@@ -25,12 +26,12 @@ function MemberSettingModal(props) {
 
     const updateMember = async(username, password, firstname, lastname, email, newpassword) => {
         var InsertAPIURL = `${BASE_URL}/api/member/updateMember/`;
-        var DataBody = {username: username, password: password, firstName: firstname, lastName: lastname, email: email, newPassword: newpassword};
+        var DataBody = {password: password, firstName: firstname, lastName: lastname, email: email, newPassword: newpassword};
         let response = await fetch(InsertAPIURL, {
               method:'POST',
               headers:{
                   'Content-Type':'application/json',
-                  //'Authorization':'Bearer ' + String(memberAuthTokens.access)
+                  'Authorization':'Bearer ' + String(memberAuthTokens.access)
               },
               body: JSON.stringify(DataBody)
           })
@@ -47,7 +48,11 @@ function MemberSettingModal(props) {
 
             props.modalToggle();
             window.location.reload();
-          }else {
+          }
+          else if(response.statusText === 'Unauthorized'){
+            props.logout();
+          }
+          else {
             
             setError(true);
             errorText = data.detail;

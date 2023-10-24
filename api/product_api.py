@@ -81,9 +81,13 @@ def registerMember(request):
             #return Response({"data":"Email already exist."})
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def insertProduct(request):
+    # print("request.data: ", request.data)
     if request.data:
-        username = request.data["username"]
+        user = request.user
+        # print(user)
+        # username = request.data["username"]
         category_name = request.data["category_name"]
         tags = json.loads(request.data["tags"])
         
@@ -111,7 +115,7 @@ def insertProduct(request):
         genProduct_id = str(uuid.uuid4())
         product_image = request.data['product_image']
         product_title = request.data['product_title']
-        user = User.objects.get(username=username)
+        # user = User.objects.get(username=username)
         #user_serializer = UserSerializer(user)
         #print(user)
         try:
@@ -128,7 +132,7 @@ def insertProduct(request):
                 createProduct.Tag.add(createTag)
                 
             gen_uuid = str(uuid.uuid4())
-            createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=username,
+            createMemberAuditTrail = MemberAuditTrail.objects.create(MemberAuditTrail_id = gen_uuid, MemberAuditTrail_user=user,
                 MemberAuditTrail_activity= "Created a product titled " + product_title, MemberAuditTrail_action="Create")
         
         except:
@@ -140,6 +144,7 @@ def insertProduct(request):
         data = productSerializer.data
         
         return Response({"data":data})
+        
     
 
 @api_view(['GET'])

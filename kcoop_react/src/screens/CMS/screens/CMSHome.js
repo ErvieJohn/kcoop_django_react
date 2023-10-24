@@ -200,7 +200,7 @@ const CMSHome = () => {
     formData.append('image', image);
     formData.append('username', user.username);
     formData.append('staff', staff);
-    console.log(formData);
+    //console.log(formData);
 
     axios.post(`${BASE_URL}/uploadImage/`, formData).then((response)=>{
       //console.log(res);

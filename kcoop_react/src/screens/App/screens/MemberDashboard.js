@@ -11,6 +11,7 @@ import jwt_decode from "jwt-decode";
 import TagsModal from '../Modal/TagsModal';
 import { WithContext as ReactTags } from 'react-tag-input';
 import LoadingSpinner from '../../LoadingSpinner';
+import LoadingModal from '../../Modal/LoadingModal';
 
 const MemberDashboard = (props) => {
     const [categories, setCategories] = useState(null);
@@ -50,6 +51,10 @@ const MemberDashboard = (props) => {
     const [noProduct, setNoProduct] = useState(true);
 
     const [loading, setLoading] = useState(true);
+
+    const [isLoadingModal, setIsLoadingModal] = useState(false);
+
+    
 
     function clickedDropdown(){
         setDropdown(!dropdown);
@@ -103,6 +108,13 @@ const MemberDashboard = (props) => {
     if(tagsModal) {
         document.body.classList.add('active-modal-setting')
     } else {
+        document.body.classList.remove('active-modal-setting')
+    }
+
+    if(isLoadingModal){
+        //console.log("dsadasdsaddasdsa");
+        document.body.classList.add('active-modal-setting')
+    } else{
         document.body.classList.remove('active-modal-setting')
     }
 
@@ -374,7 +386,7 @@ const MemberDashboard = (props) => {
                     <img src="/static/media/kcoop.png" width="45px" align="left" className="logo-cms" 
                     style={{marginRight: "15px", marginTop: "3px"}}></img>
                     <span className='kcooptitle-app' >
-                        <b> KASAGANA-KA  </b> COOPERATIVE
+                        <b style={{marginRight: "8px"}}> KASAGANA-KA  </b> COOPERATIVE
                     </span>
                 </a>
                 
@@ -741,10 +753,11 @@ const MemberDashboard = (props) => {
         
 
     {modal && (
-        <AddProductModal modalToggle={toggleProductModal} categories={categories} getProduct={getMemberProducts} tags={tags}/>
+        <AddProductModal modalToggle={toggleProductModal} categories={categories} getProduct={getMemberProducts} 
+            tags={tags} setIsLoadingModal={setIsLoadingModal} logout={toggleLogout}/>
     )}
     {modalSetting && (
-        <MemberSettingModal modalToggle={toggleSettingModal}/>
+        <MemberSettingModal modalToggle={toggleSettingModal} logout={toggleLogout}/>
     )}
 
     {categoriesModal && (
@@ -755,6 +768,10 @@ const MemberDashboard = (props) => {
     {/* {tagsModal && (
         <TagsModal modalToggle={toggleTagsModal} tags={tags} toggleSearchTag={toggleSearchTag}/>
     )} */}
+
+    {isLoadingModal &&(
+        <LoadingModal/>
+    )}
 
     </>
   )

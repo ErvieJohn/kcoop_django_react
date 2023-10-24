@@ -90,12 +90,26 @@ body{
     .fixed .content-wrapper,.fixed .right-side{
         padding-top:50px
     }
+    .modal-login-content{
+        top: 50%;
+    }
+    
 }
 @media (min-width:768px) and (max-width:991px){
     .fixed .content-wrapper,.fixed .right-side{
         padding-top:150px
     }
+    .modal-login-content{
+        top: 60%;
+    }
 }
+
+@media (min-width:992px){
+    .modal-login-content{
+        top: 50%;
+    }
+}
+
 .fixed.layout-boxed .wrapper{
     max-width:100%
 }

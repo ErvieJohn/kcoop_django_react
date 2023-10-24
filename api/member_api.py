@@ -45,11 +45,13 @@ class UnauthorizedException(APIException):
     status_code = 401
     default_detail = "Not logged in"
 
-@api_view(['POST']) #@permission_classes([IsAuthenticated])
+@api_view(['POST']) 
+@permission_classes([IsAuthenticated])
 def updateMember(request):
     if request.data:
         email = request.data["email"]
-        username = request.data["username"]
+        # username = request.data["username"]
+        user = request.user
         password = request.data["password"]
         firstName = request.data["firstName"]
         lastName = request.data["lastName"]
@@ -64,11 +66,11 @@ def updateMember(request):
         
         isEmailExist = User.objects.filter(email=email).exists() # checking if the email exist
         if(not isEmailExist):
-            data, Error = memberUpdater(username=username, password=password, firstName=firstName, lastName=lastName, email=email, newPassword=newPassword)     
+            data, Error = memberUpdater(username=user, password=password, firstName=firstName, lastName=lastName, email=email, newPassword=newPassword)     
         else:
-            isUserEmailExist = User.objects.filter(username=username, email=email).exists()
+            isUserEmailExist = User.objects.filter(username=user, email=email).exists()
             if(isUserEmailExist):
-                data, Error = memberUpdater(username=username, password=password, firstName=firstName, lastName=lastName, email=email, newPassword=newPassword)
+                data, Error = memberUpdater(username=user, password=password, firstName=firstName, lastName=lastName, email=email, newPassword=newPassword)
             
             else:
                 data, Error = "Email already exist!"

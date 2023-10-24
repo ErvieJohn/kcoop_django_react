@@ -408,6 +408,7 @@ def updateHomeSlide(request):
 
 @api_view(['POST'])
 def uploadImage(request):
+    print("request.data: ", request.data)
     try:
         image = request.data['image']
         username = request.data['username']

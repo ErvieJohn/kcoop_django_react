@@ -49,8 +49,9 @@ function LoginModal(props) {
           sessionStorage.removeItem('showRegister');
 
           
-
+          props.modalToggle();
           navigate('/app/dashboard/');
+          //window.location.reload();
       }
       else{
           showResult = "Invalid Username or Password";

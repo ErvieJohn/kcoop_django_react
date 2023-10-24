@@ -304,7 +304,8 @@ ul.list-app-products li {
   }
 
   .center-no-product{
-    left: 37%;
+    left: 25%;
+    right: 25%;
   }
 
   input.app-input-search{
@@ -357,7 +358,8 @@ ul.list-app-products li {
   }
 
   .center-no-product{
-    left: 30%;
+    left: 25%;
+    right: 25%;
   }
 
   input.app-input-search{
@@ -448,7 +450,7 @@ ul.list-app-products li {
   }
 
   .kcooptitle-app{
-    display: block;
+    display: flex;
   }
 
   .app-header{
@@ -460,7 +462,7 @@ ul.list-app-products li {
   }
 
   input.app-input-search{
-    width: 500px;
+    width: 465px;
   }
 
   .show-username-app{
@@ -495,7 +497,7 @@ ul.list-app-products li {
   }
 
   .kcooptitle-app{
-    display: block;
+    display: flex;
   }
 
   .app-header{

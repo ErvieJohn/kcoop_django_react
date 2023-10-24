@@ -10,6 +10,7 @@ import { AiFillFileImage } from 'react-icons/ai'
 import './AddProductModal.css';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
+import LoadingModal from '../../Modal/LoadingModal';
 
 const KeyCodes = {
     comma: 188,
@@ -19,10 +20,11 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 function AddProductModal(props) {
-
+    //props.setIsLoadingModal(true);
     const navigate = useNavigate();
 
     const [member, setMember] = useState(()=> localStorage.getItem('memberAuthTokens') ? jwt_decode(localStorage.getItem('memberAuthTokens')) : null);
+    const [memberAuthTokens, setMemberAuthTokens] = useState(()=> localStorage.getItem('memberAuthTokens') ? JSON.parse(localStorage.getItem('memberAuthTokens')) : null);
 
     const categories = props.categories;
 
@@ -41,6 +43,8 @@ function AddProductModal(props) {
     const [hasImage, setHasImage] = useState(false);
     var [errorImage, setErrorImage] = useState("");
 
+    // const [isLoading, setIsLoading] = useState(false);
+
     function categoryOnChange(e){
         let selectedCategory = e.target.value;
         setCategory(selectedCategory);
@@ -50,6 +54,7 @@ function AddProductModal(props) {
         e.preventDefault();
         if(hasImage && tags.length > 0){
             onClickAddProduct();
+        
         }
         else if(!(tags.length > 0)){
             errorImage = "Please add atlease 1 tag";
@@ -74,33 +79,60 @@ function AddProductModal(props) {
         setErrorImage(errorImage);
       }
 
-    const onClickAddProduct = () =>{
+    const onClickAddProduct = async () =>{
         // console.log("image: ", image);
         // console.log("member: ", member.username);
         // console.log("title: ", title);
         // console.log("category: ", category);
         // console.log("categories: ", categories)
         if(image && member.username && title && category && tags.length>0){
+            props.setIsLoadingModal(true);
+
             const formData = new FormData();
             formData.append('product_image', image);
-            formData.append('username', member.username);
+            // formData.append('username', member.username);
             formData.append('product_title', title);
             formData.append('category_name', category);
             formData.append('tags', JSON.stringify(tags));
-            //console.log("tags: ", JSON.stringify(tags));
+            //console.log("formData: ", formData);
 
-            axios.post(`${BASE_URL}/api/member/insertProduct/`, formData).then((response)=>{
-                //console.log("DATA: ",response.data);
-            })
-            setFileName("No selected File")
-            setShowImage(null)
-            setImage(null)
-            setTags([]);
-            imgInputRef.current.value = null;
-            props.modalToggle();
-            //props.getProduct();
-            //props.getProducts();
-            window.location.reload();
+            let config = {
+                headers:{
+                    'Authorization':'Bearer ' + String(memberAuthTokens.access)
+                }
+            };
+
+            const response = await axios.post(`${BASE_URL}/api/member/insertProduct/`, formData, config)
+            // let data = await response.json();
+            // console.log(data);
+
+            if(response.status === 200){
+                
+
+                setFileName("No selected File")
+                setShowImage(null)
+                setImage(null)
+                setTags([]);
+                imgInputRef.current.value = null;
+
+                props.setIsLoadingModal(false);
+                props.modalToggle();
+                //props.getProduct();
+                //props.getProducts();
+                
+                window.location.reload();
+            }
+            else if(response.statusText === 'Unauthorized'){
+                props.logout();
+            }
+            else{
+                props.setIsLoadingModal(false);
+                errorImage = "There was an error when adding this product, please try again!";
+                setErrorImage(errorImage);
+                //console.log("there was a problem!")
+            }
+
+            
         }
         else{
             errorImage = "there was a problem!";
@@ -108,7 +140,7 @@ function AddProductModal(props) {
             console.log("there was a problem!")
         }
         
-
+        
     }
 
     const [tags, setTags] = useState([]);
@@ -150,7 +182,8 @@ function AddProductModal(props) {
       }, [tags]);
 
   return (
-      <div className="modal-login">
+    <>
+        <div className="modal-login">
         <div onClick={props.modalToggle} className="overlay-modal-product">
         </div>
         <div className="modal-login-content" style={{marginTop:"20px"}}>
@@ -262,6 +295,7 @@ function AddProductModal(props) {
                        
 
                     </div>
+
               </form>
 
               <button className="close-modal-login" onClick={props.modalToggle}>
@@ -269,7 +303,11 @@ function AddProductModal(props) {
               </button>
 
           </div>
+          
       </div>
+      
+    </>
+      
   )
 }
 
