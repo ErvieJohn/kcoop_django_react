@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
 import "../../Modal/LoginModal.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward, faClose, faEye, faEyeSlash, faL, faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faClose, faExclamationCircle, faEye, faEyeSlash, faL, faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../../config';
 import { useNavigate, Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -14,7 +14,8 @@ function AppRegister(props) {
     var [lastname, setLastName] = useState("");
     var [email, setEmail] = useState("");
 
-    var [showResult, setShowResult] = useState(" ");
+    const [isError, setIsError] = useState(false);
+    var [showResult, setShowResult] = useState("");
 
     // function submitForm (e){
     //     e.preventDefault();
@@ -69,6 +70,7 @@ function AppRegister(props) {
             showResult = data.detail;
             //showResult = "There is an error when creating this account.";
             setShowResult(showResult);
+            setIsError(true);
         }  
         setIsLoading(false);
     }
@@ -151,8 +153,9 @@ function AppRegister(props) {
                                 //this.setState({ value: e.target.value });
                                 setEmail(text.target.value);
                             }
-                            showResult = " ";
+                            showResult = "";
                             setShowResult(showResult);
+                            setIsError(false);
                             //setEmail(text.target.value);
                         }}
                         maxLength={100}
@@ -179,8 +182,9 @@ function AppRegister(props) {
                                 setUser(text.target.value);
                             }
                             //setUser(text.target.value);
-                            showResult = " ";
+                            showResult = "";
                             setShowResult(showResult);
+                            setIsError(false);
                         }}
                         maxLength={20}
                         required
@@ -197,8 +201,9 @@ function AppRegister(props) {
                             color='black'
                             value={pass}
                             onChange={text=>{setPass(text.target.value);
-                                                showResult = " ";
+                                                showResult = "";
                                                 setShowResult(showResult);
+                                                setIsError(false);
                             }}
                             required
                             maxLength={20}
@@ -212,8 +217,15 @@ function AppRegister(props) {
                         
                     </div>
 
+                    <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" style={{display: isError ? ("block"):("none")}}>
+                        <div style={{display: "flex", marginTop: "10px"}}>
+                            <FontAwesomeIcon icon={faExclamationCircle}/>
+                            <p style={{marginLeft: "10px"}}>Error: {showResult}</p>
+                        </div>
+                    </div>
+
                     <div className="d-grid-modal gap-2 mt-3">
-                            <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p> 
+                            {/* <p style={{color: 'red', textAlign: 'center'}}>{showResult}</p>  */}
                         <button type="submit" className="btn-modal-login">
                             Register
                         </button>

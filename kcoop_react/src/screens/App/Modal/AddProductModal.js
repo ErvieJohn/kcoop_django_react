@@ -1,6 +1,6 @@
 import {React, useState, useRef, useEffect} from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAdd, faClose, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faAdd, faCircleInfo, faClose, faExclamationCircle, faEye, faEyeSlash, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL } from '../../../config';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
@@ -41,6 +41,8 @@ function AddProductModal(props) {
     const [showImage, setShowImage] = useState(null);
 
     const [hasImage, setHasImage] = useState(false);
+
+    const [isError, setIsError] = useState(false);
     var [errorImage, setErrorImage] = useState("");
 
     // const [isLoading, setIsLoading] = useState(false);
@@ -59,10 +61,12 @@ function AddProductModal(props) {
         else if(!(tags.length > 0)){
             errorImage = "Please add atlease 1 tag";
             setErrorImage(errorImage);
+            setIsError(true);
         }
         else{
             errorImage = "Please add image";
             setErrorImage(errorImage);
+            setIsError(true);
         }
     }
     
@@ -77,6 +81,7 @@ function AddProductModal(props) {
         setHasImage(true);
         errorImage = "";
         setErrorImage(errorImage);
+        setIsError(false);
       }
 
     const onClickAddProduct = async () =>{
@@ -129,6 +134,7 @@ function AddProductModal(props) {
                 props.setIsLoadingModal(false);
                 errorImage = "There was an error when adding this product, please try again!";
                 setErrorImage(errorImage);
+                setIsError(true);
                 //console.log("there was a problem!")
             }
 
@@ -137,19 +143,25 @@ function AddProductModal(props) {
         else{
             errorImage = "there was a problem!";
             setErrorImage(errorImage);
-            console.log("there was a problem!")
+            setIsError(true);
+            //console.log("there was a problem!")
         }
         
         
     }
 
-    const [tags, setTags] = useState([]);
+    var [tags, setTags] = useState([]);
     const handleDelete = i => {
-        setTags(tags.filter((tag, index) => index !== i));
+        tags = tags.filter((tag, index) => index !== i);
+        setTags(tags);
+        if(tags.length == 0){
+            setShowTagInfo(true);
+        }
     };
 
     const handleAddition = tag => {
         setTags([...tags, tag]);
+        setShowTagInfo(false);
     };
 
     const handleDrag = (tag, currPos, newPos) => {
@@ -173,11 +185,14 @@ function AddProductModal(props) {
     //     setSuggestions(suggestions);
     // }
 
+    const [showTagInfo, setShowTagInfo] = useState(true);
+
     useEffect(() => {
         //getSuggestions();
         if(tags.length > 0){
             errorImage = "";
             setErrorImage(errorImage);
+            setIsError(false);
         }
       }, [tags]);
 
@@ -221,25 +236,49 @@ function AddProductModal(props) {
                         </div>
                         <div className="form-group-modal mt-3">
                             <label>Tags:</label>
-                            <ReactTags
-                                className="form-control-modal mt-1"
-                                tags={tags}
-                                suggestions={suggestions}
-                                delimiters={delimiters}
-                                handleDelete={handleDelete}
-                                handleAddition={handleAddition}
-                                handleDrag={handleDrag}
-                                //inputFieldPosition="bottom"
-                                inputFieldPosition="top"
-                                //inline={false}
-                                autocomplete
-                                onChange={text=>{
-                                    errorImage = "";
-                                    setErrorImage(errorImage);}}
-                                autofocus={false}
-                                allowDeleteFromEmptyInput={false}
-                            />
+                            <div style={{display: 'flex'}}>
+                                <ReactTags
+                                    className="form-control-modal mt-1"
+                                    tags={tags}
+                                    suggestions={suggestions}
+                                    //delimiters={delimiters}
+                                    handleDelete={handleDelete}
+                                    handleAddition={handleAddition}
+                                    handleDrag={handleDrag}
+                                    //inputFieldPosition="bottom"
+                                    inputFieldPosition="top"
+                                    //inline={false}
+                                    autocomplete
+                                    onChange={text=>{
+                                        errorImage = "";
+                                        setErrorImage(errorImage);
+                                        setIsError(true);
+                                    }}
+                                    autofocus={false}
+                                    allowDeleteFromEmptyInput={false}
+                                />
+                                {/* <button type="button"  style={{background: "transparent", border: "none"}} 
+                                    //onClick={(e) =>showPassToggle(e)}
+                                    onMouseOver={(e) => {
+                                        e.preventDefault();
+                                        setShowTagInfo(true);
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.preventDefault();
+                                        setShowTagInfo(false);                    
+                                    }}
+                                    > 
+                                    <FontAwesomeIcon icon={faInfoCircle} size = '2x' />
+                                </button> */}
+                            </div>
 
+                            <div class="w3-panel w3-pale-blue w3-leftbar w3-border-blue" 
+                                style={{display: showTagInfo ? ("flex"):("none")}} >
+                                <FontAwesomeIcon icon={faInfoCircle} size='1x' style={{marginTop: "17px"}}/>
+                                <p style={{marginLeft: "10px", marginTop: "10px"}}>
+                                    Fill the tag field then press <b>Enter</b> or <b>Tab</b> key to add Tag.</p>
+                            </div>
+                        
                         </div>
                         
                         
@@ -283,15 +322,22 @@ function AddProductModal(props) {
                             <br/>
                         </center>
 
+                        <div class="w3-panel w3-pale-red w3-leftbar w3-border-red" style={{display: isError ? ("block"):("none")}}>
+                            <div style={{display: "flex", marginTop: "10px"}}>
+                                <FontAwesomeIcon icon={faExclamationCircle}/>
+                                <p style={{marginLeft: "10px"}}>Error: {errorImage}</p>
+                            </div>
+                        </div>
+
                         <div className="d-grid-modal gap-2 mt-3">
                             <button type="submit" className="btn-modal-login"  >
                                 <FontAwesomeIcon icon={faAdd}/> Add Product
                             </button>
                         </div>
                         
-                        <div className="d-grid-modal gap-2 mt-3">
+                        {/* <div className="d-grid-modal gap-2 mt-3">
                             <span><b style={{color: "red", marginTop: "10px"}}>{errorImage}</b></span>
-                        </div>
+                        </div> */}
                        
 
                     </div>

@@ -35,6 +35,7 @@
 
 .ReactTags__tags {
   position: relative;
+  width: 100%;
 }
 
 .ReactTags__clearAll {
