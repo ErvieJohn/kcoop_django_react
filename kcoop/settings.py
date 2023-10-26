@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware', #for whitenoise
+    'whitenoise.middleware.WhiteNoiseMiddleware', #for whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -146,12 +146,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'django_react_static', 'static')
 
 # without whitenoise
 #MEDIA_URL = '/static/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media') # kcoop_react/build/static/media # main
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'kcoop_react/build/static/media') # kcoop_react/build/static/media # main
 
 # with whitenoise # uncomment whitenoise in in MIDDLEWARE
 MEDIA_URL = '/static/media/'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'django_react_static', 'static', 'media')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'django_react_static', 'static', 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
