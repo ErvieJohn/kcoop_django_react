@@ -24,7 +24,7 @@ export default function LivelihoodAndEnterpriseDevelopment() {
 
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -97,6 +97,6 @@ export default function LivelihoodAndEnterpriseDevelopment() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
   )
 }

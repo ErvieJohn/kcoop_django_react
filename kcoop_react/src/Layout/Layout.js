@@ -19,6 +19,9 @@ const Layout = () => {
     document.body.classList.remove('active-modal-login')
   }
 
+  // console.log("window.screen.availHeight: ", window.screen.availHeight);
+  // console.log("window.innerHeight: ", window.innerHeight);
+
   return (
     <>
       <Header currentModal={modal} modalToggle={toggleModal}/>
@@ -27,8 +30,10 @@ const Layout = () => {
       <LoginModal modalToggle={toggleModal}/>
     )}
 
-
-      <Outlet />
+      <div className="content-wrapper" style={{minHeight: window.screen.availHeight >= 2342 ? window.screen.availHeight - 227.39 : 'auto'}}>
+        <Outlet />
+      </div>
+      
       <Footer />
 
       <MessengerCustomerChat

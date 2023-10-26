@@ -71,7 +71,7 @@ export default function K_Ganap_ReadMore() {
   return (
     <>
     {storiesStatus === 200 ? (<>
-      <div className="content-wrapper" style={{ minHeight: 705 }}>
+      
         <div className="container">
           {/* Content Header (Page header) */}
           {/* Main content */}
@@ -358,7 +358,7 @@ export default function K_Ganap_ReadMore() {
           {/* /.content */}
         </div>
         {/* /.container */}
-      </div>
+      
     </>):(<>
       <Error404/>
     </>)}

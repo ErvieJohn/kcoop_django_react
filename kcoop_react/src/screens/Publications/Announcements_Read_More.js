@@ -56,7 +56,7 @@ export default function Announcements_Read_More() {
   return (
     <>
     {announcementsStatus === 200 ? (<>
-      <div className="content-wrapper" style={{minHeight: '427px'}}>
+      
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -191,7 +191,7 @@ export default function Announcements_Read_More() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
     </>):(<>
       <Error404/>
     </>)}

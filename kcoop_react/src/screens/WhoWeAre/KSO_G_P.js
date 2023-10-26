@@ -17,8 +17,7 @@ export default function KSO_G_P() {
 
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
-        <div className="container">
+      <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
         <section className="content">
@@ -77,6 +76,5 @@ export default function KSO_G_P() {
         </section>
         {/* /.content */}
       </div>
-    </div>
   )
 }

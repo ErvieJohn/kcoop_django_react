@@ -21,7 +21,7 @@ export default function EducationTrainingAndFormation() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -92,7 +92,7 @@ export default function EducationTrainingAndFormation() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
   )
 }
 

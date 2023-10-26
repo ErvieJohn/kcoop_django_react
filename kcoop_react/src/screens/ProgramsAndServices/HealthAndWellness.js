@@ -22,7 +22,7 @@ export default function HealthAndWellness() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+   
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -93,6 +93,6 @@ export default function HealthAndWellness() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+   
   )
 }

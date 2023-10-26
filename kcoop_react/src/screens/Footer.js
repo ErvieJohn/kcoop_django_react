@@ -8,9 +8,10 @@ import { SocialIcon } from 'react-social-icons';
 export default function Footer() {
   return (
     <> 
-      
     <div className="content-wrapper" style={{minHeight: 'auto'}}>
-        <footer className="main-footer" style={{backgroundColor: '#feb062'}}>
+
+    
+    <footer className="main-footer" style={{backgroundColor: '#feb062'}}>
         <div className="container">
             <div className="col-md-5 pull-left">
             <table width="100%" style={{marginRight: '15%'}}>
@@ -93,10 +94,8 @@ export default function Footer() {
             </table>
             </div>
         </div>
-        </footer>
+    </footer>
     </div>
-          
-   
     </>  
       
   )

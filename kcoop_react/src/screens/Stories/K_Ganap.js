@@ -22,7 +22,7 @@ export default function K_Ganap() {
 
 
   return (
-    <div className="content-wrapper" style={{ minHeight: 705 }}>
+    
       <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -206,7 +206,7 @@ export default function K_Ganap() {
         </section>
         {/* /.content */}
       </div>
-      {/* /.container */}
-    </div>
+      
+    
   );
 }

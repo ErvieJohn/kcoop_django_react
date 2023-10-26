@@ -18,7 +18,7 @@ export default function Region3() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '705px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -90,6 +90,6 @@ export default function Region3() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
   )
 }

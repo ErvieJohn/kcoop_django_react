@@ -15,7 +15,7 @@ export default function Videos() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -49,6 +49,6 @@ export default function Videos() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
   )
 }

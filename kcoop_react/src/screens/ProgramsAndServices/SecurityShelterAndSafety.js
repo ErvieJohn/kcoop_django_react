@@ -21,7 +21,7 @@ export default function SecurityShelterAndSafety() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -94,6 +94,6 @@ export default function SecurityShelterAndSafety() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+   
   )
 }

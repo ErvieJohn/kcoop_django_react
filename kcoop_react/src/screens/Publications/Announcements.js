@@ -20,7 +20,7 @@ export default function Announcements() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '443px'}}>
+    
         <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
@@ -146,6 +146,6 @@ export default function Announcements() {
         </section>
         {/* /.content */}
       </div>
-    </div>
+    
   )
 }

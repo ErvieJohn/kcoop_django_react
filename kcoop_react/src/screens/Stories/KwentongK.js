@@ -25,7 +25,7 @@ export default function KwentongK() {
 
 
   return (
-    <div className="content-wrapper" style={{ minHeight: 705 }}>
+    
       <div className="container">
         {/* content Header (Page header) */}
         {/* Main content */}
@@ -209,7 +209,6 @@ export default function KwentongK() {
         </section>
         {/* /.Kwentong_KContent */}
       </div>
-      {/* /.container */}
-    </div>
+     
   );
 }

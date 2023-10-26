@@ -16,8 +16,8 @@ export default function VMG() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
-        <div className="container">
+
+      <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
         <section className="content">
@@ -79,6 +79,5 @@ export default function VMG() {
         </section>
         {/* /.content */}
       </div>
-    </div>
   )
 }

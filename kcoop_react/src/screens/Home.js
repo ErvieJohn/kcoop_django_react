@@ -88,7 +88,8 @@ export default function Home() {
   
 
   return (
-    <div className="content-wrapper" style={{ minHeight: "427px" }}>
+    <>
+    
       {/*
        <Slide {...properties}>
         {slideImages.map((slideImage, index) => (
@@ -340,6 +341,6 @@ export default function Home() {
           {/* /.container */}
         </section>
       </div>
-    </div>
+    </>
   );
 }

@@ -19,8 +19,7 @@ OrganizationalStructure() {
   }, []);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '427px'}}>
-        <div className="container">
+      <div className="container">
         {/* Content Header (Page header) */}
         {/* Main content */}
         <section className="content">
@@ -84,6 +83,5 @@ OrganizationalStructure() {
         </section>
         {/* /.content */}
       </div>
-    </div>
   )
 }

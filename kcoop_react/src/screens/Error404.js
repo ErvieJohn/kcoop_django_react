@@ -2,7 +2,7 @@ import { React, Text } from "react";
 
 export default function () {
   return (
-    <div className="content-wrapper" style={{ minHeight: "443px" }}>
+    <div className="content-wrapper" style={{ minHeight: window.innerHeight }}>
       <div className="container">
         <section className="content">
           <div
