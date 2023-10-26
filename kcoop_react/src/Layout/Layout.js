@@ -30,7 +30,7 @@ const Layout = () => {
       <LoginModal modalToggle={toggleModal}/>
     )}
 
-      <div className="content-wrapper" style={{minHeight: window.screen.availHeight >= 2342 ? window.screen.availHeight - 227.39 : 'auto'}}>
+      <div className="content-wrapper" style={{minHeight: window.screen.availHeight >= 1171 ? window.screen.availHeight - 227.39 : 'auto'}}>
         <Outlet />
       </div>
       
