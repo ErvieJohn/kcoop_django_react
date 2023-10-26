@@ -22,7 +22,7 @@ const ErrorLayout = () => {
 
   return (
     <>
-      <Header />
+      <Header currentModal={modal} modalToggle={toggleModal}/>
       {modal && (
         <LoginModal modalToggle={toggleModal}/>
       )}
